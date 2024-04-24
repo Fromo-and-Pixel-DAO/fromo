@@ -18,11 +18,11 @@ import { ethers } from 'ethers'
 import moment from 'moment'
 import { useRouter } from 'next/router'
 import { getSysBrief } from 'packages/service/api'
+import { IGameInfo } from 'packages/service/api/types'
 import useStore from 'packages/store'
 import useAuctions, { ActivityStatus } from 'packages/store/auctions'
 import useFomoStore from 'packages/store/fomo'
 import { Flip, toast } from 'react-toastify'
-import { IGameInfo } from 'packages/service/api/types'
 // import BidderModal from '@modules/Market/Main/BidderModal'
 
 const BidderModal = lazy(() => import('@modules/Market/Main/BidderModal'))
@@ -232,11 +232,9 @@ export default function Main() {
       //   getAuctionInfo()
       // }
 
-      console.log(auctionInfo.status, 'auctionInfo.status')
-
       if (
-        auctionInfo.status === ActivityStatus.Staking &&
         auctionInfo &&
+        auctionInfo.status === ActivityStatus.Staking &&
         auctionInfo.bidWinnerAddress === address
       ) {
         toast.warning(

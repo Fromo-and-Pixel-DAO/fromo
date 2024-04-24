@@ -94,7 +94,7 @@ const Register = () => {
 
         const gameId = await contract.totalGames()
         const [gameInfos] = await contract.getGameInfoOfGameIds([
-          Number(gameId - 1).toString(),
+          (Number(gameId) - 1).toString(),
         ])
         toastSuccess(
           `You have successfully staked your NFT. Your NFT auction will start on ${moment(
