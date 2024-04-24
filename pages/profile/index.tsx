@@ -507,11 +507,10 @@ export default function Main() {
                   fontWeight="900"
                   mr="10px">
                   {profit.keyDividends !== '-'
-                    ? // ? BigNumber.from(profit.keyDividends)
-                      //     .add(BigNumber.from(profit.unclaimedKeyDividends))
-                      //     .toString()
-                      Number(profit.keyDividends) +
-                      Number(profit.unclaimedKeyDividends)
+                    ? (
+                        Number(profit.keyDividends) +
+                        Number(profit.unclaimedKeyDividends)
+                      ).toFixed(4)
                     : '-'}
                 </Text>
                 <Text fontSize="16px" lineHeight="24px">

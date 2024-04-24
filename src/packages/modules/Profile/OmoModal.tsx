@@ -7,7 +7,6 @@ import {
   Text,
   VStack,
   useColorModeValue,
-  useToast,
 } from '@chakra-ui/react'
 
 import BaseModal from '@components/Modal'
@@ -41,7 +40,6 @@ const OmoModal = ({
   isOpen,
   onClose,
 }: SubmitOfferModalProps) => {
-  const toast = useToast()
   const [loading, setLoading] = useState(false)
   const { address, balance, setBalance } = useStore()
   const [amount, setAmount] = useState(null)
@@ -55,6 +53,7 @@ const OmoModal = ({
         .then((res) => {
           if (res) {
             toastSuccess("You've successfully approved $OMO.", 2000)
+            setApprove(true)
           } else {
             toastError('Failed to approve $OMO.', 2000)
           }

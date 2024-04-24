@@ -1,7 +1,6 @@
 import { faker } from '@faker-js/faker'
 import { generateTimestamp } from '@modules/Market/Main'
 import { ethers } from 'ethers'
-import FroopyABI from 'packages/abis/demo/fl417.json'
 import { getMyProfit, getNftAuctions } from 'packages/service/api'
 import { IProfit } from 'packages/service/api/types'
 import create from 'zustand'
@@ -38,7 +37,7 @@ const useFomoStore = create(immer<IState>(((set) => ({
       unit: 'ETH',
     },
     {
-      name: 'My Historical Final Winner Prize',
+      name: 'My NFT Provider Dividends',
       number: '-',
       unit: 'ETH',
     },
@@ -51,9 +50,6 @@ const useFomoStore = create(immer<IState>(((set) => ({
   loading: false,
   async setGameList(web3Provider: ethers.providers.Web3Provider) {
     try {
-      const signer = web3Provider.getSigner()
-      const contract = new ethers.Contract(FL_CONTRACT_ADR, FroopyABI, signer)
-
       const imageUrls = [
         'https://i.seadn.io/gcs/files/16d9892108638a415d1244943f908fad.png?auto=format&dpr=1&w=1000',
         'https://i.seadn.io/gcs/files/247c8f8946f77b9132326a4ff2340903.png?auto=format&dpr=1&w=1000',
@@ -171,13 +167,13 @@ const useFomoStore = create(immer<IState>(((set) => ({
             unit: 'ETH',
           },
           {
-            name: 'My Historical Final Winner Prize',
-            number: profit.finalWinPrice,
+            name: 'My NFT Provider Dividends',
+            number: profit.nftDividends,
             unit: 'ETH',
           },
           {
             name: 'My Historical Final Winner Prize',
-            number: profit.nftDividends,
+            number: profit.finalWinPrice,
             unit: 'ETH',
           },
         ]
