@@ -91,13 +91,20 @@ const Register = () => {
           gasLimit: BigInt(500000),
         })
         await tx.wait()
+
+        const gameId = await contract.totalGames()
+        const [gameInfos] = await contract.getGameInfoOfGameIds([
+          Number(gameId - 1).toString(),
+        ])
         toastSuccess(
-          'You won the FROMO plot, stake your NFT now and start your own gamified NFT auction.',
+          `You have successfully staked your NFT. Your NFT auction will start on ${moment(
+            gameInfos?.startTimestamp,
+          ).format('MMMM DD ha [GMT]')}`,
         )
         router.back()
       } catch (error) {
+        console.log(error, 'error')
         toastWarning('The auction has not yet begun, please be patient.')
-        console.log('The auction has not yet begun, please be patient.')
       }
     } catch (error) {
       console.log(error, 'error')

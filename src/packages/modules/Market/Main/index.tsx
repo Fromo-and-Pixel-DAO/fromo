@@ -231,6 +231,9 @@ export default function Main() {
       // if (state !== auctionInfo.status) {
       //   getAuctionInfo()
       // }
+
+      console.log(auctionInfo.status, 'auctionInfo.status')
+
       if (
         auctionInfo.status === ActivityStatus.Staking &&
         auctionInfo &&

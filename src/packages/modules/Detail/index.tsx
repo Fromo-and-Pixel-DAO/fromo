@@ -21,12 +21,12 @@ import moment from 'moment'
 import { useRouter } from 'next/router'
 import FroopyABI from 'packages/abis/demo/fl417.json'
 import { getGameDetailById } from 'packages/service/api'
+import { IGameAmountNft } from 'packages/service/api/types'
 import useStore from 'packages/store'
 import { web3Modal } from 'packages/web3'
 import { memo, useEffect, useMemo, useState } from 'react'
 import PurchaseNFTModal from './PurchaseNFTModal'
 import styles from './index.module.scss'
-import { IGameAmountNft } from 'packages/service/api/types'
 
 export enum State {
   Upcoming = 0,
@@ -95,6 +95,12 @@ const Details = () => {
     const contract = new ethers.Contract(FL_CONTRACT_ADR, FroopyABI, signer)
     const [data] = await contract.getGameInfoOfGameIds([id])
     setDetailInfos(data)
+    const gameId = await contract.totalGames()
+    const [gameInfos] = await contract.getGameInfoOfGameIds([
+      Number(gameId - 1).toString(),
+    ])
+
+    console.log('gameInfos', gameInfos)
   }
 
   // 获取 claims 信息以及 mykey sol
@@ -245,14 +251,14 @@ const Details = () => {
     setRetrieveNftLoading(true)
 
     try {
-      const tx = await contract.retrieveNft([id], {
+      const tx = await contract.retrieveNft(id, {
         gasLimit: BigInt(500000),
       })
       await tx.wait()
       init()
-      toastSuccess('You have successfully purchased the NFT.')
+      toastSuccess('You have successfully purchased the NFT.', 2000)
     } catch (error) {
-      toastError('You failed purchasing the NFT due to some error.')
+      toastError('You failed purchasing the NFT due to some error.', 2000)
       console.log(error, 'retrieveNft')
     } finally {
       setRetrieveNftLoading(false)
@@ -377,6 +383,7 @@ const Details = () => {
           )}
         {/* top keys holder 优先赎回权 && 时间小于 24 小时 */}
         {detailInfos.state === State.Finished &&
+          detailInfos.nftAddress !== ethers.constants.AddressZero &&
           detailInfos.mostKeyHolder.toLowerCase() === address &&
           moment().isBefore(
             moment(detailInfos.endTimestamp * 1000).add(24, 'hours'),
@@ -436,6 +443,7 @@ const Details = () => {
 
         {/* 24 小时以外 */}
         {detailInfos.state === State.Finished &&
+          detailInfos.nftAddress !== ethers.constants.AddressZero &&
           moment().isAfter(
             moment(detailInfos.endTimestamp * 1000).add(24, 'hours'),
           ) && (
