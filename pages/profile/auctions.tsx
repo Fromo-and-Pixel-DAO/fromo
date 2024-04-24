@@ -20,6 +20,7 @@ export default function Main() {
 
   const { address } = useStore()
   const { userHeaderInfo } = useFomoStore()
+  const [isLoading, setIsLoading] = useState(false)
   const [gameNft, setGameNft] = useState<INftList>({
     total: 0,
     nftList: [],
@@ -30,9 +31,14 @@ export default function Main() {
   let finishedList = gameNft.nftList.filter((item) => item.status === 2)
 
   const fetchList = async () => {
-    getMyAuctions(address).then((res) => {
-      setGameNft(res)
-    })
+    setIsLoading(true)
+    getMyAuctions(address)
+      .then((res) => {
+        setGameNft(res)
+      })
+      .finally(() => {
+        setIsLoading(false)
+      })
   }
 
   useEffect(() => {
@@ -94,24 +100,41 @@ export default function Main() {
       <Sidebar />
       <Box flex="1" minW={{ base: 'full', md: '500px' }}>
         <Header headers={userHeaderInfo} />
-        <Box textAlign="center">
-          <Suspense
-            fallback={
-              <Box mt="300px">
-                <Spinner
-                  thickness="4px"
-                  speed="0.65s"
-                  emptyColor="gray.200"
-                  color="blue.500"
-                  size="xl"
-                />
+        {isLoading ? (
+          <Flex
+            textAlign="center"
+            w="100%"
+            h={{ base: 'auto', md: 'calc(100vh - 293px)' }}
+            justifyContent="center"
+            alignItems="center">
+            <Spinner
+              thickness="4px"
+              speed="0.65s"
+              emptyColor="gray.200"
+              color="blue.500"
+              size="xl"
+            />
+          </Flex>
+        ) : (
+          <Box textAlign="center">
+            <Suspense
+              fallback={
+                <Box mt="300px">
+                  <Spinner
+                    thickness="4px"
+                    speed="0.65s"
+                    emptyColor="gray.200"
+                    color="blue.500"
+                    size="xl"
+                  />
+                </Box>
+              }>
+              <Box p="25px 50px">
+                <TabsCommon initTab="allList" renderTabs={renderTabs} />
               </Box>
-            }>
-            <Box p="25px 50px">
-              <TabsCommon initTab="allList" renderTabs={renderTabs} />
-            </Box>
-          </Suspense>
-        </Box>
+            </Suspense>
+          </Box>
+        )}
       </Box>
     </Flex>
   )

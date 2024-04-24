@@ -22,6 +22,7 @@ import useStore from 'packages/store'
 import useAuctions, { ActivityStatus } from 'packages/store/auctions'
 import useFomoStore from 'packages/store/fomo'
 import { Flip, toast } from 'react-toastify'
+import { IGameInfo } from 'packages/service/api/types'
 // import BidderModal from '@modules/Market/Main/BidderModal'
 
 const BidderModal = lazy(() => import('@modules/Market/Main/BidderModal'))
@@ -96,7 +97,14 @@ export default function Main() {
 
   const { auctionInfo, getAuctionInfo } = useAuctions()
 
-  const [sysInfo, setSysInfo] = useState<any>()
+  const [sysInfo, setSysInfo] = useState<IGameInfo>({
+    tokenPrice: '-',
+    totalKeyMinted: '-',
+    totalMintFee: '-',
+    totalPrize: '-',
+    totalProfits: '-',
+    totalGames: '-',
+  })
 
   const List = () => {
     if (gameList.length === 0) return <NoData />
@@ -282,7 +290,11 @@ export default function Main() {
                       h="32px"
                       mr="8px"></Image>
                     <Text fontSize="32px" lineHeight="48px">
-                      {parseFloat(sysInfo?.totalKeyMinted).toFixed(4) || '-'}
+                      {sysInfo?.totalKeyMinted !== '-'
+                        ? parseFloat(
+                            ethers.utils.formatEther(sysInfo?.totalKeyMinted),
+                          ).toFixed(4)
+                        : '-'}
                     </Text>
                   </Flex>
                   <Text
@@ -290,7 +302,10 @@ export default function Main() {
                     fontWeight="700"
                     fontSize="20px"
                     lineHeight="30px">
-                    ${parseFloat(sysInfo?.totalMintFee).toFixed(4) || '-'}
+                    $
+                    {sysInfo?.totalMintFee !== '-'
+                      ? sysInfo?.totalMintFee
+                      : '-'}
                   </Text>
                 </Flex>
                 <Flex flexDir="column">
@@ -305,9 +320,11 @@ export default function Main() {
                       h="32px"
                       mr="8px"></Image>
                     <Text fontSize="32px" lineHeight="48px">
-                      {parseFloat(
-                        ethers.utils.formatEther(sysInfo?.totalProfits),
-                      ).toFixed(4) || '-'}
+                      {sysInfo?.totalProfits !== '-'
+                        ? parseFloat(
+                            ethers.utils.formatEther(sysInfo?.totalProfits),
+                          ).toFixed(4)
+                        : '-'}
                     </Text>
                   </Flex>
                   <Text
@@ -315,7 +332,7 @@ export default function Main() {
                     fontWeight="700"
                     fontSize="20px"
                     lineHeight="30px">
-                    ${parseFloat(sysInfo?.totalPrize).toFixed(4) || '-'}
+                    ${sysInfo?.totalPrize !== '-' ? sysInfo?.totalPrize : '-'}
                   </Text>
                 </Flex>
                 <Flex flexDir="column">
@@ -327,7 +344,7 @@ export default function Main() {
                     fontWeight="700"
                     fontSize="32px"
                     lineHeight="48px">
-                    {parseFloat(sysInfo?.totalGames).toFixed(4) || '-'}
+                    {sysInfo?.totalGames !== '-' ? sysInfo?.totalGames : '-'}
                   </Text>
                 </Flex>
               </Flex>

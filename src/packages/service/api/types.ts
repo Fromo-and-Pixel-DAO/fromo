@@ -20,6 +20,15 @@ export interface IProfit {
   unclaimedNftGameIds: number[];
 }
 
+export interface IGameInfo {
+  tokenPrice: string;
+  totalKeyMinted: string;
+  totalMintFee: string;
+  totalPrize: string;
+  totalProfits: string;
+  totalGames: string;
+}
+
 export interface IGameNft {
   gameId: number;
   name: string;

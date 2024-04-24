@@ -1,5 +1,5 @@
 import http from '../index'
-import { IGameAmountNft, INftList, IProfit, IUserDividends, IUserRetrieved } from './types'
+import { IGameAmountNft, IGameInfo, INftList, IProfit, IUserDividends, IUserRetrieved } from './types'
 
 /**
  * @description: Get the user's profit
@@ -51,6 +51,8 @@ export const getNftPoolList = (pageNum: number) => http.get<INftList>('/fl/nft/g
 
 export const getGameDetailById = (userAddress: string, gameId: string) => http.get<IGameAmountNft>(`/fl/user/gameDetail/${userAddress}/${gameId}`)
 
+export const getSysBrief = () => http.get<IGameInfo>('/fl/game/getSysBrief')
+
 export const getAuctionInfo = () => http.get<Promise<any>>('/fl/game/getAuctionInfo')
 
 
@@ -58,7 +60,6 @@ export const getUserNftList = (address: string) => http.get<Promise<any>>(`/fl/n
 
 export const getBidderForm = () => http.get<Promise<any>>('/fl/game/getBidderForm')
 
-export const getSysBrief = () => http.get<Promise<any>>('/fl/game/getSysBrief')
 
 export const getNftAuctions = () => http.get<Promise<any>>('/fl/nft/getNftAuctions/1')
 
