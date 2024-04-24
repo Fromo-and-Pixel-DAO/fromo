@@ -1,7 +1,9 @@
 export interface IProfit {
   keys: string;
+  lockedKeys: string;
   flPrice: string;
   flTokens: string;
+  lockedFlTokens: string;
   withdrawalAmountTokens: string;
   keyDividends: string;
   convertedGameIds: number[];
@@ -13,6 +15,7 @@ export interface IProfit {
   unclaimedFinalWinPrice: string;
   unclaimedFinalWinnerGameIds: number[];
   nftDividends: string;
+  lockedNftDividends: string;
   unclaimedNftDividends: string;
   unclaimedNftGameIds: number[];
 }
@@ -31,6 +34,15 @@ export interface IHistoricalDividendsList {
   amount: string;
   status: number;
 }
+
+export interface IGameAmountNft {
+  gameId: number;
+  name: string;
+  keyDividends: string;
+  imageUrl: string;
+  tx: string;
+}
+
 
 export interface IUserDividends {
   total: number;

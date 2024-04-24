@@ -25,6 +25,7 @@ import { useEffect, useState } from 'react'
 type SubmitOfferModalProps = {
   type: number
   omoAmount: string
+  lockedOmoAmount: string
   withdrawalAmount: string
   isApproval: boolean
   isOpen: boolean
@@ -34,6 +35,7 @@ type SubmitOfferModalProps = {
 const OmoModal = ({
   type,
   omoAmount,
+  lockedOmoAmount,
   withdrawalAmount,
   isApproval,
   isOpen,
@@ -52,14 +54,14 @@ const OmoModal = ({
       approveBidTokenFunc()
         .then((res) => {
           if (res) {
-            toastSuccess("You've successfully approved $OMO.")
+            toastSuccess("You've successfully approved $OMO.", 2000)
           } else {
-            toastError('Failed to approve $OMO.')
+            toastError('Failed to approve $OMO.', 2000)
           }
         })
         .catch((err) => {
           console.log(err)
-          toastError('Failed to approve $OMO.')
+          toastError('Failed to approve $OMO.', 2000)
         })
         .finally(() => {
           setLoading(false)
@@ -68,15 +70,15 @@ const OmoModal = ({
       depositBidTokenFunc(amount)
         .then((res) => {
           if (res) {
-            toastSuccess(`You have successfully deposited $OMO.`)
+            toastSuccess(`You have successfully deposited $OMO.`, 2000)
             setUseAmount(amount)
           } else {
-            toastError(`You failed to deposited $OMO due to some error.`)
+            toastError(`You failed to deposited $OMO due to some error.`, 2000)
           }
         })
         .catch((err) => {
           console.log(err)
-          toastError(`You failed to deposited $OMO due to some error.`)
+          toastError(`You failed to deposited $OMO due to some error.`, 2000)
         })
         .finally(() => {
           setLoading(false)
@@ -85,15 +87,15 @@ const OmoModal = ({
       withdrawBidTokenFunc(amount)
         .then((res) => {
           if (res) {
-            toastSuccess(`You have successfully withdrew $OMO.`)
+            toastSuccess(`You have successfully withdrew $OMO.`, 2000)
             setUseAmount(amount)
           } else {
-            toastError(`You failed to withdrew $OMO due to some error.`)
+            toastError(`You failed to withdrew $OMO due to some error.`, 2000)
           }
         })
         .catch((err) => {
           console.log(err)
-          toastError(`You failed to withdrew $OMO due to some error.`)
+          toastError(`You failed to withdrew $OMO due to some error.`, 2000)
         })
         .finally(() => {
           setLoading(false)
@@ -162,12 +164,26 @@ const OmoModal = ({
             <Flex alignItems="center" w="100%" justifyContent="flex-end">
               <Text>
                 Locked to bid FROMO plot:{' '}
-                {Number(omoAmount) - Number(withdrawalAmount)} $OMO
+                {lockedOmoAmount !== '-' &&
+                  Number(ethers.utils.formatEther(lockedOmoAmount)).toFixed(
+                    4,
+                  )}{' '}
+                $OMO
               </Text>
             </Flex>
           ) : null}
           <Flex alignItems="center" w="100%" justifyContent="flex-end">
-            <Text>Available: {balance - useAmount} $OMO</Text>
+            {type === 0 ? (
+              <Text>
+                Available:{' '}
+                {omoAmount !== '-' &&
+                  Number(ethers.utils.formatEther(withdrawalAmount)) -
+                    useAmount}{' '}
+                $OMO
+              </Text>
+            ) : (
+              <Text>Available: {balance - useAmount} $OMO</Text>
+            )}
           </Flex>
         </Box>
         <Flex alignItems="center" w="100%">

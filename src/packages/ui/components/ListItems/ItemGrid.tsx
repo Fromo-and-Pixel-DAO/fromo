@@ -138,7 +138,10 @@ function ItemGrid({ item, gridName }: { item: any; gridName?: string }) {
             borderRadius="20px"
             bgColor="rgba(255, 255, 255, 0.5)">
             <Text fontSize="12px" color="#2A0668">
-              {item.biddersCount || '--'} Players
+              {item.biddersCount !== null && item.biddersCount !== undefined
+                ? item.biddersCount
+                : '--'}{' '}
+              Players
             </Text>
           </Flex>
         )}
@@ -402,8 +405,7 @@ function ItemGrid({ item, gridName }: { item: any; gridName?: string }) {
             src={item.imageUrl}
             fallbackSrc="/static/license-template/template.png"
           />
-          {gridName === 'finishedList' &&
-            item?.lastAddress &&
+          {item?.lastAddress &&
             item?.lastAddress.toLocaleLowerCase() === address && (
               <Box
                 pos="absolute"
@@ -448,7 +450,10 @@ function ItemGrid({ item, gridName }: { item: any; gridName?: string }) {
           borderRadius="20px"
           bgColor="rgba(255, 255, 255, 0.5)">
           <Text fontSize="12px" color="#2A0668">
-            {item.biddersCount !== null ? item.biddersCount : '--'} Players
+            {item.biddersCount !== null && item.biddersCount !== undefined
+              ? item.biddersCount
+              : '--'}{' '}
+            Players
           </Text>
         </Flex>
       )}

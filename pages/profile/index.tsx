@@ -79,12 +79,18 @@ export default function Main() {
       claimBonusFunc(profit.unclaimedKeyGameIds)
         .then((res) => {
           if (res) {
-            toastSuccess('Success to claim key dividends.')
+            toastSuccess(
+              'You have successfully claimed dividends or prize.',
+              2000,
+            )
           }
         })
         .catch((err) => {
           console.log(err)
-          toastError('Failed to claim key dividends.')
+          toastError(
+            'You failed to claim dividends or prize due to some error.',
+            2000,
+          )
         })
         .finally(() => {
           setClaimKeysLoading(false)
@@ -96,12 +102,18 @@ export default function Main() {
       withdrawLastplayerPrizeFunc(profit.unclaimedFinalWinnerGameIds)
         .then((res) => {
           if (res) {
-            toastSuccess('Success to claim final winner prize.')
+            toastSuccess(
+              'You have successfully claimed dividends or prize.',
+              2000,
+            )
           }
         })
         .catch((err) => {
           console.log(err)
-          toastError('Failed to claim final winner prize.')
+          toastError(
+            'You failed to claim dividends or prize due to some error.',
+            2000,
+          )
         })
         .finally(() => {
           setClaimFinalWinnerLoading(false)
@@ -113,12 +125,18 @@ export default function Main() {
       withdrawSaleRevenueFunc(profit.unclaimedNftGameIds)
         .then((res) => {
           if (res) {
-            toastSuccess('Success to claim nft dividends.')
+            toastSuccess(
+              'You have successfully claimed dividends or prize.',
+              2000,
+            )
           }
         })
         .catch((err) => {
           console.log(err)
-          toastError('Failed to claim nft dividends.')
+          toastError(
+            'You failed to claim dividends or prize due to some error.',
+            2000,
+          )
         })
         .finally(() => {
           setClaimNftLoading(false)
@@ -131,14 +149,14 @@ export default function Main() {
     convertKeyToToken(profit.unconvertedGameIds)
       .then((res) => {
         if (res) {
-          toastSuccess('You have successfully redeemed your Keys.')
+          toastSuccess('You have successfully redeemed your Keys.', 2000)
         } else {
-          toastError('You failed to redeem your Keys due to some error.')
+          toastError('You failed to redeem your Keys due to some error.', 2000)
         }
       })
       .catch((err) => {
         console.log(err)
-        toastError('You failed to redeem your Keys due to some error.')
+        toastError('You failed to redeem your Keys due to some error.', 2000)
       })
       .finally(() => {
         setConvertKeysLoading(false)
@@ -157,7 +175,9 @@ export default function Main() {
   const [profit, setProfit] = useState<IProfit>({
     flPrice: '-',
     keys: '-',
+    lockedKeys: '-',
     flTokens: '-',
+    lockedFlTokens: '-',
     withdrawalAmountTokens: '-',
     keyDividends: '-',
     convertedGameIds: [],
@@ -169,6 +189,7 @@ export default function Main() {
     unclaimedFinalWinPrice: '-',
     unclaimedFinalWinnerGameIds: [],
     nftDividends: '-',
+    lockedNftDividends: '-',
     unclaimedNftDividends: '-',
     unclaimedNftGameIds: [],
   })
@@ -344,20 +365,25 @@ export default function Main() {
               <Text fontSize="16px" color="#FFA8FE" lineHeight="24px">
                 My Keys
               </Text>
-              <Flex alignItems="baseline">
-                <Text
-                  color="#00DAB3"
-                  lineHeight="54px"
-                  fontSize="36px"
-                  fontWeight="900"
-                  mr="10px">
-                  {profit.keys}
-                </Text>
-                <Text fontSize="16px" lineHeight="24px">
-                  KEYS
-                </Text>
+              <Flex alignItems="baseline" justifyContent="space-between">
+                <Flex alignItems="center">
+                  <Text
+                    color="#00DAB3"
+                    lineHeight="54px"
+                    fontSize="36px"
+                    fontWeight="900"
+                    mr="10px">
+                    {profit.keys}
+                  </Text>
+                  <Text fontSize="16px" lineHeight="24px">
+                    KEYS
+                  </Text>
+                </Flex>
+                <Flex>1.23 Key=1$OMO</Flex>
               </Flex>
-              {/* <Text>0.056 ETH</Text> */}
+              <Text mt="8px">
+                Locked for participating NFT auctions: {profit.lockedKeys} Keys
+              </Text>
               <Button
                 disabled={
                   profit.keys === '0' ||
@@ -365,7 +391,7 @@ export default function Main() {
                   profit.canConvert === 0
                 }
                 isLoading={convertKeysLoading}
-                mt="33px"
+                mt="8px"
                 bgColor="#00DAB3"
                 w="100%"
                 height="52px"
@@ -413,7 +439,16 @@ export default function Main() {
                   $OMO
                 </Text>
               </Flex>
-              <Flex mt="33px" gap="12px">
+              <Text mt="8px">
+                Locked for bidding FROMO plot:{' '}
+                {profit.lockedFlTokens !== '-'
+                  ? Number(
+                      ethers.utils.formatEther(profit.lockedFlTokens),
+                    ).toFixed(4)
+                  : '-'}{' '}
+                $OMO
+              </Text>
+              <Flex mt="8px" gap="12px">
                 <Button
                   disabled={profit.flTokens === '0' || profit.flTokens === '-'}
                   onClick={() => handleOpenOmo(0)}
@@ -464,7 +499,7 @@ export default function Main() {
               <Text fontSize="16px" color="#FFA8FE" lineHeight="24px">
                 My Historical Key Holder Dividends
               </Text>
-              <Flex alignItems="baseline" mb="16px">
+              <Flex alignItems="baseline" mb="36px">
                 <Text
                   color="#00DAB3"
                   lineHeight="54px"
@@ -483,7 +518,11 @@ export default function Main() {
                   ETH
                 </Text>
               </Flex>
-              <Text color="rgba(255, 255, 255, 0.8)">
+              <Text
+                fontWeight={400}
+                fontSize="12px"
+                lineHeight="18px"
+                color="rgba(255, 255, 255, 0.8)">
                 Unclaimed:&nbsp;&nbsp;&nbsp;&nbsp;
                 {profit.unclaimedKeyDividends !== '-'
                   ? profit.unclaimedKeyDividends
@@ -512,7 +551,7 @@ export default function Main() {
               <Text fontSize="16px" color="#FFA8FE" lineHeight="24px">
                 My Historical Final Winner Prize
               </Text>
-              <Flex alignItems="baseline" mb="16px">
+              <Flex alignItems="baseline" mb="36px">
                 <Text
                   color="#00DAB3"
                   lineHeight="54px"
@@ -531,7 +570,11 @@ export default function Main() {
                   ETH
                 </Text>
               </Flex>
-              <Text color="rgba(255, 255, 255, 0.8)">
+              <Text
+                fontWeight={400}
+                fontSize="12px"
+                lineHeight="18px"
+                color="rgba(255, 255, 255, 0.8)">
                 Unclaimed:&nbsp;&nbsp;&nbsp;&nbsp;
                 {profit.unclaimedFinalWinPrice !== '-'
                   ? profit.unclaimedFinalWinPrice
@@ -569,10 +612,7 @@ export default function Main() {
                   fontWeight="900"
                   mr="10px">
                   {profit.nftDividends !== '-'
-                    ? // ? BigNumber.from(profit.nftDividends)
-                      //     .add(BigNumber.from(profit.unclaimedNftDividends))
-                      //     .toString()
-                      Number(profit.nftDividends) +
+                    ? Number(profit.nftDividends) +
                       Number(profit.unclaimedNftDividends)
                     : '-'}
                 </Text>
@@ -580,12 +620,23 @@ export default function Main() {
                   ETH
                 </Text>
               </Flex>
-              <Text color="rgba(255, 255, 255, 0.8)">
+              <Text
+                fontWeight={400}
+                fontSize="12px"
+                lineHeight="18px"
+                color="rgba(255, 255, 255, 0.8)">
                 Unclaimed:&nbsp;&nbsp;&nbsp;&nbsp;
                 {profit.unclaimedNftDividends !== '-'
                   ? profit.unclaimedNftDividends
                   : '-'}{' '}
                 ETH
+              </Text>
+              <Text
+                fontWeight={400}
+                fontSize="12px"
+                lineHeight="18px"
+                color="rgba(255, 255, 255, 0.8)">
+                Locked in ongoing auction: {profit.lockedNftDividends} ETH
               </Text>
               <Button
                 disabled={
@@ -637,6 +688,7 @@ export default function Main() {
       />
       <OmoModal
         omoAmount={profit.flTokens}
+        lockedOmoAmount={profit.lockedFlTokens}
         withdrawalAmount={profit.withdrawalAmountTokens}
         type={omoType}
         isOpen={oepnOmo}

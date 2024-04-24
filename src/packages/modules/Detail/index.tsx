@@ -26,6 +26,7 @@ import { web3Modal } from 'packages/web3'
 import { memo, useEffect, useMemo, useState } from 'react'
 import PurchaseNFTModal from './PurchaseNFTModal'
 import styles from './index.module.scss'
+import { IGameAmountNft } from 'packages/service/api/types'
 
 export enum State {
   Upcoming = 0,
@@ -53,7 +54,14 @@ const Details = () => {
   const [retrieveNftLoading, setRetrieveNftLoading] = useState(false)
   const [detailInfos, setDetailInfos] = useState(null)
   const [mintKey, setMintKey] = useState('')
-  const [keyDividends, setKeyDividends] = useState(0)
+  const [keyDividends, setKeyDividends] = useState('0')
+  const [gameAmountNft, setGameAmountNft] = useState<IGameAmountNft>({
+    gameId: 0,
+    name: '',
+    keyDividends: '0',
+    imageUrl: '',
+    tx: '',
+  })
 
   // TODO: 未登录情况，拦截链接钱包？
   useEffect(() => {
@@ -69,8 +77,14 @@ const Details = () => {
 
   const fetchGameDetailById = async () => {
     if (!address) return null
-    const keyDividends = await getGameDetailById(address, id as any)
-    setKeyDividends(keyDividends)
+    getGameDetailById(address, id as any)
+      .then((res) => {
+        setGameAmountNft(res)
+        setKeyDividends(gameAmountNft.keyDividends)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   }
 
   // 获取详细信息 - sol
@@ -91,6 +105,8 @@ const Details = () => {
     const contract = new ethers.Contract(FL_CONTRACT_ADR, FroopyABI, signer)
     const address = await signer.getAddress()
     try {
+      console.log('fetchGameState', id, address)
+
       const data = await contract.getPlayerStateOfGameIds(address, [id])
       setClaims(data.unclaimBonusList.toString())
       if (data.keyAmountList && data.keyAmountList.toString().length >= 18) {
@@ -350,7 +366,7 @@ const Details = () => {
               mb="20px">
               <Image
                 mr="12px"
-                src="/static/common/finished.svg"
+                src={gameAmountNft.imageUrl}
                 alt="f"
                 w="24px"
                 h="24px"></Image>
@@ -467,11 +483,15 @@ const Details = () => {
               objectFit="cover"
               borderRadius="15px"
               alt=""
-              src={detailInfos?.nftImage}
+              src={gameAmountNft.imageUrl}
               fallbackSrc="/static/license-template/template.png"
             />
             <Text className={styles.desc}>{detailInfos.nftName}</Text>
             <List spacing={3}>
+              <Flex alignItems="center">
+                <Text className={styles.name}>Auction ID：</Text>
+                <Text fontWeight={600}>{id}</Text>
+              </Flex>
               <Flex alignItems="center">
                 <Text className={styles.name}>NFT Address：</Text>
                 <Link fontWeight={600} color="#00DAB3">

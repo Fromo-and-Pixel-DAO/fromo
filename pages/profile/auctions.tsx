@@ -43,11 +43,11 @@ export default function Main() {
     {
       id: 0,
       title: `All Auctions (${gameNft.total})`,
-      value: 'all',
+      value: 'allList',
       render: (
-        <SimpleGrid mt="20px" columns={[1, 2, 3, 4, 5]} spacing="20px">
+        <SimpleGrid mt="20px" columns={[1, 2, 3, 4]} spacing="20px">
           {gameNft.nftList.map((item, idx) => {
-            return <ItemGrid gridName="all" item={item} key={idx} />
+            return <ItemGrid gridName="allList" item={item} key={idx} />
           })}
         </SimpleGrid>
       ),
@@ -55,11 +55,11 @@ export default function Main() {
     {
       id: 1,
       title: `Queuing Auctions (${upcomingList.length})`,
-      value: 'queuing',
+      value: 'upcomingList',
       render: (
-        <SimpleGrid mt="20px" columns={[1, 2, 3, 4, 5]} spacing="20px">
+        <SimpleGrid mt="20px" columns={[1, 2, 3, 4]} spacing="20px">
           {upcomingList.map((item, idx) => {
-            return <ItemGrid gridName="queuing" item={item} key={idx} />
+            return <ItemGrid gridName="upcomingList" item={item} key={idx} />
           })}
         </SimpleGrid>
       ),
@@ -67,11 +67,11 @@ export default function Main() {
     {
       id: 2,
       title: `Ongoing Auctions (${ongoingList.length})`,
-      value: 'ongoing',
+      value: 'finishedList',
       render: (
-        <SimpleGrid mt="20px" columns={[1, 2, 3, 4, 5]} spacing="20px">
+        <SimpleGrid mt="20px" columns={[1, 2, 3, 4]} spacing="20px">
           {ongoingList.map((item, idx) => {
-            return <ItemGrid gridName="ongoing" item={item} key={idx} />
+            return <ItemGrid gridName="finishedList" item={item} key={idx} />
           })}
         </SimpleGrid>
       ),
@@ -79,11 +79,11 @@ export default function Main() {
     {
       id: 3,
       title: `Finished Auctions (${finishedList.length})`,
-      value: 'finished',
+      value: 'ongoingList',
       render: (
-        <SimpleGrid mt="20px" columns={[1, 2, 3, 4, 5]} spacing="20px">
+        <SimpleGrid mt="20px" columns={[1, 2, 3, 4]} spacing="20px">
           {finishedList.map((item, idx) => {
-            return <ItemGrid gridName="finished" item={item} key={idx} />
+            return <ItemGrid gridName="ongoingList" item={item} key={idx} />
           })}
         </SimpleGrid>
       ),
@@ -108,7 +108,7 @@ export default function Main() {
               </Box>
             }>
             <Box p="25px 50px">
-              <TabsCommon initTab="all" renderTabs={renderTabs} />
+              <TabsCommon initTab="allList" renderTabs={renderTabs} />
             </Box>
           </Suspense>
         </Box>

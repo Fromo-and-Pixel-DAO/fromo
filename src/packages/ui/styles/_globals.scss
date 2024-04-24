@@ -13,7 +13,7 @@
 }
 
 :root {
-  --toastify-toast-width: '50%';
+  --toastify-toast-width: '60%';
 }
 
 html,
@@ -164,6 +164,11 @@ body {
 
 .container:hover .overlay {
   opacity: 0.9;
+}
+
+.image-effect {
+  border-radius: 15px;
+  overflow: hidden;
 }
 
 .image-effect img {
