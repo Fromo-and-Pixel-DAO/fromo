@@ -171,7 +171,7 @@ const Register = () => {
                     {nft.status === 1
                       ? 'In Use'
                       : nft.status === 2
-                      ? `Auctioned ${nft.auctionCount} times`
+                      ? `Auctioned ${nft.auctionsCount} times`
                       : 'Available'}
                     )
                   </option>

@@ -91,6 +91,7 @@ export interface IGameNftDetail {
   openSeaUrl: string;
   finalPrice: string;
   status: number;
+  auctionsCount: number;
   totalKeyMinted: string;
   biddersCount: number;
   startTimestamp: number;
