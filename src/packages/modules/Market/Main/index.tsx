@@ -17,12 +17,15 @@ import { faker } from '@faker-js/faker'
 import { ethers } from 'ethers'
 import moment from 'moment'
 import { useRouter } from 'next/router'
-import { getSysBrief } from 'packages/service/api'
+import { getStakeNotices, getSysBrief } from 'packages/service/api'
 import { IGameInfo } from 'packages/service/api/types'
 import useStore from 'packages/store'
 import useAuctions, { ActivityStatus } from 'packages/store/auctions'
 import useFomoStore from 'packages/store/fomo'
 import { Flip, toast } from 'react-toastify'
+import React from 'react'
+import { ErrorIcon } from 'packages/assets/ErrorIcon'
+import SuccessIcon from 'packages/assets/SuccessIcon'
 // import BidderModal from '@modules/Market/Main/BidderModal'
 
 const BidderModal = lazy(() => import('@modules/Market/Main/BidderModal'))
@@ -61,28 +64,6 @@ export const generateTimestamp = () => {
     .second(randomSeconds)
 
   return futureDate.valueOf() / 1000 // 将毫秒级时间戳转换为秒级时间戳
-}
-
-const getActionsState = (): ActivityStatus => {
-  const now = moment()
-  const todayStartTime = moment().startOf('day') // 当天的 0 点 0 时 0 分
-
-  const biddingEndTime = todayStartTime.clone().add(16, 'hours') // 开始时间 + 16 小时
-  const stakingEndTime = biddingEndTime.clone().add(8, 'hours') // 出价结束时间 + 8 小时
-
-  let state = ActivityStatus.NotStarted
-
-  if (now.isBefore(todayStartTime)) {
-    state = ActivityStatus.NotStarted
-  } else if (now.isBetween(todayStartTime, biddingEndTime)) {
-    state = ActivityStatus.Bidding
-  } else if (now.isBetween(biddingEndTime, stakingEndTime)) {
-    state = ActivityStatus.Staking
-  } else {
-    state = ActivityStatus.End
-  }
-
-  return state
 }
 
 export default function Main() {
@@ -227,19 +208,16 @@ export default function Main() {
   }
 
   useEffect(() => {
-    if (auctionInfo) {
-      // if (state !== auctionInfo.status) {
-      //   getAuctionInfo()
-      // }
-
+    if (auctionInfo && address) {
       if (
         auctionInfo &&
         auctionInfo.status === ActivityStatus.Staking &&
-        auctionInfo.bidWinnerAddress === address
+        auctionInfo.bidWinnerAddress === address.toLocaleLowerCase()
       ) {
         toast.warning(
           'You won the FROMO plot, stake your NFT now and start your own gamified NFT auction.',
           {
+            icon: React.createElement(SuccessIcon),
             toastId: 'bidWinner',
             position: toast.POSITION.TOP_CENTER,
             transition: Flip,
@@ -247,6 +225,24 @@ export default function Main() {
           },
         )
       }
+      getStakeNotices(address)
+        .then((res) => {
+          if (res > 0) {
+            toast.error(
+              `You lost the $OMO you bid because you failed to stake NFT.`,
+              {
+                icon: React.createElement(ErrorIcon),
+                toastId: 'stakeNotice',
+                position: toast.POSITION.TOP_CENTER,
+                transition: Flip,
+                autoClose: false,
+              },
+            )
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     }
   }, [auctionInfo, address])
 

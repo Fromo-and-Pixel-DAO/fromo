@@ -13,6 +13,25 @@
 }
 
 :root {
+  --toastify-color-light: #fff;
+  --toastify-color-dark: #121212;
+  --toastify-color-info: #3498db;
+  --toastify-color-success: #57ff90;
+  --toastify-color-warning: #f6bf32;
+  --toastify-color-error: #ff8271;
+
+  --toastify-text-color-info: #000000;
+  --toastify-text-color-success: #000000;
+  --toastify-text-color-warning: #000000;
+  --toastify-text-color-error: #000000;
+
+  --toastify-font-family: 'Poppins', 'Rubik', sans-serif;
+
+  --toastify-icon-color-info: var(--toastify-color-info);
+  --toastify-icon-color-success: var(--toastify-color-success);
+  --toastify-icon-color-warning: var(--toastify-color-warning);
+  --toastify-icon-color-error: var(--toastify-color-error);
+
   --toastify-toast-width: '60%';
 }
 

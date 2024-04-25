@@ -47,18 +47,6 @@ function ListItems({
       },
     ) ?? 15
 
-  // const endOffset = useMemo(() => {
-  //   return itemOffset + itemsPerPage
-  // }, [itemOffset, itemsPerPage])
-
-  // const pageCount = useMemo(() => {
-  //   return Math.ceil(items.length / itemsPerPage)
-  // }, [items.length, itemsPerPage])
-
-  // const currentItems = useMemo(() => {
-  //   return items.slice(itemOffset, endOffset)
-  // }, [endOffset, itemOffset, items])
-
   if (isLoading) {
     return (
       <Box textAlign="center" mt="300px">
@@ -78,8 +66,6 @@ function ListItems({
   }
   const handlePageChange = ({ selected: selectedPage }) => {
     setCurrentPage(selectedPage)
-    // const newOffset = (selectedPage * itemsPerPage) % items.length
-    // setItemOffset(newOffset)
   }
 
   return (

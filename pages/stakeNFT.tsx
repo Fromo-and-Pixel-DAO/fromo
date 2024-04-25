@@ -162,10 +162,10 @@ const Register = () => {
                 onChange={(e) => setNFT(JSON.parse(e.target.value))}
                 borderColor="#704BEA"
                 h="52px">
-                {nftList.map((nft) => (
+                {nftList.map((nft, index) => (
                   <option
                     disabled={nft.status === 1}
-                    key={nft.nftAddress}
+                    key={index}
                     value={JSON.stringify(nft)}>
                     {nft.name ? nft.name : nft.tokenId}&nbsp;&nbsp; (
                     {nft.status === 1

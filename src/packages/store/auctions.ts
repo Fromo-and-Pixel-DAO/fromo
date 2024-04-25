@@ -1,11 +1,12 @@
 import { ethers } from 'ethers'
-import moment, { Moment } from 'moment'
+import moment from 'moment'
+import FroopyABI323 from 'packages/abis/demo/fl409.json'
 import { web3Modal } from 'packages/web3'
 import create from 'zustand'
 import { immer } from 'zustand/middleware/immer'
-import FroopyABI323 from 'packages/abis/demo/fl409.json'
 
 import { getAuctionInfo, getUserNftList } from 'packages/service/api'
+import { IAuctionInfo } from 'packages/service/api/types'
 
 
 
@@ -16,16 +17,6 @@ export enum ActivityStatus {
   Bidding = 1,
   Staking = 2,
   End = 3
-}
-
-type IAuctionInfo = {
-  gameId: number,
-  status: ActivityStatus,
-  startTimestamp: Date,
-  endTimestamp: Date,
-  highestBid: number,
-  biddersCount: number
-  bidWinnerAddress: string
 }
 
 interface IState {
@@ -43,42 +34,37 @@ interface IState {
 
 
 const useAuctions = create(immer<IState>(((set, get) => ({
-    startTime: moment(),
-    state: ActivityStatus.NotStarted,
-    roundInfo: null,
-    auctionInfo: null,
-    nftList: [],
-    setStartTime(date: moment.Moment) {
-      set({
-        startTime: date
-      })
-    },
+  startTime: moment(),
+  state: ActivityStatus.NotStarted,
+  roundInfo: null,
+  auctionInfo: null,
+  nftList: [],
+  setStartTime(date: moment.Moment) {
+    set({
+      startTime: date
+    })
+  },
 
-    async getAuctionInfo() {
-      const data = await getAuctionInfo()
-      set({ auctionInfo: data })
-      return data
-    },
-    async getUserNftList(address: string) {
-      const data = await getUserNftList(address) || []
-      set({ nftList: data.nftList })
-      return data
-    },
-    async setStartTimeByContract() {
-      const provider = await web3Modal.connect()    
-      const library = new ethers.providers.Web3Provider(provider)
-      const signer = library.getSigner()
-      // const address = await signer.getAddress()
-
-      const contract = new ethers.Contract(FL_CONTRACT_ADR, FroopyABI323, signer)
-      const tx = await contract.bidRoundInfo()
-      
-      console.log(tx, 'tx')
-      
-      set({
-        roundInfo: tx
-      })
-    },
+  async getAuctionInfo() {
+    const data = await getAuctionInfo()
+    set({ auctionInfo: data })
+    return data
+  },
+  async getUserNftList(address: string) {
+    const data = await getUserNftList(address) || []
+    set({ nftList: data.nftList })
+    return data
+  },
+  async setStartTimeByContract() {
+    const provider = await web3Modal.connect()
+    const library = new ethers.providers.Web3Provider(provider)
+    const signer = library.getSigner()
+    const contract = new ethers.Contract(FL_CONTRACT_ADR, FroopyABI323, signer)
+    const tx = await contract.bidRoundInfo()
+    set({
+      roundInfo: tx
+    })
+  },
 }))))
 
 

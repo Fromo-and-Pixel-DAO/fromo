@@ -1,5 +1,6 @@
 import { Box, Flex, SimpleGrid, Text } from '@chakra-ui/react'
 import ItemGrid from '@components/ListItems/ItemGrid'
+import NoData from '@components/NoData'
 import { getNftPoolList } from 'packages/service/api'
 import { INftList } from 'packages/service/api/types'
 import { useEffect, useState } from 'react'
@@ -33,11 +34,20 @@ const NFTpool = () => {
         </Text>
       </Flex>
       <Box mb="24px" w="100%" height="1px" bg="rgba(112, 75, 234, 0.5)"></Box>
-      <SimpleGrid mt="20px" columns={[1, 2, 3, 4, 5]} spacing="20px">
-        {gameNft.nftList.map((item, idx) => {
-          return <ItemGrid gridName="finishedList" item={item} key={idx} />
-        })}
-      </SimpleGrid>
+      {gameNft.nftList.length > 0 ? (
+        <SimpleGrid mt="20px" columns={[1, 2, 3, 4, 5]} spacing="20px">
+          {gameNft.nftList.map((item, idx) => {
+            return <ItemGrid gridName="finishedList" item={item} key={idx} />
+          })}
+        </SimpleGrid>
+      ) : (
+        <Flex
+          h="calc(100vh - 410px)"
+          justifyContent="center"
+          alignItems="center">
+          <NoData />
+        </Flex>
+      )}
     </Box>
   )
 }

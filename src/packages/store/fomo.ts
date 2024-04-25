@@ -32,7 +32,7 @@ const useFomoStore = create(immer<IState>(((set) => ({
       unit: '$',
     },
     {
-      name: 'My Historical Key Holder Dividends',
+      name: 'My Key Holder Dividends',
       number: '-',
       unit: 'ETH',
     },
@@ -42,7 +42,7 @@ const useFomoStore = create(immer<IState>(((set) => ({
       unit: 'ETH',
     },
     {
-      name: 'My Historical Final Winner Prize',
+      name: 'My Final Winner Prize',
       number: '-',
       unit: 'ETH',
     },
@@ -162,7 +162,7 @@ const useFomoStore = create(immer<IState>(((set) => ({
             unit: '$',
           },
           {
-            name: 'My Historical Key Holder Dividends',
+            name: 'My Key Holder Dividends',
             number: profit.keyDividends,
             unit: 'ETH',
           },
@@ -172,7 +172,7 @@ const useFomoStore = create(immer<IState>(((set) => ({
             unit: 'ETH',
           },
           {
-            name: 'My Historical Final Winner Prize',
+            name: 'My Final Winner Prize',
             number: profit.finalWinPrice,
             unit: 'ETH',
           },

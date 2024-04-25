@@ -20,6 +20,15 @@ export interface IProfit {
   unclaimedNftGameIds: number[];
 }
 
+export interface IAuctionInfo {
+  bidId: number;
+  status: number;
+  startTimestamp: number;
+  bidWinnerAddress: string;
+  highestBid: string;
+  biddersCount: number;
+}
+
 export interface IGameInfo {
   tokenPrice: string;
   totalKeyMinted: string;
@@ -37,6 +46,11 @@ export interface IGameNft {
   tx: string;
 }
 
+
+export interface IBidInfo {
+  amount: string;
+  userAddress: string;
+}
 export interface IHistoricalDividendsList {
   gameNft: IGameNft;
   type: number;
@@ -81,6 +95,11 @@ export interface IGameNftDetail {
   biddersCount: number;
   startTimestamp: number;
   endTimestamp: number;
+}
+
+export interface IOpenSeaNftList {
+  next: string;
+  nftList: IGameNftDetail[];
 }
 
 export interface INftList {

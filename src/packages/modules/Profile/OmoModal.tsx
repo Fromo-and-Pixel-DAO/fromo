@@ -121,6 +121,7 @@ const OmoModal = ({
       variant="redeemModal"
       size="2xl"
       isOpen={isOpen}
+      isCloseBtn={!loading}
       title={
         <Heading
           textAlign="left"
@@ -150,9 +151,6 @@ const OmoModal = ({
         </Button>
       }
       onClose={() => {
-        if (loading) {
-          return
-        }
         setUseAmount(0)
         onClose()
       }}

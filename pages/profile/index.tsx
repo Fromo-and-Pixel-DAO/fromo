@@ -598,7 +598,7 @@ export default function Main() {
             <Box
               borderLeft="1px solid #704BEA"
               pl="30px"
-              m="0 100px"
+              m="0 50px"
               flexBasis="33.33%">
               <Text fontSize="16px" color="#FFA8FE" lineHeight="24px">
                 My Historical NFT Provider Dividends
@@ -621,6 +621,7 @@ export default function Main() {
               </Flex>
               <Text
                 fontWeight={400}
+                w="100%"
                 fontSize="12px"
                 lineHeight="18px"
                 color="rgba(255, 255, 255, 0.8)">
@@ -631,6 +632,7 @@ export default function Main() {
                 ETH
               </Text>
               <Text
+                w="100%"
                 fontWeight={400}
                 fontSize="12px"
                 lineHeight="18px"
