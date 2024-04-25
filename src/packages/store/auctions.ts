@@ -6,7 +6,7 @@ import create from 'zustand'
 import { immer } from 'zustand/middleware/immer'
 
 import { getAuctionInfo, getUserNftList } from 'packages/service/api'
-import { IAuctionInfo } from 'packages/service/api/types'
+import { IAuctionInfo, IGameNftDetail } from 'packages/service/api/types'
 
 
 
@@ -24,7 +24,7 @@ interface IState {
   state: ActivityStatus
   roundInfo: any
   auctionInfo: IAuctionInfo
-  nftList: any
+  nftList: IGameNftDetail[]
   setStartTime: (date: moment.Moment) => void
   setStartTimeByContract: () => void
   getAuctionInfo: typeof getAuctionInfo
@@ -51,7 +51,7 @@ const useAuctions = create(immer<IState>(((set, get) => ({
     return data
   },
   async getUserNftList(address: string) {
-    const data = await getUserNftList(address) || []
+    const data = await getUserNftList(address)
     set({ nftList: data.nftList })
     return data
   },
