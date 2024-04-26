@@ -1,8 +1,3 @@
-export const metadata = {
-  title: 'FROMO',
-  description: 'FROMO',
-}
-
 import { lazy, useEffect, useState } from 'react'
 
 import {
@@ -176,6 +171,7 @@ export default function Main() {
       })
       .finally(() => {
         setConvertKeysLoading(false)
+        refreshUserHeaderInfo()
       })
   }
 
@@ -629,7 +625,8 @@ export default function Main() {
                   mr="10px">
                   {profit.nftDividends !== '-'
                     ? Number(profit.nftDividends) +
-                      Number(profit.unclaimedNftDividends)
+                      Number(profit.unclaimedNftDividends) +
+                      Number(profit.lockedNftDividends)
                     : '-'}
                 </Text>
                 <Text fontSize="16px" lineHeight="24px">

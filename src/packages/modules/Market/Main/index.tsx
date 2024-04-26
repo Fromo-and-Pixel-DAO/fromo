@@ -617,7 +617,11 @@ export default function Main() {
         <List />
       </Suspense>
       <Suspense>
-        <BidderModal isOpen={open} onClose={onClose} status={auctionInfo.status} />
+        <BidderModal
+          isOpen={open}
+          onClose={onClose}
+          status={auctionInfo.status}
+        />
       </Suspense>
     </Box>
   )

@@ -299,7 +299,9 @@ export async function convertKeyToToken(gameIds: number[]) {
     fl419ABI,
     signer,
   )
-  const transaction = await contract.convertKeyToToken(gameIds, address)
+  const transaction = await contract.convertKeyToToken(gameIds, address, {
+    gasLimit: BigInt(500000),
+  })
   return await transaction.wait()
 }
 
@@ -339,13 +341,14 @@ export async function withdrawLastplayerPrizeFunc(gameIds: number[]) {
   const provider = await web3Modal.connect()
   const library = new ethers.providers.Web3Provider(provider)
   const signer = library.getSigner()
-  const address = await signer.getAddress()
   const contract = new ethers.Contract(
     process.env.NEXT_PUBLIC_FL_CONTRACT_ADR,
     fl419ABI,
     signer,
   )
-  const transaction = await contract.withdrawLastplayerPrize(gameIds, address)
+  const transaction = await contract.withdrawLastplayerPrize(gameIds, {
+    gasLimit: BigInt(500000),
+  })
   return await transaction.wait()
 }
 
@@ -368,7 +371,9 @@ export async function withdrawSaleRevenueFunc(gameIds: number[]) {
     fl419ABI,
     signer,
   )
-  const transaction = await contract.withdrawSaleRevenue(gameIds, address)
+  const transaction = await contract.withdrawSaleRevenue(gameIds, {
+    gasLimit: BigInt(500000),
+  })
   return await transaction.wait()
 }
 

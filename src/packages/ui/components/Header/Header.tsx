@@ -73,30 +73,6 @@ const NAV_ITEMS_CONNECTED_DESKTOP: Array<NavItem> = [
     icon: '/static/header/account.svg',
     iconDark: '/static/header/account_dark.svg',
   },
-  // {
-  //   label: 'My Account',
-  //   icon: '/static/header/account.svg',
-  //   iconDark: '/static/header/account_dark.svg',
-
-  //   children: [
-  //     {
-  //       label: 'My NFTs',
-  //       href: '/account/my-nfts?tab=unlicensed-nft',
-  //     },
-  //     {
-  //       label: 'My Licenses',
-  //       href: '/account/buy',
-  //     },
-  //     {
-  //       label: 'My Offers',
-  //       href: '/account/sell',
-  //     },
-  //     // {
-  //     //   label: 'My Collection',
-  //     //   href: '/account/my-collection',
-  //     // },
-  //   ],
-  // }
 ]
 
 const NAV_ITEMS_CONNECTED_MOBILE: Array<NavItem> = [

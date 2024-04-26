@@ -17,6 +17,8 @@ import 'react-toastify/dist/ReactToastify.css'
 import '@styles/_globals.scss'
 
 import DefaultLayout from '../src/layout/default'
+import Head from 'next/head'
+
 // import useAuctions from 'packages/store/auctions'
 
 // replace console.* for disable log on production
@@ -40,6 +42,14 @@ const App = ({ Component, pageProps }: any) => {
     <ChakraProvider theme={customTheme}>
       <DefaultLayout>
         <QueryClientProvider client={queryClient}>
+          <Head>
+            <title>FROMO</title>
+            <meta name="description" content="FROMO" />
+            <meta
+              name="keywords"
+              content="fromo, froppyLand, crypto, nft, eth, "
+            />
+          </Head>
           <Component {...pageProps} />
         </QueryClientProvider>
       </DefaultLayout>

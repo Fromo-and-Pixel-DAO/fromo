@@ -1,8 +1,3 @@
-export const metadata = {
-  title: 'FROMO',
-  description: 'FROMO',
-}
-
 import { Box, Flex, SimpleGrid, Text } from '@chakra-ui/react'
 import ItemGrid from '@components/ListItems/ItemGrid'
 import NoData from '@components/NoData'
