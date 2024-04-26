@@ -102,6 +102,7 @@ export default function Main() {
         })
         .finally(() => {
           setClaimKeysLoading(false)
+          refreshUserHeaderInfo()
         })
     }
     // claim final winner prize
@@ -125,6 +126,7 @@ export default function Main() {
         })
         .finally(() => {
           setClaimFinalWinnerLoading(false)
+          refreshUserHeaderInfo()
         })
     }
     // claim nft dividends
@@ -148,6 +150,7 @@ export default function Main() {
         })
         .finally(() => {
           setClaimNftLoading(false)
+          refreshUserHeaderInfo()
         })
     }
   }

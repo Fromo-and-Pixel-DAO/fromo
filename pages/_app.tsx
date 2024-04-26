@@ -1,3 +1,8 @@
+export const metadata = {
+  title: 'FROMO',
+  description: 'FROMO',
+}
+
 import { ToastContainer } from 'react-toastify'
 import useVH from 'react-vh'
 
@@ -5,7 +10,6 @@ import { ChakraProvider } from '@chakra-ui/react'
 
 import customTheme from '@styles/customTheme'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-
 
 import { isProd } from 'packages/constants'
 
@@ -34,12 +38,12 @@ const App = ({ Component, pageProps }: any) => {
 
   return (
     <ChakraProvider theme={customTheme}>
-        <DefaultLayout>
-          <QueryClientProvider client={queryClient}>
-            <Component {...pageProps} />
-          </QueryClientProvider>
-        </DefaultLayout>
-        <ToastContainer autoClose={3000} theme="colored" />
+      <DefaultLayout>
+        <QueryClientProvider client={queryClient}>
+          <Component {...pageProps} />
+        </QueryClientProvider>
+      </DefaultLayout>
+      <ToastContainer autoClose={3000} theme="colored" />
     </ChakraProvider>
   )
 }
