@@ -35,6 +35,10 @@
   --toastify-toast-width: '60%';
 }
 
+.Toastify__close-button > svg {
+  color: #000000;
+}
+
 html,
 body {
   position: relative;

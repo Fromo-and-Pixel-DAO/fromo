@@ -111,13 +111,15 @@ const Details = () => {
     const contract = new ethers.Contract(FL_CONTRACT_ADR, FroopyABI, signer)
     const address = await signer.getAddress()
     try {
-      console.log('fetchGameState', id, address)
-
       const data = await contract.getPlayerStateOfGameIds(address, [id])
       setClaims(data.unclaimBonusList.toString())
       if (data.keyAmountList && data.keyAmountList.toString().length >= 18) {
-        data.keyAmountList = 0
+        data.keyAmountList = ethers.utils.formatUnits(
+          data.keyAmountList.toString(),
+          'ether',
+        )
       }
+      console.log('fetchGameState', id, address, data.keyAmountList.toString())
       setKeys(data.keyAmountList.toString())
     } catch (error) {
       console.log(error, '<=-===fetchGameState')
@@ -498,14 +500,15 @@ const Details = () => {
             <List spacing={3}>
               <Flex alignItems="center">
                 <Text className={styles.name}>Auction ID：</Text>
-                <Text fontWeight={600}>{id}</Text>
+                <Text fontWeight={600}>{Number(id) + 1}</Text>
               </Flex>
               <Flex alignItems="center">
                 <Text className={styles.name}>NFT Address：</Text>
                 <Link fontWeight={600} color="#00DAB3">
                   {detailInfos.nftAddress === ethers.constants.AddressZero
                     ? 'The Nft has sold'
-                    : detailInfos.nftAddress || '--'}
+                    : ellipseAddress(detailInfos.nftAddress.toLowerCase()) ||
+                      '--'}
                 </Link>
               </Flex>
               <Flex alignItems="center">

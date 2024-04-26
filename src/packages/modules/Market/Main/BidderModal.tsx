@@ -18,12 +18,16 @@ import FroopyABI from 'packages/abis/demo/fl417.json'
 import { getBidderForm } from 'packages/service/api'
 import { IBidInfo } from 'packages/service/api/types'
 import useStore from 'packages/store'
+import { ActivityStatus } from 'packages/store/auctions'
 import { web3Modal } from 'packages/web3'
 import { useEffect, useMemo, useRef, useState } from 'react'
 
 const FL_CONTRACT_ADR = process.env.NEXT_PUBLIC_FL_CONTRACT_ADR
 
+let contract: any = null
+
 type SubmitOfferModalProps = {
+  status: number
   isOpen: boolean
   onClose: () => void
 }
@@ -34,7 +38,7 @@ type SubmitOfferModalProps = {
 
 // 3. 出价正常 / 异常
 
-const BidModal = ({ isOpen, onClose }: SubmitOfferModalProps) => {
+const BidModal = ({ status, isOpen, onClose }: SubmitOfferModalProps) => {
   const [value, setValue] = useState('')
   const [list, setList] = useState<IBidInfo[]>([])
 
@@ -66,18 +70,20 @@ const BidModal = ({ isOpen, onClose }: SubmitOfferModalProps) => {
         'Bid must be lower than the current available $OMO Token',
       )
 
-    const provider = await web3Modal.connect()
-    const library = new ethers.providers.Web3Provider(provider)
-    const signer = library.getSigner()
-    const contract = new ethers.Contract(FL_CONTRACT_ADR, FroopyABI, signer)
-
     try {
       setBidLoading(true)
 
-      const data = await contract.bidLand(ethers.utils.parseEther(value), {
+      if (!contract) {
+        const provider = await web3Modal.connect()
+        const library = new ethers.providers.Web3Provider(provider)
+        const signer = library.getSigner()
+
+        contract = new ethers.Contract(FL_CONTRACT_ADR, FroopyABI, signer)
+      }
+
+      await contract.bidLand(ethers.utils.parseEther(value), {
         gasLimit: BigInt(500000),
       })
-
       // const existingItemIndex = bidList.findIndex(item => item.userAddress === address)
 
       // if (existingItemIndex !== -1) {
@@ -101,7 +107,11 @@ const BidModal = ({ isOpen, onClose }: SubmitOfferModalProps) => {
     const library = new ethers.providers.Web3Provider(provider)
     const signer = library.getSigner()
 
-    const contract = new ethers.Contract(FL_CONTRACT_ADR, FroopyABI, signer)
+    if (!contract) {
+      contract = new ethers.Contract(FL_CONTRACT_ADR, FroopyABI, signer)
+    }
+
+    contract = new ethers.Contract(FL_CONTRACT_ADR, FroopyABI, signer)
 
     const address = await signer.getAddress()
 
@@ -116,12 +126,15 @@ const BidModal = ({ isOpen, onClose }: SubmitOfferModalProps) => {
   }
 
   const registerUpdateSOL = async () => {
-    const provider = await web3Modal.connect()
-    const library = new ethers.providers.Web3Provider(provider)
-    const signer = library.getSigner()
-    const contract = new ethers.Contract(FL_CONTRACT_ADR, FroopyABI, signer)
+    if (!contract) {
+      const provider = await web3Modal.connect()
+      const library = new ethers.providers.Web3Provider(provider)
+      const signer = library.getSigner()
 
-    // TODO: 考虑到后续服务端压力，比如 Ddos，需要从合约侧返回的新数据去组装列表
+      contract = new ethers.Contract(FL_CONTRACT_ADR, FroopyABI, signer)
+    }
+
+    console.log('registerUpdateSOL')
 
     contract.on('NewBids', (Bidder, amount, bidId) => {
       console.log(
@@ -130,8 +143,14 @@ const BidModal = ({ isOpen, onClose }: SubmitOfferModalProps) => {
         bidId.toString(),
         'Bidder, amount, bidId',
       )
-      getBidList().then(() => setBidLoading(false))
+      getBidList().finally(() => setBidLoading(false))
     })
+  }
+
+  const removeListener = () => {
+    if (contract) {
+      contract.removeAllListeners('NewBids')
+    }
   }
 
   const getBidList = async () => {
@@ -155,7 +174,10 @@ const BidModal = ({ isOpen, onClose }: SubmitOfferModalProps) => {
           Bid on this Plot of FROMO
         </Heading>
       }
-      onClose={onClose}
+      onClose={() => {
+        removeListener()
+        onClose()
+      }}
       bgColor={useColorModeValue ? '#fff' : '#fff'}>
       <VStack align="left">
         <Text
@@ -221,7 +243,11 @@ const BidModal = ({ isOpen, onClose }: SubmitOfferModalProps) => {
             ))}
           </Box>
         </Box>
-        <Flex align="baseline">
+        <Flex
+          align="baseline"
+          visibility={
+            status && status === ActivityStatus.Bidding ? 'visible' : 'hidden'
+          }>
           <Box mr="14px">
             <Flex
               w="264px"

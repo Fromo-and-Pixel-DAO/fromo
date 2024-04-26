@@ -398,13 +398,7 @@ export default function Main() {
             {[ActivityStatus.NotStarted, ActivityStatus.Bidding].includes(
               auctionInfo.status,
             ) && (
-              <Flex
-                pos="relative"
-                _hover={
-                  ActivityStatus.NotStarted !== auctionInfo.status
-                    ? { cursor: 'pointer' }
-                    : null
-                }>
+              <Flex pos="relative" _hover={{ cursor: 'pointer' }}>
                 <Button
                   zIndex="1"
                   fontSize="24px"
@@ -623,7 +617,7 @@ export default function Main() {
         <List />
       </Suspense>
       <Suspense>
-        <BidderModal isOpen={open} onClose={onClose} />
+        <BidderModal isOpen={open} onClose={onClose} status={auctionInfo.status} />
       </Suspense>
     </Box>
   )

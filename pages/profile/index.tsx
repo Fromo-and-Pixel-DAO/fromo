@@ -1,6 +1,14 @@
 import { lazy, useEffect, useState } from 'react'
 
-import { Box, Button, Flex, Heading, Image, Text } from '@chakra-ui/react'
+import {
+  Box,
+  Button,
+  Flex,
+  Heading,
+  Image,
+  Text,
+  useMediaQuery,
+} from '@chakra-ui/react'
 
 import TabsCommon from '@components/TabsCommon'
 
@@ -25,6 +33,7 @@ import {
   withdrawLastplayerPrizeFunc,
   withdrawSaleRevenueFunc,
 } from 'packages/web3'
+import { useWindowSize } from '@hooks/useWindowSize'
 
 const ListItems = lazy(() => import('@modules/Profile/ListItems'))
 const Sidebar = lazy(() => import('@modules/Profile/Sidebar'))
@@ -164,6 +173,7 @@ export default function Main() {
   }
 
   const { address } = useStore()
+  const [isLargerThan1920] = useMediaQuery('(min-width: 1920px)')
 
   const [open, setOpen] = useState(false)
   const [oepnOmo, setOpenOmo] = useState(false)
@@ -344,7 +354,7 @@ export default function Main() {
       <Sidebar />
       <Box flex="1" minW={{ base: 'full', md: '500px' }}>
         <Header headers={userHeaderInfo} />
-        <Box m="0 216px" pb="72px">
+        <Box m={`0 ${isLargerThan1920 ? '261px' : '38px'}`} pb="72px">
           <Text
             fontSize="20px"
             lineHeight="24px"
