@@ -1,3 +1,8 @@
+export const metadata = {
+  title: 'FROMO',
+  description: 'FROMO',
+}
+
 import { lazy, Suspense, useEffect, useMemo, useState } from 'react'
 
 import { Box, Flex, SimpleGrid, Spinner } from '@chakra-ui/react'

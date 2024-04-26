@@ -1,3 +1,8 @@
+export const metadata = {
+  title: 'FROMO',
+  description: 'FROMO',
+}
+
 import { lazy, useEffect, useState } from 'react'
 
 import {

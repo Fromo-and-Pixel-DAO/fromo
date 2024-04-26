@@ -8,11 +8,10 @@ import { Box } from '@chakra-ui/react'
 import Details from '@modules/Detail'
 
 const DetailPage: FC = () => {
-
   return (
     <>
       <Head>
-        <title>Game details page</title>
+        <title>FROMO</title>
         <meta name="description" content="PoolZ." />
         <meta name="keywords" content="Pool, froppyLand, crypto, nft, eth, " />
       </Head>
