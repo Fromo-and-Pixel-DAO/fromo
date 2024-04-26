@@ -8,7 +8,7 @@ const HomePage: FC = () => {
   return (
     <>
       <Head>
-        <title>PoolZ</title>
+        <title>FROMO</title>
         <meta name="description" content="PoolZ." />
         <meta name="keywords" content="poolz, froppyLand, crypto, nft, eth, " />
       </Head>

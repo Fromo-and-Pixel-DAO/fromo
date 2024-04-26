@@ -33,7 +33,6 @@ import {
   withdrawLastplayerPrizeFunc,
   withdrawSaleRevenueFunc,
 } from 'packages/web3'
-import { useWindowSize } from '@hooks/useWindowSize'
 
 const ListItems = lazy(() => import('@modules/Profile/ListItems'))
 const Sidebar = lazy(() => import('@modules/Profile/Sidebar'))
