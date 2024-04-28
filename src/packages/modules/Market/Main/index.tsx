@@ -39,16 +39,6 @@ const BidderModal = lazy(() => import('@modules/Market/Main/BidderModal'))
 //  bidInfo()
 // 2.  未登录 / 登录 界面控制
 
-interface Item {
-  derivativeContractAddress: string
-  originalContractAddress: string
-  image: string
-  currentNFTInPool: string
-  LicenseSupply: string
-  name: string
-  currentHighestOffer: string
-}
-
 // const ListItems = lazy(() => import('@components/ListItems'))
 
 export const generateTimestamp = () => {
@@ -288,9 +278,7 @@ export default function Main() {
                       mr="8px"></Image>
                     <Text fontSize="32px" lineHeight="48px">
                       {sysInfo?.totalKeyMinted !== '-'
-                        ? parseFloat(
-                            ethers.utils.formatEther(sysInfo?.totalKeyMinted),
-                          ).toFixed(4)
+                        ? sysInfo?.totalKeyMinted
                         : '-'}
                     </Text>
                   </Flex>
