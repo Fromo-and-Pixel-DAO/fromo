@@ -357,7 +357,7 @@ export default function Main() {
       <Sidebar />
       <Box flex="1" minW={{ base: 'full', md: '500px' }}>
         <Header headers={userHeaderInfo} />
-        <Box m={`0 ${isLargerThan1920 ? '261px' : '38px'}`} pb="72px">
+        <Box m={`0 ${isLargerThan1920 ? '261px' : '26px'}`} pb="72px">
           <Text
             fontSize="20px"
             lineHeight="24px"
@@ -624,9 +624,11 @@ export default function Main() {
                   fontWeight="900"
                   mr="10px">
                   {profit.nftDividends !== '-'
-                    ? Number(profit.nftDividends) +
-                      Number(profit.unclaimedNftDividends) +
-                      Number(profit.lockedNftDividends)
+                    ? (
+                        Number(profit.nftDividends) +
+                        Number(profit.unclaimedNftDividends) +
+                        Number(profit.lockedNftDividends)
+                      ).toFixed(4)
                     : '-'}
                 </Text>
                 <Text fontSize="16px" lineHeight="24px">

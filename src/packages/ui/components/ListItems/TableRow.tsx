@@ -686,7 +686,7 @@ function Table({ item, isCustom }: { item: any; isCustom: boolean }) {
         <Tr _hover={{ background: '#bab9b929' }}>
           <Td
             minW="210px"
-            maxW="300px"
+            maxW="280px"
             lineHeight="16px"
             fontSize="14px"
             fontWeight="500"
@@ -722,7 +722,7 @@ function Table({ item, isCustom }: { item: any; isCustom: boolean }) {
               </Text>
             </Flex>
           </Td>
-          <Td
+          {/* <Td
             color={textColor}
             borderBottomColor={borderBottomColor}
             borderBottom="1px solid"
@@ -732,7 +732,7 @@ function Table({ item, isCustom }: { item: any; isCustom: boolean }) {
                 {item.tokenId}
               </Box>
             </Flex>
-          </Td>
+          </Td> */}
           <Td borderBottomColor={borderBottomColor} borderBottom="1px solid">
             <Flex mr="95px" align="center" color="#fff">
               <Box mr="6px" fontSize="12px" fontWeight="400">
@@ -778,7 +778,7 @@ function Table({ item, isCustom }: { item: any; isCustom: boolean }) {
       <Tr _hover={{ background: '#bab9b929' }}>
         <Td
           minW="210px"
-          maxW="300px"
+          maxW="280px"
           lineHeight="16px"
           fontSize="14px"
           fontWeight="500"
@@ -810,7 +810,7 @@ function Table({ item, isCustom }: { item: any; isCustom: boolean }) {
               textOverflow="ellipsis"
               overflow="hidden"
               whiteSpace="nowrap">
-              {item.gameNft.name} #{item.gameNft.tokenId}
+              {item.gameNft.name}
             </Text>
           </Flex>
         </Td>
