@@ -79,32 +79,31 @@ const Register = () => {
             gasLimit: BigInt(500000),
           })
           await tt.wait()
+          const contract = new ethers.Contract(FL_CONTRACT_ADR, flABI, signer)
+
+          try {
+            const tx = await contract.newGame(ERC_NFT, nft.tokenId, {
+              gasLimit: BigInt(500000),
+            })
+            await tx.wait()
+
+            const gameId = await contract.totalGames()
+            const [gameInfos] = await contract.getGameInfoOfGameIds([
+              (Number(gameId) - 1).toString(),
+            ])
+            toastSuccess(
+              `You have successfully staked your NFT. Your NFT auction will start on ${moment(
+                gameInfos?.startTimestamp,
+              ).format('MMMM DD ha [GMT]')}`,
+            )
+            router.back()
+          } catch (error) {
+            console.log(error, 'error')
+            toastWarning('The auction has not yet begun, please be patient.')
+          }
         } catch (error) {
           console.log('Current NFT Authorization: In Use')
         }
-      }
-
-      const contract = new ethers.Contract(FL_CONTRACT_ADR, flABI, signer)
-
-      try {
-        const tx = await contract.newGame(ERC_NFT, nft.tokenId, {
-          gasLimit: BigInt(500000),
-        })
-        await tx.wait()
-
-        const gameId = await contract.totalGames()
-        const [gameInfos] = await contract.getGameInfoOfGameIds([
-          (Number(gameId) - 1).toString(),
-        ])
-        toastSuccess(
-          `You have successfully staked your NFT. Your NFT auction will start on ${moment(
-            gameInfos?.startTimestamp,
-          ).format('MMMM DD ha [GMT]')}`,
-        )
-        router.back()
-      } catch (error) {
-        console.log(error, 'error')
-        toastWarning('The auction has not yet begun, please be patient.')
       }
     } catch (error) {
       console.log(error, 'error')
