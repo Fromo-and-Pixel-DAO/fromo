@@ -4,8 +4,7 @@ import {
   Flex,
   Image,
   Select,
-  Text,
-  useDisclosure,
+  Text
 } from '@chakra-ui/react'
 import { ellipseAddress } from '@utils'
 import { toastError, toastSuccess, toastWarning } from '@utils/toast'
@@ -13,7 +12,7 @@ import { ethers } from 'ethers'
 import moment from 'moment'
 import useStore from 'packages/store'
 import { web3Modal } from 'packages/web3'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { useRouter } from 'next/router'
 import ERC_ABI from 'packages/abis/demo/Erc721.json'
@@ -21,14 +20,9 @@ import flABI from 'packages/abis/demo/fl417.json'
 import useAuctions from 'packages/store/auctions'
 
 const FL_CONTRACT_ADR = process.env.NEXT_PUBLIC_FL_CONTRACT_ADR
-const ERC_NFT = process.env.NEXT_PUBLIC_ERC_NFT
-
-const NFT_ID = 29 // 28-35
-
 const Register = () => {
   const router = useRouter()
 
-  // const [nftList, setNftList] = useState([])
   const [nft, setNFT] = useState(null)
 
   const [isLoading, setIsLoading] = useState(false)
@@ -37,18 +31,9 @@ const Register = () => {
 
   const { nftList, auctionInfo, getUserNftList } = useAuctions()
 
-  const { isOpen, onOpen, onClose } = useDisclosure()
-  const cancelRef = useRef()
-
   const fetchNFT = async () => {
     if (!address) return
     getUserNftList(address)
-    // const data = await http.get<any>(`https://api.opensea.io/api/v2/chain/ethereum/account/${NFT_ADDRESS}/nfts`, {
-    //     headers: {
-    //         "x-api-key": process.env.NEXT_PUBLIC_NFT_KEY
-    //     }
-    // })
-    // setNftList(data.nfts)
   }
 
   // TODO：1. 未登录的时候 逻辑判断；2. NFT 搜索框 不是下拉框
@@ -66,7 +51,7 @@ const Register = () => {
       const library = new ethers.providers.Web3Provider(provider)
       const signer = library.getSigner()
 
-      const erc_contract = new ethers.Contract(ERC_NFT, ERC_ABI, signer)
+      const erc_contract = new ethers.Contract(nft.nftAddress, ERC_ABI, signer)
 
       const approvedAddr = await erc_contract.getApproved(nft.tokenId, {
         gasLimit: BigInt(500000),
@@ -82,7 +67,7 @@ const Register = () => {
           const contract = new ethers.Contract(FL_CONTRACT_ADR, flABI, signer)
 
           try {
-            const tx = await contract.newGame(ERC_NFT, nft.tokenId, {
+            const tx = await contract.newGame(nft.nftAddress, nft.tokenId, {
               gasLimit: BigInt(500000),
             })
             await tx.wait()
@@ -103,13 +88,13 @@ const Register = () => {
           }
         } catch (error) {
           console.log('Current NFT Authorization: In Use')
-          toastError('Failed to approve NFT')
+          toastError('You  Failed to approve NFT due to some error.', 2000)
         }
       } else {
         const contract = new ethers.Contract(FL_CONTRACT_ADR, flABI, signer)
 
         try {
-          const tx = await contract.newGame(ERC_NFT, nft.tokenId, {
+          const tx = await contract.newGame(nft.nftAddress, nft.tokenId, {
             gasLimit: BigInt(500000),
           })
           await tx.wait()
@@ -126,13 +111,14 @@ const Register = () => {
           router.back()
         } catch (error) {
           console.log(error, 'error')
-          toastWarning('The auction has not yet begun, please be patient.')
+          toastError('You Failed to stake NFT due to some error.', 2000)
         }
       }
     } catch (error) {
       console.log(error, 'error')
     } finally {
       setIsLoading(false)
+      toastError('You Failed to stake NFT due to some error.', 2000)
     }
   }
 

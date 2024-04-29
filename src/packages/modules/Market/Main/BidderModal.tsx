@@ -119,7 +119,7 @@ const BidModal = ({ status, isOpen, onClose }: SubmitOfferModalProps) => {
 
     try {
       const tx = await contract.getBidderInfoOf(address)
-      setAvailableNums(ethers.utils.formatEther(tx.sysTokenBalance.toString()))
+      setAvailableNums(ethers.utils.formatEther(tx.withdrawableAmount.toString()))
     } catch (error) {
       console.log(error, '<====getAvailableFL')
     }
