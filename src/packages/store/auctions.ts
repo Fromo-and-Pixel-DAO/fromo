@@ -10,7 +10,7 @@ import { IAuctionInfo, IGameNftDetail } from 'packages/service/api/types'
 
 
 
-const FL_CONTRACT_ADR = process.env.NEXT_PUBLIC_FL_CONTRACT_ADR //323的今天晚上0点开始位置拍卖
+const FL_CONTRACT_ADR = process.env.NEXT_PUBLIC_FL_CONTRACT_ADR
 
 export enum ActivityStatus {
   NotStarted = 0,

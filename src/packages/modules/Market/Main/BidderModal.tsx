@@ -32,11 +32,6 @@ type SubmitOfferModalProps = {
   onClose: () => void
 }
 
-// 1. 出价列表 - API
-
-// 2. 监听日志，有新的日志拍卖，就前端直接更新列表 - 合约？
-
-// 3. 出价正常 / 异常
 
 const BidModal = ({ status, isOpen, onClose }: SubmitOfferModalProps) => {
   const [value, setValue] = useState('')

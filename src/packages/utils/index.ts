@@ -138,22 +138,22 @@ export function removeDuplicate(array): string[] {
 
 
 export function formatUnits(value: BigNumberish, unitName?: string | BigNumberish): string {
-  if (typeof(unitName) === "string") {
-      const index = names.indexOf(unitName)
-      if (index !== -1) { unitName = 3 * index }
+  if (typeof (unitName) === "string") {
+    const index = names.indexOf(unitName)
+    if (index !== -1) { unitName = 3 * index }
   }
-  return formatFixed(value, (unitName != null) ? unitName: 18)
+  return formatFixed(value, (unitName != null) ? unitName : 18)
 }
 
 export function parseUnits(value: string, unitName?: BigNumberish): BigNumber {
-  if (typeof(value) !== "string") {
-      logger.throwArgumentError("value must be a string", "value", value)
+  if (typeof (value) !== "string") {
+    logger.throwArgumentError("value must be a string", "value", value)
   }
-  if (typeof(unitName) === "string") {
-      const index = names.indexOf(unitName)
-      if (index !== -1) { unitName = 3 * index }
+  if (typeof (unitName) === "string") {
+    const index = names.indexOf(unitName)
+    if (index !== -1) { unitName = 3 * index }
   }
-  return parseFixed(value, (unitName != null) ? unitName: 18)
+  return parseFixed(value, (unitName != null) ? unitName : 18)
 }
 
 export function formatEther(wei: BigNumberish): string {
@@ -167,11 +167,10 @@ export function parseEther(ether: string): BigNumber {
 
 export function formatNumberWithCommas(num: number): string {
   if (!num) return '0'
-  
+
   if (typeof num === 'string') {
-    num =  parseFloat(num)
+    num = parseFloat(num)
   }
-  // 用于生成千位分隔符格式
-  // eg: 10000 输出 "10,000"
+  // eg: 10000 to "10,000"
   return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 }

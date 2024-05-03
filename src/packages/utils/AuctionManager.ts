@@ -39,7 +39,6 @@ class PeriodicActivityManager {
     const currentTime = moment()
     for (const activity of this.activitiesQueue) {
       const status = this.getActivityStatus(currentTime, activity)
-      console.log(`活动 ${activity.id} 当前状态：${status}`)
       if (status === ActivityStatus.Playing) {
         this.startNextCycle(activity)
       }
@@ -55,13 +54,12 @@ class PeriodicActivityManager {
       playDuration: activity.playDuration
     }
     this.addActivity(nextActivity)
-    console.log(`下一轮活动 ${nextActivity.id} 开始时间：${nextActivity.startTime.format('YYYY-MM-DD HH:mm:ss')}`)
   }
 
   public run() {
     this.intervalId = setInterval(() => {
       this.updateActivityStatus()
-    }, 1000) // 更新频率，可以根据需求调整
+    }, 1000)
   }
 
   public stop() {
@@ -75,10 +73,8 @@ class PeriodicActivityManager {
   }
 }
 
-// 示例用法
 const manager = new PeriodicActivityManager()
 
-// 添加初始周期活动
 manager.addActivity({
   id: 1,
   startTime: moment.utc('2024-03-01T08:00:00Z'),
@@ -87,11 +83,4 @@ manager.addActivity({
   playDuration: moment.duration(24, 'hours')
 })
 
-// 启动周期活动管理器
 manager.run()
-
-// 获取上一个周期活动的信息
-const lastActivity = manager.getLastActivity()
-if (lastActivity) {
-  console.log(`上一个周期活动的开始时间：${lastActivity.startTime.format('YYYY-MM-DD HH:mm:ss')}`)
-}

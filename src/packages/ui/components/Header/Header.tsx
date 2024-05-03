@@ -40,7 +40,6 @@ import { initialState, reducer, web3Modal } from 'packages/web3'
 
 import { ellipseAddress } from '@utils'
 
-// TODO 生产
 const NETWORK = 'sepolia_test'
 
 interface NavItem {
@@ -467,9 +466,7 @@ const DesktopNav = () => {
     : NAV_ITEMS_DISCONNECTED
 
   const isSubPath = (pathname, href) => {
-    // 使用正则表达式构建匹配规则
     const regex = new RegExp(`^${href}(\/|$)`)
-    // 使用 test() 方法检查 pathname 是否匹配规则
     return regex.test(pathname)
   }
   return (

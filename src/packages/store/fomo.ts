@@ -59,7 +59,6 @@ const useFomoStore = create(immer<IState>(((set) => ({
         'https://i.seadn.io/gcs/files/1559b8597ed4db6578a218f181f24716.png?auto=format&dpr=1&w=1000'
       ]
 
-      // const gamesByIds = [0,1,2,3,4,5] // 合约小伙伴暂时还未统一 list 接口，遂通过组合 ids 来请求。
       const gamesByIds = [0]
       const gameList = []
 

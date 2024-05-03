@@ -36,7 +36,6 @@ const Register = () => {
     getUserNftList(address)
   }
 
-  // TODO：1. 未登录的时候 逻辑判断；2. NFT 搜索框 不是下拉框
   useEffect(() => {
     fetchNFT()
   }, [])

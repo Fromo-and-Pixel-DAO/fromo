@@ -32,20 +32,13 @@ const BidderModal = lazy(() => import('@modules/Market/Main/BidderModal'))
 
 // TODO
 
-// 1.  获取游戏信息（包括开始时间，开始状态，出价信息，质押状态） - API
-// data struct
-//  createTime
-//  state
-//  bidInfo()
-// 2.  未登录 / 登录 界面控制
-
 // const ListItems = lazy(() => import('@components/ListItems'))
 
 export const generateTimestamp = () => {
-  const randomDays = faker.number.int({ min: 1, max: 9 }) // 生成 1 到 9 之间的随机整数
-  const randomHours = faker.number.int({ min: 0, max: 23 }) // 生成 0 到 23 之间的随机整数
-  const randomMinutes = faker.number.int({ min: 0, max: 59 }) // 生成 0 到 59 之间的随机整数
-  const randomSeconds = faker.number.int({ min: 0, max: 59 }) // 生成 0 到 59 之间的随机整数
+  const randomDays = faker.number.int({ min: 1, max: 9 })
+  const randomHours = faker.number.int({ min: 0, max: 23 })
+  const randomMinutes = faker.number.int({ min: 0, max: 59 })
+  const randomSeconds = faker.number.int({ min: 0, max: 59 })
 
   const futureDate = moment()
     .add(randomDays, 'days')
@@ -53,7 +46,7 @@ export const generateTimestamp = () => {
     .minute(randomMinutes)
     .second(randomSeconds)
 
-  return futureDate.valueOf() / 1000 // 将毫秒级时间戳转换为秒级时间戳
+  return futureDate.valueOf() / 1000
 }
 
 export default function Main() {

@@ -63,7 +63,6 @@ const Details = () => {
     tx: '',
   })
 
-  // TODO: 未登录情况，拦截链接钱包？
   useEffect(() => {
     init()
     fetchGameDetailById()
@@ -87,7 +86,6 @@ const Details = () => {
       })
   }
 
-  // 获取详细信息 - sol
   const getGameInfoOfGameIds = async () => {
     const provider = await web3Modal.connect()
     const library = new ethers.providers.Web3Provider(provider)
@@ -103,7 +101,6 @@ const Details = () => {
     console.log('gameInfos', gameInfos)
   }
 
-  // 获取 claims 信息以及 mykey sol
   const fetchGameState = async () => {
     const provider = await web3Modal.connect()
     const library = new ethers.providers.Web3Provider(provider)
@@ -267,7 +264,6 @@ const Details = () => {
     }
   }
 
-  // todo 刷新 监听游戏是否有人买入 key
   const listenerGame = async () => {
     const provider = await web3Modal.connect()
     const library = new ethers.providers.Web3Provider(provider)
@@ -383,7 +379,7 @@ const Details = () => {
               </Text>
             </Flex>
           )}
-        {/* top keys holder 优先赎回权 && 时间小于 24 小时 */}
+        {/* top keys holder < 24 Hours */}
         {detailInfos.state === State.Finished &&
           detailInfos.nftAddress !== ethers.constants.AddressZero &&
           detailInfos.mostKeyHolder.toLowerCase() === address &&
@@ -443,7 +439,7 @@ const Details = () => {
             </Flex>
           )}
 
-        {/* 24 小时以外 */}
+        {/* > 24 Hours */}
         {detailInfos.state === State.Finished &&
           detailInfos.nftAddress !== ethers.constants.AddressZero &&
           moment().isAfter(
