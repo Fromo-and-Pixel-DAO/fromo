@@ -246,10 +246,6 @@ const Header: FC = () => {
     }
   }, [address, chainId, toast])
 
-  const bgColorDesktop = useColorModeValue(
-    'rgba(112, 75, 234,0.2)',
-    'rgba(1, 1, 1, 0.1)',
-  )
   return (
     <Box
       pos="fixed"
@@ -257,13 +253,12 @@ const Header: FC = () => {
       left="0"
       w="100%"
       zIndex="100"
-      bgColor={bgColorDesktop}
       backdropFilter="blur(2.7px)">
       <Flex
         mx="auto"
         color={useColorModeValue('gray.600', 'white')}
-        h="70px"
-        px={{ base: '20px', lg: '40px' }}
+        py="18px"
+        px={{ base: '20px', lg: '48px' }}
         borderStyle="solid"
         borderColor={useColorModeValue('gray.200', 'gray.900')}
         align="center"
@@ -280,7 +275,7 @@ const Header: FC = () => {
           flex={{ base: 1, md: 0 }}
           justify="flex-end"
           direction="row"
-          spacing={6}
+          spacing={10}
           align="center">
           <Flex display={{ base: 'none', lg: 'flex' }}>
             <DesktopNav />
@@ -307,12 +302,13 @@ const Header: FC = () => {
                   _active={{
                     bg: 'unset',
                   }}
-                  bg="#391683"
+                  bg="transparent"
                   color="#fff"
                   borderRadius="full"
                   as={Button}
-                  rightIcon={<ChevronDownIcon />}
-                  fontSize="14px"
+                  pr="12px"
+                  rightIcon={<ChevronDownIcon fontSize="20px" />}
+                  h="36px"
                   border="1px solid white">
                   {ellipseAddress(address)}
                 </MenuButton>
@@ -470,7 +466,7 @@ const DesktopNav = () => {
     return regex.test(pathname)
   }
   return (
-    <Stack direction="row" spacing={4} align="center">
+    <Stack direction="row" spacing={3} align="center">
       {/* {colorMode === 'light' ? (
         <MoonIcon
           cursor="pointer"
@@ -485,20 +481,25 @@ const DesktopNav = () => {
           <Popover trigger="hover" placement="bottom-start">
             <PopoverTrigger>
               <Box
-                onClick={() => navItem.href && router.push(navItem.href)}
-                fontSize="md"
-                fontWeight="bold"
+                fontWeight={
+                  isSubPath(pathname, navItem.href) ? 'semibold' : 'normal'
+                }
                 _hover={{
                   textDecoration: 'none',
                   color: linkHoverColor,
                 }}
-                cursor="pointer"
                 minW={navItem.label === 'My NFTs' ? '120px' : '120px'}
                 textAlign="center"
-                color={isSubPath(pathname, navItem.href) ? '#00DAB3' : 'white'}
-                lineHeight="64px"
-                paddingTop="3px">
-                {navItem.label}
+                color={isSubPath(pathname, navItem.href) ? '#1DFED6' : 'white'}
+                bg={isSubPath(pathname, navItem.href) ? '#2F2B50' : ''}
+                padding="8px 16px"
+                borderRadius="full"
+                whiteSpace="nowrap">
+                <Text
+                  cursor="pointer"
+                  onClick={() => navItem.href && router.push(navItem.href)}>
+                  {navItem.label}
+                </Text>
               </Box>
             </PopoverTrigger>
 

@@ -49,7 +49,9 @@ export default function Container({
   return (
     <Box
       overflow="hidden"
-      bgGradient="linear(to-b,#2A0668 6.48%,#401EAF 100%)"
+      backgroundImage="/static/common/bg-main.png"
+      backgroundColor="#0B063B"
+      backgroundAttachment="fixed"
       minH="100vh"
       pos="relative"
       color="white">
