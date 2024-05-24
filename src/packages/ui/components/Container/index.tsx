@@ -49,7 +49,7 @@ export default function Container({
   return (
     <Box
       overflow="hidden"
-      backgroundImage="/static/common/bg-main.png"
+      backgroundImage="/static/common/bg-main.svg"
       backgroundColor="#0B063B"
       backgroundAttachment="fixed"
       minH="100vh"
