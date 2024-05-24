@@ -3,13 +3,13 @@ import { Suspense, lazy, useEffect, useState } from 'react'
 import {
   AbsoluteCenter,
   Box,
-  Button,
   Divider,
   Flex,
   Image,
   SimpleGrid,
   Spinner,
   Text,
+  Tooltip,
 } from '@chakra-ui/react'
 import ItemGrid from 'packages/ui/components/ListItems/ItemGrid'
 // import { sleep } from '@utils'
@@ -78,102 +78,75 @@ export default function Main() {
     return (
       <>
         {ongoingList.length > 0 && (
-          <Box>
-            <Box padding="0 42px" marginTop="90px">
+          <Box px="42px" mt="80px">
+            <Box>
               <Flex
-                color="#00DAB3"
-                fontSize="24px"
-                height="40px"
-                marginBottom="22px">
-                <Text
-                  fontWeight={900}
-                  textShadow="0px 0px 10px rgba(0, 218, 179, 1)">
-                  Ongoing NFT Auctions
-                </Text>
-                <Text>({ongoingList.length})</Text>
+                fontSize="28px"
+                fontWeight="800"
+                alignItems="center"
+                height="32px"
+                marginBottom="40px"
+                gap="8px">
+                <Text>Ongoing NFT Auctions</Text>({ongoingList.length})
               </Flex>
               <Box h="1px" backgroundColor="rgba(112, 75, 234, 0.5)"></Box>
             </Box>
-            <Box padding="0 42px">
-              <SimpleGrid mt="20px" columns={[1, 2, 3, 4]} spacing="20px">
-                {ongoingList?.map((item, idx) => {
-                  return (
-                    <ItemGrid gridName="ongoingList" item={item} key={idx} />
-                  )
-                })}
-              </SimpleGrid>
-            </Box>
+            <SimpleGrid columns={[1, 2, 2, 3, 5, 6]} spacing="20px">
+              {ongoingList?.map((item, idx) => {
+                return <ItemGrid gridName="ongoingList" item={item} key={idx} />
+              })}
+            </SimpleGrid>
           </Box>
         )}
 
         {upcomingList.length > 0 && (
-          <>
-            <Box padding="0 42px" marginTop="55px">
+          <Box px="42px" mt="80px">
+            <Box>
               <Flex
-                color="#00DAB3"
-                fontSize="24px"
-                height="40px"
-                marginBottom="22px">
-                <Text
-                  fontWeight={900}
-                  textShadow="0px 0px 10px rgba(0, 218, 179, 1)">
-                  Upcoming NFT Auctions
-                </Text>
-                ({upcomingList.length}) - Queuing
+                fontSize="28px"
+                fontWeight="800"
+                alignItems="center"
+                height="32px"
+                marginBottom="40px"
+                gap="8px">
+                <Text>Upcoming NFT Auctions</Text>({upcomingList.length})
               </Flex>
               <Box h="1px" backgroundColor="rgba(112, 75, 234, 0.5)"></Box>
             </Box>
-            <Box padding="0 42px">
-              <SimpleGrid mt="20px" columns={[1, 2, 3, 4]} spacing="20px">
-                {upcomingList?.map((item, idx) => {
-                  return (
-                    <ItemGrid gridName="upcomingList" item={item} key={idx} />
-                  )
-                })}
-              </SimpleGrid>
-            </Box>
-          </>
+            <SimpleGrid columns={[1, 2, 2, 3, 5, 6]} spacing="20px">
+              {upcomingList?.map((item, idx) => {
+                return (
+                  <ItemGrid gridName="upcomingList" item={item} key={idx} />
+                )
+              })}
+            </SimpleGrid>
+          </Box>
         )}
 
         {finishedList.length > 0 && (
-          <>
-            <Box padding="0 42px" marginTop="55px">
+          <Box px="42px" mt="80px">
+            <Box>
               <Flex
-                color="#00DAB3"
-                fontSize="24px"
-                height="40px"
-                marginBottom="22px">
-                <Text
-                  fontWeight={900}
-                  textShadow="0px 0px 10px rgba(0, 218, 179, 1)">
-                  Finished NFT Auctions
-                </Text>
-                ({finishedList.length})
+                fontSize="28px"
+                fontWeight="800"
+                alignItems="center"
+                height="32px"
+                marginBottom="40px"
+                gap="8px">
+                <Text>Finished NFT Auctions</Text>({finishedList.length})
               </Flex>
-              <Box h="1px" backgroundColor="rgba(112, 75, 234, 0.5)"></Box>
             </Box>
-            <Box padding="0 42px">
-              <SimpleGrid mt="20px" columns={[1, 2, 3, 4]} spacing="20px">
-                {finishedList?.map((item, idx) => {
-                  return (
-                    <ItemGrid gridName="finishedList" item={item} key={idx} />
-                  )
-                })}
-              </SimpleGrid>
-            </Box>
-          </>
+            <SimpleGrid columns={[1, 2, 2, 3, 5, 6]} spacing="20px">
+              {finishedList?.map((item, idx) => {
+                return (
+                  <ItemGrid gridName="finishedList" item={item} key={idx} />
+                )
+              })}
+            </SimpleGrid>
+          </Box>
         )}
       </>
     )
-  }
-
-  const handleBid = (e) => {
-    e.stopPropagation()
-    // if (auctionInfo.status === ActivityStatus.NotStarted)
-    //   return toastWarning(
-    //     'The activity has not started yet, please stay tuned.',
-    //   )
-    setOpen(true)
   }
 
   const fetchSysBrief = async () => {
@@ -348,15 +321,19 @@ export default function Main() {
             fontSize="24px"
             lineHeight="28px"
             fontWeight="800"
-            borderRadius="full">
+            cursor="pointer"
+            borderRadius="full"
+            onClick={() => setOpen(true)}>
             <Flex gap="28px" w="50%">
-              <Image
-                src="/static/common/help.svg"
-                w="28px"
-                h="28px"
-                alt="help"
-              />
-              <Flex gap="8px">
+              <Tooltip label="16hours to bid plot, 8hours to stake NFT, 24-hour to auction NFT">
+                <Image
+                  src="/static/common/help.svg"
+                  w="28px"
+                  h="28px"
+                  alt="help"
+                />
+              </Tooltip>
+              <Flex gap="4px">
                 <Text>Highest Bid</Text>
                 <Text>: </Text>
                 <Box>
@@ -388,6 +365,11 @@ export default function Main() {
                     `Close on ${moment(auctionInfo.startTimestamp)
                       .add(16, 'hours')
                       .format('MMMM DD, Ha')}`}
+                  {auctionInfo.status === ActivityStatus.Staking &&
+                    ` Close on
+                    ${moment(auctionInfo.startTimestamp)
+                      .add(8, 'hours')
+                      .format('MMMM DD, ha')}`}
                 </Box>
               </Flex>
             </Box>
@@ -411,254 +393,7 @@ export default function Main() {
               </Box>
             </AbsoluteCenter>
           </Flex>
-
-          {/* <Flex
-            alignItems="center"
-            mb="20px"
-            border="4px solid white"
-            mt="100px">
-            {ActivityStatus.Staking === auctionInfo.status ? (
-              <Text
-                fontWeight={700}
-                color="#fff"
-                fontSize="20px"
-                lineHeight="30px">
-                {auctionInfo.bidWinnerAddress === address ? (
-                  <Flex align="center">
-                    <Image
-                      src="/static/common/warning.svg"
-                      alt="warning"
-                      w="19px"
-                      h="24px"
-                      mr="10px"
-                    />
-                    <Text>
-                      You won the FROMO plot and the chance to auction NFT on{' '}
-                      {moment(auctionInfo.startTimestamp).format('MMMM DD, ha')}{' '}
-                      GMT
-                    </Text>
-                  </Flex>
-                ) : (
-                  <Text>
-                    The NFT auction will start on{' '}
-                    {moment(auctionInfo.startTimestamp)
-                      .add(8, 'hours')
-                      .format('MMMM DD, ha')}{' '}
-                    GMT
-                  </Text>
-                )}
-              </Text>
-            ) : (
-              <Text
-                fontWeight={700}
-                color="#fff"
-                fontSize="20px"
-                lineHeight="30px">
-                Get the chance to auction NFT on{' '}
-                {moment(auctionInfo.startTimestamp).format('MMMM DD, ha')} GMT
-                by bidding a plot of FroopyLand：
-              </Text>
-            )}
-            <Text fontSize="16px" lineHeight="24px">
-              Registration closes on Feb 14, 12am
-            </Text>
-          </Flex> */}
-
-          {/* NotStarted or Bidding */}
-          {/* {[ActivityStatus.NotStarted, ActivityStatus.Bidding].includes(
-            auctionInfo.status,
-          ) && (
-            <Flex pos="relative" _hover={{ cursor: 'pointer' }}>
-              <Button
-                zIndex="1"
-                fontSize="24px"
-                fontWeight="bold"
-                w="240px"
-                color="#000"
-                h="66px"
-                bgColor="#00DAB3"
-                borderRadius={
-                  ActivityStatus.NotStarted === auctionInfo.status
-                    ? '10px 0 0 10px'
-                    : '10px'
-                }
-                isDisabled={ActivityStatus.NotStarted === auctionInfo.status}
-                onClick={handleBid}>
-                Bid FROMO
-              </Button>
-              <Flex
-                onClick={handleBid}
-                borderRadius={
-                  ActivityStatus.NotStarted === auctionInfo.status
-                    ? '0 10px 10px 0'
-                    : '10px'
-                }
-                alignItems="center"
-                color="#fff"
-                fontSize="16px"
-                zIndex="0"
-                position="absolute"
-                left={
-                  ActivityStatus.NotStarted === auctionInfo.status
-                    ? '220px'
-                    : '210px'
-                }
-                ml="20px"
-                p="20px 24px"
-                h="66px"
-                backgroundColor="rgba(112, 75, 234, 0.5);">
-                <Text>
-                  Highest Bid：{' '}
-                  {parseFloat(`${auctionInfo?.highestBid}`).toFixed(4) || '--'}{' '}
-                  $OMO
-                </Text>
-                <Text
-                  w="1px"
-                  h="100%"
-                  bg="rgba(255, 255, 255, 0.5)"
-                  m="0 16px"></Text>
-                <Text>
-                  {Number(auctionInfo.biddersCount) === 0
-                    ? 0
-                    : auctionInfo.biddersCount || '--'}{' '}
-                  Bidders
-                </Text>
-                <Text
-                  w="1px"
-                  h="100%"
-                  bg="rgba(255, 255, 255, 0.5)"
-                  m="0 16px"></Text>
-                <Text color="rgba(255, 255, 255, 0.5)">
-                  {auctionInfo.status === ActivityStatus.NotStarted &&
-                    `Open on ${moment(auctionInfo.startTimestamp).format(
-                      'MMMM DD, Ha',
-                    )}`}
-                  {auctionInfo.status === ActivityStatus.Bidding &&
-                    `Close on ${moment(auctionInfo.startTimestamp)
-                      .add(16, 'hours')
-                      .format('MMMM DD, Ha')}`}
-                </Text>
-                {auctionInfo.status === ActivityStatus.Bidding && (
-                  <Image
-                    src="./static/market/start.svg"
-                    alt="start"
-                    w="28px"
-                    h="28px"
-                    ml="30px"></Image>
-                )}
-              </Flex>
-            </Flex>
-          )} */}
-
-          {/* Staking */}
-          {ActivityStatus.Staking === auctionInfo.status && (
-            <>
-              {auctionInfo.bidWinnerAddress === address ? (
-                <Flex pos="relative" _hover={{ cursor: 'pointer' }}>
-                  <Button
-                    zIndex="1"
-                    fontSize="22px"
-                    fontWeight="bold"
-                    w="240px"
-                    color="#000"
-                    h="66px"
-                    backgroundColor="#00DAB3"
-                    onClick={() => router.push('/stakeNFT')}>
-                    Stake NFT
-                  </Button>
-                  <Flex
-                    onClick={handleBid}
-                    borderRadius="10px"
-                    alignItems="center"
-                    position="absolute"
-                    color="#fff"
-                    fontSize="16px"
-                    zIndex="0"
-                    left="210px"
-                    ml="20px"
-                    p="20px 24px"
-                    h="66px"
-                    backgroundColor="rgba(112, 75, 234, 0.5);">
-                    <Text>
-                      Highest Bid：{' '}
-                      {parseFloat(`${auctionInfo?.highestBid}`).toFixed(4) ||
-                        '--'}{' '}
-                      $OMO
-                    </Text>
-                    <Text
-                      w="1px"
-                      h="100%"
-                      bg="rgba(255, 255, 255, 0.5)"
-                      m="0 16px"></Text>
-                    <Text>{auctionInfo.biddersCount || '--'} Bidders</Text>
-                    <Text
-                      w="1px"
-                      h="100%"
-                      bg="rgba(255, 255, 255, 0.5)"
-                      m="0 16px"></Text>
-                    <Text color="rgba(255, 255, 255, 0.5)">
-                      Close on{' '}
-                      {moment(auctionInfo.startTimestamp)
-                        .add(8, 'hours')
-                        .format('MMMM DD, ha')}
-                    </Text>
-                    <Image
-                      src="./static/market/start.svg"
-                      alt="start"
-                      w="28px"
-                      h="28px"
-                      ml="30px"></Image>
-                  </Flex>
-                </Flex>
-              ) : (
-                <Flex pos="relative">
-                  <Flex
-                    borderRadius="10px"
-                    alignItems="center"
-                    color="#fff"
-                    fontSize="16px"
-                    zIndex="0"
-                    p="20px 24px"
-                    h="66px"
-                    backgroundColor="rgba(112, 75, 234, 0.5);">
-                    <Text fontWeight="700" fontSize="18px" color="#9A7CFF">
-                      Bidding Closed
-                    </Text>
-                    <Text
-                      w="1px"
-                      h="100%"
-                      bg="rgba(255, 255, 255, 0.5)"
-                      m="0 16px"></Text>
-                    <Text>
-                      Highest Bid：{' '}
-                      {parseFloat(`${auctionInfo?.highestBid}`).toFixed(4) ||
-                        '--'}{' '}
-                      $OMO
-                    </Text>
-                    <Text
-                      w="1px"
-                      h="100%"
-                      bg="rgba(255, 255, 255, 0.5)"
-                      m="0 16px"></Text>
-                    <Text>{auctionInfo.biddersCount || '--'} Bidders</Text>
-                    <Text
-                      w="1px"
-                      h="100%"
-                      bg="rgba(255, 255, 255, 0.5)"
-                      m="0 16px"></Text>
-                    <Text color="rgba(255, 255, 255, 0.5)">
-                      Close on{' '}
-                      {moment(auctionInfo.startTimestamp)
-                        .add(8, 'hours')
-                        .format('MMMM DD, ha')}
-                    </Text>
-                  </Flex>
-                </Flex>
-              )}
-            </>
-          )}
         </Box>
-        {/* img absolute */}
         <Image
           position="absolute"
           top={0}

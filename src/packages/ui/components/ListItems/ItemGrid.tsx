@@ -80,14 +80,17 @@ function ItemGrid({ item, gridName }: { item: any; gridName?: string }) {
           router.push(`/${item.gameId}`)
         }}
         border="1px solid #704BEA"
-        borderRadius="20px"
-        p="10px"
+        borderRadius="40px"
+        p="16px"
+        bg="#2F2B50"
         position="relative">
-        <AspectRatio ratio={1 / 1}>
-          <Box className="image-effect" overflow="hidden">
+        <>
+          <Box borderRadius="28px" className="image-effect" pos="relative">
             <Image
-              borderRadius="15px"
               alt=""
+              w="220px"
+              h="160px"
+              objectFit="cover"
               src={item.imageUrl}
               fallbackSrc="/static/license-template/template.png"
             />
@@ -100,8 +103,7 @@ function ItemGrid({ item, gridName }: { item: any; gridName?: string }) {
                   left={0}
                   right={0}
                   bottom={0}
-                  h="48px"
-                  lineHeight="48px"
+                  py="6px"
                   fontWeight="700"
                   textAlign="center"
                   fontSize="18px"
@@ -110,9 +112,10 @@ function ItemGrid({ item, gridName }: { item: any; gridName?: string }) {
                 </Box>
               )}
           </Box>
-        </AspectRatio>
-        {localTimeFormatted && (
+        </>
+        {/* {localTimeFormatted && (
           <Flex
+            border="2px solid yellow"
             p="6px 12px"
             borderRadius="20px"
             position="absolute"
@@ -127,78 +130,102 @@ function ItemGrid({ item, gridName }: { item: any; gridName?: string }) {
               <RenderCount />
             </Text>
           </Flex>
-        )}
-        {gridName !== 'upcomingList' && (
-          <Flex
-            position="absolute"
-            top="16px"
-            right="16px"
-            p="6px 12px"
-            gap="4px"
-            borderRadius="20px"
-            bgColor="rgba(255, 255, 255, 0.5)">
-            <Text fontSize="12px" color="#2A0668">
-              {item.biddersCount !== null && item.biddersCount !== undefined
-                ? item.biddersCount
-                : '--'}{' '}
-              Players
-            </Text>
-          </Flex>
-        )}
+        )} */}
 
-        <Box m="16px 8px 0px 8px">
-          <Flex justifyContent="space-between" align="center">
-            <Box fontWeight="700" fontSize="14px" lineHeight="16px" m="0 0 6px">
-              {item.name || '--'}
-            </Box>
-          </Flex>
+        <Box mt="16px">
           <Flex
-            gap={{ base: '20px', md: '30px' }}
-            w={{ base: '100%', lg: '100%' }}>
-            <Flex flexDir="column">
-              <Box
-                w={{ lg: '100%' }}
+            alignItems="center"
+            justifyContent="space-between"
+            gap="12px"
+            align="center"
+            mb="20px">
+            <Text
+              fontWeight="600"
+              lineHeight="20px"
+              whiteSpace="nowrap"
+              overflow="auto"
+              textOverflow="ellipsis">
+              {item.name || '--'}
+            </Text>
+            {gridName !== 'upcomingList' && (
+              <Flex alignItems="center" gap="2px">
+                <Image
+                  src="/static/common/players.svg"
+                  alt=""
+                  w="20px"
+                  h="20px"
+                />
+                <Text
+                  color="rgba(255,255,255,0.5)"
+                  fontWeight="600"
+                  whiteSpace="nowrap"
+                  overflow="auto"
+                  textOverflow="ellipsis"
+                  lineHeight="20px">
+                  {item.biddersCount !== null && item.biddersCount !== undefined
+                    ? item.biddersCount
+                    : '--'}{' '}
+                </Text>
+              </Flex>
+            )}
+          </Flex>
+          <Flex gap="16px">
+            <Box w="50%">
+              <Text
                 fontSize="12px"
-                fontWeight="500"
-                lineHeight="18px"
-                color="#FFA8FE">
+                fontWeight="600"
+                whiteSpace="nowrap"
+                color="rgba(255,255,255,0.6)"
+                mb="4px">
                 Total Mint Fee
-              </Box>
-              <Box
-                w={{ lg: '100%' }}
-                lineHeight="20px"
-                fontWeight={900}
-                fontSize={{ base: '14px', md: '14px' }}
-                color="#00DAB3">
-                {item.status === 0
-                  ? '--'
-                  : parseFloat(item?.totalMintFee).toFixed(4) || '--'}{' '}
-                ETH
-              </Box>
-            </Flex>
-            <Flex flexDir="column">
-              <Box
-                w={{ lg: '100%' }}
+              </Text>
+              <Flex alignItems="center" gap="4px">
+                <Image
+                  src="/static/common/eth-index.svg"
+                  alt="ethereum"
+                  w="14px"
+                  h="24px"
+                />
+                <Box
+                  fontWeight="600"
+                  fontSize="20px"
+                  lineHeight="24px"
+                  color="#1DFED6">
+                  {item.status === 0
+                    ? '--'
+                    : parseFloat(item?.totalMintFee).toFixed(4) || '--'}
+                </Box>
+              </Flex>
+            </Box>
+            <Box w="50%">
+              <Text
                 fontSize="12px"
-                fontWeight="500"
-                lineHeight="18px"
-                color="#FFA8FE">
+                fontWeight="600"
+                whiteSpace="nowrap"
+                color="rgba(255,255,255,0.6)"
+                mb="4px">
                 Final Winner Prize
-              </Box>
-              <Box
-                w={{ lg: '100%' }}
-                lineHeight="20px"
-                fontWeight={900}
-                fontSize={{ base: '14px', md: '14px' }}
-                color="#00DAB3">
-                {item.status === 0
-                  ? '--'
-                  : parseFloat(
-                      ethers.utils.formatEther(item?.finalPrice),
-                    ).toFixed(4) || '--'}{' '}
-                ETH
-              </Box>
-            </Flex>
+              </Text>
+              <Flex alignItems="center" gap="4px">
+                <Image
+                  src="/static/common/eth-index.svg"
+                  alt="ethereum"
+                  w="14px"
+                  h="24px"
+                />
+                <Box
+                  fontWeight="600"
+                  fontSize="20px"
+                  lineHeight="24px"
+                  color="#1DFED6">
+                  {item.status === 0
+                    ? '--'
+                    : parseFloat(
+                        ethers.utils.formatEther(item?.finalPrice),
+                      ).toFixed(4) || '--'}
+                </Box>
+              </Flex>
+            </Box>
           </Flex>
         </Box>
       </Box>
