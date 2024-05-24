@@ -44,6 +44,8 @@ const Details = () => {
 
   const { address } = useStore()
 
+  const { nameNft } = router.query
+
   const [claims, setClaims] = useState('0')
   const [keys, setKeys] = useState('0')
   const [claimLoading, setClaimLoading] = useState(false)
@@ -81,6 +83,7 @@ const Details = () => {
     getGameDetailById(address, id as any)
       .then((res) => {
         setGameAmountNft(res)
+        console.log(res, 'res========')
         setKeyDividends(gameAmountNft.keyDividends)
       })
       .catch((err) => {
@@ -552,7 +555,7 @@ const Details = () => {
         <Flex gap="40px" justifyContent="space-between">
           <Box w="32.5%">
             <Text fontWeight="800" lineHeight="44px" fontSize="40px" mb="40px">
-              My Little Piggie
+              {nameNft}
             </Text>
             <Box>
               {detailInfos?.state === State.Finished &&
@@ -713,6 +716,7 @@ const Details = () => {
                           {i.amount}
                         </Flex>
                         <Text
+                          whiteSpace="nowrap"
                           fontWeight="600"
                           fontSize="12px"
                           color="rgba(255,255,255,0.6)">
@@ -946,13 +950,13 @@ const Details = () => {
                 {progress()}
               </Box> */}
 
-              {/* My Key Holder Dividends */}
-
               <Flex
                 justifyContent="space-between"
                 alignItems="center"
                 gap="20px">
+                {/* My Key Holder Dividends */}
                 <Flex
+                  w="50%"
                   direction="column"
                   justifyItems="center"
                   alignItems="center"
@@ -1009,6 +1013,7 @@ const Details = () => {
 
                 {detailInfos.principal.toLowerCase() === address && (
                   <Flex
+                    w="50%"
                     direction="column"
                     justifyItems="center"
                     alignItems="center"

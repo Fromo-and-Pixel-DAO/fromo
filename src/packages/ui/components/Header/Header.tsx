@@ -55,6 +55,12 @@ interface NavItem {
 
 const NAV_ITEMS_CONNECTED_DESKTOP: Array<NavItem> = [
   {
+    label: 'NFT Whitelist',
+    href: '/whitelist',
+    icon: '/static/header/gallery.svg',
+    iconDark: '/static/header/gallery_dark.svg',
+  },
+  {
     label: 'Auctions',
     href: '/',
     icon: '/static/header/gallery.svg',

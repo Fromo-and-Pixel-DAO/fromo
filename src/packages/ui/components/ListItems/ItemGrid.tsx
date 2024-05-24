@@ -77,7 +77,10 @@ function ItemGrid({ item, gridName }: { item: any; gridName?: string }) {
       <Box
         cursor="pointer"
         onClickCapture={() => {
-          router.push(`/${item.gameId}`)
+          router.replace({
+            pathname: `/${item.gameId}`,
+            query: { nameNft: item.name },
+          })
         }}
         border="1px solid #704BEA"
         borderRadius="40px"
