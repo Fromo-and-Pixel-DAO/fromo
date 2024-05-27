@@ -89,7 +89,6 @@ export default function Main() {
                 gap="8px">
                 <Text>Ongoing NFT Auctions</Text>({ongoingList.length})
               </Flex>
-              <Box h="1px" backgroundColor="rgba(112, 75, 234, 0.5)"></Box>
             </Box>
             <SimpleGrid columns={[1, 2, 2, 3, 5, 6]} spacing="20px">
               {ongoingList?.map((item, idx) => {
@@ -111,7 +110,6 @@ export default function Main() {
                 gap="8px">
                 <Text>Upcoming NFT Auctions</Text>({upcomingList.length})
               </Flex>
-              <Box h="1px" backgroundColor="rgba(112, 75, 234, 0.5)"></Box>
             </Box>
             <SimpleGrid columns={[1, 2, 2, 3, 5, 6]} spacing="20px">
               {upcomingList?.map((item, idx) => {

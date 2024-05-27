@@ -53,6 +53,7 @@ export default function CommonTable(props: Props) {
       borderLeftWidth={borderLeftWidth}
       borderTopWidth={borderTopWidth}
       borderColor={borderColor}
+      whiteSpace="unset"
       css={{
         '&::-webkit-scrollbar': {
           width: '4px',
@@ -77,9 +78,10 @@ export default function CommonTable(props: Props) {
                 <Th
                   borderBottom="none"
                   color={colorHeaderTable}
-                  textTransform="none"
                   fontSize={fontSizeHeaderTable}
-                  fontWeight={fontWeightHeaderTable}
+                  fontWeight="700"
+                  pl="0px"
+                  pt="20px"
                   key={item}>
                   {item}
                 </Th>

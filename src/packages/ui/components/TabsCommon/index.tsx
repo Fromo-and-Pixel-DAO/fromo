@@ -67,19 +67,21 @@ function TabsCommon({
           },
         }}>
         <Flex w="100%" justify="space-between" align="center">
-          <Flex align="center" gap="10px">
+          <Flex align="center" gap="20px">
             {renderTabs?.map((item) => (
               <Tab
                 py="8px"
                 px={0}
                 key={item.title}
                 whiteSpace="nowrap"
-                _selected={{ color: '#fff', borderBottomColor: '#fff' }}
-                fontSize={
-                  fontSizeTable
-                    ? { base: '12px', md: '12px' }
-                    : { base: '14px', md: '16px' }
-                }>
+                fontSize="14px"
+                fontWeight="400"
+                color="white"
+                _selected={{
+                  fontWeight: '600',
+                  color: '#1DFED6',
+                  borderBottomColor: '#1DFED6',
+                }}>
                 {item.title}
               </Tab>
             ))}

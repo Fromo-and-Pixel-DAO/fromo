@@ -46,7 +46,7 @@ export default function Sidebar() {
       id: 2,
       title: 'My Auctions',
       href: '/profile/auctions',
-    }
+    },
   ]
 
   const sidebarsMyNFTSubMenu = [
@@ -88,41 +88,16 @@ export default function Sidebar() {
   return (
     <>
       {width > 992 ? (
-        <Box w="320px" borderRight="1px solid #704BEA80">
-          <Flex
-            align="center"
-            gap="15px"
-            borderBottom="1px solid #704BEA80"
-            py="24px"
-            justify="center"
-            h="90px">
-            <Image
-              src="/static/market/avatar.svg"
-              w="37px"
-              h="37px"
-              alt="avatar"
-            />
-            <Box fontSize="20px" fontWeight="500">
-              {ellipseAddress(address, 6)}
-            </Box>
-          </Flex>
-          <Flex
-            mt="30px"
-            pb="30px"
-            px="40px"
-            flexDir="column"
-            align="left"
-            gap="20px"
-            borderBottomWidth="1px"
-            borderBottomColor="#704BEA80">
+        <Box w="328px">
+          <Flex mt="40px" pl="68px" flexDir="column" gap="32px">
             {sidebarsSection1.map((item) => (
               <Box
-                color={item.href.includes(pathname) ? '#fff' : '#FFFFFFCC'}
-                opacity={item.href === pathname ? 1 : 0.7}
-                fontWeight="bold"
+                color={
+                  item.href === pathname ? '#1DFED6' : 'rgba(255,255,255,0.8)'
+                }
+                fontWeight={item.href === pathname ? '600' : '400'}
                 cursor="pointer"
                 key={item.href}
-                _hover={{ opacity: 0.7 }}
                 onClick={() => router.push(`${item.href}`)}>
                 {item.title}
               </Box>

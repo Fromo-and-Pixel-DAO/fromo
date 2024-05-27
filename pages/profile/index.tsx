@@ -1,14 +1,6 @@
 import { lazy, useEffect, useState } from 'react'
 
-import {
-  Box,
-  Button,
-  Flex,
-  Heading,
-  Image,
-  Text,
-  useMediaQuery,
-} from '@chakra-ui/react'
+import { Box, Button, Flex, Image, Text, useMediaQuery } from '@chakra-ui/react'
 
 import TabsCommon from '@components/TabsCommon'
 
@@ -352,349 +344,284 @@ export default function Main() {
       })
   }, [address, currentNFTPage])
 
+  const myProfileList = [
+    {
+      title: 'Total Key Holder Dividends',
+      amount:
+        profit.keyDividends !== '-'
+          ? (
+              Number(profit.keyDividends) + Number(profit.unclaimedKeyDividends)
+            ).toFixed(4)
+          : '-',
+      unclaimed:
+        profit.unclaimedKeyDividends !== '-'
+          ? profit.unclaimedKeyDividends
+          : '-',
+      onclick: () => handleClaim(0),
+      isLoading: claimKeysLoading,
+      disabled:
+        profit.unclaimedKeyGameIds.length === 0 ||
+        profit.unclaimedKeyDividends === '0.0000',
+    },
+    {
+      title: 'Total Final Winner Prize',
+      amount:
+        profit.finalWinPrice !== '-'
+          ? // ? BigNumber.from(profit.finalWinPrice)
+            //     .add(BigNumber.from(profit.unclaimedFinalWinPrice))
+            //     .toString()
+            Number(profit.unclaimedFinalWinPrice) + Number(profit.finalWinPrice)
+          : '-',
+      unclaimed:
+        profit.unclaimedFinalWinPrice !== '-'
+          ? profit.unclaimedFinalWinPrice
+          : '-',
+      onclick: () => handleClaim(1),
+      isLoading: claimFinalWinnerLoading,
+      disabled: profit.unclaimedFinalWinnerGameIds.length === 0,
+    },
+    {
+      title: 'Total NFT Provider Dividends',
+      amount:
+        profit.nftDividends !== '-'
+          ? (
+              Number(profit.nftDividends) +
+              Number(profit.unclaimedNftDividends) +
+              Number(profit.lockedNftDividends)
+            ).toFixed(4)
+          : '-',
+      unclaimed:
+        profit.unclaimedNftDividends !== '-'
+          ? profit.unclaimedNftDividends
+          : '-',
+      lockedNft: profit.lockedNftDividends,
+      onclick: () => handleClaim(2),
+      isLoading: claimNftLoading,
+      disabled:
+        profit.unclaimedNftGameIds.length === 0 ||
+        profit.unclaimedNftDividends === '0.0000',
+    },
+  ]
+
   return (
     <Flex>
       <Sidebar />
-      <Box flex="1" minW={{ base: 'full', md: '500px' }}>
-        <Header headers={userHeaderInfo} />
-        <Box m={`0 ${isLargerThan1920 ? '261px' : '26px'}`} pb="72px">
-          <Text
-            fontSize="20px"
-            lineHeight="24px"
-            fontWeight={800}
-            color="#fff"
-            mt="24px"
-            mb="24px">
-            My Assets
-          </Text>
+      <Box w="100%" p="36px 68px 40px 40px">
+        <Box w="1044px">
           {/* My Assets */}
-          <Flex gap="30px">
-            <Box
-              flex={1}
-              p="28px 30px"
-              border="1px solid #704BEA"
-              bgColor="rgba(118, 74, 242, 0.5)"
-              borderRadius="20px">
-              <Text fontSize="16px" color="#FFA8FE" lineHeight="24px">
-                My Keys
-              </Text>
-              <Flex alignItems="baseline" justifyContent="space-between">
-                <Flex alignItems="center">
+          <Box>
+            <Text fontSize="32px" lineHeight="36px" fontWeight="800" mb="32px">
+              My Assets
+            </Text>
+            <Flex gap="28px">
+              <Box w="50%" p="24px 32px" bgColor="#5E36B8" borderRadius="16px">
+                <Text fontWeight="600" lineHeight="20px">
+                  My Keys
+                </Text>
+                <Flex alignItems="center" my="12px">
                   <Text
-                    color="#00DAB3"
-                    lineHeight="54px"
-                    fontSize="36px"
-                    fontWeight="900"
-                    mr="10px">
-                    {profit.keys}
+                    color="#1DFED6"
+                    lineHeight="44px"
+                    fontSize="40px"
+                    fontWeight="800"
+                    mr="12px">
+                    {/* {profit.keys} */}
+                    18.000
                   </Text>
-                  <Text fontSize="16px" lineHeight="24px">
-                    KEYS
+                  <Text color="rgba(255,255,255,0.8)" lineHeight="20px">
+                    ≈ 14,634 $OMO
                   </Text>
                 </Flex>
-                <Flex>1.23 Key=1$OMO</Flex>
-              </Flex>
-              <Text mt="8px">
-                Locked for participating NFT auctions: {profit.lockedKeys} Keys
-              </Text>
-              <Button
-                disabled={
-                  profit.keys === '0' ||
-                  profit.keys === '-' ||
-                  profit.canConvert === 0
-                }
-                isLoading={convertKeysLoading}
-                mt="8px"
-                bgColor="#00DAB3"
-                w="100%"
-                height="52px"
-                color="#000"
-                fontSize="20px"
-                lineHeight="30px"
-                onClick={redeemKeys}>
-                Redeem
-              </Button>
-            </Box>
-            <Box
-              flex={1}
-              p="28px 30px"
-              border="1px solid #704BEA"
-              bgColor="rgba(118, 74, 242, 0.5)"
-              borderRadius="20px">
-              <Flex justify="space-between" align="center">
-                <Text fontSize="16px" color="#FFA8FE" lineHeight="24px">
+                <Flex color="rgba(255,255,255,0.8)" lineHeight="16px" mb="20px">
+                  Locked for participating NFT auctions:{' '}
+                  <Text ml="4px" color="white" fontWeight="600">
+                    {' '}
+                    {profit.lockedKeys} Keys
+                  </Text>
+                </Flex>
+                <Button
+                  disabled={
+                    profit.keys === '0' ||
+                    profit.keys === '-' ||
+                    profit.canConvert === 0
+                  }
+                  isLoading={convertKeysLoading}
+                  bgColor="#1DFED6"
+                  height="40px"
+                  w="50%"
+                  alignItems="center"
+                  color="#000"
+                  fontSize="14px"
+                  lineHeight="16px"
+                  onClick={redeemKeys}>
+                  Redeem
+                </Button>
+              </Box>
+              <Box w="50%" p="24px 32px" bgColor="#5E36B8" borderRadius="16px">
+                <Text fontWeight="600" lineHeight="20px">
                   My $OMO
                 </Text>
-                <Flex align="center">
-                  Swap $OMO{' '}
-                  <Image
-                    src="/static/profile/share.svg"
-                    ml="10px"
-                    alt="share"
-                    w="20px"
-                    h="20px"></Image>
+                <Flex alignItems="center" my="12px">
+                  <Text
+                    color="#1DFED6"
+                    lineHeight="44px"
+                    fontSize="40px"
+                    fontWeight="800"
+                    mr="12px">
+                    {profit.flTokens && profit.flTokens !== '-'
+                      ? Number(
+                          ethers.utils.formatEther(profit.flTokens),
+                        ).toFixed(4)
+                      : '-'}
+                  </Text>
+                  <Text color="rgba(255,255,255,0.8)" lineHeight="20px">
+                    ≈ 34,3 $OMO
+                  </Text>
                 </Flex>
-              </Flex>
-              <Flex alignItems="baseline">
-                <Text
-                  color="#00DAB3"
-                  lineHeight="54px"
-                  fontSize="36px"
-                  fontWeight="900"
-                  mr="10px">
-                  {profit.flTokens && profit.flTokens !== '-'
-                    ? Number(ethers.utils.formatEther(profit.flTokens)).toFixed(
-                        4,
-                      )
-                    : '-'}
-                </Text>
-                <Text fontSize="16px" lineHeight="24px">
-                  $OMO
-                </Text>
-              </Flex>
-              <Text mt="8px">
-                Locked for bidding FROMO plot:{' '}
-                {profit.lockedFlTokens !== '-'
-                  ? Number(
-                      ethers.utils.formatEther(profit.lockedFlTokens),
-                    ).toFixed(4)
-                  : '-'}{' '}
-                $OMO
-              </Text>
-              <Flex mt="8px" gap="12px">
-                <Button
-                  disabled={profit.flTokens === '0' || profit.flTokens === '-'}
-                  onClick={() => handleOpenOmo(0)}
-                  border="1px solid #FCFBFF"
-                  bg="transparent"
-                  w="100%"
-                  height="52px"
-                  color="#FFFFFF"
-                  _hover={{ color: '#000000', bg: '#00DAB3' }}
-                  fontSize="20px"
-                  lineHeight="30px"
-                  textShadow="0px 0px 30px 0px #390885;">
-                  Withdraw
-                </Button>
-                <Button
-                  onClick={() => handleOpenOmo(1)}
-                  bgColor="#00DAB3"
-                  w="100%"
-                  height="52px"
-                  color="#000"
-                  fontSize="20px"
-                  lineHeight="30px">
-                  Deposit
-                </Button>
-              </Flex>
-            </Box>
-          </Flex>
+                <Flex color="rgba(255,255,255,0.8)" lineHeight="16px" mb="20px">
+                  Locked for bidding FROMO plot:
+                  <Text ml="4px" color="white" fontWeight="600">
+                    {profit.lockedFlTokens !== '-'
+                      ? Number(
+                          ethers.utils.formatEther(profit.lockedFlTokens),
+                        ).toFixed(4)
+                      : '-'}{' '}
+                  </Text>
+                </Flex>
 
-          <Text
-            fontSize="20px"
-            lineHeight="24px"
-            fontWeight={800}
-            color="#fff"
-            mt="40px"
-            mb="24px">
-            My Profit
-          </Text>
-          {/* My Profit */}
-          <Flex
-            mt="30px"
-            justify="space-between"
-            p="28px 30px"
-            border="1px solid #704BEA"
-            bgColor="rgba(118, 74, 242, 0.5)"
-            borderRadius="20px">
-            {/* Key Holder Dividends */}
-            <Box flexBasis="33.33%" pr="30px">
-              <Text fontSize="16px" color="#FFA8FE" lineHeight="24px">
-                My Historical Key Holder Dividends
-              </Text>
-              <Flex alignItems="baseline" mb="36px">
-                <Text
-                  color="#00DAB3"
-                  lineHeight="54px"
-                  fontSize="36px"
-                  fontWeight="900"
-                  mr="10px">
-                  {profit.keyDividends !== '-'
-                    ? (
-                        Number(profit.keyDividends) +
-                        Number(profit.unclaimedKeyDividends)
-                      ).toFixed(4)
-                    : '-'}
-                </Text>
-                <Text fontSize="16px" lineHeight="24px">
-                  ETH
-                </Text>
-              </Flex>
-              <Text
-                fontWeight={400}
-                fontSize="12px"
-                lineHeight="18px"
-                color="rgba(255, 255, 255, 0.8)">
-                Unclaimed:&nbsp;&nbsp;&nbsp;&nbsp;
-                {profit.unclaimedKeyDividends !== '-'
-                  ? profit.unclaimedKeyDividends
-                  : '-'}{' '}
-                ETH
-              </Text>
-              <Button
-                disabled={
-                  profit.unclaimedKeyGameIds.length === 0 ||
-                  profit.unclaimedKeyDividends === '0.0000'
-                }
-                isLoading={claimKeysLoading}
-                onClick={() => handleClaim(0)}
-                mt="8px"
-                bgColor="#00DAB3"
-                w="100%"
-                height="52px"
-                color="#000"
-                fontSize="20px"
-                lineHeight="30px">
-                Claim
-              </Button>
-            </Box>
-            {/* Final Winner Prize */}
-            <Box borderLeft="1px solid #704BEA" pl="30px" flexBasis="33.33%">
-              <Text fontSize="16px" color="#FFA8FE" lineHeight="24px">
-                My Historical Final Winner Prize
-              </Text>
-              <Flex alignItems="baseline" mb="36px">
-                <Text
-                  color="#00DAB3"
-                  lineHeight="54px"
-                  fontSize="36px"
-                  fontWeight="900"
-                  mr="10px">
-                  {profit.finalWinPrice !== '-'
-                    ? // ? BigNumber.from(profit.finalWinPrice)
-                      //     .add(BigNumber.from(profit.unclaimedFinalWinPrice))
-                      //     .toString()
-                      Number(profit.unclaimedFinalWinPrice) +
-                      Number(profit.finalWinPrice)
-                    : '-'}
-                </Text>
-                <Text fontSize="16px" lineHeight="24px">
-                  ETH
-                </Text>
-              </Flex>
-              <Text
-                fontWeight={400}
-                fontSize="12px"
-                lineHeight="18px"
-                color="rgba(255, 255, 255, 0.8)">
-                Unclaimed:&nbsp;&nbsp;&nbsp;&nbsp;
-                {profit.unclaimedFinalWinPrice !== '-'
-                  ? profit.unclaimedFinalWinPrice
-                  : '-'}{' '}
-                ETH
-              </Text>
-              <Button
-                disabled={profit.unclaimedFinalWinnerGameIds.length === 0}
-                isLoading={claimFinalWinnerLoading}
-                onClick={() => handleClaim(1)}
-                mt="8px"
-                bgColor="#00DAB3"
-                w="100%"
-                height="52px"
-                color="#000"
-                fontSize="20px"
-                lineHeight="30px">
-                Claim
-              </Button>
-            </Box>
-            {/* NFT Provider Dividends */}
-            <Box
-              borderLeft="1px solid #704BEA"
-              pl="30px"
-              m="0 50px"
-              flexBasis="33.33%">
-              <Text fontSize="16px" color="#FFA8FE" lineHeight="24px">
-                My Historical NFT Provider Dividends
-              </Text>
-              <Flex alignItems="baseline" mb="16px">
-                <Text
-                  color="#00DAB3"
-                  lineHeight="54px"
-                  fontSize="36px"
-                  fontWeight="900"
-                  mr="10px">
-                  {profit.nftDividends !== '-'
-                    ? (
-                        Number(profit.nftDividends) +
-                        Number(profit.unclaimedNftDividends) +
-                        Number(profit.lockedNftDividends)
-                      ).toFixed(4)
-                    : '-'}
-                </Text>
-                <Text fontSize="16px" lineHeight="24px">
-                  ETH
-                </Text>
-              </Flex>
-              <Text
-                fontWeight={400}
-                w="100%"
-                fontSize="12px"
-                lineHeight="18px"
-                color="rgba(255, 255, 255, 0.8)">
-                Unclaimed:&nbsp;&nbsp;&nbsp;&nbsp;
-                {profit.unclaimedNftDividends !== '-'
-                  ? profit.unclaimedNftDividends
-                  : '-'}{' '}
-                ETH
-              </Text>
-              <Text
-                w="100%"
-                fontWeight={400}
-                fontSize="12px"
-                lineHeight="18px"
-                color="rgba(255, 255, 255, 0.8)">
-                Locked in ongoing auction: {profit.lockedNftDividends} ETH
-              </Text>
-              <Button
-                disabled={
-                  profit.unclaimedNftGameIds.length === 0 ||
-                  profit.unclaimedNftDividends === '0.0000'
-                }
-                isLoading={claimNftLoading}
-                onClick={() => handleClaim(2)}
-                mt="8px"
-                bgColor="#00DAB3"
-                w="100%"
-                height="52px"
-                color="#000"
-                fontSize="20px"
-                lineHeight="30px">
-                Claim
-              </Button>
-            </Box>
-          </Flex>
-
-          <Heading mt="50px" fontSize="20px" fontWeight={800} lineHeight="24px">
-            My Dividends & Prize
-          </Heading>
-          <Box mt="20px" textAlign="center">
-            <TabsCommon
-              initTab={MyDividendsTabs.UNCLAIMED}
-              renderTabs={renderDividends}
-              onSwitch={(tab) =>
-                handleHistoricalTabChange(tab as MyDividendsTabs)
-              }
-            />
+                <Flex gap="20px">
+                  <Button
+                    w="50%"
+                    alignItems="center"
+                    height="40px"
+                    border="1px solid white"
+                    bg="transparent"
+                    fontSize="14px"
+                    lineHeight="16px"
+                    disabled={
+                      profit.flTokens === '0' || profit.flTokens === '-'
+                    }
+                    onClick={() => handleOpenOmo(0)}>
+                    Withdraw
+                  </Button>
+                  <Button
+                    w="50%"
+                    alignItems="center"
+                    bgColor="#1DFED6"
+                    height="40px"
+                    color="#000"
+                    fontSize="14px"
+                    lineHeight="16px"
+                    onClick={() => handleOpenOmo(1)}>
+                    Deposit
+                  </Button>
+                </Flex>
+              </Box>
+            </Flex>
           </Box>
-          <Heading mt="50px" fontSize="20px" fontWeight={800} lineHeight="24px">
-            My NFTs
-          </Heading>
-          <Box mt="20px" textAlign="center">
-            <TabsCommon
-              variant="nonTabs"
-              initTab={MarketTabs.PUBLIC}
-              renderTabs={renderNFTS}
-            />
+
+          {/* My Profit */}
+          <Box>
+            <Text
+              lineHeight="20px"
+              fontWeight="600"
+              color="#fff"
+              mt="40px"
+              textTransform="capitalize"
+              mb="20px">
+              My Profit
+            </Text>
+            <Flex gap="28px">
+              {myProfileList.map((i, k) => (
+                <Box
+                  flex={1}
+                  key={k}
+                  bg="#2F2B50"
+                  borderRadius="16px"
+                  px="32px"
+                  py="20px">
+                  <Text fontWeight="600">{i.title} </Text>
+                  <Flex my="20px" gap="12px" alignItems="center">
+                    <Image
+                      src="/static/common/eth-index.svg"
+                      alt="ethereum"
+                      w="12px"
+                      h="20px"
+                    />
+                    <Text
+                      color="#1DFED6"
+                      lineHeight="32px"
+                      fontSize="28px"
+                      fontWeight="800">
+                      {i.amount}
+                    </Text>
+                  </Flex>
+                  <Button
+                    onClick={i.onclick}
+                    disabled={i.disabled}
+                    isLoading={i.isLoading}
+                    bgColor="#1DFED6"
+                    height="40px"
+                    px="10px"
+                    position="relative"
+                    alignItems="center"
+                    color="#000"
+                    w="100%"
+                    fontSize="14px"
+                    lineHeight="16px">
+                    {i.unclaimed} CLaim
+                    {k === 2 && (
+                      <Image
+                        position="absolute"
+                        right="10px"
+                        src="/static/profile/help.svg"
+                        w="16px"
+                        h="16px"
+                        alt="help"
+                      />
+                    )}
+                  </Button>
+                </Box>
+              ))}
+            </Flex>
+          </Box>
+
+          {/* My Dividends & Prize */}
+          <Box>
+            <Text
+              lineHeight="20px"
+              fontWeight="600"
+              color="#fff"
+              mt="60px"
+              textTransform="capitalize"
+              mb="20px">
+              Total Dividends & Prize
+            </Text>
+            <Box textAlign="center">
+              <TabsCommon
+                initTab={MyDividendsTabs.UNCLAIMED}
+                renderTabs={renderDividends}
+                onSwitch={(tab) =>
+                  handleHistoricalTabChange(tab as MyDividendsTabs)
+                }
+              />
+            </Box>
+            <Text
+              lineHeight="20px"
+              fontWeight="600"
+              color="#fff"
+              mt="60px"
+              textTransform="capitalize"
+              mb="20px">
+              My Purchased NFTs
+            </Text>
+            <Box textAlign="center">
+              <TabsCommon
+                variant="nonTabs"
+                initTab={MarketTabs.PUBLIC}
+                renderTabs={renderNFTS}
+              />
+            </Box>
           </Box>
         </Box>
       </Box>

@@ -71,15 +71,13 @@ function ListItems({
   return (
     <Box>
       <CommonTable
-        paddingTopHeader="12px"
-        borderLeftWidth="0px"
-        borderTopWidth="0px"
-        fontWeightHeaderTable="400"
+        paddingTopHeader="14px"
+        colorHeaderTable="rgba(255,255,255,0.6)"
         fontSizeHeaderTable="12px"
         columns={columnsList}
         renderItem={<Table isCustom={isCustom} items={items} />}
       />
-      <Flex my="30px" justify="center">
+      {/* <Flex my="30px" justify="center">
         <ReactPaginate
           forcePage={currentPage}
           breakLabel="..."
@@ -92,7 +90,7 @@ function ListItems({
           containerClassName="pagination_dark"
           activeClassName="active_dark"
         />
-      </Flex>
+      </Flex> */}
     </Box>
   )
 }

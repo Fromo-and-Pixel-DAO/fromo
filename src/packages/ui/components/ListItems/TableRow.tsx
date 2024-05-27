@@ -685,32 +685,24 @@ function Table({ item, isCustom }: { item: any; isCustom: boolean }) {
       return (
         <Tr _hover={{ background: '#bab9b929' }}>
           <Td
-            minW="210px"
-            maxW="280px"
+            w="30%"
+            pl="0px"
             lineHeight="16px"
-            fontSize="14px"
-            fontWeight="500"
+            fontWeight="600"
             color={textColor}
-            borderBottomColor={borderBottomColor}
-            borderBottom="1px solid"
-            borderColor="#E8E8E8"
+            borderBottom="unset"
             background="unset">
             <Flex alignItems="center">
-              <Box
-                borderRadius="4px"
+              <Image
                 w="40px"
                 h="40px"
-                overflow="hidden"
-                mr="16px">
-                <Image
-                  w="40px"
-                  h="40px"
-                  objectFit="cover"
-                  alt=""
-                  src={item.imageUrl}
-                  fallbackSrc="/static/license-template/template.png"
-                />
-              </Box>
+                borderRadius="4px"
+                mr="20px"
+                objectFit="cover"
+                alt=""
+                src={item.imageUrl}
+                fallbackSrc="/static/license-template/template.png"
+              />
               <Text
                 cursor="pointer"
                 fontWeight="700"
@@ -722,52 +714,35 @@ function Table({ item, isCustom }: { item: any; isCustom: boolean }) {
               </Text>
             </Flex>
           </Td>
-          {/* <Td
-            color={textColor}
-            borderBottomColor={borderBottomColor}
-            borderBottom="1px solid"
-            borderColor="#E8E8E8">
-            <Flex mr="95px" align="center" color="#fff">
-              <Box mr="6px" fontSize="12px" fontWeight="400">
-                {item.tokenId}
-              </Box>
-            </Flex>
-          </Td> */}
-          <Td borderBottomColor={borderBottomColor} borderBottom="1px solid">
-            <Flex mr="95px" align="center" color="#fff">
-              <Box mr="6px" fontSize="12px" fontWeight="400">
-                <Image
-                  onClick={() =>
-                    window.open(process.env.NEXT_PUBLIC_CHAIN_URL + item.tx)
-                  }
-                  _hover={{ cursor: 'pointer' }}
-                  mr="20px"
-                  src="/static/profile/link.svg"
-                  alt="link"
-                  w="16px"
-                  h="16px"></Image>
-              </Box>
-            </Flex>
+          <Td w="27.5%" pl="0px" borderBottom="unset">
+            {item.tokenId}
           </Td>
-          <Td
-            py={0}
-            isNumeric
-            minW="170px"
-            borderBottom="1px solid"
-            borderBottomColor={borderBottomColor}>
-            <Flex align="center">
-              <Button
-                onClick={() => router.push(`/${item.gameId}`)}
-                h="35px"
-                minW="170px"
-                border="1px solid"
-                borderColor="#704BEA"
-                textColor="#704BEA"
-                fontSize="12px"
-                fontWeight="500"
-                bg="transparent">
-                Detail
-              </Button>
+          <Td w="27.5%" pl="0px" pr="0px" borderBottom="unset">
+            <Image
+              onClick={() =>
+                window.open(process.env.NEXT_PUBLIC_CHAIN_URL + item.tx)
+              }
+              _hover={{ cursor: 'pointer' }}
+              src="/static/profile/link.svg"
+              alt="link"
+              w="20px"
+              h="10px"
+            />
+          </Td>
+          <Td w="15%" p="0px" borderBottom="unset">
+            <Flex
+              onClick={() => router.push(`/${item.gameId}`)}
+              justifyContent="end"
+              cursor="pointer">
+              <Text color="#1DFED6">Auction Detail </Text>
+              <Image
+                ml="4px"
+                alt=""
+                maxW="unset"
+                src="/static/profile/arrow.svg"
+                w="20px"
+                h="20px"
+              />
             </Flex>
           </Td>
         </Tr>
