@@ -1,11 +1,4 @@
-import {
-  Box,
-  Button,
-  Flex,
-  Image,
-  Select,
-  Text
-} from '@chakra-ui/react'
+import { Box, Button, Flex, Image, Select, Text } from '@chakra-ui/react'
 import { ellipseAddress } from '@utils'
 import { toastError, toastSuccess, toastWarning } from '@utils/toast'
 import { ethers } from 'ethers'
