@@ -165,6 +165,7 @@ const BidModal = ({ status, isOpen, onClose }: SubmitOfferModalProps) => {
       variant="bidModal"
       size="2xl"
       isOpen={isOpen}
+      isCloseBtn={false}
       title={
         <Heading
           color="white"
@@ -176,12 +177,20 @@ const BidModal = ({ status, isOpen, onClose }: SubmitOfferModalProps) => {
           Bid on this Plot of FROMO
         </Heading>
       }
-      onClose={() => {
-        removeListener()
-        onClose()
-      }}
       bgColor="#2F2B50">
-      <VStack align="left">
+      <VStack pos="relative" align="left">
+        <Box
+          onClick={() => {
+            removeListener()
+            onClose()
+          }}
+          p="16px"
+          pos="absolute"
+          top="-128px"
+          cursor="pointer"
+          right="-28px">
+          <Image alt="" w="14px" h="14px" src="/static/common/close.svg" />
+        </Box>
         <Text lineHeight="20px" color="rgba(255,255,255,0.8)" mb="32px">
           The highest bidder will have the opportunity to auction their NFT in
           the next round.

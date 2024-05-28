@@ -480,6 +480,7 @@ export default function Main() {
                       borderRadius="full"
                       bg="transparent"
                       _hover="unset"
+                      cursor="unset"
                       _focus="unset"
                       pos="relative">
                       <Image
