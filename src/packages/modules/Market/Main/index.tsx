@@ -317,8 +317,6 @@ export default function Main() {
             bg="#7E4AF1"
             py="28px"
             px="25px"
-            cursor="pointer"
-            onClick={() => setOpen(true)}
             fontSize="24px"
             lineHeight="28px"
             fontWeight="800"
@@ -426,11 +424,12 @@ export default function Main() {
                   bg="transparent"
                   cursor="pointer"
                   _hover="unset"
+                  _focus="unset"
                   onClick={() => setOpen(true)}
                   isDisabled={ActivityStatus.NotStarted === auctionInfo.status}
                   pos="relative">
                   <Image
-                    src="/static/common/3d-coming.svg"
+                    src="/static/common/3d.svg"
                     borderRadius="full"
                     alt="3d"
                     pos="relative"
@@ -456,6 +455,7 @@ export default function Main() {
                       bg="transparent"
                       cursor="pointer"
                       _hover="unset"
+                      _focus="unset"
                       onClick={() => router.push('/stakeNFT')}
                       pos="relative">
                       <Image
@@ -479,16 +479,16 @@ export default function Main() {
                       h="100%"
                       borderRadius="full"
                       bg="transparent"
-                      cursor="pointer"
                       _hover="unset"
+                      _focus="unset"
                       pos="relative">
                       <Image
-                        src="/static/common/3d.svg"
+                        src="/static/common/3d-coming.svg"
                         borderRadius="full"
                         alt="3d"
                         pos="relative"
                       />
-                      <AbsoluteCenter _hover={{ opacity: 0.7 }}>
+                      <AbsoluteCenter>
                         <Text
                           textAlign="center"
                           fontWeight="black"
