@@ -423,8 +423,8 @@ export default function Main() {
                   borderRadius="full"
                   bg="transparent"
                   cursor="pointer"
-                  _hover="unset"
-                  _focus="unset"
+                  _hover={{}}
+                  _focus={{}}
                   onClick={() => setOpen(true)}
                   isDisabled={ActivityStatus.NotStarted === auctionInfo.status}
                   pos="relative">
@@ -454,8 +454,8 @@ export default function Main() {
                       borderRadius="full"
                       bg="transparent"
                       cursor="pointer"
-                      _hover="unset"
-                      _focus="unset"
+                      _hover={{}}
+                      _focus={{}}
                       onClick={() => router.push('/stakeNFT')}
                       pos="relative">
                       <Image
@@ -479,9 +479,9 @@ export default function Main() {
                       h="100%"
                       borderRadius="full"
                       bg="transparent"
-                      _hover="unset"
+                      _hover={{}}
                       cursor="unset"
-                      _focus="unset"
+                      _focus={{}}
                       pos="relative">
                       <Image
                         src="/static/common/3d-coming.svg"
