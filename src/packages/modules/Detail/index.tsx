@@ -533,16 +533,7 @@ const Details = () => {
               color="#222222"
               textAlign="center"
               lineHeight="28px">
-              You won
-              <Text
-                mx="6px"
-                pb="6px"
-                fontWeight="900"
-                color="#DA44FF"
-                fontSize="32px">
-                156
-              </Text>
-              eth final prize！
+              You won final prize！
             </Flex>
           </Flex>
         )}
@@ -749,13 +740,6 @@ const Details = () => {
                 lineHeight="20px"
                 fontWeight="600">
                 Final Key Holder
-              </Text>
-              <Text
-                fontSize="14px"
-                lineHeight="16px"
-                fontWeight="600"
-                color="rgba(255,255,255,0.6)">
-                5/14 22:17
               </Text>
             </Flex>
 
