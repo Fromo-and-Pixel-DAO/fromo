@@ -15,9 +15,6 @@ interface Props {
   renderItem: JSX.Element
   background?: string
   border?: string
-  borderColor?: string
-  borderBottomColor?: string
-  borderBottom?: string
   colorHeaderTable?: string
   fontSizeHeaderTable?: string
   fontWeightHeaderTable?: string
@@ -35,24 +32,15 @@ export default function CommonTable(props: Props) {
     paddingTopHeader,
     renderItem = [],
     background = 'transparent',
-    border = ' 1px solid',
-    borderColor = '#704BEA80',
-    borderBottom = '1px solid',
-    borderBottomColor = '#704BEA80',
     colorHeaderTable = '#FFA8FE',
     fontSizeHeaderTable = '14px',
     fontWeightHeaderTable,
-    borderLeftWidth,
-    borderTopWidth,
   } = props
 
   return (
     <TableContainer
       background={background}
-      border={border}
-      borderLeftWidth={borderLeftWidth}
-      borderTopWidth={borderTopWidth}
-      borderColor={borderColor}
+      border="unset"
       whiteSpace="unset"
       css={{
         '&::-webkit-scrollbar': {
@@ -69,10 +57,7 @@ export default function CommonTable(props: Props) {
       }}>
       <Table variant="simple" backdropFilter="blur(5px)">
         <Thead>
-          <Tr
-            borderBottom={borderBottom}
-            borderBottomColor={borderBottomColor}
-            pt={paddingTopHeader}>
+          <Tr pt={paddingTopHeader}>
             {columns?.map((item, index) => {
               return (
                 <Th

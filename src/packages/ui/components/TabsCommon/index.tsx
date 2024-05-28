@@ -60,8 +60,8 @@ function TabsCommon({
       <TabList
         sx={{
           scrollbarWidth: 'none',
-          borderColor: '#704BEA80',
-          color: 'rgba(255,255,255, .8)',
+          borderColor: 'rgba(255,255,255, 0.2)',
+          color: 'rgba(255,255,255, 0.8)',
           '::-webkit-scrollbar': {
             display: 'none',
           },

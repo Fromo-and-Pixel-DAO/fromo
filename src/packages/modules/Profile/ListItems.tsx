@@ -1,13 +1,11 @@
 import { memo } from 'react'
 
-import { Box, Flex, Spinner, useBreakpointValue } from '@chakra-ui/react'
+import { Box, Spinner, useBreakpointValue } from '@chakra-ui/react'
 
 import CommonTable from '@components/CommonTable'
 import NoData from '@components/NoData'
 
 import Table from '@components/ListItems/Table'
-
-import ReactPaginate from 'react-paginate'
 
 interface ListItemsProps {
   isLoading: boolean

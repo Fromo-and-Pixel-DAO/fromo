@@ -1,11 +1,6 @@
 import { memo, useMemo } from 'react'
 
-import {
-  Box,
-  SimpleGrid,
-  Spinner,
-  useBreakpointValue,
-} from '@chakra-ui/react'
+import { Box, SimpleGrid, Spinner, useBreakpointValue } from '@chakra-ui/react'
 import useStore from 'packages/store'
 
 import CommonTable from '@components/CommonTable'
@@ -106,8 +101,6 @@ function ListItems({
           ) : (
             <CommonTable
               paddingTopHeader="12px"
-              borderLeftWidth="0px"
-              borderTopWidth="0px"
               fontWeightHeaderTable="400"
               fontSizeHeaderTable="12px"
               columns={columnsList}
@@ -118,8 +111,6 @@ function ListItems({
       ) : (
         <CommonTable
           paddingTopHeader="12px"
-          borderLeftWidth="0px"
-          borderTopWidth="0px"
           fontWeightHeaderTable="400"
           fontSizeHeaderTable="12px"
           columns={columnsList}

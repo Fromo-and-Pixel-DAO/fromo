@@ -406,7 +406,7 @@ export default function Main() {
   return (
     <Flex>
       <Sidebar />
-      <Box w="100%" p="36px 68px 40px 40px">
+      <Flex justifyContent="center" w="100%" p="36px 68px 40px 40px">
         <Box w="1044px">
           {/* My Assets */}
           <Box>
@@ -425,8 +425,7 @@ export default function Main() {
                     fontSize="40px"
                     fontWeight="800"
                     mr="12px">
-                    {/* {profit.keys} */}
-                    18.000
+                    {profit.keys}
                   </Text>
                   <Text color="rgba(255,255,255,0.8)" lineHeight="20px">
                     ≈ 14,634 $OMO
@@ -624,7 +623,7 @@ export default function Main() {
             </Box>
           </Box>
         </Box>
-      </Box>
+      </Flex>
       <RedeemModal
         unconvertedGameIds={profit.unconvertedGameIds}
         isOpen={open}

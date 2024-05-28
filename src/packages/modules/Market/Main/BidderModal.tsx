@@ -7,7 +7,6 @@ import {
   Input,
   Text,
   VStack,
-  useColorModeValue,
 } from '@chakra-ui/react'
 
 import BaseModal from '@components/Modal'
