@@ -625,7 +625,6 @@ const Details = () => {
                       w="max-content"
                       py="12px"
                       borderRadius="8px"
-                      _hover="none"
                       gap="8px"
                       mb="20px"
                       fontWeight="600"
