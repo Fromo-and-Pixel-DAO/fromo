@@ -3,10 +3,10 @@ import {
   Button,
   Flex,
   Heading,
+  Image,
   Input,
   Text,
   VStack,
-  useColorModeValue,
 } from '@chakra-ui/react'
 
 import BaseModal from '@components/Modal'
@@ -121,15 +121,15 @@ const OmoModal = ({
       variant="redeemModal"
       size="2xl"
       isOpen={isOpen}
-      isCloseBtn={!loading}
+      isCloseBtn={false}
       title={
         <Heading
           textAlign="left"
-          fontSize="22px"
+          fontSize="28px"
           lineHeight="32px"
-          fontWeight="700"
-          mb="80px"
-          color="#000">
+          color="white"
+          fontWeight="800"
+          mb="40px">
           {type === 1 ? 'Deposit' : 'Withdraw'} $OMO
         </Heading>
       }
@@ -140,57 +140,73 @@ const OmoModal = ({
           m="auto"
           my="20px"
           w="100%"
-          borderRadius="10px"
+          borderRadius="8px"
           fontSize="20px"
           fontWeight="700"
           h="66px"
-          color="#fff"
-          bg="#704BEA"
-          _hover={{ bg: '#704BEA' }}>
+          color="#222222"
+          bg="#1DFED6"
+          _hover={{ bg: '#1DFED6' }}>
           {type === 1 ? (approve ? 'Deposit' : 'Approve') : 'Withdraw'}
         </Button>
       }
-      onClose={() => {
-        setUseAmount(0)
-        onClose()
-      }}
-      bgColor={useColorModeValue ? '#fff' : '#fff'}>
-      <VStack align="left">
+      bgColor="#2F2B50">
+      <VStack pos="relative" align="left">
+        <Box
+          onClick={() => {
+            setUseAmount(0)
+            onClose()
+          }}
+          p="16px"
+          pos="absolute"
+          top="-128px"
+          cursor="pointer"
+          right="-28px">
+          <Image alt="" w="14px" h="14px" src="/static/common/close.svg" />
+        </Box>
         <Box mb="12px">
           {type === 0 ? (
-            <Flex alignItems="center" w="100%" justifyContent="flex-end">
-              <Text>
-                Locked to bid FROMO plot:{' '}
-                {lockedOmoAmount !== '-' &&
-                  Number(ethers.utils.formatEther(lockedOmoAmount)).toFixed(
-                    4,
-                  )}{' '}
-                $OMO
-              </Text>
+            <Flex alignItems="center" w="100%" mb="12px">
+              <Flex fontSize="14px" color="rgba(255,255,255,0.8)">
+                Locked to bid FROMO plot:
+                <Text mx="4px" fontWeight="600">
+                  {' '}
+                  {lockedOmoAmount !== '-' &&
+                    Number(ethers.utils.formatEther(lockedOmoAmount)).toFixed(
+                      4,
+                    )}{' '}
+                  $OMO
+                </Text>
+              </Flex>
             </Flex>
           ) : null}
-          <Flex alignItems="center" w="100%" justifyContent="flex-end">
+          <Flex alignItems="center" w="100%">
             {type === 0 ? (
-              <Text>
-                Available:{' '}
-                {omoAmount !== '-' &&
-                  Number(ethers.utils.formatEther(withdrawalAmount)) -
-                    useAmount}{' '}
-                $OMO
-              </Text>
+              <Flex fontSize="14px" color="rgba(255,255,255,0.8)">
+                Available:
+                <Text mx="4px" fontWeight="600">
+                  {' '}
+                  {omoAmount !== '-' &&
+                    Number(ethers.utils.formatEther(withdrawalAmount)) -
+                      useAmount}{' '}
+                  $OMO
+                </Text>
+              </Flex>
             ) : (
-              <Text>Available: {balance - useAmount} $OMO</Text>
+              <Text fontSize="14px" color="rgba(255,255,255,0.8)">
+                Available: {balance - useAmount} $OMO
+              </Text>
             )}
           </Flex>
         </Box>
-        <Flex alignItems="center" w="100%">
+        <Flex alignItems="center" w="100%" mb="20px">
           <Flex
             flex={1}
-            p="12px 20px"
+            p="16px 20px"
             borderRadius="10px"
             alignItems="center"
-            bg="#F4F4F4">
-            <Text>$OMO:</Text>
+            bg="#0B063B">
+            <Text color="rgba(255,255,255,0.6)">$OMO:</Text>
             <Input
               _focusVisible={{
                 borderWidth: '0px',
@@ -198,6 +214,7 @@ const OmoModal = ({
               type="number"
               fontWeight={700}
               fontSize="20px"
+              color="white"
               border="none"
               value={amount}
               max={balance - useAmount}
@@ -215,9 +232,10 @@ const OmoModal = ({
                 }
               }}
               cursor="pointer"
-              color="#7E4AF1"
-              fontSize="16px"
+              color="#1DFED6"
+              fontSize="20px"
               lineHeight="24px"
+              textTransform="uppercase"
               fontWeight="600">
               Max
             </Text>
