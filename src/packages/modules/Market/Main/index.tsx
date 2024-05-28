@@ -317,6 +317,7 @@ export default function Main() {
             bg="#7E4AF1"
             py="28px"
             px="25px"
+            cursor="pointer"
             onClick={() => setOpen(true)}
             fontSize="24px"
             lineHeight="28px"
@@ -434,7 +435,7 @@ export default function Main() {
                     alt="3d"
                     pos="relative"
                   />
-                  <AbsoluteCenter>
+                  <AbsoluteCenter _hover={{ opacity: 0.7 }}>
                     <Text
                       textAlign="center"
                       fontWeight="black"
@@ -463,7 +464,7 @@ export default function Main() {
                         alt="3d"
                         pos="relative"
                       />
-                      <AbsoluteCenter>
+                      <AbsoluteCenter _hover={{ opacity: 0.7 }}>
                         <Text
                           textAlign="center"
                           fontWeight="black"
@@ -487,7 +488,7 @@ export default function Main() {
                         alt="3d"
                         pos="relative"
                       />
-                      <AbsoluteCenter>
+                      <AbsoluteCenter _hover={{ opacity: 0.7 }}>
                         <Text
                           textAlign="center"
                           fontWeight="black"
