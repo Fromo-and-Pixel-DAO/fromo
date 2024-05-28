@@ -20,22 +20,12 @@ const NFTpool = () => {
   }, [])
 
   return (
-    <Box p="0 40px" pb="200px">
-      <Flex mt="40px" mb="20px" fontSize="20px" align="center" color="#00DAB3">
-        <Text
-          fontSize="24px"
-          lineHeight="36px"
-          textShadow="0px 0px 10px rgba(0, 218, 179, 1)">
-          NFT Pool{' '}
-        </Text>
-        <Text ml="8px" fontSize="18px" lineHeight="27px">
-          {' '}
-          - {gameNft.total} NFTs available
-        </Text>
-      </Flex>
-      <Box mb="24px" w="100%" height="1px" bg="rgba(112, 75, 234, 0.5)"></Box>
+    <Box p="0 40px" pb="100px">
+      <Text mt="16px" fontSize="32px" fontWeight="800" lineHeight="36px">
+        NFT Pool
+      </Text>
       {gameNft.nftList.length > 0 ? (
-        <SimpleGrid mt="20px" columns={[1, 2, 3, 4, 5]} spacing="20px">
+        <SimpleGrid mt="52px" columns={[1, 2, 3, 4, 5]} spacing="20px">
           {gameNft.nftList.map((item, idx) => {
             return <ItemGrid gridName="finishedList" item={item} key={idx} />
           })}

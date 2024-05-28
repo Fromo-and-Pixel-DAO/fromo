@@ -87,10 +87,9 @@ export default function Main() {
     },
   ]
   return (
-    <Flex>
+    <Flex minH="60vh">
       <Sidebar />
       <Box flex="1" minW={{ base: 'full', md: '500px' }}>
-        <Header headers={userHeaderInfo} />
         {isLoading ? (
           <Flex
             textAlign="center"

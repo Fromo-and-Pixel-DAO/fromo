@@ -13,11 +13,12 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 import { isProd } from 'packages/constants'
 
-import 'react-toastify/dist/ReactToastify.css'
 import '@styles/_globals.scss'
+import 'react-toastify/dist/ReactToastify.css'
 
-import DefaultLayout from '../src/layout/default'
+import AuctionRules from '@components/AuctionRules'
 import Head from 'next/head'
+import DefaultLayout from '../src/layout/default'
 
 // import useAuctions from 'packages/store/auctions'
 
@@ -51,6 +52,7 @@ const App = ({ Component, pageProps }: any) => {
             />
           </Head>
           <Component {...pageProps} />
+          <AuctionRules />
         </QueryClientProvider>
       </DefaultLayout>
       <ToastContainer autoClose={3000} theme="colored" />

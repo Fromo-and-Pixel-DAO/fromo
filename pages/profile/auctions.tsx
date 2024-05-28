@@ -99,7 +99,6 @@ export default function Main() {
     <Flex>
       <Sidebar />
       <Box flex="1" minW={{ base: 'full', md: '500px' }}>
-        <Header headers={userHeaderInfo} />
         {isLoading ? (
           <Flex
             textAlign="center"

@@ -10,7 +10,6 @@ import {
   Text,
   Tooltip,
 } from '@chakra-ui/react'
-import AuctionRules from '@components/AuctionRules'
 import { faker } from '@faker-js/faker'
 import useCountDown from '@hooks/useCountDown'
 import { ellipseAddress } from '@utils'
@@ -1075,7 +1074,6 @@ const Details = () => {
           </Box>
         </Flex>
       </Box>
-      <AuctionRules />
       <PurchaseNFTModal isOpen={false} onClose={null} />
     </>
   )

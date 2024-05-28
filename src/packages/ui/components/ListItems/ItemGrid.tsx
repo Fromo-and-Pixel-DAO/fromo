@@ -4,7 +4,6 @@ import { useRouter } from 'next/router'
 
 import { TriangleUpIcon } from '@chakra-ui/icons'
 import {
-  AspectRatio,
   Box,
   Button,
   Flex,
@@ -57,9 +56,9 @@ function ItemGrid({ item, gridName }: { item: any; gridName?: string }) {
 
   const RenderCount = () => {
     const formattedTime = useMemo(() => {
-      const timeString = `${time.hours > 0 ? `${time.hours}hrs ` : ''}${
+      const timeString = `${time.hours > 0 ? `${time.hours}:` : ''}${
         time.minutes
-      }mins ${time.seconds}secs`
+      }:${time.seconds} `
       return `${timeString}`.trim()
     }, [])
 
@@ -71,6 +70,13 @@ function ItemGrid({ item, gridName }: { item: any; gridName?: string }) {
       return <>Finished</>
     }
   }
+
+  const bgColorStyle =
+    item.status === State.Upcoming
+      ? '#DA44FF'
+      : item.status === State.Ongoing
+      ? '#1DFED6'
+      : 'rgba(255, 255, 255, 0.65)'
 
   if (pathname === PathnameType.MARKET) {
     return (
@@ -88,52 +94,54 @@ function ItemGrid({ item, gridName }: { item: any; gridName?: string }) {
         bg="#2F2B50"
         position="relative">
         <>
+          {gridName === 'finishedList' &&
+            item?.lastAddress &&
+            item?.lastAddress.toLocaleLowerCase() === address && (
+              <Box
+                pos="absolute"
+                bg="#FFBD13"
+                top="0"
+                left="50%"
+                transform="translateX(-50%)"
+                py="6px"
+                zIndex={10}
+                px="16px"
+                fontWeight="800"
+                textAlign="center"
+                fontSize="16px"
+                color="#222222"
+                borderRadius="0 0 15px 15px">
+                YOU WON!
+              </Box>
+            )}
           <Box borderRadius="28px" className="image-effect" pos="relative">
             <Image
               alt=""
               w="220px"
-              h="160px"
+              h="180px"
               objectFit="cover"
               src={item.imageUrl}
               fallbackSrc="/static/license-template/template.png"
             />
-            {gridName === 'finishedList' &&
-              item?.lastAddress &&
-              item?.lastAddress.toLocaleLowerCase() === address && (
-                <Box
-                  pos="absolute"
-                  bg="#7E4AF1"
-                  left={0}
-                  right={0}
-                  bottom={0}
-                  py="6px"
-                  fontWeight="700"
-                  textAlign="center"
-                  fontSize="18px"
-                  borderRadius="0 0 15px 15px">
-                  YOU WON!
-                </Box>
-              )}
+
+            {localTimeFormatted && (
+              <Flex
+                p="6px 12px"
+                borderRadius="20px"
+                position="absolute"
+                w="190px"
+                bottom="8px"
+                left="50%"
+                transform="translate(-50%)"
+                justifyContent="center"
+                bgColor={bgColorStyle}>
+                <Text fontSize="14px" fontWeight="600" color="#222222">
+                  <RenderCount />
+                </Text>
+              </Flex>
+            )}
           </Box>
         </>
-        {/* {localTimeFormatted && (
-          <Flex
-            border="2px solid yellow"
-            p="6px 12px"
-            borderRadius="20px"
-            position="absolute"
-            top="16px"
-            left="16px"
-            bgColor={
-              gridName === 'ongoingList'
-                ? '#00DAB3'
-                : 'rgba(255, 255, 255, 0.5)'
-            }>
-            <Text fontSize="12px" fontWeight={600} color="#2A0668">
-              <RenderCount />
-            </Text>
-          </Flex>
-        )} */}
 
         <Box mt="16px">
           <Flex
@@ -421,121 +429,147 @@ function ItemGrid({ item, gridName }: { item: any; gridName?: string }) {
     <Box
       cursor="pointer"
       onClickCapture={() => {
-        router.push(`/${item.gameId}`)
+        router.replace({
+          pathname: `/${item.gameId}`,
+          query: { nameNft: item.name },
+        })
       }}
       border="1px solid #704BEA"
-      borderRadius="20px"
-      p="10px"
+      borderRadius="40px"
+      p="16px"
+      bg="#2F2B50"
       position="relative">
-      <AspectRatio ratio={1 / 1}>
-        <Box className="image-effect">
-          <Image
-            borderRadius="15px"
-            alt=""
-            src={item.imageUrl}
-            fallbackSrc="/static/license-template/template.png"
-          />
-          {item?.lastAddress &&
-            item?.lastAddress.toLocaleLowerCase() === address && (
-              <Box
-                pos="absolute"
-                bg="#7E4AF1"
-                left={0}
-                right={0}
-                bottom={0}
-                h="48px"
-                lineHeight="48px"
-                fontWeight="700"
-                textAlign="center"
-                fontSize="18px"
-                borderRadius="0 0 15px 15px">
-                YOU WON!
-              </Box>
-            )}
-        </Box>
-      </AspectRatio>
-      {localTimeFormatted && (
-        <Flex
-          p="6px 12px"
-          borderRadius="20px"
-          position="absolute"
-          top="16px"
-          left="16px"
-          bgColor={
-            gridName === 'ongoingList' ? '#00DAB3' : 'rgba(255, 255, 255, 0.5)'
-          }>
-          <Text fontSize="12px" fontWeight={600} color="#2A0668">
-            <RenderCount />
-          </Text>
-        </Flex>
-      )}
-
-      {gridName !== 'upcomingList' && (
-        <Flex
-          position="absolute"
-          top="16px"
-          right="16px"
-          p="6px 12px"
-          gap="4px"
-          borderRadius="20px"
-          bgColor="rgba(255, 255, 255, 0.5)">
-          <Text fontSize="12px" color="#2A0668">
-            {item.biddersCount !== null && item.biddersCount !== undefined
-              ? item.biddersCount
-              : '--'}{' '}
-            Players
-          </Text>
-        </Flex>
-      )}
-
-      <Box m="16px 8px 0px 8px">
-        <Flex justifyContent="space-between" align="center">
-          <Box fontWeight="700" fontSize="14px" lineHeight="16px" m="0 0 6px">
-            {item.name}
-          </Box>
-          {/* <Image cursor="pointer" alt="" src="./static/market/iconStar.svg" /> */}
-        </Flex>
-        <Flex
-          gap={{ base: '20px', md: '30px' }}
-          w={{ base: '100%', lg: '100%' }}>
-          <Flex flexDir="column">
+      <Box borderRadius="28px" className="image-effect" pos="relative">
+        <Image
+          alt=""
+          w="220px"
+          h="180px"
+          objectFit="cover"
+          src={item.imageUrl}
+          fallbackSrc="/static/license-template/template.png"
+        />
+        {item?.lastAddress &&
+          item?.lastAddress.toLocaleLowerCase() === address && (
             <Box
-              w={{ lg: '100%' }}
+              pos="absolute"
+              bg="#7E4AF1"
+              left={0}
+              right={0}
+              bottom={0}
+              py="6px"
+              fontWeight="700"
+              textAlign="center"
+              fontSize="18px"
+              borderRadius="0 0 15px 15px">
+              YOU WON!
+            </Box>
+          )}
+        {localTimeFormatted && (
+          <Flex
+            p="6px 12px"
+            borderRadius="20px"
+            position="absolute"
+            w="190px"
+            bottom="8px"
+            left="50%"
+            transform="translate(-50%)"
+            justifyContent="center"
+            bgColor={bgColorStyle}>
+            <Text fontSize="14px" fontWeight="600" color="#222222">
+              <RenderCount />
+            </Text>
+          </Flex>
+        )}
+      </Box>
+
+      <Box mt="16px">
+        <Flex
+          alignItems="center"
+          justifyContent="space-between"
+          gap="12px"
+          align="center"
+          mb="20px">
+          <Text
+            fontWeight="600"
+            lineHeight="20px"
+            whiteSpace="nowrap"
+            overflow="auto"
+            textOverflow="ellipsis">
+            {item.name || '--'}
+          </Text>
+          {gridName !== 'upcomingList' && (
+            <Flex alignItems="center" gap="2px">
+              <Image
+                src="/static/common/players.svg"
+                alt=""
+                w="20px"
+                h="20px"
+              />
+              <Text
+                color="rgba(255,255,255,0.5)"
+                fontWeight="600"
+                whiteSpace="nowrap"
+                overflow="auto"
+                textOverflow="ellipsis"
+                lineHeight="20px">
+                {item.biddersCount !== null && item.biddersCount !== undefined
+                  ? item.biddersCount
+                  : '--'}{' '}
+              </Text>
+            </Flex>
+          )}
+        </Flex>
+        <Flex gap="16px">
+          <Box w="50%">
+            <Text
               fontSize="12px"
-              fontWeight="500"
-              lineHeight="18px"
-              color="#FFA8FE">
+              fontWeight="600"
+              whiteSpace="nowrap"
+              color="rgba(255,255,255,0.6)"
+              mb="4px">
               Total Mint Fee
-            </Box>
-            <Box
-              w={{ lg: '100%' }}
-              textAlign="left"
-              lineHeight="20px"
-              fontWeight={900}
-              fontSize={{ base: '14px', md: '14px' }}
-              color="#00DAB3">
-              {item.status === 0 ? '--' : item?.totalKeyMinted || '--'} ETH
-            </Box>
-          </Flex>
-          <Flex flexDir="column">
-            <Box
-              w={{ lg: '100%' }}
+            </Text>
+            <Flex alignItems="center" gap="4px">
+              <Image
+                src="/static/common/eth-index.svg"
+                alt="ethereum"
+                w="14px"
+                h="24px"
+              />
+              <Box
+                fontWeight="600"
+                fontSize="20px"
+                lineHeight="24px"
+                color="#1DFED6">
+                {item.status === 0 ? '--' : item?.totalKeyMinted || '--'}
+              </Box>
+            </Flex>
+          </Box>
+          <Box w="50%">
+            <Text
               fontSize="12px"
-              fontWeight="500"
-              lineHeight="18px"
-              color="#FFA8FE">
+              fontWeight="600"
+              whiteSpace="nowrap"
+              color="rgba(255,255,255,0.6)"
+              mb="4px">
               Final Winner Prize
-            </Box>
-            <Box
-              w={{ lg: '100%' }}
-              textAlign="left"
-              lineHeight="20px"
-              fontWeight={900}
-              fontSize={{ base: '14px', md: '14px' }}
-              color="#00DAB3">
-              {item.status === 0 ? '--' : item?.finalPrice || '--'} ETH
-            </Box>
-          </Flex>
+            </Text>
+            <Flex alignItems="center" gap="4px">
+              <Image
+                src="/static/common/eth-index.svg"
+                alt="ethereum"
+                w="14px"
+                h="24px"
+              />
+              <Box
+                fontWeight="600"
+                fontSize="20px"
+                lineHeight="24px"
+                color="#1DFED6">
+                {item.status === 0 ? '--' : item?.finalPrice || '--'}
+              </Box>
+            </Flex>
+          </Box>
         </Flex>
       </Box>
     </Box>
