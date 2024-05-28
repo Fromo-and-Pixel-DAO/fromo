@@ -5,19 +5,16 @@ const nextConfig = {
   reactStrictMode: process.env.NODE_ENV === 'development',
   swcMinify: true,
   async rewrites() {
-    return {
-      // https://stackoverflow.com/questions/75092485/rewrites-in-next-js-working-fine-in-local-but-not-working-after-deployment-in-v
-      beforeFiles: [
-        {
-          source: `/robots.txt`,
-          destination: `/robotstxt`,
-        },
-        {
-          source: `/fl/:path*`,
-          destination: `https://pom.wtf/fl/:path*`,
-        },
-      ],
-    }
+    return [
+      {
+        source: `/robots.txt`,
+        destination: `/robotstxt`,
+      },
+      {
+        source: `/fl/:path*`,
+        destination: `https://pom.wtf/fl/:path*`,
+      },
+    ]
   },
   webpack(config) {
     config.module.rules.push({
