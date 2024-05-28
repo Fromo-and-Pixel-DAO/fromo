@@ -327,10 +327,6 @@ const Details = () => {
 
     const countDownValuesSecondary = [
       {
-        title: days || '00',
-        details: 'Days',
-      },
-      {
         title: hours || '00',
         details: 'Hours',
       },
@@ -371,7 +367,7 @@ const Details = () => {
               color="#1DFED6"
               lineHeight="56px"
               fontWeight="800"
-              display={k === 3 ? 'none' : ''}
+              display={k === 2 ? 'none' : ''}
               mx="10px">
               :
             </Text>
