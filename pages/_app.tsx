@@ -16,7 +16,6 @@ import { isProd } from 'packages/constants'
 import '@styles/_globals.scss'
 import 'react-toastify/dist/ReactToastify.css'
 
-import AuctionRules from '@components/AuctionRules'
 import Head from 'next/head'
 import DefaultLayout from '../src/layout/default'
 
@@ -52,7 +51,6 @@ const App = ({ Component, pageProps }: any) => {
             />
           </Head>
           <Component {...pageProps} />
-          <AuctionRules />
         </QueryClientProvider>
       </DefaultLayout>
       <ToastContainer autoClose={3000} theme="colored" />

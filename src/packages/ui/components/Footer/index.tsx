@@ -18,7 +18,7 @@ const rulesList = [
   },
 ]
 
-export default function AuctionRules() {
+export default function Footer() {
   return (
     <Box p="60px 80px">
       <Text fontWeight="600" lineHeight="20px" mb="20px" textAlign="center">

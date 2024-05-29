@@ -537,7 +537,6 @@ export default function Main() {
         />
       </Box>
 
-      <Box h="1px" backgroundColor="rgba(112, 75, 234, 0.5)"></Box>
       <Suspense
         fallback={
           <Box mt="300px">

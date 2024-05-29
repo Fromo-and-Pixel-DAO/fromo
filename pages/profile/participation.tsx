@@ -9,6 +9,7 @@ import { getMyParticipationGames } from 'packages/service/api'
 import { INftList } from 'packages/service/api/types'
 import useStore from 'packages/store'
 import useFomoStore from 'packages/store/fomo'
+import Footer from '@components/Footer'
 
 const Sidebar = lazy(() => import('@modules/Profile/Sidebar'))
 const Header = lazy(() => import('@modules/Profile/Header'))
@@ -87,53 +88,56 @@ export default function Main() {
     },
   ]
   return (
-    <Flex minH="60vh">
-      <Sidebar />
-      <Box flex="1" minW={{ base: 'full', md: '500px' }}>
-        {isLoading ? (
-          <Flex
-            textAlign="center"
-            w="100%"
-            h={{ base: 'auto', md: 'calc(100vh - 293px)' }}
-            justifyContent="center"
-            alignItems="center">
-            <Spinner
-              thickness="4px"
-              speed="0.65s"
-              emptyColor="gray.200"
-              color="blue.500"
-              size="xl"
-            />
-          </Flex>
-        ) : (
-          <Box textAlign="center">
-            <Suspense
-              fallback={
-                <Box mt="300px">
-                  <Spinner
-                    thickness="4px"
-                    speed="0.65s"
-                    emptyColor="gray.200"
-                    color="blue.500"
-                    size="xl"
-                  />
+    <Box minH="calc(100vh - 85px)">
+      <Flex minH="70vh">
+        <Sidebar />
+        <Box flex="1" minW={{ base: 'full', md: '500px' }}>
+          {isLoading ? (
+            <Flex
+              textAlign="center"
+              w="100%"
+              h={{ base: 'auto', md: 'calc(100vh - 293px)' }}
+              justifyContent="center"
+              alignItems="center">
+              <Spinner
+                thickness="4px"
+                speed="0.65s"
+                emptyColor="gray.200"
+                color="blue.500"
+                size="xl"
+              />
+            </Flex>
+          ) : (
+            <Box textAlign="center">
+              <Suspense
+                fallback={
+                  <Box mt="300px">
+                    <Spinner
+                      thickness="4px"
+                      speed="0.65s"
+                      emptyColor="gray.200"
+                      color="blue.500"
+                      size="xl"
+                    />
+                  </Box>
+                }>
+                <Box p="25px 50px">
+                  <Text
+                    textAlign="start"
+                    fontSize="32px"
+                    lineHeight="36px"
+                    fontWeight="800"
+                    mb="32px">
+                    My Participation
+                  </Text>
+                  <TabsCommon initTab="allList" renderTabs={renderTabs} />
                 </Box>
-              }>
-              <Box p="25px 50px">
-                <Text
-                  textAlign="start"
-                  fontSize="32px"
-                  lineHeight="36px"
-                  fontWeight="800"
-                  mb="32px">
-                  My Participation
-                </Text>
-                <TabsCommon initTab="allList" renderTabs={renderTabs} />
-              </Box>
-            </Suspense>
-          </Box>
-        )}
-      </Box>
-    </Flex>
+              </Suspense>
+            </Box>
+          )}
+        </Box>
+      </Flex>
+      <Footer />
+    </Box>
   )
 }
