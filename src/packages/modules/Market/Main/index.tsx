@@ -252,18 +252,16 @@ export default function Main() {
   return (
     <Box alignItems="center" mb="50px">
       <Box pt="60px" px="48px" position="relative">
-        <Box mt="68px">
-          <Text
-            className="text-gradient"
-            lineHeight="56px"
-            fontSize="60px"
-            fontWeight="black">
-            Start Your NFT Auction：
+        <Box mt="58px">
+          <Text className="stroked-text">
+            <Flex className="stroked-text-gradient" ml="-6px" p="10px">
+              Start Your NFT Auction :
+            </Flex>
           </Text>
           <Text
             fontSize="48px"
             fontWeight="extrabold"
-            mt="20px"
+            mt="10px"
             mb="40px"
             lineHeight="56px">
             Bid Fromo Plot to <br /> Start a Gamified NFT Auction
@@ -370,7 +368,7 @@ export default function Main() {
                 <Text>Highest Bid</Text>
                 <Text>: </Text>
                 <Box>
-                  {parseFloat(`${auctionInfo?.highestBid}`).toFixed(4) || '--'}
+                  {parseFloat(`${auctionInfo?.highestBid}`).toFixed(2) || '--'}
                 </Box>
                 <Text>$OMO</Text>
               </Flex>

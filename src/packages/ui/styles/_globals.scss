@@ -203,3 +203,25 @@ body {
   width: 100%;
   background: rgba(112, 75, 234, 0.8);
 }
+
+.stroked-text {
+  background-color: transparent;
+  font-family: Montserrat;
+  margin: 0;
+}
+
+.stroked-text-gradient {
+  background-clip: text;
+  background-image: linear-gradient( to right,
+    #A67EFF,
+    #FFFFFF,
+    #F14AAE,
+    #F14AAE,
+    #F14AAE,
+  );
+  color: #000119;
+  font-size: 60px;
+  font-weight: 900;
+  -webkit-text-stroke-color: transparent;
+  -webkit-text-stroke-width: 10px;
+}
