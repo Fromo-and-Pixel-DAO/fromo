@@ -1,6 +1,6 @@
 import { lazy, Suspense, useEffect, useMemo, useState } from 'react'
 
-import { Box, Flex, SimpleGrid, Spinner } from '@chakra-ui/react'
+import { Box, Text, Flex, SimpleGrid, Spinner } from '@chakra-ui/react'
 import ItemGrid from '@components/ListItems/ItemGrid'
 
 import TabsCommon from '@components/TabsCommon'
@@ -51,10 +51,10 @@ export default function Main() {
   const renderTabs = [
     {
       id: 1,
-      title: `All Auctions (${gameNft.total})`,
+      title: `All Auctions`,
       value: 'allList',
       render: (
-        <SimpleGrid mt="20px" columns={[1, 2, 3, 4]} spacing="20px">
+        <SimpleGrid mt="20px" columns={[1, 2, 3, 3, 5]} spacing="20px">
           {gameNft.nftList.map((item, idx) => {
             return <ItemGrid gridName="allList" item={item} key={idx} />
           })}
@@ -63,10 +63,10 @@ export default function Main() {
     },
     {
       id: 2,
-      title: `Ongoing Auctions (${ongoingList.length})`,
+      title: `Ongoing`,
       value: 'ongoingList',
       render: (
-        <SimpleGrid mt="20px" columns={[1, 2, 3, 4]} spacing="20px">
+        <SimpleGrid mt="20px" columns={[1, 2, 3, 3, 5]} spacing="20px">
           {ongoingList.map((item, idx) => {
             return <ItemGrid gridName="ongoingList" item={item} key={idx} />
           })}
@@ -75,10 +75,10 @@ export default function Main() {
     },
     {
       id: 3,
-      title: `Finished Auctions (${finishedList.length})`,
+      title: `Finished`,
       value: 'finishedList',
       render: (
-        <SimpleGrid mt="20px" columns={[1, 2, 3, 4]} spacing="20px">
+        <SimpleGrid mt="20px" columns={[1, 2, 3, 3, 5]} spacing="20px">
           {finishedList.map((item, idx) => {
             return <ItemGrid gridName="finishedList" item={item} key={idx} />
           })}
@@ -120,6 +120,14 @@ export default function Main() {
                 </Box>
               }>
               <Box p="25px 50px">
+                <Text
+                  textAlign="start"
+                  fontSize="32px"
+                  lineHeight="36px"
+                  fontWeight="800"
+                  mb="32px">
+                  My Participation
+                </Text>
                 <TabsCommon initTab="allList" renderTabs={renderTabs} />
               </Box>
             </Suspense>

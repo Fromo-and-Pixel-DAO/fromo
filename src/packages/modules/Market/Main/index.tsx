@@ -399,7 +399,7 @@ export default function Main() {
                   h="28px"
                   alt="timer"
                 />
-                <Box>
+                <Box textTransform="uppercase">
                   {[ActivityStatus.NotStarted, ActivityStatus.Bidding].includes(
                     auctionInfo.status,
                   ) && (

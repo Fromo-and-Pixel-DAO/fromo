@@ -317,7 +317,7 @@ function ItemGrid({
           <Box borderRadius="28px" className="image-effect" pos="relative">
             <Image
               alt=""
-              w="220px"
+              w="180px"
               h="180px"
               objectFit="cover"
               src={item.imageUrl}
@@ -378,7 +378,7 @@ function ItemGrid({
           <Box borderRadius="28px" className="image-effect" pos="relative">
             <Image
               alt=""
-              w="220px"
+              w="180px"
               h="180px"
               objectFit="cover"
               src={item.imageUrl}
@@ -694,7 +694,6 @@ function ItemGrid({
           query: { nameNft: item.name },
         })
       }}
-      border="1px solid #704BEA"
       borderRadius="40px"
       p="16px"
       bg="#2F2B50"
@@ -721,7 +720,7 @@ function ItemGrid({
           )}
         <Image
           alt=""
-          w="220px"
+          w="180px"
           h="180px"
           objectFit="cover"
           src={item.imageUrl}

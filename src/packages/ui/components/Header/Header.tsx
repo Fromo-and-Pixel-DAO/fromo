@@ -496,7 +496,7 @@ const DesktopNav = () => {
                 }}
                 minW={navItem.label === 'My NFTs' ? '120px' : '120px'}
                 textAlign="center"
-                color={isSubPath(pathname, navItem.href) ? '#1DFED6' : 'white'}
+                color={isSubPath(pathname, navItem.href) ? '#00DAB3' : 'white'}
                 bg={isSubPath(pathname, navItem.href) ? '#2F2B50' : ''}
                 padding="8px 16px"
                 borderRadius="full"

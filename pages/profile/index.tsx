@@ -526,7 +526,7 @@ export default function Main() {
               fontWeight="600"
               color="#fff"
               mt="40px"
-              textTransform="capitalize"
+              textTransform="uppercase"
               mb="20px">
               My Profit
             </Text>
@@ -592,7 +592,7 @@ export default function Main() {
               fontWeight="600"
               color="#fff"
               mt="60px"
-              textTransform="capitalize"
+              textTransform="uppercase"
               mb="20px">
               Total Dividends & Prize
             </Text>
@@ -610,7 +610,7 @@ export default function Main() {
               fontWeight="600"
               color="#fff"
               mt="60px"
-              textTransform="capitalize"
+              textTransform="uppercase"
               mb="20px">
               My Purchased NFTs
             </Text>
