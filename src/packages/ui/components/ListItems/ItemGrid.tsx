@@ -25,7 +25,15 @@ import moment from 'moment'
 import useStore from 'packages/store'
 import { myNFTUnlicensedData } from './FakeData'
 
-function ItemGrid({ item, gridName }: { item: any; gridName?: string }) {
+function ItemGrid({
+  item,
+  gridName,
+  isOngoingList = false,
+}: {
+  item: any
+  gridName?: string
+  isOngoingList?: boolean
+}) {
   const router = useRouter()
   const { pathname } = router
   const [isDetail, setIsGetDetail] = useState()
@@ -71,12 +79,195 @@ function ItemGrid({ item, gridName }: { item: any; gridName?: string }) {
     }
   }
 
+  const RenderCountSecondary = () => {
+    const formattedTime = useMemo(() => {
+      const timeString = `${time.hours > 0 ? `${time.hours}:` : ''}${
+        time.minutes
+      }:${time.seconds} `
+      return `${timeString}`.trim()
+    }, [])
+
+    if (item.status === State.Upcoming) {
+      return (
+        <Box color="rgba(255,255,255,0.6)" fontWeight="600" fontSize="12px">
+          Start in
+          <Box fontSize="28px" fontWeight="800" color="#1DFED6">
+            {formattedTime}
+          </Box>
+        </Box>
+      )
+    } else if (item.status === State.Ongoing) {
+      return (
+        <Box color="rgba(255,255,255,0.6)" fontWeight="600" fontSize="12px">
+          End in
+          <Box fontSize="28px" fontWeight="800" color="#1DFED6">
+            {formattedTime}
+          </Box>
+        </Box>
+      )
+    } else {
+      return <>Finished</>
+    }
+  }
+
   const bgColorStyle =
     item.status === State.Upcoming
       ? '#DA44FF'
       : item.status === State.Ongoing
       ? '#1DFED6'
       : 'rgba(255, 255, 255, 0.65)'
+
+  if (pathname === PathnameType.MARKET && isOngoingList) {
+    return (
+      <Box
+        bg="#6642B7"
+        cursor="pointer"
+        onClickCapture={() => {
+          router.replace({
+            pathname: `/${item.gameId}`,
+            query: { nameNft: item.name },
+          })
+        }}
+        borderRadius="40px"
+        p="16px"
+        pr="25px">
+        <Flex gap="20px">
+          <Box
+            w="180px"
+            h="180px"
+            borderRadius="28px"
+            className="image-effect"
+            pos="relative">
+            <Image
+              alt=""
+              w="180px"
+              h="180px"
+              objectFit="cover"
+              src={item.imageUrl}
+              fallbackSrc="/static/license-template/template.png"
+            />
+            {gridName === 'finishedList' &&
+              item?.lastAddress &&
+              item?.lastAddress.toLocaleLowerCase() === address && (
+                <Box
+                  w="110px"
+                  pos="absolute"
+                  bg="#FFBD13"
+                  top="0"
+                  left="50%"
+                  transform="translateX(-50%)"
+                  py="8px"
+                  zIndex={10}
+                  fontWeight="800"
+                  textAlign="center"
+                  fontSize="14px"
+                  color="#222222"
+                  borderRadius="0 0 15px 15px">
+                  YOU WON!
+                </Box>
+              )}
+          </Box>
+
+          <Flex direction="column" justifyContent="space-between">
+            <Box>
+              <Text
+                fontSize="24px"
+                lineHeight="28px"
+                fontWeight="800"
+                mb="20px">
+                {item.name || '--'}
+              </Text>
+            </Box>
+            <Flex gap="16px">
+              <Box w="50%">
+                <Text
+                  fontSize="12px"
+                  fontWeight="600"
+                  whiteSpace="nowrap"
+                  color="rgba(255,255,255,0.6)"
+                  mb="4px">
+                  Total Mint Fee
+                </Text>
+                <Flex alignItems="center" gap="4px">
+                  <Image
+                    src="/static/common/eth-index.svg"
+                    alt="ethereum"
+                    w="14px"
+                    h="24px"
+                  />
+                  <Box
+                    fontWeight="600"
+                    fontSize="20px"
+                    lineHeight="24px"
+                    color="#1DFED6">
+                    {item.status === 0
+                      ? '--'
+                      : parseFloat(item?.totalMintFee).toFixed(4) || '--'}
+                  </Box>
+                </Flex>
+              </Box>
+              <Box w="50%">
+                <Text
+                  fontSize="12px"
+                  fontWeight="600"
+                  whiteSpace="nowrap"
+                  color="rgba(255,255,255,0.6)"
+                  mb="4px">
+                  Final Winner Prize
+                </Text>
+                <Flex alignItems="center" gap="4px">
+                  <Image
+                    src="/static/common/eth-index.svg"
+                    alt="ethereum"
+                    w="14px"
+                    h="24px"
+                  />
+                  <Box
+                    fontWeight="600"
+                    fontSize="20px"
+                    lineHeight="24px"
+                    color="#1DFED6">
+                    {item.status === 0
+                      ? '--'
+                      : parseFloat(
+                          ethers.utils.formatEther(item?.finalPrice),
+                        ).toFixed(4) || '--'}
+                  </Box>
+                </Flex>
+              </Box>
+            </Flex>
+            <Flex justifyContent="space-between" alignItems="end">
+              {localTimeFormatted && <RenderCountSecondary />}
+              <Flex
+                w="75px"
+                h="36px"
+                alignItems="center"
+                justifyContent="center"
+                bg="white"
+                borderRadius="full">
+                <Image
+                  src="/static/common/players-ongoing.svg"
+                  alt=""
+                  w="20px"
+                  h="20px"
+                />
+                <Box>
+                  {gridName !== 'upcomingList' && (
+                    <Box color="#7E4AF1" fontWeight="600" lineHeight="20px">
+                      {item.biddersCount !== null &&
+                      item.biddersCount !== undefined
+                        ? item.biddersCount
+                        : '--'}{' '}
+                    </Box>
+                  )}
+                </Box>
+              </Flex>
+            </Flex>
+          </Flex>
+        </Flex>
+      </Box>
+    )
+  }
 
   if (pathname === PathnameType.MARKET) {
     return (
@@ -142,7 +333,6 @@ function ItemGrid({ item, gridName }: { item: any; gridName?: string }) {
             )}
           </Box>
         </>
-
         <Box mt="16px">
           <Flex
             alignItems="center"
@@ -440,6 +630,25 @@ function ItemGrid({ item, gridName }: { item: any; gridName?: string }) {
       bg="#2F2B50"
       position="relative">
       <Box borderRadius="28px" className="image-effect" pos="relative">
+        {item?.lastAddress &&
+          item?.lastAddress.toLocaleLowerCase() === address && (
+            <Box
+              pos="absolute"
+              bg="#FFBD13"
+              top="0"
+              left="50%"
+              transform="translateX(-50%)"
+              py="6px"
+              zIndex={10}
+              px="16px"
+              fontWeight="800"
+              textAlign="center"
+              fontSize="16px"
+              color="#222222"
+              borderRadius="0 0 15px 15px">
+              YOU WON!
+            </Box>
+          )}
         <Image
           alt=""
           w="220px"
@@ -448,22 +657,7 @@ function ItemGrid({ item, gridName }: { item: any; gridName?: string }) {
           src={item.imageUrl}
           fallbackSrc="/static/license-template/template.png"
         />
-        {item?.lastAddress &&
-          item?.lastAddress.toLocaleLowerCase() === address && (
-            <Box
-              pos="absolute"
-              bg="#7E4AF1"
-              left={0}
-              right={0}
-              bottom={0}
-              py="6px"
-              fontWeight="700"
-              textAlign="center"
-              fontSize="18px"
-              borderRadius="0 0 15px 15px">
-              YOU WON!
-            </Box>
-          )}
+
         {localTimeFormatted && (
           <Flex
             p="6px 12px"

@@ -91,11 +91,18 @@ export default function Main() {
                 <Text>Ongoing NFT Auctions</Text>({ongoingList.length})
               </Flex>
             </Box>
-            <SimpleGrid columns={[1, 2, 2, 3, 5, 6]} spacing="20px">
+            <Flex gap="20px" overflow="auto" pb="8px">
               {ongoingList?.map((item, idx) => {
-                return <ItemGrid gridName="ongoingList" item={item} key={idx} />
+                return (
+                  <ItemGrid
+                    isOngoingList
+                    gridName="ongoingList"
+                    item={item}
+                    key={idx}
+                  />
+                )
               })}
-            </SimpleGrid>
+            </Flex>
           </Box>
         )}
 
