@@ -122,7 +122,12 @@ export default function Main() {
             <SimpleGrid columns={[1, 2, 2, 3, 5, 6]} spacing="20px">
               {upcomingList?.map((item, idx) => {
                 return (
-                  <ItemGrid gridName="upcomingList" item={item} key={idx} />
+                  <ItemGrid
+                    isUpcoming
+                    gridName="upcomingList"
+                    item={item}
+                    key={idx}
+                  />
                 )
               })}
             </SimpleGrid>

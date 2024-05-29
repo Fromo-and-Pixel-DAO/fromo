@@ -29,10 +29,12 @@ function ItemGrid({
   item,
   gridName,
   isOngoingList = false,
+  isUpcoming = false,
 }: {
   item: any
   gridName?: string
   isOngoingList?: boolean
+  isUpcoming?: boolean
 }) {
   const router = useRouter()
   const { pathname } = router
@@ -79,7 +81,11 @@ function ItemGrid({
     }
   }
 
-  const RenderCountSecondary = () => {
+  const RenderCountSecondary = ({
+    isCenter = false,
+  }: {
+    isCenter?: boolean
+  }) => {
     const formattedTime = useMemo(() => {
       const timeString = `${time.hours > 0 ? `${time.hours}:` : ''}${
         time.minutes
@@ -90,7 +96,7 @@ function ItemGrid({
     if (item.status === State.Upcoming) {
       return (
         <Box color="rgba(255,255,255,0.6)" fontWeight="600" fontSize="12px">
-          Start in
+          <Text textAlign={isCenter ? 'center' : 'start'}>Start in</Text>
           <Box fontSize="28px" fontWeight="800" color="#1DFED6">
             {formattedTime}
           </Box>
@@ -99,14 +105,14 @@ function ItemGrid({
     } else if (item.status === State.Ongoing) {
       return (
         <Box color="rgba(255,255,255,0.6)" fontWeight="600" fontSize="12px">
-          End in
+          <Text textAlign={isCenter ? 'center' : 'start'}>End in</Text>
           <Box fontSize="28px" fontWeight="800" color="#1DFED6">
             {formattedTime}
           </Box>
         </Box>
       )
     } else {
-      return <>Finished</>
+      return <Text textAlign={isCenter ? 'center' : 'start'}>Finished</Text>
     }
   }
 
@@ -269,6 +275,71 @@ function ItemGrid({
     )
   }
 
+  if (pathname === PathnameType.MARKET && isUpcoming) {
+    return (
+      <Box
+        cursor="pointer"
+        onClickCapture={() => {
+          router.replace({
+            pathname: `/${item.gameId}`,
+            query: { nameNft: item.name },
+          })
+        }}
+        borderRadius="40px"
+        p="16px"
+        bg="#2F2B50"
+        position="relative">
+        {gridName === 'finishedList' &&
+          item?.lastAddress &&
+          item?.lastAddress.toLocaleLowerCase() === address && (
+            <Box
+              pos="absolute"
+              bg="#FFBD13"
+              top="0"
+              left="50%"
+              transform="translateX(-50%)"
+              py="6px"
+              zIndex={10}
+              px="16px"
+              fontWeight="800"
+              textAlign="center"
+              fontSize="16px"
+              color="#222222"
+              borderRadius="0 0 15px 15px">
+              YOU WON!
+            </Box>
+          )}
+        <Flex
+          gap="20px"
+          direction="column"
+          justifyContent="center"
+          alignItems="center">
+          <Box borderRadius="28px" className="image-effect" pos="relative">
+            <Image
+              alt=""
+              w="220px"
+              h="180px"
+              objectFit="cover"
+              src={item.imageUrl}
+              fallbackSrc="/static/license-template/template.png"
+            />
+          </Box>
+          <Text
+            fontSize="24px"
+            fontWeight="600"
+            lineHeight="20px"
+            whiteSpace="nowrap"
+            overflow="auto"
+            textOverflow="ellipsis">
+            {item.name || '--'}
+          </Text>
+
+          <RenderCountSecondary isCenter />
+        </Flex>
+      </Box>
+    )
+  }
+
   if (pathname === PathnameType.MARKET) {
     return (
       <Box
@@ -279,7 +350,6 @@ function ItemGrid({
             query: { nameNft: item.name },
           })
         }}
-        border="1px solid #704BEA"
         borderRadius="40px"
         p="16px"
         bg="#2F2B50"
