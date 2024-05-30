@@ -44,7 +44,7 @@ const Details = () => {
 
   const { address } = useStore()
 
-  const { nameNft } = router.query
+  const { nftName } = router.query
 
   const [claims, setClaims] = useState('0')
   const [keys, setKeys] = useState('0')
@@ -547,7 +547,7 @@ const Details = () => {
                 lineHeight="44px"
                 fontSize="40px"
                 mb="40px">
-                {nameNft}
+                {nftName}
               </Text>
               <Box>
                 {detailInfos?.state === State.Finished &&

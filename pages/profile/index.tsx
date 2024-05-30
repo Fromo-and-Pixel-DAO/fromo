@@ -1,6 +1,14 @@
 import { lazy, useEffect, useState } from 'react'
 
-import { Box, Button, Flex, Image, Text, useMediaQuery } from '@chakra-ui/react'
+import {
+  Box,
+  Button,
+  Flex,
+  Image,
+  Text,
+  Tooltip,
+  useMediaQuery,
+} from '@chakra-ui/react'
 
 import TabsCommon from '@components/TabsCommon'
 
@@ -590,14 +598,17 @@ export default function Main() {
                       lineHeight="16px">
                       {i.unclaimed} CLaim
                       {k === 2 && (
-                        <Image
-                          position="absolute"
-                          right="10px"
-                          src="/static/profile/help.svg"
-                          w="16px"
-                          h="16px"
-                          alt="help"
-                        />
+                        <Tooltip
+                          label={`Locked in ongoing auction: ${profit.lockedNftDividends} ETH`}>
+                          <Image
+                            position="absolute"
+                            right="10px"
+                            src="/static/profile/help.svg"
+                            w="16px"
+                            h="16px"
+                            alt="help"
+                          />
+                        </Tooltip>
                       )}
                     </Button>
                   </Box>

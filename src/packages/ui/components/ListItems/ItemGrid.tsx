@@ -131,7 +131,7 @@ function ItemGrid({
         onClickCapture={() => {
           router.replace({
             pathname: `/${item.gameId}`,
-            query: { nameNft: item.name },
+            query: { nftName: item.name },
           })
         }}
         borderRadius="40px"
@@ -282,7 +282,7 @@ function ItemGrid({
         onClickCapture={() => {
           router.replace({
             pathname: `/${item.gameId}`,
-            query: { nameNft: item.name },
+            query: { nftName: item.name },
           })
         }}
         borderRadius="40px"
@@ -293,17 +293,17 @@ function ItemGrid({
           item?.lastAddress &&
           item?.lastAddress.toLocaleLowerCase() === address && (
             <Box
+              w="110px"
               pos="absolute"
               bg="#FFBD13"
               top="0"
               left="50%"
               transform="translateX(-50%)"
-              py="6px"
+              py="8px"
               zIndex={10}
-              px="16px"
               fontWeight="800"
               textAlign="center"
-              fontSize="16px"
+              fontSize="14px"
               color="#222222"
               borderRadius="0 0 15px 15px">
               YOU WON!
@@ -347,7 +347,7 @@ function ItemGrid({
         onClickCapture={() => {
           router.replace({
             pathname: `/${item.gameId}`,
-            query: { nameNft: item.name },
+            query: { nftName: item.name },
           })
         }}
         borderRadius="40px"
@@ -359,17 +359,17 @@ function ItemGrid({
             item?.lastAddress &&
             item?.lastAddress.toLocaleLowerCase() === address && (
               <Box
+                w="110px"
                 pos="absolute"
                 bg="#FFBD13"
                 top="0"
                 left="50%"
                 transform="translateX(-50%)"
-                py="6px"
+                py="8px"
                 zIndex={10}
-                px="16px"
                 fontWeight="800"
                 textAlign="center"
-                fontSize="16px"
+                fontSize="14px"
                 color="#222222"
                 borderRadius="0 0 15px 15px">
                 YOU WON!
@@ -691,7 +691,7 @@ function ItemGrid({
       onClickCapture={() => {
         router.replace({
           pathname: `/${item.gameId}`,
-          query: { nameNft: item.name },
+          query: { nftName: item.name },
         })
       }}
       borderRadius="40px"
@@ -702,17 +702,17 @@ function ItemGrid({
         {item?.lastAddress &&
           item?.lastAddress.toLocaleLowerCase() === address && (
             <Box
+              w="110px"
               pos="absolute"
               bg="#FFBD13"
               top="0"
               left="50%"
               transform="translateX(-50%)"
-              py="6px"
+              py="8px"
               zIndex={10}
-              px="16px"
               fontWeight="800"
               textAlign="center"
-              fontSize="16px"
+              fontSize="14px"
               color="#222222"
               borderRadius="0 0 15px 15px">
               YOU WON!

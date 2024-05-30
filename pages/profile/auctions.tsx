@@ -49,7 +49,7 @@ export default function Main() {
   const renderTabs = [
     {
       id: 0,
-      title: `All Auctions (${gameNft.total})`,
+      title: `All Auctions`,
       value: 'allList',
       render: (
         <SimpleGrid mt="20px" columns={[1, 2, 3, 3, 5]} spacing="20px">
@@ -61,7 +61,7 @@ export default function Main() {
     },
     {
       id: 1,
-      title: `Queuing Auctions (${upcomingList.length})`,
+      title: `Upcoming`,
       value: 'upcomingList',
       render: (
         <SimpleGrid mt="20px" columns={[1, 2, 3, 3, 5]} spacing="20px">
@@ -73,7 +73,7 @@ export default function Main() {
     },
     {
       id: 2,
-      title: `Ongoing Auctions (${ongoingList.length})`,
+      title: `Ongoing`,
       value: 'finishedList',
       render: (
         <SimpleGrid mt="20px" columns={[1, 2, 3, 3, 5]} spacing="20px">
@@ -85,7 +85,7 @@ export default function Main() {
     },
     {
       id: 3,
-      title: `Finished Auctions (${finishedList.length})`,
+      title: `Finished`,
       value: 'ongoingList',
       render: (
         <SimpleGrid mt="20px" columns={[1, 2, 3, 3, 5]} spacing="20px">
