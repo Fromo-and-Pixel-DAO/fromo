@@ -119,13 +119,13 @@ const OmoModal = ({
   return (
     <BaseModal
       variant="redeemModal"
-      size="2xl"
+      size={{ base: 'xs', md: 'md', xl: 'xl' }}
       isOpen={isOpen}
       isCloseBtn={false}
       title={
         <Heading
           textAlign="left"
-          fontSize="28px"
+          fontSize={{ base: '24px', xl: '28px' }}
           lineHeight="32px"
           color="white"
           fontWeight="800"
@@ -138,12 +138,12 @@ const OmoModal = ({
           onClick={() => handleAmountChange(type)}
           isLoading={loading}
           m="auto"
-          my="20px"
+          my={{ base: '12px', xl: '20px' }}
           w="100%"
           borderRadius="8px"
-          fontSize="20px"
+          fontSize={{ base: '16px', xl: '20px' }}
           fontWeight="700"
-          h="66px"
+          h={{ base: '52px', xl: '66px' }}
           color="#222222"
           bg="#1DFED6"
           _hover={{ bg: '#1DFED6' }}>
@@ -213,7 +213,7 @@ const OmoModal = ({
               }}
               type="number"
               fontWeight={700}
-              fontSize="20px"
+              fontSize={{ base: '16px', xl: '20px' }}
               color="white"
               border="none"
               value={amount}
@@ -233,7 +233,7 @@ const OmoModal = ({
               }}
               cursor="pointer"
               color="#1DFED6"
-              fontSize="20px"
+              fontSize={{ base: '16px', xl: '20px' }}
               lineHeight="24px"
               textTransform="uppercase"
               fontWeight="600">

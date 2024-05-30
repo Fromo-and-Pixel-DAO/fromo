@@ -49,8 +49,19 @@ const RedeemModal = ({
   return (
     <BaseModal
       variant="redeemModal"
-      size="2xl"
+      size={{ base: 'xs', md: '2xl', xl: '2xl' }}
       isOpen={isOpen}
+      title={
+        <Heading
+          textAlign="left"
+          fontSize={{ base: '24px', xl: '28px' }}
+          lineHeight="32px"
+          color="white"
+          fontWeight="800"
+          mb="40px">
+          Redeem Keys
+        </Heading>
+      }
       buttons={
         <Button
           onClick={redeemKeys}
@@ -74,19 +85,17 @@ const RedeemModal = ({
         }
         onClose()
       }}
-      bgColor={useColorModeValue ? '#fff' : '#fff'}>
+      bgColor="#2F2B50">
       <VStack align="left">
-        <Heading fontSize="22px" lineHeight="32px" mb="60px">
-          Redeem Keys
-        </Heading>
-        <Flex alignItems="center">
+        <Flex direction={{ base: 'column', md: 'row' }} alignItems="center">
           <Box>
             <Flex
-              w="328px"
+              w={{ md: '328px' }}
               p="12px 20px"
               borderRadius="10px"
               alignItems="center"
-              bg="#F4F4F4">
+              color="white"
+              bg="#0B063B">
               <Text>Keys:</Text>
               <Input
                 _focusVisible={{
@@ -100,7 +109,7 @@ const RedeemModal = ({
               />
             </Flex>
             <Text
-              mt="8px"
+              mt="4px"
               fontSize="12px"
               lineHeight="18px"
               color="#4F4F4F"
@@ -109,7 +118,7 @@ const RedeemModal = ({
             </Text>
           </Box>
           <Text
-            color="#828282"
+            color="white"
             position="relative"
             top="-12px"
             fontSize="14px"
@@ -125,12 +134,13 @@ const RedeemModal = ({
               readOnly
               textAlign="center"
               value="1 FLT"
+              color="white"
             />
             <Text
               mt="8px"
               fontSize="12px"
               lineHeight="18px"
-              color="#4F4F4F"
+              color="white"
               align="center">
               1.532 Key=1 $FLT
             </Text>
