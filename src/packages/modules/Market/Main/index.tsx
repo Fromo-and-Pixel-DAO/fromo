@@ -321,7 +321,6 @@ export default function Main() {
                     <Text
                       fontSize={{ base: '14px', xl: '16px' }}
                       lineHeight="20px"
-                      mb="8px"
                       fontWeight="semibold">
                       {i.title}
                     </Text>

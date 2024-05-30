@@ -1,20 +1,13 @@
-import { FC, memo } from 'react'
-import { useCallback, useEffect, useReducer } from 'react'
+import { FC, memo, useCallback, useEffect, useReducer } from 'react'
 
 import { useRouter } from 'next/router'
 
-import {
-  ChevronDownIcon,
-  ChevronRightIcon,
-  CloseIcon,
-  HamburgerIcon,
-} from '@chakra-ui/icons'
+import { ChevronDownIcon, HamburgerIcon } from '@chakra-ui/icons'
 import {
   Box,
   Button,
   Collapse,
   Flex,
-  Icon,
   IconButton,
   Image,
   Link,
@@ -53,10 +46,10 @@ interface NavItem {
   onToggleModal?: any
 }
 
-const NAV_ITEMS_CONNECTED_DESKTOP: Array<NavItem> = [
+const NAV_ITEMS_CONNECTED: Array<NavItem> = [
   {
     label: 'NFT Whitelist',
-    // href: '/whitelist',
+    href: '/whitelist',
     icon: '/static/header/gallery.svg',
     iconDark: '/static/header/gallery_dark.svg',
   },
@@ -78,39 +71,6 @@ const NAV_ITEMS_CONNECTED_DESKTOP: Array<NavItem> = [
     icon: '/static/header/account.svg',
     iconDark: '/static/header/account_dark.svg',
   },
-]
-
-const NAV_ITEMS_CONNECTED_MOBILE: Array<NavItem> = [
-  {
-    label: 'Market',
-    href: '/',
-    icon: '/static/header/gallery.svg',
-    iconDark: '/static/header/gallery_dark.svg',
-  },
-  // {
-  //   label: 'My Account',
-  //   icon: '/static/header/account.svg',
-  //   iconDark: '/static/header/account_dark.svg',
-  //   iconActive: '/static/header/account_active.svg',
-  //   children: [
-  //     {
-  //       label: 'My NFTs',
-  //       href: '/account/my-nfts?tab=unlicensed-nft',
-  //     },
-  //     {
-  //       label: 'My Licenses',
-  //       href: '/account?tab=buy&subTabBuy=all',
-  //     },
-  //     {
-  //       label: 'My Offers',
-  //       href: '/account?tab=sell&subTabSell=active',
-  //     },
-  //     // {
-  //     //   label: 'My Collection',
-  //     //   href: '/account?tab=sell&subTabSell=active',
-  //     // },
-  //   ],
-  // },
 ]
 
 const NAV_ITEMS_DISCONNECTED: Array<NavItem> = [
@@ -431,16 +391,8 @@ const Header: FC = () => {
             </Flex>
           )}
           <IconButton
-            minW={0}
             onClick={onToggle}
-            icon={
-              isOpen ? (
-                <CloseIcon w={3} h={3} color="white" />
-              ) : (
-                <HamburgerIcon w={8} h={8} color="white" />
-              )
-            }
-            variant="ghost"
+            icon={<HamburgerIcon w={8} h={8} color="black" />}
             aria-label="Toggle Navigation"
           />
         </Flex>
@@ -463,9 +415,7 @@ const DesktopNav = () => {
   const { colorMode, toggleColorMode } = useColorMode()
   const bgColor = useColorModeValue('#fff', '#fff')
 
-  const NAV_ITEMS = address
-    ? NAV_ITEMS_CONNECTED_DESKTOP
-    : NAV_ITEMS_DISCONNECTED
+  const NAV_ITEMS = address ? NAV_ITEMS_CONNECTED : NAV_ITEMS_DISCONNECTED
 
   const isSubPath = (pathname, href) => {
     const regex = new RegExp(`^${href}(\/|$)`)
@@ -473,15 +423,6 @@ const DesktopNav = () => {
   }
   return (
     <Stack direction="row" spacing={3} align="center">
-      {/* {colorMode === 'light' ? (
-        <MoonIcon
-          cursor="pointer"
-          color="yellow.400"
-          onClick={toggleColorMode}
-        />
-      ) : (
-        <SunIcon cursor="pointer" onClick={toggleColorMode} />
-      )} */}
       {NAV_ITEMS.map((navItem) => (
         <Box key={navItem.label}>
           <Popover trigger="hover" placement="bottom-start">
@@ -559,103 +500,34 @@ const DesktopSubNav = ({ label, href }: NavItem) => {
 
 const MobileNav = ({ onToggleModal }: { onToggleModal: any }) => {
   const { address } = useStore()
-
-  const NAV_ITEMS = address
-    ? NAV_ITEMS_CONNECTED_MOBILE
-    : NAV_ITEMS_CONNECTED_MOBILE
-
-  return (
-    <Stack bg="white" p={4} display={{ lg: 'none' }} h="100vh">
-      {NAV_ITEMS.map((navItem) => (
-        <MobileNavItem
-          key={navItem.label}
-          {...navItem}
-          onToggleModal={onToggleModal}
-        />
-      ))}
-    </Stack>
-  )
-}
-
-const MobileNavItem = ({
-  label,
-  children,
-  iconActive,
-  href,
-  icon,
-  iconDark,
-  onToggleModal,
-}: NavItem) => {
-  const { isOpen, onToggle } = useDisclosure()
   const router = useRouter()
-  const { colorMode } = useColorMode()
+
+  const NAV_ITEMS = address ? NAV_ITEMS_CONNECTED : NAV_ITEMS_DISCONNECTED
 
   return (
-    <Stack spacing={4} onClick={children && onToggle}>
-      <Flex
-        bg="white"
-        color="black"
-        py={2}
-        as={Link}
-        onClick={() => {
-          href && router.push(href)
-          !children && onToggleModal()
-        }}
-        justify={{ base: 'space-between', md: 'space-between' }}
-        align="center"
-        _hover={{
-          textDecoration: 'none',
-        }}>
-        <Flex>
-          <Image
-            cursor="pointer"
-            src={isOpen ? iconActive : icon}
-            w="24px"
-            h="24px"
-            alt=""
-            mr="16px"
-          />
-          <Text fontWeight={900} color={isOpen ? '#6423F1' : '#606062'}>
-            {label}
+    <Stack bg="black" p={4} display={{ lg: 'none' }} h="100vh">
+      {NAV_ITEMS.map((i, k) => (
+        <Flex
+          key={k}
+          bg="#2F2B50"
+          borderRadius="8px"
+          py="12px"
+          px="16px"
+          as={Link}
+          onClick={() => {
+            router.push(i.href)
+            onToggleModal()
+          }}
+          justify={{ base: 'space-between', md: 'space-between' }}
+          align="center"
+          _hover={{
+            textDecoration: 'none',
+          }}>
+          <Text fontWeight={900} color="#00DAB3">
+            {i.label}
           </Text>
         </Flex>
-        {children ? (
-          <Icon
-            as={ChevronDownIcon}
-            transition="all .25s ease-in-out"
-            transform={isOpen ? 'rotate(180deg)' : ''}
-            w={6}
-            color={isOpen ? '#6423F1' : '#606062'}
-            h={6}
-          />
-        ) : (
-          <Icon
-            as={ChevronRightIcon}
-            transition="all .25s ease-in-out"
-            w={6}
-            color="#606062"
-            h={6}
-          />
-        )}
-      </Flex>
-
-      <Collapse in={isOpen} animateOpacity style={{ marginTop: '0!important' }}>
-        <Stack
-          pl="40px"
-          borderLeft={0}
-          borderStyle="solid"
-          borderColor={useColorModeValue('gray.200', 'gray.700')}
-          fontWeight="bold"
-          color="#606062"
-          align="start">
-          {children &&
-            children.map((child) => (
-              <Link key={child.label} py={2} href={child.href}>
-                {child.label}
-              </Link>
-            ))}
-        </Stack>
-      </Collapse>
+      ))}
     </Stack>
   )
 }
