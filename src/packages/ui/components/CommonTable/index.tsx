@@ -21,6 +21,7 @@ interface Props {
   borderLeftWidth?: string
   borderTopWidth?: string
   paddingTopHeader?: string
+  minWithTable?: string
 }
 
 export default function CommonTable(props: Props) {
@@ -35,6 +36,7 @@ export default function CommonTable(props: Props) {
     colorHeaderTable = '#FFA8FE',
     fontSizeHeaderTable = '14px',
     fontWeightHeaderTable,
+    minWithTable = '',
   } = props
 
   return (
@@ -55,7 +57,7 @@ export default function CommonTable(props: Props) {
           borderRadius: '24px',
         },
       }}>
-      <Table variant="simple" backdropFilter="blur(5px)">
+      <Table minW={minWithTable} variant="simple" backdropFilter="blur(5px)">
         <Thead>
           <Tr pt={paddingTopHeader}>
             {columns?.map((item, index) => {

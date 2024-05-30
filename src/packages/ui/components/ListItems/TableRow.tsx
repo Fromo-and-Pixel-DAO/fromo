@@ -687,6 +687,7 @@ function Table({ item, isCustom }: { item: any; isCustom: boolean }) {
           <Td
             w="30%"
             pl="0px"
+            pr={{ base: '40px', md: '24px' }}
             lineHeight="16px"
             fontWeight="600"
             color={textColor}

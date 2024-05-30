@@ -55,7 +55,7 @@ export default function Main() {
       title: `All Auctions`,
       value: 'allList',
       render: (
-        <SimpleGrid mt="20px" columns={[1, 2, 3, 3, 5]} spacing="20px">
+        <SimpleGrid mt="20px" columns={[1, 2, 3, 3, 4]} spacing="20px">
           {gameNft.nftList.map((item, idx) => {
             return <ItemGrid gridName="allList" item={item} key={idx} />
           })}
@@ -67,7 +67,7 @@ export default function Main() {
       title: `Ongoing`,
       value: 'ongoingList',
       render: (
-        <SimpleGrid mt="20px" columns={[1, 2, 3, 3, 5]} spacing="20px">
+        <SimpleGrid mt="20px" columns={[1, 2, 3, 3, 4]} spacing="20px">
           {ongoingList.map((item, idx) => {
             return <ItemGrid gridName="ongoingList" item={item} key={idx} />
           })}
@@ -79,7 +79,7 @@ export default function Main() {
       title: `Finished`,
       value: 'finishedList',
       render: (
-        <SimpleGrid mt="20px" columns={[1, 2, 3, 3, 5]} spacing="20px">
+        <SimpleGrid mt="20px" columns={[1, 2, 3, 3, 4]} spacing="20px">
           {finishedList.map((item, idx) => {
             return <ItemGrid gridName="finishedList" item={item} key={idx} />
           })}
@@ -121,10 +121,15 @@ export default function Main() {
                     />
                   </Box>
                 }>
-                <Box p="25px 50px">
+                <Box
+                  p={{
+                    base: '32px 16px',
+                    md: '32px 20px',
+                    xl: '36px 68px 40px 40px',
+                  }}>
                   <Text
                     textAlign="start"
-                    fontSize="32px"
+                    fontSize={{ base: '24px', md: '28px', xl: '32px' }}
                     lineHeight="36px"
                     fontWeight="800"
                     mb="32px">

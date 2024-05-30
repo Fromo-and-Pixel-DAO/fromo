@@ -229,11 +229,7 @@ const Header: FC = () => {
         borderColor={useColorModeValue('gray.200', 'gray.900')}
         align="center"
         justifyContent="space-between">
-        <Flex
-          justify="center"
-          w={{ base: '138px', md: '200px' }}
-          h="28px"
-          onClick={() => router.replace('/')}>
+        <Flex justify="center" h="28px" onClick={() => router.replace('/')}>
           <Image cursor="pointer" src="/static/common/logo.svg" alt="" />
         </Flex>
 

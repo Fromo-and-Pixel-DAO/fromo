@@ -788,6 +788,7 @@ function ItemGrid({
               fontSize="12px"
               fontWeight="600"
               whiteSpace="nowrap"
+              textAlign="start"
               color="rgba(255,255,255,0.6)"
               mb="4px">
               Total Mint Fee
@@ -812,6 +813,7 @@ function ItemGrid({
             <Text
               fontSize="12px"
               fontWeight="600"
+              textAlign="start"
               whiteSpace="nowrap"
               color="rgba(255,255,255,0.6)"
               mb="4px">

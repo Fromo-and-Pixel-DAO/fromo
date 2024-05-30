@@ -8,17 +8,10 @@ type ListTableProps = {
 }
 
 function TableList({ items, isCustom }: ListTableProps) {
-
   return (
     <>
       {items?.map((item, idx) => {
-        return (
-          <TableRow
-            isCustom={isCustom}
-            item={item}
-            key={idx}
-          />
-        )
+        return <TableRow isCustom={isCustom} item={item} key={idx} />
       })}
     </>
   )

@@ -87,7 +87,7 @@ export default function Sidebar() {
   const btnRef = useRef()
   return (
     <>
-      {width > 992 ? (
+      {width > 1280 ? (
         <Box w="328px">
           <Flex mt="40px" pl="68px" flexDir="column" gap="32px">
             {sidebarsSection1.map((item) => (
@@ -182,7 +182,7 @@ export default function Sidebar() {
         </Box>
       ) : (
         <>
-          <Show below="md">
+          <Show below="xl">
             <Button
               ref={btnRef}
               color="#000"
@@ -200,9 +200,9 @@ export default function Sidebar() {
                 color: '#00DAB3',
               }}
               position="absolute"
-              top="82px"
+              top={{ base: '108px', md: '120px', lg: '126px' }}
               fontWeight="700"
-              left="150px"
+              right="32px"
               textColor="#4e14a5"
               fontSize="14px"
               zIndex="5"

@@ -226,6 +226,7 @@ export default function Main() {
       value: MyDividendsTabs.UNCLAIMED,
       render: (
         <ListItems
+          minWithTable="1044px"
           haveGridMode={false}
           columnsGrid={[1, 2, 3, 4, 5]}
           isLoading={false}
@@ -255,6 +256,7 @@ export default function Main() {
       value: MyDividendsTabs.CLAIMED,
       render: (
         <ListItems
+          minWithTable="1044px"
           haveGridMode={false}
           columnsGrid={[1, 2, 3, 4, 5, 6]}
           isLoading={false}
@@ -287,6 +289,7 @@ export default function Main() {
       value: MarketTabs.PUBLIC,
       render: (
         <ListItems
+          minWithTable="600px"
           haveGridMode={false}
           columnsGrid={[1, 2, 2, 2]}
           isLoading={false}
@@ -416,20 +419,23 @@ export default function Main() {
     <Box>
       <Flex>
         <Sidebar />
-        <Flex justifyContent="center" w="100%" p="36px 68px 40px 40px">
-          <Box w="1044px">
+        <Flex
+          justifyContent="center"
+          w="100%"
+          p={{ base: '32px 16px', md: '32px 20px', xl: '36px 68px 40px 40px' }}>
+          <Box w={{ base: '100%', xl: '1044px' }}>
             {/* My Assets */}
             <Box>
               <Text
-                fontSize="32px"
+                fontSize={{ base: '24px', md: '28px', xl: '32px' }}
                 lineHeight="36px"
                 fontWeight="800"
                 mb="32px">
                 My Assets
               </Text>
-              <Flex gap="28px">
+              <Flex direction={{ base: 'column', md: 'row' }} gap="28px">
                 <Box
-                  w="50%"
+                  w={{ base: '100%', xl: '50%' }}
                   p="24px 32px"
                   bgColor="#5E36B8"
                   borderRadius="16px">
@@ -440,7 +446,7 @@ export default function Main() {
                     <Text
                       color="#1DFED6"
                       lineHeight="44px"
-                      fontSize="40px"
+                      fontSize={{ base: '24px', md: '32px', xl: '40px' }}
                       fontWeight="800"
                       mr="12px">
                       {profit.keys}
@@ -452,9 +458,12 @@ export default function Main() {
                   <Flex
                     color="rgba(255,255,255,0.8)"
                     lineHeight="16px"
+                    direction={{ base: 'column', xl: 'row' }}
                     mb="20px">
-                    Locked for participating NFT auctions:{' '}
-                    <Text ml="4px" color="white" fontWeight="600">
+                    <Text whiteSpace="nowrap" mb={{ base: '4px', xl: '0px' }}>
+                      Locked for participating NFT auctions:{' '}
+                    </Text>
+                    <Text ml={{ xl: '4px' }} color="white" fontWeight="600">
                       {' '}
                       {profit.lockedKeys} Keys
                     </Text>
@@ -468,7 +477,7 @@ export default function Main() {
                     isLoading={convertKeysLoading}
                     bgColor="#1DFED6"
                     height="40px"
-                    w="50%"
+                    w={{ base: '100%', xl: '50%' }}
                     alignItems="center"
                     color="#000"
                     fontSize="14px"
@@ -478,7 +487,7 @@ export default function Main() {
                   </Button>
                 </Box>
                 <Box
-                  w="50%"
+                  w={{ base: '100%', xl: '50%' }}
                   p="24px 32px"
                   bgColor="#5E36B8"
                   borderRadius="16px">
@@ -489,7 +498,7 @@ export default function Main() {
                     <Text
                       color="#1DFED6"
                       lineHeight="44px"
-                      fontSize="40px"
+                      fontSize={{ base: '24px', md: '32px', xl: '40px' }}
                       fontWeight="800"
                       mr="12px">
                       {profit.flTokens && profit.flTokens !== '-'
@@ -505,9 +514,12 @@ export default function Main() {
                   <Flex
                     color="rgba(255,255,255,0.8)"
                     lineHeight="16px"
+                    direction={{ base: 'column', xl: 'row' }}
                     mb="20px">
-                    Locked for bidding FROMO plot:
-                    <Text ml="4px" color="white" fontWeight="600">
+                    <Text whiteSpace="nowrap" mb={{ base: '4px', xl: '0px' }}>
+                      Locked for bidding FROMO plot:
+                    </Text>
+                    <Text ml={{ xl: '4px' }} color="white" fontWeight="600">
                       {profit.lockedFlTokens !== '-'
                         ? Number(
                             ethers.utils.formatEther(profit.lockedFlTokens),
@@ -518,7 +530,7 @@ export default function Main() {
 
                   <Flex gap="20px">
                     <Button
-                      w="50%"
+                      w={{ base: '100%', xl: '50%' }}
                       alignItems="center"
                       height="40px"
                       border="1px solid white"
@@ -532,7 +544,7 @@ export default function Main() {
                       Withdraw
                     </Button>
                     <Button
-                      w="50%"
+                      w={{ base: '100%', xl: '50%' }}
                       alignItems="center"
                       bgColor="#1DFED6"
                       height="40px"
@@ -558,7 +570,7 @@ export default function Main() {
                 mb="20px">
                 My Profit
               </Text>
-              <Flex gap="28px">
+              <Flex flexWrap="wrap" gap="28px">
                 {myProfileList.map((i, k) => (
                   <Box
                     flex={1}

@@ -67,7 +67,7 @@ function TabsCommon({
           },
         }}>
         <Flex w="100%" justify="space-between" align="center">
-          <Flex align="center" gap="20px">
+          <Flex align="center" gap={{ md: '20px' }}>
             {renderTabs?.map((item) => (
               <Tab
                 py="8px"

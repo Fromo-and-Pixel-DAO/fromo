@@ -52,7 +52,7 @@ export default function Main() {
       title: `All Auctions`,
       value: 'allList',
       render: (
-        <SimpleGrid mt="20px" columns={[1, 2, 3, 3, 5]} spacing="20px">
+        <SimpleGrid mt="20px" columns={[1, 2, 3, 3, 4]} spacing="20px">
           {gameNft.nftList.map((item, idx) => {
             return <ItemGrid gridName="allList" item={item} key={idx} />
           })}
@@ -64,7 +64,7 @@ export default function Main() {
       title: `Upcoming`,
       value: 'upcomingList',
       render: (
-        <SimpleGrid mt="20px" columns={[1, 2, 3, 3, 5]} spacing="20px">
+        <SimpleGrid mt="20px" columns={[1, 2, 3, 3, 4]} spacing="20px">
           {upcomingList.map((item, idx) => {
             return <ItemGrid gridName="upcomingList" item={item} key={idx} />
           })}
@@ -76,7 +76,7 @@ export default function Main() {
       title: `Ongoing`,
       value: 'finishedList',
       render: (
-        <SimpleGrid mt="20px" columns={[1, 2, 3, 3, 5]} spacing="20px">
+        <SimpleGrid mt="20px" columns={[1, 2, 3, 3, 4]} spacing="20px">
           {ongoingList.map((item, idx) => {
             return <ItemGrid gridName="finishedList" item={item} key={idx} />
           })}
@@ -103,6 +103,7 @@ export default function Main() {
         <Box flex="1" minW={{ base: 'full', md: '500px' }}>
           {isLoading ? (
             <Flex
+              minH="70vh"
               textAlign="center"
               w="100%"
               h={{ base: 'auto', md: 'calc(100vh - 293px)' }}
@@ -130,10 +131,15 @@ export default function Main() {
                     />
                   </Box>
                 }>
-                <Box p="25px 50px">
+                <Box
+                  p={{
+                    base: '32px 16px',
+                    md: '32px 20px',
+                    xl: '36px 68px 40px 40px',
+                  }}>
                   <Text
                     textAlign="start"
-                    fontSize="32px"
+                    fontSize={{ base: '24px', md: '28px', xl: '32px' }}
                     lineHeight="36px"
                     fontWeight="800"
                     mb="32px">

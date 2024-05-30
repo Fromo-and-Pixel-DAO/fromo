@@ -16,6 +16,7 @@ interface ListItemsProps {
   currentPage: number
   setCurrentPage: (page: number) => void
   isCustom?: boolean
+  minWithTable?: string
   total?: number
   columnsList?: Array<string>
 }
@@ -27,6 +28,7 @@ function ListItems({
   haveGridMode = true,
   columnsGrid = [1, 2, 3, 4, 5, 6],
   total,
+  minWithTable,
   currentPage,
   setCurrentPage,
   columnsList,
@@ -69,13 +71,16 @@ function ListItems({
 
   return (
     <Box>
-      <CommonTable
-        paddingTopHeader="14px"
-        colorHeaderTable="rgba(255,255,255,0.6)"
-        fontSizeHeaderTable="12px"
-        columns={columnsList}
-        renderItem={<Table isCustom={isCustom} items={items} />}
-      />
+      <Box>
+        <CommonTable
+          paddingTopHeader="14px"
+          colorHeaderTable="rgba(255,255,255,0.6)"
+          fontSizeHeaderTable="12px"
+          minWithTable={minWithTable}
+          columns={columnsList}
+          renderItem={<Table isCustom={isCustom} items={items} />}
+        />
+      </Box>
       <Flex my="30px" justify="center">
         <ReactPaginate
           forcePage={currentPage}
