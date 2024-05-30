@@ -1,4 +1,4 @@
-import { Box, Divider, Flex, Text } from '@chakra-ui/react'
+import { Box, Divider, Flex, Text, useBreakpointValue } from '@chakra-ui/react'
 
 const rulesList = [
   {
@@ -19,14 +19,25 @@ const rulesList = [
 ]
 
 export default function Footer() {
+  const customOrientation: 'horizontal' | 'vertical' =
+    useBreakpointValue({
+      base: 'horizontal',
+      md: 'vertical',
+    }) ?? 'horizontal'
+
   return (
-    <Box p="60px 80px">
-      <Text fontWeight="600" lineHeight="20px" mb="20px" textAlign="center">
+    <Box px={{ base: '16px', xl: '80px' }} mt="60px">
+      <Text
+        fontWeight="600"
+        fontSize={{ base: '18px', xl: '16px' }}
+        lineHeight="20px"
+        mb="20px"
+        textAlign="center">
         Auction Rules
       </Text>
-      <Flex>
+      <Flex direction={{ base: 'column', md: 'row' }}>
         {rulesList.map((i, k) => (
-          <Flex key={k}>
+          <Flex direction={{ base: 'column', md: 'row' }} key={k}>
             <Box textAlign="center">
               <Text
                 fontSize="14px"
@@ -45,9 +56,10 @@ export default function Footer() {
             </Box>
             <Divider
               display={k !== 2 ? '' : 'none'}
-              orientation="vertical"
-              h="56px"
-              mx="20px"
+              orientation={customOrientation}
+              h={{ base: '1px', md: '56px' }}
+              mx={{ base: 'auto', md: '20px' }}
+              my={{ base: '8px', md: '0px' }}
             />
           </Flex>
         ))}
