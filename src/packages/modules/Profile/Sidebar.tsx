@@ -186,7 +186,7 @@ export default function Sidebar() {
             <Button
               ref={btnRef}
               color="#000"
-              bgColor="#00DAB3"
+              bgColor="#1DFED6"
               _active={{
                 bg: 'transparent',
                 border: '1px solid',
@@ -201,9 +201,8 @@ export default function Sidebar() {
               }}
               position="absolute"
               top={{ base: '108px', md: '120px', lg: '126px' }}
-              fontWeight="700"
+              fontWeight="600"
               right="32px"
-              textColor="#4e14a5"
               fontSize="14px"
               zIndex="5"
               h="30px"
@@ -216,15 +215,14 @@ export default function Sidebar() {
               isOpen={isOpen}
               finalFocusRef={btnRef}>
               <DrawerOverlay />
-              <DrawerContent background="#2A1368" textColor="white">
+              <DrawerContent background="#5E36B8" textColor="white">
                 <DrawerCloseButton />
                 <Box w="320px" borderRight="1px solid #704BEA80">
                   <Flex
                     align="center"
                     gap="15px"
                     borderBottom="1px solid #704BEA80"
-                    py="24px"
-                    justify="center"
+                    p="20px"
                     h="90px">
                     <Image
                       src="/static/account/sidebar/avatar.svg"
@@ -239,7 +237,7 @@ export default function Sidebar() {
                   <Flex
                     mt="30px"
                     pb="30px"
-                    px="40px"
+                    pl="20px"
                     flexDir="column"
                     align="left"
                     gap="20px"
