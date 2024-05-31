@@ -200,8 +200,9 @@ const Register = () => {
                   src={nft?.imageUrl}
                   fallbackSrc="/static/account/avatar.png"
                   alt="logo"
-                  w="400px"
-                  h="400px"
+                  margin={{ base: 'auto', md: 'unset' }}
+                  w={{ base: '180px', md: '220px', xl: '400px' }}
+                  h={{ base: '180px', md: '220px', xl: '400px' }}
                   borderRadius="15px"></Image>
               </Flex>
             )}
@@ -421,7 +422,7 @@ const Register = () => {
       </Box>
       <Flex
         pos="fixed"
-        py={{ base: '20px', lg: '44px' }}
+        py={{ base: '20px', md: '32px', lg: '44px' }}
         pr={{ lg: '80px' }}
         w="100%"
         justifyContent={{ base: 'center', lg: 'end' }}

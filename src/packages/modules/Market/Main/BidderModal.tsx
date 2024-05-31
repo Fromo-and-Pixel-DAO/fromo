@@ -175,7 +175,7 @@ const BidModal = ({ status, isOpen, onClose }: SubmitOfferModalProps) => {
       title={
         <Heading
           color="white"
-          fontSize={{ base: '24px', xl: '28px' }}
+          fontSize={{ base: '20px', xl: '28px' }}
           lineHeight="32px"
           textAlign="left"
           pb={{ xl: '20px' }}
@@ -192,7 +192,7 @@ const BidModal = ({ status, isOpen, onClose }: SubmitOfferModalProps) => {
           }}
           p="16px"
           pos="absolute"
-          top={{ base: '-128px', md: '-116px', xl: '-128px' }}
+          top={{ base: '-96px', md: '-116px', xl: '-128px' }}
           cursor="pointer"
           right={{ base: '-16px', md: '-28px' }}>
           <Image alt="" w="14px" h="14px" src="/static/common/close.svg" />
@@ -205,7 +205,7 @@ const BidModal = ({ status, isOpen, onClose }: SubmitOfferModalProps) => {
           The highest bidder will have the opportunity to auction their NFT in
           the next round.
         </Text>
-        <Box>
+        <Box overflow="auto" ref={scrollRef}>
           {bidList.length > 0 && (
             <Flex>
               <Text
@@ -218,12 +218,14 @@ const BidModal = ({ status, isOpen, onClose }: SubmitOfferModalProps) => {
               <Text color="rgba(255,255,255,0.6)">BID</Text>
             </Flex>
           )}
-          <Box
-            overflowY="auto"
-            height={bidList.length === 0 ? 0 : '220px'}
-            ref={scrollRef}>
+          <Box height={bidList.length === 0 ? 0 : '220px'}>
             {bidList.map((item, v) => (
-              <Flex key={item.userAddress} py="10px" align="center" mb="10px">
+              <Flex
+                key={item.userAddress}
+                py="10px"
+                gap={{ base: '20px', md: '0px' }}
+                align="center"
+                mb="10px">
                 <Flex align="center" w="200px" mr="60px">
                   <Image
                     mr="12px"
@@ -242,6 +244,7 @@ const BidModal = ({ status, isOpen, onClose }: SubmitOfferModalProps) => {
                   flex={1}
                   fontSize="16px"
                   color="white"
+                  whiteSpace="nowrap"
                   fontWeight="600">
                   {parseFloat(`${item.amount}`).toFixed(4)} $OMO Token
                 </Text>
