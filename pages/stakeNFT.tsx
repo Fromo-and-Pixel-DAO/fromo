@@ -1,11 +1,4 @@
-import {
-  Box,
-  Button,
-  Flex,
-  Image,
-  Select,
-  Text
-} from '@chakra-ui/react'
+import { Box, Button, Flex, Image, Select, Text } from '@chakra-ui/react'
 import { ellipseAddress } from '@utils'
 import { toastError, toastSuccess, toastWarning } from '@utils/toast'
 import { ethers } from 'ethers'
@@ -123,36 +116,41 @@ const Register = () => {
 
   return (
     <>
-      <Box p="24px 42px" pb="200px">
+      <Box p={{ base: '16px', lg: '24px 42px' }} pb="200px">
         <Flex _hover={{ cursor: 'pointer' }} onClick={() => router.back()}>
           <Image
             src="/static/market/left.svg"
             alt="left"
             w="24px"
             h="24px"
-            mr="16px"></Image>
+            mr="16px"
+          />
           <Text fontSize="20px" lineHeight="24px">
             Back
           </Text>
         </Flex>
         <Box
           m="16px auto"
-          w="1280px"
-          p="48px"
+          w={{ base: '100%', lg: '1280px' }}
+          p={{ base: '16px', lg: '48px' }}
           border="1px solid #704BEA"
           borderRadius="20px">
-          <Text fontSize="24px" lineHeight="36px" fontWeight="700" mb="40px">
+          <Text
+            fontSize="24px"
+            textAlign={{ base: 'center', lg: 'start' }}
+            lineHeight="36px"
+            fontWeight="700"
+            mb="40px">
             Stake NFT
           </Text>
-          <Box ml="174px">
-            <Flex align="center" h="52px">
+          <Box ml={{ lg: '174px' }}>
+            <Flex gap={{ base: '20px', lg: '44px' }} align="center" h="52px">
               <Text
-                mr="44px"
-                textAlign="right"
+                textAlign={{ lg: 'right' }}
                 color="rgba(255, 255, 255, 0.7)"
-                fontSize="16px"
+                fontSize={{ base: '14px', lg: '16px' }}
                 lineHeight="18px"
-                w="180px">
+                w={{ lg: '180px' }}>
                 Stake NFT
               </Text>
               <Select
@@ -187,14 +185,17 @@ const Register = () => {
               </Select>
             </Flex>
             {nft && (
-              <Flex align="center" mb="20px" mt="20px">
+              <Flex
+                gap={{ base: '20px', lg: '44px' }}
+                align="center"
+                mb="20px"
+                mt="20px">
                 <Text
-                  mr="44px"
-                  textAlign="right"
+                  textAlign={{ lg: 'right' }}
                   color="rgba(255, 255, 255, 0.7)"
-                  fontSize="16px"
+                  fontSize={{ base: '14px', lg: '16px' }}
                   lineHeight="18px"
-                  w="180px"></Text>
+                  w={{ lg: '180px' }}></Text>
                 <Image
                   src={nft?.imageUrl}
                   fallbackSrc="/static/account/avatar.png"
@@ -204,89 +205,123 @@ const Register = () => {
                   borderRadius="15px"></Image>
               </Flex>
             )}
-            <Flex align="center" h="52px" mb="20px">
+            <Flex
+              gap={{ base: '20px', lg: '44px' }}
+              align="center"
+              h="52px"
+              mb="20px">
               <Text
-                mr="44px"
-                textAlign="right"
+                textAlign={{ lg: 'right' }}
                 color="rgba(255, 255, 255, 0.7)"
-                fontSize="16px"
+                fontSize={{ base: '14px', lg: '16px' }}
                 lineHeight="18px"
-                w="180px">
+                w={{ lg: '180px' }}>
                 NFT Owner
               </Text>
-              <Text fontSize="16px" lineHeight="24px" color="#fff">
+              <Text
+                fontSize={{ base: '14px', lg: '16px' }}
+                lineHeight="24px"
+                color="#fff">
                 {nft ? ellipseAddress(nft?.userAddress, 10) : '-'}
               </Text>
             </Flex>
-            <Flex align="center" h="52px" mb="20px">
+            <Flex
+              gap={{ base: '20px', lg: '44px' }}
+              align="center"
+              h="52px"
+              mb="20px">
               <Text
-                mr="44px"
-                textAlign="right"
+                textAlign={{ lg: 'right' }}
                 color="rgba(255, 255, 255, 0.7)"
-                fontSize="16px"
+                fontSize={{ base: '14px', lg: '16px' }}
                 lineHeight="18px"
-                w="180px">
+                w={{ lg: '180px' }}>
                 Contract Address
               </Text>
-              <Text fontSize="16px" lineHeight="24px" color="#fff">
+              <Text
+                fontSize={{ base: '14px', lg: '16px' }}
+                lineHeight="24px"
+                color="#fff">
                 {ellipseAddress(nft?.nftAddress, 10) || '-'}
               </Text>
             </Flex>
-            <Flex align="center" h="52px" mb="20px">
+            <Flex
+              gap={{ base: '20px', lg: '44px' }}
+              align="center"
+              h="52px"
+              mb="20px">
               <Text
-                mr="44px"
-                textAlign="right"
+                textAlign={{ lg: 'right' }}
                 color="rgba(255, 255, 255, 0.7)"
-                fontSize="16px"
+                fontSize={{ base: '14px', lg: '16px' }}
                 lineHeight="18px"
-                w="180px">
+                w={{ lg: '180px' }}>
                 Token ID
               </Text>
-              <Text fontSize="16px" lineHeight="24px" color="#fff">
+              <Text
+                fontSize={{ base: '14px', lg: '16px' }}
+                lineHeight="24px"
+                color="#fff">
                 {nft?.tokenId || '-'}
               </Text>
             </Flex>
-            <Flex align="center" h="52px" mb="20px">
+            <Flex
+              gap={{ base: '20px', lg: '44px' }}
+              align="center"
+              h="52px"
+              mb="20px">
               <Text
-                mr="44px"
-                textAlign="right"
+                textAlign={{ lg: 'right' }}
                 color="rgba(255, 255, 255, 0.7)"
-                fontSize="16px"
+                fontSize={{ base: '14px', lg: '16px' }}
                 lineHeight="18px"
-                w="180px">
+                w={{ lg: '180px' }}>
                 Token Standard
               </Text>
-              <Text fontSize="16px" lineHeight="24px" color="#fff">
+              <Text
+                fontSize={{ base: '14px', lg: '16px' }}
+                lineHeight="24px"
+                color="#fff">
                 ERC-721
               </Text>
             </Flex>
-            <Flex align="center" h="52px" mb="20px">
+            <Flex
+              gap={{ base: '20px', lg: '44px' }}
+              align="center"
+              h="52px"
+              mb="20px">
               <Text
-                mr="44px"
-                textAlign="right"
+                textAlign={{ lg: 'right' }}
                 color="rgba(255, 255, 255, 0.7)"
-                fontSize="16px"
+                fontSize={{ base: '14px', lg: '16px' }}
                 lineHeight="18px"
-                w="180px">
+                w={{ lg: '180px' }}>
                 Chain
               </Text>
-              <Text fontSize="16px" lineHeight="24px" color="#fff">
+              <Text
+                fontSize={{ base: '14px', lg: '16px' }}
+                lineHeight="24px"
+                color="#fff">
                 Ethereum
               </Text>
             </Flex>
-            <Flex align="center" h="52px" mb="20px">
+            <Flex
+              gap={{ base: '20px', lg: '44px' }}
+              align="center"
+              h="52px"
+              mb="20px">
               <Text
-                mr="44px"
-                textAlign="right"
+                textAlign={{ lg: 'right' }}
                 color="rgba(255, 255, 255, 0.7)"
-                fontSize="16px"
+                fontSize={{ base: '14px', lg: '16px' }}
                 lineHeight="18px"
-                w="180px">
+                w={{ lg: '180px' }}>
                 Auction Duration
               </Text>
               <Flex
                 align="baseline"
-                fontSize="16px"
+                whiteSpace="nowrap"
+                fontSize={{ base: '14px', lg: '16px' }}
                 lineHeight="24px"
                 color="#fff">
                 24 hours{' '}
@@ -298,91 +333,114 @@ const Register = () => {
                 </Text>
               </Flex>
             </Flex>
-            <Flex align="center" h="52px" mb="20px">
+            <Flex
+              gap={{ base: '20px', lg: '44px' }}
+              align="center"
+              h="52px"
+              mb="20px">
               <Text
-                mr="44px"
-                textAlign="right"
+                textAlign={{ lg: 'right' }}
                 color="rgba(255, 255, 255, 0.7)"
-                fontSize="16px"
+                fontSize={{ base: '14px', lg: '16px' }}
                 lineHeight="18px"
-                w="180px">
+                w={{ lg: '180px' }}>
                 Auction Opening
               </Text>
-              {/* <Text fontSize="16px" lineHeight="24px" color="#fff">{genDate().format("MMMM DD [at] h [p.m.] [PST]")}</Text> */}
-              <Text fontSize="16px" lineHeight="24px" color="#fff">
+              {/* <Text fontSize={{base:'14px',lg:"16px"}} lineHeight="24px" color="#fff">{genDate().format("MMMM DD [at] h [p.m.] [PST]")}</Text> */}
+              <Text
+                fontSize={{ base: '14px', lg: '16px' }}
+                lineHeight="24px"
+                color="#fff">
                 {moment(auctionInfo?.startTimestamp).format(
                   'MMMM DD ha [GMT]',
                 ) || '--'}
               </Text>
             </Flex>
-            <Flex align="center" h="52px" mb="20px">
+            <Flex
+              gap={{ base: '20px', lg: '44px' }}
+              align="center"
+              h="52px"
+              mb="20px">
               <Text
-                mr="44px"
-                textAlign="right"
+                textAlign={{ lg: 'right' }}
                 color="rgba(255, 255, 255, 0.7)"
-                fontSize="16px"
+                fontSize={{ base: '14px', lg: '16px' }}
                 lineHeight="18px"
-                w="180px">
+                w={{ lg: '180px' }}>
                 NFT Provider Dividends
               </Text>
-              <Text fontSize="16px" lineHeight="24px" color="#fff">
+              <Text
+                fontSize={{ base: '14px', lg: '16px' }}
+                lineHeight="24px"
+                color="#fff">
                 50% of key mint fee
               </Text>
             </Flex>
-            <Flex align="center" h="52px" mb="20px">
+            <Flex
+              gap={{ base: '20px', lg: '44px' }}
+              align="center"
+              h="52px"
+              mb="20px">
               <Text
-                mr="44px"
-                textAlign="right"
+                textAlign={{ lg: 'right' }}
                 color="rgba(255, 255, 255, 0.7)"
-                fontSize="16px"
+                fontSize={{ base: '14px', lg: '16px' }}
                 lineHeight="18px"
-                w="180px">
+                w={{ lg: '180px' }}>
                 Final Winner Prize
               </Text>
-              <Text fontSize="16px" lineHeight="24px" color="#fff">
+              <Text
+                fontSize={{ base: '14px', lg: '16px' }}
+                lineHeight="24px"
+                color="#fff">
                 20% of key mint fee
               </Text>
             </Flex>
-            <Flex align="center" h="52px" mb="20px">
+            <Flex
+              gap={{ base: '20px', lg: '44px' }}
+              align="center"
+              h="52px"
+              mb="20px">
               <Text
-                mr="44px"
-                textAlign="right"
+                textAlign={{ lg: 'right' }}
                 color="rgba(255, 255, 255, 0.7)"
-                fontSize="16px"
+                fontSize={{ base: '14px', lg: '16px' }}
                 lineHeight="18px"
-                w="180px">
+                w={{ lg: '180px' }}>
                 Key Holder Dividends
               </Text>
-              <Text fontSize="16px" lineHeight="24px" color="#fff">
+              <Text
+                fontSize={{ base: '14px', lg: '16px' }}
+                lineHeight="24px"
+                color="#fff">
                 20% of following key mint fee
               </Text>
             </Flex>
           </Box>
         </Box>
       </Box>
-      <Box pos="fixed" bottom={0} bg="rgba(112, 75, 234,0.89)">
-        <Box
-          mt="32px"
-          mb="25px"
-          w="100vw"
-          height="1px"
-          bg="rgba(112, 75, 234, 0.5)"></Box>
-        <Flex w="1280px" m="0 auto" mb="30px" justifyContent="end">
-          <Button
-            isLoading={isLoading}
-            w="272px"
-            h="52px"
-            fontSize="20px"
-            lineHeight="30px"
-            color="#000"
-            fontWeight="700"
-            borderRadius="10px"
-            bgColor="#00DAB3"
-            onClick={handleRegister}>
-            Stake
-          </Button>
-        </Flex>
-      </Box>
+      <Flex
+        pos="fixed"
+        py={{ base: '20px', lg: '44px' }}
+        pr={{ lg: '80px' }}
+        w="100%"
+        justifyContent={{ base: 'center', lg: 'end' }}
+        bottom={0}
+        bg="rgba(112, 75, 234,0.89)">
+        <Button
+          isLoading={isLoading}
+          w={{ base: '50%', lg: '272px' }}
+          h="52px"
+          fontSize={{ base: '18px', lg: '20px' }}
+          lineHeight="30px"
+          color="#000"
+          fontWeight="700"
+          borderRadius="10px"
+          bgColor="#00DAB3"
+          onClick={handleRegister}>
+          Stake
+        </Button>
+      </Flex>
     </>
   )
 }
