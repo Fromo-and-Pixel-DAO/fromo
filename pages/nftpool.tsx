@@ -36,7 +36,7 @@ const NFTpool = () => {
             mt={{ base: '28px', md: '36px', xl: '52px' }}
             px="40px"
             minH="60vh">
-            <SimpleGrid columns={[1, 2, 2, 3, 5, 7]} spacing="20px">
+            <SimpleGrid columns={[1, 2, 2, 3, 5, 6]} spacing="20px">
               {gameNft.nftList.map((item, idx) => {
                 return (
                   <ItemGrid gridName="finishedList" item={item} key={idx} />

@@ -40,6 +40,12 @@ const redeemModal = definePartsStyle({
   },
 })
 
+const redeemModalMobile = definePartsStyle({
+  dialog: {
+    padding: '32px 20px 20px',
+  },
+})
+
 const upgradeModal = definePartsStyle({
   dialog: {
     padding: '40px 30px',
@@ -59,6 +65,7 @@ export const modalTheme = defineMultiStyleConfig({
     upgradeModal,
     offerSuccess,
     redeemModal,
+    redeemModalMobile,
     bidModal,
   },
   baseStyle,

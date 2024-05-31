@@ -191,9 +191,13 @@ export default function BaseModal({
         />
         <ModalContent bgColor={bgColor} color={color} borderRadius="16px">
           <Box>
-            <ModalHeader textAlign="center" sx={{
-              px: 0,
-            }}>{title}</ModalHeader>
+            <ModalHeader
+              textAlign="center"
+              sx={{
+                px: 0,
+              }}>
+              {title}
+            </ModalHeader>
             {isCloseBtn && (
               <ModalCloseButton
                 size="4xl"

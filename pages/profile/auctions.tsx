@@ -118,37 +118,40 @@ export default function Main() {
               />
             </Flex>
           ) : (
-            <Box textAlign="center">
-              <Suspense
-                fallback={
-                  <Box mt="300px">
-                    <Spinner
-                      thickness="4px"
-                      speed="0.65s"
-                      emptyColor="gray.200"
-                      color="blue.500"
-                      size="xl"
-                    />
+            <>
+              <Box minH="70vh" textAlign="center">
+                <Suspense
+                  fallback={
+                    <Box mt="300px">
+                      <Spinner
+                        thickness="4px"
+                        speed="0.65s"
+                        emptyColor="gray.200"
+                        color="blue.500"
+                        size="xl"
+                      />
+                    </Box>
+                  }>
+                  <Box
+                    p={{
+                      base: '32px 16px',
+                      md: '32px 20px',
+                      xl: '36px 68px 40px 40px',
+                    }}>
+                    <Text
+                      textAlign="start"
+                      fontSize={{ base: '24px', md: '28px', xl: '32px' }}
+                      lineHeight="36px"
+                      fontWeight="800"
+                      mb="32px">
+                      My Auctions
+                    </Text>
+                    <TabsCommon initTab="allList" renderTabs={renderTabs} />
                   </Box>
-                }>
-                <Box
-                  p={{
-                    base: '32px 16px',
-                    md: '32px 20px',
-                    xl: '36px 68px 40px 40px',
-                  }}>
-                  <Text
-                    textAlign="start"
-                    fontSize={{ base: '24px', md: '28px', xl: '32px' }}
-                    lineHeight="36px"
-                    fontWeight="800"
-                    mb="32px">
-                    My Auctions
-                  </Text>
-                  <TabsCommon initTab="allList" renderTabs={renderTabs} />
-                </Box>
-              </Suspense>
-            </Box>
+                </Suspense>
+              </Box>
+              <Footer />
+            </>
           )}
         </Box>
       </Flex>

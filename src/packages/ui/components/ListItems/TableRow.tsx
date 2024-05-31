@@ -715,10 +715,14 @@ function Table({ item, isCustom }: { item: any; isCustom: boolean }) {
               </Text>
             </Flex>
           </Td>
-          <Td w="27.5%" pl="0px" borderBottom="unset">
+          <Td w={{ base: '20%', xl: '27.5%' }} pl="0px" borderBottom="unset">
             {item.tokenId}
           </Td>
-          <Td w="27.5%" pl="0px" pr="0px" borderBottom="unset">
+          <Td
+            w={{ base: '20%', xl: '27.5%' }}
+            pl="0px"
+            pr="0px"
+            borderBottom="unset">
             <Image
               onClick={() =>
                 window.open(process.env.NEXT_PUBLIC_CHAIN_URL + item.tx)
@@ -730,7 +734,7 @@ function Table({ item, isCustom }: { item: any; isCustom: boolean }) {
               h="10px"
             />
           </Td>
-          <Td w="15%" p="0px" borderBottom="unset">
+          <Td w={{ base: '25%', xl: '15%' }} p="0px" borderBottom="unset">
             <Flex
               onClick={() => router.push(`/${item.gameId}`)}
               cursor="pointer">

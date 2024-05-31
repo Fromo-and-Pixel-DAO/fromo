@@ -6,7 +6,8 @@ import {
   Input,
   Text,
   VStack,
-  useColorModeValue,
+  Image,
+  useBreakpointValue,
 } from '@chakra-ui/react'
 
 import BaseModal from '@components/Modal'
@@ -26,6 +27,11 @@ const RedeemModal = ({
   onClose,
 }: SubmitOfferModalProps) => {
   const [loading, setLoading] = useState(false)
+  const customVariant: 'redeemModal' | 'redeemModalMobile' =
+    useBreakpointValue({
+      base: 'redeemModalMobile',
+      md: 'redeemModal',
+    }) ?? 'redeemModal'
 
   const redeemKeys = () => {
     setLoading(true)
@@ -48,9 +54,10 @@ const RedeemModal = ({
 
   return (
     <BaseModal
-      variant="redeemModal"
+      variant={customVariant}
       size={{ base: 'xs', md: '2xl', xl: '2xl' }}
       isOpen={isOpen}
+      isCloseBtn={false}
       title={
         <Heading
           textAlign="left"
@@ -58,7 +65,7 @@ const RedeemModal = ({
           lineHeight="32px"
           color="white"
           fontWeight="800"
-          mb="40px">
+          mb={{ base: '12px', xl: '40px' }}>
           Redeem Keys
         </Heading>
       }
@@ -67,26 +74,31 @@ const RedeemModal = ({
           onClick={redeemKeys}
           isLoading={loading}
           m="auto"
-          my="20px"
-          w="576px"
-          borderRadius="10px"
-          fontSize="20px"
+          my={{ base: '12px', xl: '20px' }}
+          w="100%"
+          borderRadius="8px"
+          fontSize={{ base: '16px', xl: '20px' }}
           fontWeight="700"
-          h="66px"
-          color="#fff"
-          bg="#704BEA"
+          h={{ base: '52px', xl: '66px' }}
+          color="#222222"
+          bg="#1DFED6"
           _hover={{ bg: '#704BEA' }}>
           Redeem
         </Button>
       }
-      onClose={() => {
-        if (loading) {
-          return
-        }
-        onClose()
-      }}
       bgColor="#2F2B50">
-      <VStack align="left">
+      <VStack pos="relative" align="left">
+        <Box
+          onClick={() => {
+            onClose()
+          }}
+          p="16px"
+          pos="absolute"
+          top={{ base: '-96px', xl: '-128px' }}
+          cursor="pointer"
+          right={{ base: '-16px', md: '-28px' }}>
+          <Image alt="" w="14px" h="14px" src="/static/common/close.svg" />
+        </Box>
         <Flex direction={{ base: 'column', md: 'row' }} alignItems="center">
           <Box>
             <Flex

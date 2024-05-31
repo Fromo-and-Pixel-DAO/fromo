@@ -26,7 +26,7 @@ export default function Footer() {
     }) ?? 'horizontal'
 
   return (
-    <Box px={{ base: '16px', xl: '80px' }} mt="60px">
+    <Box pb="40px" px={{ base: '16px', xl: '80px' }} mt="60px">
       <Text
         fontWeight="600"
         fontSize={{ base: '18px', xl: '16px' }}
@@ -55,6 +55,7 @@ export default function Footer() {
               </Text>
             </Box>
             <Divider
+              w={{ base: '50%', md: '1px' }}
               display={k !== 2 ? '' : 'none'}
               orientation={customOrientation}
               h={{ base: '1px', md: '56px' }}

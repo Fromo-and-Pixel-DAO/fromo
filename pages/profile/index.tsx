@@ -73,11 +73,11 @@ export default function Main() {
           setIsApproval(false)
         }
         setOmoType(type)
-        setOpenOmo(true)
+        setOnOpenOmo(true)
       })
     } else {
       setOmoType(type)
-      setOpenOmo(true)
+      setOnOpenOmo(true)
     }
   }
 
@@ -180,7 +180,7 @@ export default function Main() {
   const [isLargerThan1920] = useMediaQuery('(min-width: 1920px)')
 
   const [open, setOpen] = useState(false)
-  const [oepnOmo, setOpenOmo] = useState(false)
+  const [onOpenOmo, setOnOpenOmo] = useState(false)
   const [omoType, setOmoType] = useState<number>(0)
   const [isApproval, setIsApproval] = useState<boolean>(false)
   const [historicalTab, setHistoricalTab] = useState<number>(0)
@@ -289,7 +289,7 @@ export default function Main() {
       value: MarketTabs.PUBLIC,
       render: (
         <ListItems
-          minWithTable="600px"
+          minWithTable="750px"
           haveGridMode={false}
           columnsGrid={[1, 2, 2, 2]}
           isLoading={false}
@@ -436,7 +436,7 @@ export default function Main() {
               <Flex direction={{ base: 'column', md: 'row' }} gap="28px">
                 <Box
                   w={{ base: '100%', xl: '50%' }}
-                  p="24px 32px"
+                  p={{ base: '16px 24px', xl: '24px 32px' }}
                   bgColor="#5E36B8"
                   borderRadius="16px">
                   <Text fontWeight="600" lineHeight="20px">
@@ -460,7 +460,7 @@ export default function Main() {
                     lineHeight="16px"
                     direction={{ base: 'column', xl: 'row' }}
                     mb="20px">
-                    <Text whiteSpace="nowrap" mb={{ base: '4px', xl: '0px' }}>
+                    <Text whiteSpace="nowrap" mb={{ base: '8px', xl: '0px' }}>
                       Locked for participating NFT auctions:{' '}
                     </Text>
                     <Text ml={{ xl: '4px' }} color="white" fontWeight="600">
@@ -488,7 +488,7 @@ export default function Main() {
                 </Box>
                 <Box
                   w={{ base: '100%', xl: '50%' }}
-                  p="24px 32px"
+                  p={{ base: '16px 24px', xl: '24px 32px' }}
                   bgColor="#5E36B8"
                   borderRadius="16px">
                   <Text fontWeight="600" lineHeight="20px">
@@ -516,7 +516,7 @@ export default function Main() {
                     lineHeight="16px"
                     direction={{ base: 'column', xl: 'row' }}
                     mb="20px">
-                    <Text whiteSpace="nowrap" mb={{ base: '4px', xl: '0px' }}>
+                    <Text whiteSpace="nowrap" mb={{ base: '8px', xl: '0px' }}>
                       Locked for bidding FROMO plot:
                     </Text>
                     <Text ml={{ xl: '4px' }} color="white" fontWeight="600">
@@ -570,15 +570,14 @@ export default function Main() {
                 mb="20px">
                 My Profit
               </Text>
-              <Flex flexWrap="wrap" gap="28px">
+              <Flex flexWrap="wrap" gap={{ base: '40px', xl: '28px' }}>
                 {myProfileList.map((i, k) => (
                   <Box
                     flex={1}
                     key={k}
                     bg="#2F2B50"
                     borderRadius="16px"
-                    px="32px"
-                    py="20px">
+                    p={{ base: '16px 24px', xl: '20px 32px' }}>
                     <Text fontWeight="600">{i.title} </Text>
                     <Flex my="20px" gap="12px" alignItems="center">
                       <Image
@@ -677,10 +676,10 @@ export default function Main() {
           lockedOmoAmount={profit.lockedFlTokens}
           withdrawalAmount={profit.withdrawalAmountTokens}
           type={omoType}
-          isOpen={oepnOmo}
+          isOpen={onOpenOmo}
           isApproval={isApproval}
           onClose={() => {
-            setOpenOmo(false)
+            setOnOpenOmo(false)
             refreshUserHeaderInfo()
           }}
         />

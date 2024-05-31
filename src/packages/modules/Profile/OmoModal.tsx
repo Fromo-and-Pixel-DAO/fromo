@@ -7,6 +7,7 @@ import {
   Input,
   Text,
   VStack,
+  useBreakpointValue,
 } from '@chakra-ui/react'
 
 import BaseModal from '@components/Modal'
@@ -45,6 +46,11 @@ const OmoModal = ({
   const [amount, setAmount] = useState(null)
   const [useAmount, setUseAmount] = useState(0)
   const [approve, setApprove] = useState(false)
+  const customVariant: 'redeemModal' | 'redeemModalMobile' =
+    useBreakpointValue({
+      base: 'redeemModalMobile',
+      md: 'redeemModal',
+    }) ?? 'redeemModal'
 
   const handleAmountChange = (type: number) => {
     setLoading(true)
@@ -118,7 +124,7 @@ const OmoModal = ({
 
   return (
     <BaseModal
-      variant="redeemModal"
+      variant={customVariant}
       size={{ base: 'xs', md: 'md', xl: 'xl' }}
       isOpen={isOpen}
       isCloseBtn={false}
@@ -129,7 +135,7 @@ const OmoModal = ({
           lineHeight="32px"
           color="white"
           fontWeight="800"
-          mb="40px">
+          mb={{ base: '12px', xl: '40px' }}>
           {type === 1 ? 'Deposit' : 'Withdraw'} $OMO
         </Heading>
       }
@@ -159,9 +165,9 @@ const OmoModal = ({
           }}
           p="16px"
           pos="absolute"
-          top="-128px"
+          top={{ base: '-96px', xl: '-128px' }}
           cursor="pointer"
-          right="-28px">
+          right={{ base: '-16px', md: '-28px' }}>
           <Image alt="" w="14px" h="14px" src="/static/common/close.svg" />
         </Box>
         <Box mb="12px">
