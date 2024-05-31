@@ -523,11 +523,11 @@ const Details = () => {
             <Flex justifyContent="center">
               <Flex
                 background="#FFBD13"
-                fontSize="24px"
+                fontSize={{ base: '20px', xl: '24px' }}
                 w="max-content"
                 px="33px"
                 borderRadius="full"
-                py="12px"
+                py={{ base: '8px', xl: '12px' }}
                 fontWeight="800"
                 h="52px"
                 alignItems="center"

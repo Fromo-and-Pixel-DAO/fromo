@@ -134,11 +134,13 @@ function ItemGrid({
             query: { nftName: item.name },
           })
         }}
+        w={{ base: '100%', md: 'unset' }}
         borderRadius="40px"
         p="16px"
         pr="25px">
-        <Flex gap="20px">
+        <Flex direction={{ base: 'column', md: 'row' }} gap="20px">
           <Box
+            m="auto"
             w="180px"
             h="180px"
             borderRadius="28px"
@@ -242,7 +244,10 @@ function ItemGrid({
                 </Flex>
               </Box>
             </Flex>
-            <Flex justifyContent="space-between" alignItems="end">
+            <Flex
+              mt={{ base: '15px', md: '0px' }}
+              justifyContent="space-between"
+              alignItems="end">
               {localTimeFormatted && <RenderCountSecondary />}
               <Flex
                 w="75px"
@@ -287,6 +292,7 @@ function ItemGrid({
         }}
         borderRadius="40px"
         p="16px"
+        w={{ base: '100%', md: 'unset' }}
         bg="#2F2B50"
         position="relative">
         {gridName === 'finishedList' &&
@@ -314,7 +320,11 @@ function ItemGrid({
           direction="column"
           justifyContent="center"
           alignItems="center">
-          <Box borderRadius="28px" className="image-effect" pos="relative">
+          <Box
+            borderRadius="28px"
+            className="image-effect"
+            w="unset"
+            pos="relative">
             <Image
               alt=""
               w="180px"
