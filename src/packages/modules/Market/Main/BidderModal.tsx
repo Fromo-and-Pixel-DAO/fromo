@@ -7,6 +7,7 @@ import {
   Input,
   Text,
   VStack,
+  useBreakpointValue,
 } from '@chakra-ui/react'
 
 import BaseModal from '@components/Modal'
@@ -39,6 +40,12 @@ const BidModal = ({ status, isOpen, onClose }: SubmitOfferModalProps) => {
 
   const scrollRef = useRef(null)
   const [bidLoading, setBidLoading] = useState(false)
+
+  const customVariant: 'bidModal' | 'bidModalMobile' =
+    useBreakpointValue({
+      base: 'bidModalMobile',
+      md: 'bidModal',
+    }) ?? 'bidModal'
 
   const { address } = useStore()
 
@@ -161,17 +168,17 @@ const BidModal = ({ status, isOpen, onClose }: SubmitOfferModalProps) => {
 
   return (
     <BaseModal
-      variant="bidModal"
-      size="2xl"
+      variant={customVariant}
+      size={{ base: 'xs', md: '2xl', xl: '2xl' }}
       isOpen={isOpen}
       isCloseBtn={false}
       title={
         <Heading
           color="white"
-          fontSize="28px"
+          fontSize={{ base: '24px', xl: '28px' }}
           lineHeight="32px"
           textAlign="left"
-          pb="20px"
+          pb={{ xl: '20px' }}
           fontWeight="800">
           Bid on this Plot of FROMO
         </Heading>
@@ -185,12 +192,16 @@ const BidModal = ({ status, isOpen, onClose }: SubmitOfferModalProps) => {
           }}
           p="16px"
           pos="absolute"
-          top="-128px"
+          top={{ base: '-128px', md: '-116px', xl: '-128px' }}
           cursor="pointer"
-          right="-28px">
+          right={{ base: '-16px', md: '-28px' }}>
           <Image alt="" w="14px" h="14px" src="/static/common/close.svg" />
         </Box>
-        <Text lineHeight="20px" color="rgba(255,255,255,0.8)" mb="32px">
+        <Text
+          lineHeight="20px"
+          fontSize={{ base: '14px', xl: '16px' }}
+          color="rgba(255,255,255,0.8)"
+          mb="32px">
           The highest bidder will have the opportunity to auction their NFT in
           the next round.
         </Text>
@@ -253,6 +264,7 @@ const BidModal = ({ status, isOpen, onClose }: SubmitOfferModalProps) => {
           </Box>
         </Box>
         <Flex
+          direction={{ base: 'column', md: 'row' }}
           gap="20px"
           alignItems="center"
           align="baseline"
@@ -288,7 +300,7 @@ const BidModal = ({ status, isOpen, onClose }: SubmitOfferModalProps) => {
           </Flex>
           <Button
             w="160px"
-            h="56px"
+            h={{ base: '52px', xl: '56px' }}
             borderRadius="8px"
             fontSize="20px"
             fontWeight="600"
@@ -302,9 +314,9 @@ const BidModal = ({ status, isOpen, onClose }: SubmitOfferModalProps) => {
           </Button>
         </Flex>
         <Flex
-          mt="8px"
+          mt={{ base: '16px', xl: '8px' }}
           fontSize="12px"
-          lineHeight="16px"
+          mb="16px"
           color="rgba(255,255,255,0.6)">
           Available：
           <Text mr="4px" fontWeight="600">
@@ -313,19 +325,26 @@ const BidModal = ({ status, isOpen, onClose }: SubmitOfferModalProps) => {
           </Text>{' '}
           $OMO Token
         </Flex>
-        <Flex bg="#4C467B" py="16px" px="20px" borderRadius="12px" mt="20px">
+        <Flex
+          direction={{ base: 'column', md: 'row' }}
+          bg="#4C467B"
+          py="16px"
+          px="20px"
+          borderRadius="12px"
+          mt="20px">
           <Image
             src="/static/common/info.svg"
             alt="info"
             w="16px"
             h="16px"
             mr="12px"
+            mb="8px"
           />
           <Text
             textAlign="justify"
             color="white"
-            fontSize="14px"
-            lineHeight="21px"
+            fontSize={{ base: '12px', xl: '14px' }}
+            // lineHeight="21px"
             mt="-5px">
             The $OMO you bid is used to purchase the FROMO plot. It will be
             locked until the bidding ends. If you lose the FROMO plot, it will

@@ -58,6 +58,12 @@ const bidModal = definePartsStyle({
   },
 })
 
+const bidModalMobile = definePartsStyle({
+  dialog: {
+    padding: '32px 20px 8px 20px',
+  },
+})
+
 export const modalTheme = defineMultiStyleConfig({
   variants: {
     offer,
@@ -67,6 +73,7 @@ export const modalTheme = defineMultiStyleConfig({
     redeemModal,
     redeemModalMobile,
     bidModal,
+    bidModalMobile,
   },
   baseStyle,
 })
