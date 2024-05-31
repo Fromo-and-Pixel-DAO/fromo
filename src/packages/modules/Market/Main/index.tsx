@@ -87,7 +87,7 @@ export default function Main() {
       <>
         {ongoingList.length > 0 && (
           <Box
-            px={{ base: '16px', md: '20px' }}
+            px={{ base: '16px', md: '24px' }}
             mt={{ base: '40px', xl: '80px' }}>
             <Box>
               <Flex
@@ -117,7 +117,7 @@ export default function Main() {
 
         {upcomingList.length > 0 && (
           <Box
-            px={{ base: '16px', md: '20px' }}
+            px={{ base: '16px', md: '24px' }}
             mt={{ base: '40px', xl: '80px' }}>
             <Box>
               <Flex
@@ -147,7 +147,7 @@ export default function Main() {
 
         {finishedList.length > 0 && (
           <Box
-            px={{ base: '16px', md: '20px' }}
+            px={{ base: '16px', md: '24px' }}
             mt={{ base: '40px', xl: '80px' }}>
             <Box>
               <Flex

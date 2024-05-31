@@ -510,7 +510,7 @@ const Details = () => {
             w="max-content"
             cursor="pointer"
             alignItems="center"
-            pl="68px"
+            pl={{ base: '16px', md: '24px', xl: '68px' }}
             onClick={() => router.back()}>
             <ArrowBackIcon fontSize="20px" mr="4px" />
             <Text fontSize="20px" lineHeight="20px">
@@ -539,14 +539,29 @@ const Details = () => {
               </Flex>
             </Flex>
           )}
-        <Box px="68px" py="36px" mb="60px">
-          <Flex gap="40px" justifyContent="space-between">
-            <Box w="32.5%">
+        <Box px={{ base: '16px', md: '24px', xl: '68px' }} py="36px" mb="60px">
+          <Box display={{ base: 'block', xl: 'none' }} mb="32px">
+            <Image
+              m={{ base: 'auto', md: 'unset' }}
+              w="180px"
+              h="180px"
+              objectFit="cover"
+              borderRadius="15px"
+              alt=""
+              src={gameAmountNft.imageUrl}
+              fallbackSrc="/static/license-template/template.png"
+            />
+          </Box>
+          <Flex
+            direction={{ base: 'column', xl: 'row' }}
+            gap="40px"
+            justifyContent="space-between">
+            <Box w={{ xl: '32.5%' }}>
               <Text
                 fontWeight="800"
                 lineHeight="44px"
-                fontSize="40px"
-                mb="40px">
+                fontSize={{ base: '32px', md: '36px', xl: '40px' }}
+                mb={{ base: '20px', xl: '40px' }}>
                 {nftName}
               </Text>
               <Box>
@@ -561,7 +576,7 @@ const Details = () => {
                       mb="20px">
                       <Text
                         py="12px"
-                        fontSize="20px"
+                        fontSize={{ base: '16px', md: '20px' }}
                         fontWeight="600"
                         lineHeight="24px"
                         color="rgba(255,255,255,0.8)">
@@ -586,10 +601,10 @@ const Details = () => {
                         borderRadius="8px"
                         fontWeight="600"
                         py="12px"
-                        mb="40px"
+                        mb={{ base: '20px', xl: '40px' }}
                         px="20px"
                         gap="8px"
-                        fontSize="20px"
+                        fontSize={{ base: '16px', md: '20px' }}
                         lineHeight="24px"
                         isLoading={retrieveNftLoading}
                         onClick={retrieveNft}>
@@ -623,6 +638,7 @@ const Details = () => {
                         borderRadius="8px"
                         gap="8px"
                         mb="20px"
+                        fontSize={{ base: '16px', md: '20px' }}
                         fontWeight="600"
                         lineHeight="24px"
                         isLoading={retrieveNftLoading}
@@ -689,14 +705,17 @@ const Details = () => {
                     ))}
                   </Flex>
 
-                  <Flex mt="20px">
+                  <Flex
+                    mt="20px"
+                    flexWrap={{ base: 'wrap', xl: 'nowrap' }}
+                    gap={{ base: '20px', xl: '0px' }}>
                     {mintingDetails.map((i, k) => (
                       <Flex key={k}>
                         <Box>
                           <Flex
                             alignItems="center"
                             fontWeight="800"
-                            fontSize="32px"
+                            fontSize={{ base: '24px', md: '28px', xl: '32px' }}
                             lineHeight="36px"
                             gap="8px">
                             <Image
@@ -728,7 +747,7 @@ const Details = () => {
               </Box>
             </Box>
 
-            <Box w="35%">
+            <Box w="35%" display={{ base: 'none', xl: 'block' }}>
               <Image
                 w="100%"
                 h="532px"
@@ -740,7 +759,7 @@ const Details = () => {
               />
             </Box>
 
-            <Box w="32.5%">
+            <Box w={{ xl: '32.5%' }}>
               <Flex justifyContent="space-between">
                 <Text
                   textTransform="uppercase"
@@ -752,7 +771,7 @@ const Details = () => {
 
               <Box
                 mt="20px"
-                mb="58px"
+                mb={{ base: '40px', xl: '58px' }}
                 fontSize="32px"
                 lineHeight="36px"
                 fontWeight="800"
@@ -838,7 +857,12 @@ const Details = () => {
                     </Flex>
                   )}
 
-                <Box px="24px" py="20px" bg="#5E36B8" borderRadius="16px">
+                <Box
+                  w={{ base: '100%', md: '50%', xl: '100%' }}
+                  px="24px"
+                  py="20px"
+                  bg="#5E36B8"
+                  borderRadius="16px">
                   <Box>
                     {ownedKeys()}
                     {progress()}
@@ -937,13 +961,10 @@ const Details = () => {
                 {progress()}
               </Box> */}
 
-                <Flex
-                  justifyContent="space-between"
-                  alignItems="center"
-                  gap="20px">
+                <Flex alignItems="center" gap={{ base: '8px', xl: '20px' }}>
                   {/* My Key Holder Dividends */}
                   <Flex
-                    w="50%"
+                    w={{ base: '50%', md: '30%', xl: '50%' }}
                     direction="column"
                     justifyItems="center"
                     alignItems="center"
@@ -958,7 +979,10 @@ const Details = () => {
                         w="12px"
                         h="20px"
                       />
-                      <Box fontSize="24px" fontWeight="800" lineHeight="28px">
+                      <Box
+                        fontSize={{ base: '20px', xl: '24px' }}
+                        fontWeight="800"
+                        lineHeight="28px">
                         {(
                           Number(keyDividends) +
                           Number(ethers.utils.formatEther(claims))
@@ -979,7 +1003,7 @@ const Details = () => {
                       borderRadius="8px"
                       colorScheme="primary"
                       fontWeight="600"
-                      fontSize="14px"
+                      fontSize={{ base: '12px', xl: '14px' }}
                       color="#222222"
                       onClick={claim}
                       disabled={
@@ -1000,7 +1024,7 @@ const Details = () => {
 
                   {detailInfos.principal.toLowerCase() === address && (
                     <Flex
-                      w="50%"
+                      w={{ base: '50%', md: '30%', xl: '50%' }}
                       direction="column"
                       justifyItems="center"
                       alignItems="center"
@@ -1015,7 +1039,10 @@ const Details = () => {
                           w="12px"
                           h="20px"
                         />
-                        <Box fontSize="24px" fontWeight="800" lineHeight="28px">
+                        <Box
+                          fontSize={{ base: '20px', xl: '24px' }}
+                          fontWeight="800"
+                          lineHeight="28px">
                           {detailInfos.principal ===
                           ethers.constants.AddressZero
                             ? '--'
@@ -1050,7 +1077,7 @@ const Details = () => {
                         borderRadius="8px"
                         colorScheme="primary"
                         fontWeight="600"
-                        fontSize="14px"
+                        fontSize={{ base: '12px', xl: '14px' }}
                         color="#222222">
                         {detailInfos.principal === ethers.constants.AddressZero
                           ? '--'
