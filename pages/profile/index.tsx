@@ -420,10 +420,9 @@ export default function Main() {
       <Flex>
         <Sidebar />
         <Flex
-          justifyContent="center"
-          w="100%"
-          p={{ base: '32px 16px', md: '32px 20px', xl: '36px 68px 40px 40px' }}>
-          <Box w={{ base: '100%', xl: '1044px' }}>
+          w="calc(100% - 328px)"
+          p={{ base: '32px 16px', md: '32px 20px', xl: '36px 68px 40px 0px' }}>
+          <Box w="100%">
             {/* My Assets */}
             <Box>
               <Text

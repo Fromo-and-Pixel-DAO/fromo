@@ -100,7 +100,10 @@ export default function Main() {
     <Box minH="calc(100vh - 85px)">
       <Flex minH="70vh">
         <Sidebar />
-        <Box flex="1" minW={{ base: 'full', md: '500px' }}>
+        <Box
+          w="calc(100% - 328px)"
+          flex="1"
+          minW={{ base: 'full', md: '500px' }}>
           {isLoading ? (
             <Flex
               minH="70vh"
@@ -136,7 +139,7 @@ export default function Main() {
                     p={{
                       base: '32px 16px',
                       md: '32px 20px',
-                      xl: '36px 68px 40px 40px',
+                      xl: '36px 68px 40px 0px',
                     }}>
                     <Text
                       textAlign="start"
@@ -155,7 +158,6 @@ export default function Main() {
           )}
         </Box>
       </Flex>
-      <Footer />
     </Box>
   )
 }
