@@ -74,7 +74,6 @@ export default function Header({
           </Box>
         ))}
       </Flex>
-
       {button}
     </Flex>
   )
