@@ -12,8 +12,7 @@ const nextConfig = {
       },
       {
         source: `/fl/:path*`,
-        // destination: `https://pom.wtf/fl/:path*`,
-        destination: `http://localhost:10081/fl/:path*`,
+        destination: `https://pom.wtf/fl/:path*`,
       },
     ]
   },
