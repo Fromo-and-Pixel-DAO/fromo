@@ -59,12 +59,12 @@ export default function Container({
       color="white">
       <Header />
 
-      {/* <Box
+      <Box
         mx="auto"
         pt={{ base: '75px', md: '85px' }}
         pb={{ base: '75px', lg: 'unset' }}>
         {children}
-      </Box> */}
+      </Box>
     </Box>
   )
 }
