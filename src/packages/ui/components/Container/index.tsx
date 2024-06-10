@@ -51,18 +51,20 @@ export default function Container({
       overflow="hidden"
       backgroundImage="/static/common/bg-main.svg"
       backgroundColor="#0B063B"
+      backgroundSize="cover"
+      backgroundRepeat="no-repeat"
       backgroundAttachment="fixed"
       minH="100vh"
       pos="relative"
       color="white">
       <Header />
 
-      <Box
+      {/* <Box
         mx="auto"
         pt={{ base: '75px', md: '85px' }}
         pb={{ base: '75px', lg: 'unset' }}>
         {children}
-      </Box>
+      </Box> */}
     </Box>
   )
 }

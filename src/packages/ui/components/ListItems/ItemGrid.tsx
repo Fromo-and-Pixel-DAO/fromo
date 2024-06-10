@@ -25,6 +25,10 @@ import moment from 'moment'
 import useStore from 'packages/store'
 import { myNFTUnlicensedData } from './FakeData'
 
+interface RenderCountProps {
+  isFinished?: boolean
+}
+
 function ItemGrid({
   item,
   gridName,
@@ -64,7 +68,7 @@ function ItemGrid({
 
   const time = useCountDown(localTimeFormatted)
 
-  const RenderCount = () => {
+  const RenderCount: React.FC<RenderCountProps> = ({ isFinished = false }) => {
     const formattedTime = useMemo(() => {
       const timeString = `${time.hours > 0 ? `${time.hours}:` : ''}${
         time.minutes
@@ -73,11 +77,80 @@ function ItemGrid({
     }, [])
 
     if (item.status === State.Upcoming) {
-      return <span>Start in {formattedTime}</span>
+      return (
+        <Flex
+          position="absolute"
+          w="100%"
+          bottom="8px"
+          left="50%"
+          transform="translate(-50%)"
+          justifyContent="center">
+          <Box
+            w="100%"
+            textAlign="center"
+            mx="8px"
+            bgColor={bgColorStyle}
+            p="6px 12px"
+            borderRadius="20px"
+            fontSize="14px"
+            fontWeight="600"
+            color="white">
+            <span>Start in {formattedTime}</span>
+          </Box>
+        </Flex>
+      )
     } else if (item.status === State.Ongoing) {
-      return <span>End in {formattedTime}</span>
+      return (
+        <Flex
+          position="absolute"
+          w="100%"
+          bottom="8px"
+          left="50%"
+          transform="translate(-50%)"
+          justifyContent="center">
+          <Box
+            w="100%"
+            textAlign="center"
+            mx="8px"
+            bgColor={bgColorStyle}
+            p="6px 12px"
+            borderRadius="20px"
+            fontSize="14px"
+            fontWeight="600"
+            color="#222222">
+            <span>End in {formattedTime}</span>
+          </Box>
+        </Flex>
+      )
     } else {
-      return <>Finished</>
+      return (
+        <>
+          {isFinished ? (
+            <Flex
+              position="absolute"
+              w="100%"
+              bottom="8px"
+              left="50%"
+              transform="translate(-50%)"
+              justifyContent="center">
+              <Box
+                w="100%"
+                textAlign="center"
+                mx="8px"
+                bgColor={bgColorStyle}
+                p="6px 12px"
+                borderRadius="20px"
+                fontSize="14px"
+                fontWeight="600"
+                color="#222222">
+                <span>Finished</span>
+              </Box>
+            </Flex>
+          ) : (
+            ''
+          )}
+        </>
+      )
     }
   }
 
@@ -137,7 +210,7 @@ function ItemGrid({
         w={{ base: '100%', md: 'unset' }}
         borderRadius="40px"
         p="16px"
-        pr="25px">
+        pr="32px">
         <Flex direction={{ base: 'column', md: 'row' }} gap="20px">
           <Box
             m="auto"
@@ -292,6 +365,7 @@ function ItemGrid({
         }}
         borderRadius="40px"
         p="16px"
+        pb="20px"
         w={{ base: '100%', md: 'unset' }}
         bg="#2F2B50"
         position="relative">
@@ -362,6 +436,7 @@ function ItemGrid({
         }}
         borderRadius="40px"
         p="16px"
+        pb="20px"
         bg="#2F2B50"
         position="relative">
         <>
@@ -395,22 +470,7 @@ function ItemGrid({
               fallbackSrc="/static/license-template/template.png"
             />
 
-            {localTimeFormatted && (
-              <Flex
-                p="6px 12px"
-                borderRadius="20px"
-                position="absolute"
-                w="84%"
-                bottom="8px"
-                left="50%"
-                transform="translate(-50%)"
-                justifyContent="center"
-                bgColor={bgColorStyle}>
-                <Text fontSize="14px" fontWeight="600" color="#222222">
-                  <RenderCount />
-                </Text>
-              </Flex>
-            )}
+            {localTimeFormatted && <RenderCount />}
           </Box>
         </>
         <Box mt="16px">
@@ -737,22 +797,7 @@ function ItemGrid({
           fallbackSrc="/static/license-template/template.png"
         />
 
-        {localTimeFormatted && (
-          <Flex
-            p="6px 12px"
-            borderRadius="20px"
-            position="absolute"
-            w="84%"
-            bottom="8px"
-            left="50%"
-            transform="translate(-50%)"
-            justifyContent="center"
-            bgColor={bgColorStyle}>
-            <Text fontSize="14px" fontWeight="600" color="#222222">
-              <RenderCount />
-            </Text>
-          </Flex>
-        )}
+        {localTimeFormatted && <RenderCount />}
       </Box>
 
       <Box mt="16px">
