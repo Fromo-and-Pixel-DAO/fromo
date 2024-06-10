@@ -44,10 +44,12 @@
     "@emotion/styled": "^11",
     "@faker-js/faker": "^8.4.1",
     "@hookform/error-message": "^2.0.1",
+    "@rainbow-me/rainbowkit": "^2.0.2",
     "@react-three/fiber": "^8.9.1",
     "@reduxjs/toolkit": "^1.8.3",
-    "@tanstack/react-query": "^4.24.4",
+    "@tanstack/react-query": "^4.20.2",
     "@types/chart.js": "^2.9.37",
+    "@wagmi/core": "^2.10.5",
     "@walletconnect/web3-provider": "^1.8.0",
     "alchemy-sdk": "^2.4.3",
     "antd": "^5.14.1",
@@ -79,7 +81,8 @@
     "react-toastify": "^9.1.1",
     "react-vh": "^1.1.1",
     "three": "^0.146.0",
-    "wagmi": "^0.8.4",
+    "viem": "2.x",
+    "wagmi": "^2.5.11",
     "walletlink": "^2.5.0",
     "web3": "^1.8.1",
     "web3modal": "^1.9.10",
@@ -111,5 +114,6 @@
     "stylelint-scss": "^4.3.0",
     "typescript": "^4.7.4",
     "url-loader": "^4.1.1"
-  }
+  },
+  "packageManager": "yarn@1.22.22+sha1.ac34549e6aa8e7ead463a7407e1c7390f61a6610"
 }

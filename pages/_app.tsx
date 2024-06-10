@@ -3,6 +3,13 @@ export const metadata = {
   description: 'FROMO',
 }
 
+import '@rainbow-me/rainbowkit/styles.css'
+import { useRouter } from 'next/router'
+
+import { WagmiProvider } from 'wagmi'
+import { RainbowKitProvider, type Locale } from '@rainbow-me/rainbowkit'
+import { config } from '../src/configChanis'
+
 import { ToastContainer } from 'react-toastify'
 import useVH from 'react-vh'
 
@@ -37,24 +44,29 @@ const App = ({ Component, pageProps }: any) => {
   // useEffect(() => {
   //   setStartTimeByContract()
   // }, [])
+  const { locale } = useRouter() as { locale: Locale }
 
   return (
-    <ChakraProvider theme={customTheme}>
-      <DefaultLayout>
-        <QueryClientProvider client={queryClient}>
-          <Head>
-            <title>FROMO</title>
-            <meta name="description" content="FROMO" />
-            <meta
-              name="keywords"
-              content="fromo, froppyLand, crypto, nft, eth, "
-            />
-          </Head>
-          <Component {...pageProps} />
-        </QueryClientProvider>
-      </DefaultLayout>
-      <ToastContainer autoClose={3000} theme="colored" />
-    </ChakraProvider>
+    <WagmiProvider config={config}>
+      <QueryClientProvider client={queryClient}>
+        <RainbowKitProvider locale={locale}>
+          <ChakraProvider theme={customTheme}>
+            <DefaultLayout>
+              <Head>
+                <title>FROMO</title>
+                <meta name="description" content="FROMO" />
+                <meta
+                  name="keywords"
+                  content="fromo, froppyLand, crypto, nft, eth, "
+                />
+              </Head>
+              <Component {...pageProps} />
+            </DefaultLayout>
+            <ToastContainer autoClose={3000} theme="colored" />
+          </ChakraProvider>
+        </RainbowKitProvider>
+      </QueryClientProvider>
+    </WagmiProvider>
   )
 }
 

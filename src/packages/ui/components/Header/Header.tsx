@@ -1,37 +1,31 @@
-import { FC, memo, useCallback, useEffect, useReducer } from 'react'
+import { FC, useCallback, useEffect, useReducer } from 'react'
 
+import { providers } from 'ethers'
 import { useRouter } from 'next/router'
+import { getChainData } from 'packages/lib/utilities'
+import useStore from 'packages/store'
+import { initialState, reducer, web3Modal } from 'packages/web3'
 
-import { ChevronDownIcon, HamburgerIcon } from '@chakra-ui/icons'
+import { HamburgerIcon } from '@chakra-ui/icons'
 import {
   Box,
-  Button,
   Collapse,
   Flex,
   IconButton,
   Image,
   Link,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
   Popover,
   PopoverContent,
   PopoverTrigger,
   Stack,
   Text,
-  useColorMode,
   useColorModeValue,
   useDisclosure,
-  useMediaQuery,
   useToast,
 } from '@chakra-ui/react'
-import { providers } from 'ethers'
-import { getChainData } from 'packages/lib/utilities'
-import useStore from 'packages/store'
-import { initialState, reducer, web3Modal } from 'packages/web3'
 
-import { ellipseAddress } from '@utils'
+import { CustomConnectButton } from '@components/ConnectButton'
+import { useAccount } from 'wagmi'
 
 const NETWORK = 'sepolia_test'
 
@@ -84,9 +78,6 @@ const NAV_ITEMS_DISCONNECTED: Array<NavItem> = [
 
 const Header: FC = () => {
   const { setAddress } = useStore()
-  const bgWallet = useColorModeValue('#fff', '#000')
-  const textWallet = useColorModeValue('#000', '#fff')
-  const [isLargerThan960] = useMediaQuery('(min-width: 960px)')
   const { isOpen, onToggle } = useDisclosure()
   const router = useRouter()
   const { pathname } = router
@@ -232,161 +223,11 @@ const Header: FC = () => {
         <Flex justify="center" h="28px" onClick={() => router.replace('/')}>
           <Image cursor="pointer" src="/static/common/logo.svg" alt="" />
         </Flex>
-
-        <Stack
-          flex={{ base: 1, md: 0 }}
-          justify="flex-end"
-          direction="row"
-          spacing={10}
-          align="center">
-          <Flex display={{ base: 'none', lg: 'flex' }}>
-            <DesktopNav />
-          </Flex>
-
-          <Box display={{ base: 'none', lg: 'flex' }}>
-            {!web3Provider && isLargerThan960 ? (
-              <Button
-                fontSize="14px"
-                border="1px solid white"
-                bg={bgWallet}
-                fontWeight={400}
-                onClick={connect}
-                borderRadius="full"
-                className="connect-wallet-btn">
-                Connect Wallet
-              </Button>
-            ) : (
-              <Menu>
-                <MenuButton
-                  _hover={{
-                    bg: 'unset',
-                  }}
-                  _active={{
-                    bg: 'unset',
-                  }}
-                  bg="transparent"
-                  color="#fff"
-                  borderRadius="full"
-                  as={Button}
-                  pr="12px"
-                  rightIcon={<ChevronDownIcon fontSize="20px" />}
-                  h="36px"
-                  border="1px solid white">
-                  {ellipseAddress(address)}
-                </MenuButton>
-                <MenuList bg="white" borderRadius="8px">
-                  <MenuItem
-                    bg="white"
-                    color="black"
-                    _hover={{ bgColor: 'gray.200' }}
-                    _active={{ bgColor: 'gray.200' }}>
-                    {ellipseAddress(address)}
-                  </MenuItem>
-                  <MenuItem
-                    bg="white"
-                    color="black"
-                    _hover={{ bgColor: 'gray.200' }}
-                    _active={{ bgColor: 'gray.200' }}
-                    onClick={disconnect}>
-                    Disconnect
-                  </MenuItem>
-                </MenuList>
-              </Menu>
-            )}
-          </Box>
-        </Stack>
-        <Flex
-          display={{ base: 'flex', lg: 'none' }}
-          gap="24px"
-          justify="space-between"
-          align="center">
-          {/* {colorMode === 'light' ? (
-            <MoonIcon
-              cursor="pointer"
-              color="yellow.400"
-              onClick={toggleColorMode}
-            />
-          ) : (
-            <SunIcon cursor="pointer" onClick={toggleColorMode} />
-          )} */}
-          {!web3Provider && !isLargerThan960 ? (
-            <Flex
-              display={{ base: 'flex', lg: 'none' }}
-              bgColor="white"
-              ml="12px"
-              align="center"
-              justify="center"
-              borderRadius="full"
-              w="40px"
-              h="40px"
-              // onClick={connect}
-              className="connect-wallet-btn">
-              <Menu>
-                <MenuButton
-                  bg={bgWallet}
-                  color={textWallet}
-                  borderRadius="full"
-                  as={Box}
-                  fontSize="14px"
-                  border="1px solid white">
-                  <Image
-                    src="/static/header/wallet-icon.svg"
-                    alt=""
-                    objectFit="cover"
-                  />
-                </MenuButton>
-                <MenuList borderRadius="8px">
-                  <MenuItem onClick={connect}>Connect Wallet</MenuItem>
-                </MenuList>
-              </Menu>
-            </Flex>
-          ) : (
-            <Flex
-              display={{ base: 'flex', lg: 'none' }}
-              bgColor="white"
-              align="center"
-              justify="center"
-              borderRadius="full"
-              ml="12px"
-              w="40px"
-              h="40px"
-              // onClick={disconnect}
-            >
-              <Menu>
-                <MenuButton
-                  bg={bgWallet}
-                  color={textWallet}
-                  borderRadius="full"
-                  as={Box}
-                  fontSize="14px"
-                  border="1px solid white">
-                  <Image
-                    src="/static/header/wallet-icon.svg"
-                    alt=""
-                    objectFit="cover"
-                  />
-                </MenuButton>
-                <MenuList bg="white" borderRadius="8px">
-                  <MenuItem
-                    bg="white"
-                    color="black"
-                    _hover={{ bgColor: 'gray.200' }}
-                    _active={{ bgColor: 'gray.200' }}>
-                    {ellipseAddress(address)}
-                  </MenuItem>
-                  <MenuItem
-                    bg="white"
-                    color="black"
-                    _hover={{ bgColor: 'gray.200' }}
-                    _active={{ bgColor: 'gray.200' }}
-                    onClick={disconnect}>
-                    Disconnect
-                  </MenuItem>
-                </MenuList>
-              </Menu>
-            </Flex>
-          )}
+        <Flex alignItems="center" gap={{ base: '8px', md: '20px', xl: '40px' }}>
+          <DesktopNav />
+          <CustomConnectButton />
           <IconButton
+            display={{ base: 'block', lg: 'none' }}
             onClick={onToggle}
             icon={<HamburgerIcon w={8} h={8} color="black" />}
             aria-label="Toggle Navigation"
@@ -401,24 +242,27 @@ const Header: FC = () => {
   )
 }
 
-export default memo(Header)
+export default Header
 
 const DesktopNav = () => {
   const linkHoverColor = useColorModeValue('primary.100', 'primary.100')
   const router = useRouter()
   const { pathname } = router
-  const { address } = useStore()
-  const { colorMode, toggleColorMode } = useColorMode()
   const bgColor = useColorModeValue('#fff', '#fff')
+  const { isConnected } = useAccount()
 
-  const NAV_ITEMS = address ? NAV_ITEMS_CONNECTED : NAV_ITEMS_DISCONNECTED
+  const NAV_ITEMS = isConnected ? NAV_ITEMS_CONNECTED : NAV_ITEMS_DISCONNECTED
 
-  const isSubPath = (pathname, href) => {
+  const isSubPath = (pathname: any, href: any) => {
     const regex = new RegExp(`^${href}(\/|$)`)
     return regex.test(pathname)
   }
   return (
-    <Stack direction="row" spacing={3} align="center">
+    <Stack
+      display={{ base: 'none', lg: 'flex' }}
+      direction="row"
+      spacing={3}
+      align="center">
       {NAV_ITEMS.map((navItem) => (
         <Box key={navItem.label}>
           <Popover trigger="hover" placement="bottom-start">
@@ -495,10 +339,10 @@ const DesktopSubNav = ({ label, href }: NavItem) => {
 }
 
 const MobileNav = ({ onToggleModal }: { onToggleModal: any }) => {
-  const { address } = useStore()
   const router = useRouter()
+  const { isConnected } = useAccount()
 
-  const NAV_ITEMS = address ? NAV_ITEMS_CONNECTED : NAV_ITEMS_DISCONNECTED
+  const NAV_ITEMS = isConnected ? NAV_ITEMS_CONNECTED : NAV_ITEMS_DISCONNECTED
 
   return (
     <Stack bg="black" p={4} display={{ lg: 'none' }} h="100vh">
@@ -511,8 +355,10 @@ const MobileNav = ({ onToggleModal }: { onToggleModal: any }) => {
           px="16px"
           as={Link}
           onClick={() => {
-            router.push(i.href)
-            onToggleModal()
+            if (i.href) {
+              router.push(i.href)
+              onToggleModal()
+            }
           }}
           justify={{ base: 'space-between', md: 'space-between' }}
           align="center"

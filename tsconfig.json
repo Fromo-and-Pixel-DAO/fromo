@@ -20,7 +20,7 @@
     "noEmit": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
-    "strict": false,
+    "strict": true,
     "target": "ES5",
     "downlevelIteration": true,
     "incremental": true
