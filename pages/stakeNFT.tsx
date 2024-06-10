@@ -133,6 +133,7 @@ const Register = () => {
           m="16px auto"
           w={{ base: '100%', lg: '1280px' }}
           p={{ base: '16px', lg: '48px' }}
+          pb={{ lg: '150px' }}
           border="1px solid #704BEA"
           borderRadius="20px">
           <Text
