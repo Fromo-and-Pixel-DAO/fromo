@@ -8,15 +8,14 @@ import { immer } from 'zustand/middleware/immer'
 import { getAuctionInfo, getUserNftList } from 'packages/service/api'
 import { IAuctionInfo, IGameNftDetail } from 'packages/service/api/types'
 
-
-
-const FL_CONTRACT_ADR = process.env.NEXT_PUBLIC_FL_CONTRACT_ADR
+const FL_CONTRACT_ADR: string = process.env
+  .NEXT_PUBLIC_FL_CONTRACT_ADR as string
 
 export enum ActivityStatus {
   NotStarted = 0,
   Bidding = 1,
   Staking = 2,
-  End = 3
+  End = 3,
 }
 
 interface IState {
@@ -31,41 +30,44 @@ interface IState {
   getUserNftList: typeof getUserNftList
 }
 
+const useAuctions = create(
+  immer<IState>((set, get) => ({
+    startTime: moment(),
+    state: ActivityStatus.NotStarted,
+    roundInfo: null,
+    auctionInfo: null,
+    nftList: [],
+    setStartTime(date: moment.Moment) {
+      set({
+        startTime: date,
+      })
+    },
 
-
-const useAuctions = create(immer<IState>(((set, get) => ({
-  startTime: moment(),
-  state: ActivityStatus.NotStarted,
-  roundInfo: null,
-  auctionInfo: null,
-  nftList: [],
-  setStartTime(date: moment.Moment) {
-    set({
-      startTime: date
-    })
-  },
-
-  async getAuctionInfo() {
-    const data = await getAuctionInfo()
-    set({ auctionInfo: data })
-    return data
-  },
-  async getUserNftList(address: string) {
-    const data = await getUserNftList(address)
-    set({ nftList: data.nftList })
-    return data
-  },
-  async setStartTimeByContract() {
-    const provider = await web3Modal.connect()
-    const library = new ethers.providers.Web3Provider(provider)
-    const signer = library.getSigner()
-    const contract = new ethers.Contract(FL_CONTRACT_ADR, FroopyABI323, signer)
-    const tx = await contract.bidRoundInfo()
-    set({
-      roundInfo: tx
-    })
-  },
-}))))
-
+    async getAuctionInfo() {
+      const data = await getAuctionInfo()
+      set({ auctionInfo: data })
+      return data
+    },
+    async getUserNftList(address: string) {
+      const data = await getUserNftList(address)
+      set({ nftList: data.nftList })
+      return data
+    },
+    async setStartTimeByContract() {
+      const provider = await web3Modal.connect()
+      const library = new ethers.providers.Web3Provider(provider)
+      const signer = library.getSigner()
+      const contract = new ethers.Contract(
+        FL_CONTRACT_ADR,
+        FroopyABI323,
+        signer,
+      )
+      const tx = await contract.bidRoundInfo()
+      set({
+        roundInfo: tx,
+      })
+    },
+  })),
+)
 
 export default useAuctions

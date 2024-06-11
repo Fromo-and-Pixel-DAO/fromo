@@ -34,7 +34,8 @@ export enum State {
 
 const COUNT = faker.number.int({ min: 101, max: 1000 })
 
-const FL_CONTRACT_ADR = process.env.NEXT_PUBLIC_FL_CONTRACT_ADR
+const FL_CONTRACT_ADR: string = process.env
+  .NEXT_PUBLIC_FL_CONTRACT_ADR as string
 
 const Details = () => {
   const router = useRouter()
@@ -83,7 +84,6 @@ const Details = () => {
     getGameDetailById(address, id as any)
       .then((res) => {
         setGameAmountNft(res)
-        console.log(res, 'res========')
         setKeyDividends(gameAmountNft.keyDividends)
       })
       .catch((err) => {
@@ -97,6 +97,7 @@ const Details = () => {
     const signer = library.getSigner()
     const contract = new ethers.Contract(FL_CONTRACT_ADR, FroopyABI, signer)
     const [data] = await contract.getGameInfoOfGameIds([id])
+    console.log(data, 'data=====')
     setDetailInfos(data)
     const gameId = await contract.totalGames()
     const [gameInfos] = await contract.getGameInfoOfGameIds([

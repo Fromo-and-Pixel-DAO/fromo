@@ -22,7 +22,8 @@ import { ActivityStatus } from 'packages/store/auctions'
 import { web3Modal } from 'packages/web3'
 import { useEffect, useMemo, useRef, useState } from 'react'
 
-const FL_CONTRACT_ADR = process.env.NEXT_PUBLIC_FL_CONTRACT_ADR
+const FL_CONTRACT_ADR: string = process.env
+  .NEXT_PUBLIC_FL_CONTRACT_ADR as string
 
 let contract: any = null
 

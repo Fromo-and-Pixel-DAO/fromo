@@ -96,7 +96,6 @@ const Header: FC = () => {
 
         const signer = await web3Provider.getSigner()
         const address = await signer.getAddress()
-        console.log(address, 'address')
 
         console.log(web3Provider, 'web3Provider')
 

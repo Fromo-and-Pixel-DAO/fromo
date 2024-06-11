@@ -12,7 +12,8 @@ import ERC_ABI from 'packages/abis/demo/Erc721.json'
 import flABI from 'packages/abis/demo/fl417.json'
 import useAuctions from 'packages/store/auctions'
 
-const FL_CONTRACT_ADR = process.env.NEXT_PUBLIC_FL_CONTRACT_ADR
+const FL_CONTRACT_ADR: string = process.env
+  .NEXT_PUBLIC_FL_CONTRACT_ADR as string
 const Register = () => {
   const router = useRouter()
 
