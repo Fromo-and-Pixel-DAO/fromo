@@ -706,7 +706,6 @@ export default function Main() {
                   auctionInfo.status,
                 ) && (
                   <Button
-                    border="2px solid red"
                     h="100%"
                     borderRadius="full"
                     bg="transparent"
