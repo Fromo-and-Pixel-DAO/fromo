@@ -94,8 +94,9 @@ const Header: FC = () => {
         provider = await web3Modal.connect()
         const web3Provider = new providers.Web3Provider(provider)
 
-        const signer = web3Provider.getSigner()
+        const signer = await web3Provider.getSigner()
         const address = await signer.getAddress()
+        console.log(web3Provider, 'web3Provider')
 
         setAddress(address.toLowerCase())
         window.localStorage.setItem('isConnect', 'true')
