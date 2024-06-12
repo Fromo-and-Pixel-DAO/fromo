@@ -139,6 +139,8 @@ const Details = () => {
     return formattedPercent
   }, [detailInfos, keys])
 
+  let successToastShown = false
+
   const buyKey = async () => {
     if (!/^[0-9]+$/.test(mintKey))
       return toastError('Integer value is required.')
@@ -176,7 +178,10 @@ const Details = () => {
       console.log('Error:', errorEvent)
       init()
       // await setGameList(library)
-      toastSuccess('You have successfully minted keys.')
+      if (!successToastShown) {
+        toastSuccess('You have successfully minted keys.')
+        successToastShown = true
+      }
     } catch (error) {
       console.log(error, 'buyKey')
       toastError('You failed to mint keys due to some error.')
