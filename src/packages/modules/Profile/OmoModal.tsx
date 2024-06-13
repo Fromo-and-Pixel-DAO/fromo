@@ -77,6 +77,7 @@ const OmoModal = ({
           if (res) {
             toastSuccess(`You have successfully deposited $OMO.`, 2000)
             setUseAmount(amount)
+            onClose()
           } else {
             toastError(`You failed to deposited $OMO due to some error.`, 2000)
           }
@@ -94,6 +95,7 @@ const OmoModal = ({
           if (res) {
             toastSuccess(`You have successfully withdrew $OMO.`, 2000)
             setUseAmount(amount)
+            onClose()
           } else {
             toastError(`You failed to withdrew $OMO due to some error.`, 2000)
           }
