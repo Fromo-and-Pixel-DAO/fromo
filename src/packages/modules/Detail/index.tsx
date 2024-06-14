@@ -640,7 +640,6 @@ const Details = () => {
 
                 {detailInfos.state === State.Finished &&
                   detailInfos.nftAddress !== ethers.constants.AddressZero &&
-                  detailInfos.mostKeyHolder.toLowerCase() === address &&
                   moment().isBefore(
                     moment(detailInfos.endTimestamp * 1000).add(24, 'hours'),
                   ) && (
@@ -648,22 +647,34 @@ const Details = () => {
                       <Button
                         alignItems="center"
                         display="flex"
-                        bg="#737373"
+                        bg={
+                          detailInfos.mostKeyHolder.toLowerCase() === address
+                            ? '#00DAB3'
+                            : '#737373'
+                        }
                         color="#222222"
-                        w="max-content"
                         py="12px"
+                        w="420px"
                         borderRadius="8px"
                         gap="8px"
                         mb="20px"
                         fontSize={{ base: '16px', md: '20px' }}
                         fontWeight="600"
+                        _focus={{
+                          bg:
+                            detailInfos.mostKeyHolder.toLowerCase() === address
+                              ? '#00DAB3'
+                              : '#737373',
+                        }}
+                        _hover={{
+                          bg:
+                            detailInfos.mostKeyHolder.toLowerCase() === address
+                              ? '#00DAB3'
+                              : '#737373',
+                        }}
                         lineHeight="24px"
                         isLoading={retrieveNftLoading}
-                        onClick={retrieveNft}
-                        disabled={
-                          detailInfos.mostKeyHolder ===
-                          ethers.constants.AddressZero
-                        }>
+                        onClick={retrieveNft}>
                         <Text>Purchase NFT</Text>
                         <Text>
                           {(
