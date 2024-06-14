@@ -4,7 +4,8 @@ import moment from 'moment'
 const useCountDown = (deadline, onTimeout = null) => {
   const [ended, setEnded] = useState(false)
 
-  const formatTimeUnit = (unit) => (unit < 10 ? `0${unit}` : unit)
+  const formatTimeUnit = (unit) =>
+    unit < 10 ? `0${unit.toString()}` : unit.toString()
 
   const calculateTimeLeft = useCallback(() => {
     const now = moment()

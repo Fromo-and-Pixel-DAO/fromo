@@ -301,7 +301,7 @@ const Details = () => {
       init(),
     )
     useEffect(() => {
-      if (hours === '00' && minutes === 0o0 && seconds === 0o0) {
+      if (hours === '00' && minutes === '00' && seconds === '00') {
         router.reload()
       }
     }, [hours, minutes, seconds])
@@ -335,13 +335,9 @@ const Details = () => {
     const { days, hours, minutes, seconds } = useCountDown(purchaseTimer, () =>
       init(),
     )
-    console.log(days, 'days')
-    console.log(hours, 'hours')
-    console.log(minutes, 'minutes')
-    console.log(seconds, 'seconds')
 
     useEffect(() => {
-      if (hours === '00' && minutes === 0o0 && seconds === 0o0) {
+      if (hours === '00' && minutes === '00' && seconds === '00') {
         router.reload()
       }
     }, [hours, minutes, seconds])
