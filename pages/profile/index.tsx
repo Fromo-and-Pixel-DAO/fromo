@@ -450,9 +450,6 @@ export default function Main() {
                       mr="12px">
                       {profit.keys}
                     </Text>
-                    <Text color="rgba(255,255,255,0.8)" lineHeight="20px">
-                      ≈ 14,634 $OMO
-                    </Text>
                   </Flex>
                   <Flex
                     color="rgba(255,255,255,0.8)"
