@@ -130,7 +130,7 @@ export default function Main() {
                 <Text>Upcoming NFT Auctions</Text>({upcomingList.length})
               </Flex>
             </Box>
-            <SimpleGrid columns={[1, 2, 2, 3, 5, 6]} spacing="20px">
+            <SimpleGrid columns={[1, 2, 2, 3, 5, 5]} spacing="20px">
               {upcomingList?.map((item, idx) => {
                 return (
                   <ItemGrid
@@ -160,7 +160,7 @@ export default function Main() {
                 <Text>Finished NFT Auctions</Text>({finishedList.length})
               </Flex>
             </Box>
-            <SimpleGrid columns={[1, 2, 2, 3, 5, 6]} spacing="20px">
+            <SimpleGrid columns={[1, 2, 2, 3, 5, 5]} spacing="20px">
               {finishedList?.map((item, idx) => {
                 return (
                   <ItemGrid gridName="finishedList" item={item} key={idx} />

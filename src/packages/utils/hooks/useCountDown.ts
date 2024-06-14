@@ -17,10 +17,9 @@ const useCountDown = (deadline, onTimeout = null) => {
     }
 
     const duration = moment.duration(diff)
-
     return {
-      days: formatTimeUnit(Math.floor(duration.asDays())),
-      hours: formatTimeUnit(Math.floor(duration.asHours())),
+      days: formatTimeUnit(duration.days()),
+      hours: formatTimeUnit(duration.hours()),
       minutes: formatTimeUnit(duration.minutes()),
       seconds: formatTimeUnit(duration.seconds()),
     }
