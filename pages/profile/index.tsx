@@ -503,9 +503,6 @@ export default function Main() {
                           ).toFixed(4)
                         : '-'}
                     </Text>
-                    <Text color="rgba(255,255,255,0.8)" lineHeight="20px">
-                      ≈ 34,3 $OMO
-                    </Text>
                   </Flex>
                   <Flex
                     color="rgba(255,255,255,0.8)"
