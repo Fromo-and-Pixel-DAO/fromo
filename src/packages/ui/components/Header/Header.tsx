@@ -215,6 +215,7 @@ const Header: FC = () => {
       zIndex="100"
       backdropFilter="blur(2.7px)">
       <Flex
+        maxWidth="1440px"
         mx="auto"
         color={useColorModeValue('gray.600', 'white')}
         py="18px"

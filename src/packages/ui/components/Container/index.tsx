@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 
-import { Box } from '@chakra-ui/react'
+import { Box, Flex } from '@chakra-ui/react'
 
 import Header from '@components/Header'
 
@@ -17,13 +17,21 @@ export default function Container({
     return (
       <Box
         overflow="hidden"
-        bgGradient="linear(to-b,#2A0668 6.48%,#401EAF 100%)"
+        backgroundImage="/static/common/bg-main.jpg"
+        backgroundColor="#0B063B"
+        backgroundSize="cover"
+        backgroundRepeat="no-repeat"
+        border="2px solid violet"
+        backgroundAttachment="fixed"
         minH="100vh"
         pos="relative"
         color="white">
         <Header />
 
-        <Box mx="auto" pt="70px">
+        <Box
+          mx="auto"
+          pt={{ base: '75px', md: '85px' }}
+          pb={{ base: '75px', lg: 'unset' }}>
           {children}
         </Box>
       </Box>
@@ -34,20 +42,29 @@ export default function Container({
     return (
       <Box
         overflow="hidden"
-        bgGradient="linear(to-b,#2A0668 6.48%,#401EAF 100%)"
+        backgroundImage="/static/common/bg-main.jpg"
+        backgroundColor="#0B063B"
+        backgroundSize="cover"
+        backgroundRepeat="no-repeat"
+        border="2px solid violet"
+        backgroundAttachment="fixed"
         minH="100vh"
         pos="relative"
         color="white">
         <Header />
 
-        <Box mx="auto" pt="70px">
+        <Box
+          mx="auto"
+          pt={{ base: '75px', md: '85px' }}
+          pb={{ base: '75px', lg: 'unset' }}>
           {children}
         </Box>
       </Box>
     )
   }
   return (
-    <Box
+    <Flex
+      justifyContent="center"
       overflow="hidden"
       backgroundImage="/static/common/bg-main.jpg"
       backgroundColor="#0B063B"
@@ -55,16 +72,17 @@ export default function Container({
       backgroundRepeat="no-repeat"
       backgroundAttachment="fixed"
       minH="100vh"
-      pos="relative"
       color="white">
-      <Header />
+      <Box maxWidth="1440px" pos="relative">
+        <Header />
 
-      <Box
-        mx="auto"
-        pt={{ base: '75px', md: '85px' }}
-        pb={{ base: '75px', lg: 'unset' }}>
-        {children}
+        <Box
+          mx="auto"
+          pt={{ base: '75px', md: '85px' }}
+          pb={{ base: '75px', lg: 'unset' }}>
+          {children}
+        </Box>
       </Box>
-    </Box>
+    </Flex>
   )
 }
