@@ -300,6 +300,11 @@ const Details = () => {
     const { hours, minutes, seconds } = useCountDown(purchaseTimer, () =>
       init(),
     )
+    useEffect(() => {
+      if (hours === 0o0 && minutes === 0o0 && seconds === 0o0) {
+        router.reload()
+      }
+    }, [hours, minutes, seconds])
 
     const countDownValuesPrimary = [
       {
@@ -330,6 +335,12 @@ const Details = () => {
     const { days, hours, minutes, seconds } = useCountDown(purchaseTimer, () =>
       init(),
     )
+
+    useEffect(() => {
+      if (hours === 0o0 && minutes === 0o0 && seconds === 0o0) {
+        router.reload()
+      }
+    }, [hours, minutes, seconds])
 
     const countDownValuesSecondary = [
       {
