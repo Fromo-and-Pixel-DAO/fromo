@@ -517,7 +517,7 @@ const Details = () => {
             cursor="pointer"
             alignItems="center"
             pl={{ base: '16px', md: '24px', xl: '68px' }}
-            onClick={() => router.back()}>
+            onClick={() => router.push('/')}>
             <ArrowBackIcon fontSize="20px" mr="4px" />
             <Text fontSize="20px" lineHeight="20px">
               Back
