@@ -643,7 +643,12 @@ const Details = () => {
                   moment().isBefore(
                     moment(detailInfos.endTimestamp * 1000).add(24, 'hours'),
                   ) && (
-                    <Tooltip label="The top key holder has priority to purchase the NFT">
+                    <Tooltip
+                      label={
+                        detailInfos.mostKeyHolder.toLowerCase() === address
+                          ? ''
+                          : 'The top key holder has priority to purchase the NFT'
+                      }>
                       <Button
                         alignItems="center"
                         display="flex"
@@ -660,6 +665,11 @@ const Details = () => {
                         mb="20px"
                         fontSize={{ base: '16px', md: '20px' }}
                         fontWeight="600"
+                        cursor={
+                          detailInfos.mostKeyHolder.toLowerCase() === address
+                            ? 'pointer'
+                            : 'no-drop'
+                        }
                         _focus={{
                           bg:
                             detailInfos.mostKeyHolder.toLowerCase() === address
@@ -674,7 +684,11 @@ const Details = () => {
                         }}
                         lineHeight="24px"
                         isLoading={retrieveNftLoading}
-                        onClick={retrieveNft}>
+                        onClick={
+                          detailInfos.mostKeyHolder.toLowerCase() === address
+                            ? retrieveNft
+                            : null
+                        }>
                         <Text>Purchase NFT</Text>
                         <Text>
                           {(
@@ -682,8 +696,10 @@ const Details = () => {
                           ).toFixed(4)}{' '}
                           $OMO
                         </Text>
-
-                        <PurchaseNFTCountDownPrimary />
+                        {detailInfos.mostKeyHolder.toLowerCase() ===
+                        address ? null : (
+                          <PurchaseNFTCountDownPrimary />
+                        )}
                       </Button>
                     </Tooltip>
                   )}
