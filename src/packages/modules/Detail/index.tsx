@@ -143,7 +143,7 @@ const Details = () => {
 
   const buyKey = async () => {
     if (!/^[0-9]+$/.test(mintKey))
-      return toastError('Integer value is required.')
+      return toastError('Integer value is required.', 2000)
 
     if (
       Number(mintKey) > Math.ceil(detailInfos.totalKeyMinted.toNumber() / 10)
@@ -152,6 +152,7 @@ const Details = () => {
         `Input numbers must be less than ${Math.ceil(
           detailInfos.totalKeyMinted.toNumber() / 10,
         )} keys`,
+        2000,
       )
       return
     }
@@ -179,12 +180,12 @@ const Details = () => {
       init()
       // await setGameList(library)
       if (!successToastShown) {
-        toastSuccess('You have successfully minted keys.')
+        toastSuccess('You have successfully minted keys.', 2000)
         successToastShown = true
       }
     } catch (error) {
       console.log(error, 'buyKey')
-      toastError('You failed to mint keys due to some error.')
+      toastError('You failed to mint keys due to some error.', 2000)
     } finally {
       setBuyLoading(false)
     }
@@ -202,7 +203,12 @@ const Details = () => {
         gasLimit: BigInt(500000),
       })
       await tx.wait()
-      toastSuccess('Claim success')
+      toastSuccess(
+        `You have successfully claimed Key Holder Dividends of ${(
+          Number(keyDividends) + Number(ethers.utils.formatEther(claims))
+        ).toFixed(4)} ETH.`,
+        2000,
+      )
       init()
     } catch (error) {
       console.log(error, 'claim')
@@ -223,7 +229,18 @@ const Details = () => {
       })
       await tx.wait()
       init()
-      toastSuccess('Withdraw success')
+      toastSuccess(
+        `You have successfully claimed NFT Provider Dividends of ${
+          detailInfos.principal === ethers.constants.AddressZero
+            ? '--'
+            : parseFloat(
+                ethers.utils.formatEther(
+                  detailInfos.salesRevenue.mul(5).div(10),
+                ),
+              ).toFixed(4)
+        } ETH.`,
+        2000,
+      )
     } catch (error) {
       console.log(error, 'claim')
     } finally {
@@ -244,9 +261,23 @@ const Details = () => {
       })
       await tx.wait()
       init()
-      toastSuccess('You have successfully claimed dividends or prize.')
+      toastSuccess(
+        `You have successfully claimed Final Winner Prize of ${
+          detailInfos?.lastPlayer === ethers.constants.AddressZero
+            ? '--'
+            : parseFloat(
+                ethers.utils.formatEther(
+                  detailInfos?.salesRevenue.mul(2).div(10),
+                ),
+              ).toFixed(4)
+        } ETH.`,
+        2000,
+      )
     } catch (error) {
-      toastError('You failed to claim dividends or prize due to some error.')
+      toastError(
+        'You failed to claim dividends or prize due to some error.',
+        2000,
+      )
       console.log(error, 'claim')
     } finally {
       setClaimsFinalLoading(false)
@@ -266,7 +297,12 @@ const Details = () => {
       })
       await tx.wait()
       init()
-      toastSuccess('You have successfully purchased the NFT.', 2000)
+      toastSuccess(
+        `You have successfully purchased ${nftName} NFT with ${(
+          detailInfos?.totalKeyMinted.toNumber() * 1.1
+        ).toFixed(4)} OMO.`,
+        2000,
+      )
     } catch (error) {
       toastError('You failed purchasing the NFT due to some error.', 2000)
       console.log(error, 'retrieveNft')
@@ -361,7 +397,7 @@ const Details = () => {
       <Flex fontSize="16px" color="#00DAB3" w="180px">
         {countDownValuesSecondary.map((i, k) => (
           <Flex key={k}>
-            <Flex direction="column" alignItems="center">
+            <Flex w="62px" direction="column" alignItems="center">
               <Box>
                 <Flex
                   fontSize="48px"
@@ -994,17 +1030,6 @@ const Details = () => {
                   </Box>
                 </Box>
 
-                {/* ??? */}
-                {/* <Box
-                px="24px"
-                py="20px"
-                bg="#2F2B50"
-                borderRadius="8px"
-                mt="20px">
-                {ownedKeys()}
-                {progress()}
-              </Box> */}
-
                 <Flex alignItems="center" gap={{ base: '8px', xl: '20px' }}>
                   {/* My Key Holder Dividends */}
                   <Flex
@@ -1066,74 +1091,71 @@ const Details = () => {
                   </Flex>
                   {/* My NFT Provider Dividends */}
 
-                  {detailInfos.principal.toLowerCase() === address && (
-                    <Flex
-                      w={{ base: '50%', md: '30%', xl: '50%' }}
-                      direction="column"
-                      justifyItems="center"
-                      alignItems="center"
-                      bg="#2F2B50"
-                      borderRadius="16px"
-                      px="16px"
-                      py="20px">
-                      <Flex alignItems="center" gap="8px">
-                        <Image
-                          src="/static/common/eth-index.svg"
-                          alt="ethereum"
-                          w="12px"
-                          h="20px"
-                        />
-                        <Box
-                          fontSize={{ base: '20px', xl: '24px' }}
-                          fontWeight="800"
-                          lineHeight="28px">
-                          {detailInfos.principal ===
-                          ethers.constants.AddressZero
-                            ? '--'
-                            : parseFloat(
-                                ethers.utils.formatEther(
-                                  detailInfos.salesRevenue.mul(5).div(10),
-                                ),
-                              ).toFixed(4)}
-                        </Box>
-                      </Flex>
-                      <Text
-                        fontWeight="600"
-                        fontSize="12px"
-                        lineHeight="16px"
-                        color="rgba(255,255,255,0.6)"
-                        mb="12px"
-                        mt="4px">
-                        NFT Provider Dividends
-                      </Text>
-                      <Button
-                        isLoading={withDrawNFTLoading}
-                        onClick={withdrawSaleRevenue}
-                        disabled={
-                          [State.Upcoming, State.Ongoing].includes(
-                            detailInfos.state,
-                          ) ||
-                          detailInfos.principal ===
-                            ethers.constants.AddressZero ||
-                          withDrawNFTLoading
-                        }
-                        w="156px"
-                        borderRadius="8px"
-                        colorScheme="primary"
-                        fontWeight="600"
-                        fontSize={{ base: '12px', xl: '14px' }}
-                        color="#222222">
+                  <Flex
+                    w={{ base: '50%', md: '30%', xl: '50%' }}
+                    direction="column"
+                    justifyItems="center"
+                    alignItems="center"
+                    bg="#2F2B50"
+                    borderRadius="16px"
+                    px="16px"
+                    py="20px">
+                    <Flex alignItems="center" gap="8px">
+                      <Image
+                        src="/static/common/eth-index.svg"
+                        alt="ethereum"
+                        w="12px"
+                        h="20px"
+                      />
+                      <Box
+                        fontSize={{ base: '20px', xl: '24px' }}
+                        fontWeight="800"
+                        lineHeight="28px">
                         {detailInfos.principal === ethers.constants.AddressZero
                           ? '--'
                           : parseFloat(
                               ethers.utils.formatEther(
                                 detailInfos.salesRevenue.mul(5).div(10),
                               ),
-                            ).toFixed(4)}{' '}
-                        Unclaimed
-                      </Button>
+                            ).toFixed(4)}
+                      </Box>
                     </Flex>
-                  )}
+                    <Text
+                      fontWeight="600"
+                      fontSize="12px"
+                      lineHeight="16px"
+                      color="rgba(255,255,255,0.6)"
+                      mb="12px"
+                      mt="4px">
+                      NFT Provider Dividends
+                    </Text>
+                    <Button
+                      isLoading={withDrawNFTLoading}
+                      onClick={withdrawSaleRevenue}
+                      disabled={
+                        [State.Upcoming, State.Ongoing].includes(
+                          detailInfos.state,
+                        ) ||
+                        detailInfos.principal ===
+                          ethers.constants.AddressZero ||
+                        withDrawNFTLoading
+                      }
+                      w="156px"
+                      borderRadius="8px"
+                      colorScheme="primary"
+                      fontWeight="600"
+                      fontSize={{ base: '12px', xl: '14px' }}
+                      color="#222222">
+                      {detailInfos.principal === ethers.constants.AddressZero
+                        ? '--'
+                        : parseFloat(
+                            ethers.utils.formatEther(
+                              detailInfos.salesRevenue.mul(5).div(10),
+                            ),
+                          ).toFixed(4)}{' '}
+                      Unclaimed
+                    </Button>
+                  </Flex>
                 </Flex>
               </Flex>
             </Box>

@@ -427,6 +427,7 @@ const Register = () => {
         py={{ base: '20px', md: '32px', lg: '44px' }}
         pr={{ lg: '80px' }}
         w="100%"
+        left="0px"
         justifyContent={{ base: 'center', lg: 'end' }}
         bottom={0}
         bg="rgba(112, 75, 234,0.89)">
