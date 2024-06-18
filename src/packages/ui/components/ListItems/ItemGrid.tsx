@@ -159,12 +159,17 @@ function ItemGrid({
   }: {
     isCenter?: boolean
   }) => {
+    const router = useRouter()
     const formattedTime = useMemo(() => {
       const timeString = `${time.hours > 0 ? `${time.hours}:` : ''}${
         time.minutes
       }:${time.seconds} `
       return `${timeString}`.trim()
     }, [])
+
+    if (time.hours === '00' && time.minutes === '00' && time.seconds === '00') {
+      router.reload()
+    }
 
     if (item.status === State.Upcoming) {
       return (
@@ -184,8 +189,6 @@ function ItemGrid({
           </Box>
         </Box>
       )
-    } else {
-      return <Text textAlign={isCenter ? 'center' : 'start'}>Finished</Text>
     }
   }
 
@@ -413,6 +416,7 @@ function ItemGrid({
             />
           </Box>
           <Text
+            textAlign="center"
             fontSize="24px"
             fontWeight="600"
             lineHeight="20px"

@@ -398,6 +398,7 @@ export default function Main() {
               </Flex>
             )}
 
+            {/* mobile & table */}
             <Flex
               w={{ md: 'fit-content' }}
               bg="#7E4AF1"
@@ -416,13 +417,18 @@ export default function Main() {
                     h="100%"
                     borderRadius="full"
                     bg="transparent"
-                    cursor="pointer"
+                    cursor={
+                      ActivityStatus.NotStarted === auctionInfo.status
+                        ? 'not-allowed'
+                        : 'pointer'
+                    }
                     _hover={{}}
                     _focus={{}}
-                    onClick={() => setOpen(true)}
-                    isDisabled={
-                      ActivityStatus.NotStarted === auctionInfo.status
-                    }
+                    onClick={() => {
+                      if (ActivityStatus.NotStarted !== auctionInfo.status) {
+                        setOpen(true)
+                      }
+                    }}
                     pos="relative">
                     <Image
                       w={{ base: '100px', md: '120px', xl: '158px' }}
@@ -709,13 +715,18 @@ export default function Main() {
                     h="100%"
                     borderRadius="full"
                     bg="transparent"
-                    cursor="pointer"
+                    cursor={
+                      ActivityStatus.NotStarted === auctionInfo.status
+                        ? 'not-allowed'
+                        : 'pointer'
+                    }
                     _hover={{}}
                     _focus={{}}
-                    onClick={() => setOpen(true)}
-                    isDisabled={
-                      ActivityStatus.NotStarted === auctionInfo.status
-                    }
+                    onClick={() => {
+                      if (ActivityStatus.NotStarted !== auctionInfo.status) {
+                        setOpen(true)
+                      }
+                    }}
                     pos="relative">
                     <Image
                       src="/static/common/3d.svg"

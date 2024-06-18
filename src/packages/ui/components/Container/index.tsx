@@ -73,9 +73,8 @@ export default function Container({
       backgroundAttachment="fixed"
       minH="100vh"
       color="white">
-      <Box maxWidth="1440px" pos="relative">
+      <Box w="100%" maxWidth="1440px" pos="relative">
         <Header />
-
         <Box
           mx="auto"
           pt={{ base: '75px', md: '85px' }}
