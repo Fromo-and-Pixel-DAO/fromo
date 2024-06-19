@@ -22,7 +22,7 @@ interface IState {
   startTime: moment.Moment
   state: ActivityStatus
   roundInfo: any
-  auctionInfo: IAuctionInfo
+  auctionInfo: IAuctionInfo | null
   nftList: IGameNftDetail[]
   setStartTime: (date: moment.Moment) => void
   setStartTimeByContract: () => void

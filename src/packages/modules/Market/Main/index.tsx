@@ -448,7 +448,7 @@ export default function Main() {
                 {/* Staking */}
                 {ActivityStatus.Staking === auctionInfo.status && (
                   <>
-                    {auctionInfo.bidWinnerAddress === address ? (
+                    {address && auctionInfo.bidWinnerAddress === address ? (
                       <Button
                         px="0px"
                         h="100%"
@@ -512,7 +512,8 @@ export default function Main() {
                       ActivityStatus.Staking === auctionInfo.status ? (
                         <>
                           {' '}
-                          {auctionInfo.bidWinnerAddress === address ? (
+                          {address &&
+                          auctionInfo.bidWinnerAddress === address ? (
                             <>
                               {' '}
                               You won the FROMO plot and the chance to auction
@@ -618,7 +619,7 @@ export default function Main() {
                     ActivityStatus.Staking === auctionInfo.status ? (
                       <>
                         {' '}
-                        {auctionInfo.bidWinnerAddress === address ? (
+                        {address && auctionInfo.bidWinnerAddress === address ? (
                           <>
                             {' '}
                             You won the FROMO plot and the chance to auction NFT
@@ -748,7 +749,7 @@ export default function Main() {
                 {/* Staking */}
                 {ActivityStatus.Staking === auctionInfo.status && (
                   <>
-                    {auctionInfo.bidWinnerAddress === address ? (
+                    {address && auctionInfo.bidWinnerAddress === address ? (
                       <Button
                         h="100%"
                         borderRadius="full"
