@@ -18,6 +18,7 @@ import { ethers } from 'ethers'
 import moment from 'moment'
 import { useRouter } from 'next/router'
 import FroopyABI from 'packages/abis/demo/fl417.json'
+import { useConnectModal } from '@rainbow-me/rainbowkit'
 import { getGameDetailById } from 'packages/service/api'
 import { IGameAmountNft } from 'packages/service/api/types'
 import useStore from 'packages/store'
@@ -25,6 +26,7 @@ import { web3Modal } from 'packages/web3'
 import { memo, useEffect, useMemo, useState } from 'react'
 import PurchaseNFTModal from './PurchaseNFTModal'
 import Footer from '@components/Footer'
+import { useAccount } from 'wagmi'
 
 export enum State {
   Upcoming = 0,
@@ -44,8 +46,10 @@ const Details = () => {
   // const id = 1
 
   const { address } = useStore()
+  const account = useAccount()
 
   const { nftName } = router.query
+  const { openConnectModal } = useConnectModal()
 
   const [claims, setClaims] = useState('0')
   const [keys, setKeys] = useState('0')
@@ -660,7 +664,17 @@ const Details = () => {
                         fontSize={{ base: '16px', md: '20px' }}
                         lineHeight="24px"
                         isLoading={retrieveNftLoading}
-                        onClick={retrieveNft}>
+                        onClick={() => {
+                          if (!account.isConnected) {
+                            if (openConnectModal) {
+                              openConnectModal()
+                            } else {
+                              console.error('openConnectModal is not defined')
+                            }
+                          } else {
+                            retrieveNft()
+                          }
+                        }}>
                         <Text>Purchase NFT</Text>
                         <Box>
                           {(
@@ -720,11 +734,19 @@ const Details = () => {
                         }}
                         lineHeight="24px"
                         isLoading={retrieveNftLoading}
-                        onClick={
-                          detailInfos.mostKeyHolder.toLowerCase() === address
-                            ? retrieveNft
-                            : null
-                        }>
+                        onClick={() => {
+                          if (!account.isConnected) {
+                            if (openConnectModal) {
+                              openConnectModal()
+                            } else {
+                              console.error('openConnectModal is not defined')
+                            }
+                          } else {
+                            detailInfos.mostKeyHolder.toLowerCase() === address
+                              ? retrieveNft()
+                              : undefined
+                          }
+                        }}>
                         <Text>Purchase NFT</Text>
                         <Text>
                           {(
@@ -919,7 +941,17 @@ const Details = () => {
                         alignItems="center"
                         cursor="pointer"
                         p="12px 40px"
-                        onClick={claimsFinalPrize}
+                        onClick={() => {
+                          if (!account.isConnected) {
+                            if (openConnectModal) {
+                              openConnectModal()
+                            } else {
+                              console.error('openConnectModal is not defined')
+                            }
+                          } else {
+                            claimsFinalPrize()
+                          }
+                        }}
                         isLoading={claimsFinalLoading}
                         disabled={
                           detailInfos?.lastPlayer ===
@@ -961,7 +993,19 @@ const Details = () => {
                               px="12px"
                               py="14px"
                               type="number"
-                              onChange={(e: any) => setMintKey(e.target.value)}
+                              onChange={(e: any) => {
+                                if (!account.isConnected) {
+                                  if (openConnectModal) {
+                                    openConnectModal()
+                                  } else {
+                                    console.error(
+                                      'openConnectModal is not defined',
+                                    )
+                                  }
+                                } else {
+                                  setMintKey(e.target.value)
+                                }
+                              }}
                               disabled={
                                 buyLoading ||
                                 detailInfos?.state === State.Upcoming ||
@@ -986,7 +1030,19 @@ const Details = () => {
                             fontWeight="600"
                             fontSize="14px"
                             isLoading={buyLoading}
-                            onClick={buyKey}
+                            onClick={() => {
+                              if (!account.isConnected) {
+                                if (openConnectModal) {
+                                  openConnectModal()
+                                } else {
+                                  console.error(
+                                    'openConnectModal is not defined',
+                                  )
+                                }
+                              } else {
+                                buyKey()
+                              }
+                            }}
                             color="#222222">
                             Mint Key
                           </Button>
@@ -1074,7 +1130,17 @@ const Details = () => {
                       fontWeight="600"
                       fontSize={{ base: '12px', xl: '14px' }}
                       color="#222222"
-                      onClick={claim}
+                      onClick={() => {
+                        if (!account.isConnected) {
+                          if (openConnectModal) {
+                            openConnectModal()
+                          } else {
+                            console.error('openConnectModal is not defined')
+                          }
+                        } else {
+                          claim()
+                        }
+                      }}
                       disabled={
                         detailInfos.state === State.Upcoming ||
                         claimLoading ||
@@ -1132,7 +1198,17 @@ const Details = () => {
                       </Text>
                       <Button
                         isLoading={withDrawNFTLoading}
-                        onClick={withdrawSaleRevenue}
+                        onClick={() => {
+                          if (!account.isConnected) {
+                            if (openConnectModal) {
+                              openConnectModal()
+                            } else {
+                              console.error('openConnectModal is not defined')
+                            }
+                          } else {
+                            withdrawSaleRevenue()
+                          }
+                        }}
                         disabled={
                           [State.Upcoming, State.Ongoing].includes(
                             detailInfos.state,

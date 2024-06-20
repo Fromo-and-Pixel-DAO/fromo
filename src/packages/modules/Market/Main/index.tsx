@@ -18,8 +18,10 @@ import ItemGrid from 'packages/ui/components/ListItems/ItemGrid'
 
 import NoData from '@components/NoData'
 import { faker } from '@faker-js/faker'
+import { useAccount } from 'wagmi'
 import { ethers } from 'ethers'
 import moment from 'moment'
+import { useConnectModal } from '@rainbow-me/rainbowkit'
 import { useRouter } from 'next/router'
 import { ErrorIcon } from 'packages/assets/ErrorIcon'
 import SuccessIcon from 'packages/assets/SuccessIcon'
@@ -55,8 +57,9 @@ export const generateTimestamp = () => {
 
 export default function Main() {
   const router = useRouter()
-
+  const account = useAccount()
   const { address } = useStore()
+  const { openConnectModal } = useConnectModal()
 
   const [open, setOpen] = useState(false)
 
@@ -724,8 +727,16 @@ export default function Main() {
                     _hover={{}}
                     _focus={{}}
                     onClick={() => {
-                      if (ActivityStatus.NotStarted !== auctionInfo.status) {
-                        setOpen(true)
+                      if (!account.isConnected) {
+                        if (openConnectModal) {
+                          openConnectModal()
+                        } else {
+                          console.error('openConnectModal is not defined')
+                        }
+                      } else {
+                        if (ActivityStatus.NotStarted !== auctionInfo.status) {
+                          setOpen(true)
+                        }
                       }
                     }}
                     pos="relative">
