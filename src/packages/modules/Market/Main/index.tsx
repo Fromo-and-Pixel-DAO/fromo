@@ -428,8 +428,16 @@ export default function Main() {
                     _hover={{}}
                     _focus={{}}
                     onClick={() => {
-                      if (ActivityStatus.NotStarted !== auctionInfo.status) {
-                        setOpen(true)
+                      if (!account.isConnected) {
+                        if (openConnectModal) {
+                          openConnectModal()
+                        } else {
+                          console.error('openConnectModal is not defined')
+                        }
+                      } else {
+                        if (ActivityStatus.NotStarted !== auctionInfo.status) {
+                          setOpen(true)
+                        }
                       }
                     }}
                     pos="relative">
