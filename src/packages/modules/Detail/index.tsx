@@ -101,14 +101,11 @@ const Details = () => {
     const signer = library.getSigner()
     const contract = new ethers.Contract(FL_CONTRACT_ADR, FroopyABI, signer)
     const [data] = await contract.getGameInfoOfGameIds([id])
-    console.log(data, 'data=====')
     setDetailInfos(data)
     const gameId = await contract.totalGames()
     const [gameInfos] = await contract.getGameInfoOfGameIds([
       Number(gameId - 1).toString(),
     ])
-
-    console.log('gameInfos', gameInfos)
   }
 
   const fetchGameState = async () => {

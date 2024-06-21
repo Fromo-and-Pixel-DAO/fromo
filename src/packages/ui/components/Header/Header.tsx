@@ -97,12 +97,9 @@ const Header: FC = () => {
         const signer = await web3Provider.getSigner()
         const address = await signer.getAddress()
 
-        console.log(web3Provider, 'web3Provider')
-
         setAddress(address.toLowerCase())
         window.localStorage.setItem('isConnect', 'true')
         const network = await web3Provider.getNetwork()
-        console.log(network, 'network')
 
         dispatch({
           type: 'SET_WEB3_PROVIDER',

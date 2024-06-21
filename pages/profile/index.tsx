@@ -466,7 +466,7 @@ export default function Main() {
                     </Text>
                     <Text>
                       {' '}
-                      =
+                      ≈{' '}
                       {Number(amountConverter) > 0
                         ? Number(Number(amountConverter) / 10 ** 18).toFixed(4)
                         : '-'}{' '}
