@@ -11,13 +11,19 @@ export const toastSuccess = (message: string, delay?: number): void => {
         position: toast.POSITION.TOP_CENTER,
         pauseOnHover: true,
         transition: Flip,
-        autoClose: delay
+        autoClose: delay,
+        style: {
+          color: 'black',
+        },
       })
     } else {
       toast.success(message, {
         icon: React.createElement(SuccessIcon),
         position: toast.POSITION.TOP_CENTER,
-        autoClose: false
+        autoClose: false,
+        style: {
+          color: 'black',
+        },
       })
     }
   }
@@ -31,14 +37,20 @@ export const toastWarning = (message: string, delay?: number): void => {
         position: toast.POSITION.TOP_CENTER,
         pauseOnHover: true,
         transition: Flip,
-        autoClose: delay
+        autoClose: delay,
+        style: {
+          color: 'black',
+        },
       })
     } else {
       toast.warning(message, {
         icon: React.createElement(SuccessIcon),
         position: toast.POSITION.TOP_CENTER,
         transition: Flip,
-        autoClose: false
+        autoClose: false,
+        style: {
+          color: 'black',
+        },
       })
     }
   }
@@ -60,7 +72,10 @@ export const toastError = (error: ErrorMsg, delay?: number) => {
         position: toast.POSITION.TOP_CENTER,
         pauseOnHover: true,
         transition: Flip,
-        autoClose: delay
+        autoClose: delay,
+        style: {
+          color: 'black',
+        },
       })
     } else {
       toast.error(toastData, {
@@ -68,7 +83,10 @@ export const toastError = (error: ErrorMsg, delay?: number) => {
         position: toast.POSITION.TOP_CENTER,
         pauseOnHover: true,
         transition: Flip,
-        autoClose: false
+        autoClose: false,
+        style: {
+          color: 'black',
+        },
       })
     }
   } else if (toastData && toastData instanceof Array) {

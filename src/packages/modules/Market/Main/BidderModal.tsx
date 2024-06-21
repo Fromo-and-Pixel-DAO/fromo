@@ -85,6 +85,7 @@ const BidModal = ({ status, isOpen, onClose }: SubmitOfferModalProps) => {
       await contract.bidLand(ethers.utils.parseEther(value), {
         gasLimit: BigInt(500000),
       })
+      await getBidList()
       // const existingItemIndex = bidList.findIndex(item => item.userAddress === address)
 
       // if (existingItemIndex !== -1) {
