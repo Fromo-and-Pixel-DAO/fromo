@@ -30,6 +30,7 @@ import {
   checkApprovalFunc,
   claimBonusFunc,
   convertKeyToToken,
+  getExchangeRateFunc,
   withdrawLastplayerPrizeFunc,
   withdrawSaleRevenueFunc,
 } from 'packages/web3'
@@ -186,6 +187,7 @@ export default function Main() {
   const [historicalTab, setHistoricalTab] = useState<number>(0)
   const [currentHistoricalPage, setCurrentHistoricalPage] = useState(0)
   const [currentNFTPage, setCurrentNFTPage] = useState(0)
+  const [amountConverter, setAmountConverter] = useState(0)
   const [profit, setProfit] = useState<IProfit>({
     flPrice: '-',
     keys: '-',
@@ -415,6 +417,18 @@ export default function Main() {
     },
   ]
 
+  useEffect(() => {
+    getExchangeRateFunc()
+      .then((res) => {
+        if (Number(res) > 0) {
+          const OMOAmount = (Number(profit.keys) * 1e36) / Number(res)
+          setAmountConverter(OMOAmount)
+        }
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }, [profit.keys])
   return (
     <Box>
       <Flex>
@@ -449,6 +463,14 @@ export default function Main() {
                       fontWeight="800"
                       mr="12px">
                       {profit.keys}
+                    </Text>
+                    <Text>
+                      {' '}
+                      =
+                      {Number(amountConverter) > 0
+                        ? Number(Number(amountConverter) / 10 ** 18).toFixed(4)
+                        : '-'}{' '}
+                      OMO
                     </Text>
                   </Flex>
                   <Flex

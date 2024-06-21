@@ -15,6 +15,8 @@ import ERC20ABI from 'packages/abis/ERC20.json'
 import FactoryContractABI from 'packages/abis/FactoryContractABI.json'
 import GeneralNFTContractABI from 'packages/abis/GeneralNFTContractABI.json'
 import PoolContractABI from 'packages/abis/PoolContractABI.json'
+import TokenConverterABI from 'packages/abis/TokenConverterABI.json'
+
 import { isProd } from 'packages/constants'
 import { timeFromNow, weiToEtherString } from 'packages/lib/utilities'
 import {
@@ -99,6 +101,11 @@ export const getOriginalNFTContract = (originalNFTContract: string) => {
 // Pool contract
 export const getPoolContract = (PoolContractAddress: string) => {
   return new web3.eth.Contract(PoolContractABI, PoolContractAddress)
+}
+
+// Token Converter contract
+export const getTokenConverterContract = (ConverterContractAddress: string) => {
+  return new web3.eth.Contract(TokenConverterABI, ConverterContractAddress)
 }
 
 // Create new public pool
@@ -187,7 +194,9 @@ export async function checkApprovalFunc(
  * @param {string} contractAddress
  * @return {*}
  */
-export async function approveBidTokenFunc(contractAddress: string = process.env.NEXT_PUBLIC_FL_CONTRACT_ADR) {
+export async function approveBidTokenFunc(
+  contractAddress: string = process.env.NEXT_PUBLIC_FL_CONTRACT_ADR,
+) {
   const web3Modal = new Web3Modal({
     cacheProvider: true,
     providerOptions,
@@ -201,7 +210,10 @@ export async function approveBidTokenFunc(contractAddress: string = process.env.
     ERC20ABI,
     signer,
   )
-  const transaction = await contract.approve(contractAddress, ethers.constants.MaxUint256)
+  const transaction = await contract.approve(
+    contractAddress,
+    ethers.constants.MaxUint256,
+  )
   await transaction.wait()
   const allowance = await contract.allowance(address, contractAddress)
   if (allowance.gt(0)) {
@@ -239,7 +251,10 @@ export async function getBalanceOfFunc() {
  * @param {string} contractAddress pool contract address
  * @return {*}
  */
-export async function withdrawBidTokenFunc(amount: number, contractAddress: string = process.env.NEXT_PUBLIC_FL_CONTRACT_ADR) {
+export async function withdrawBidTokenFunc(
+  amount: number,
+  contractAddress: string = process.env.NEXT_PUBLIC_FL_CONTRACT_ADR,
+) {
   const web3Modal = new Web3Modal({
     cacheProvider: true,
     providerOptions, // required
@@ -247,12 +262,10 @@ export async function withdrawBidTokenFunc(amount: number, contractAddress: stri
   const provider = await web3Modal.connect()
   const library = new ethers.providers.Web3Provider(provider)
   const signer = library.getSigner()
-  const flContract = new ethers.Contract(
-    contractAddress,
-    fl419ABI,
-    signer,
+  const flContract = new ethers.Contract(contractAddress, fl419ABI, signer)
+  const transaction = await flContract.withdrawBidToken(
+    ethers.utils.parseEther(String(amount)),
   )
-  const transaction = await flContract.withdrawBidToken(ethers.utils.parseEther(String(amount)))
   return await transaction.wait()
 }
 
@@ -262,7 +275,10 @@ export async function withdrawBidTokenFunc(amount: number, contractAddress: stri
  * @param {string} contractAddress pool contract address
  * @return {*}
  */
-export async function depositBidTokenFunc(amount: number, contractAddress: string = process.env.NEXT_PUBLIC_FL_CONTRACT_ADR) {
+export async function depositBidTokenFunc(
+  amount: number,
+  contractAddress: string = process.env.NEXT_PUBLIC_FL_CONTRACT_ADR,
+) {
   const web3Modal = new Web3Modal({
     cacheProvider: true,
     providerOptions, // required
@@ -270,12 +286,10 @@ export async function depositBidTokenFunc(amount: number, contractAddress: strin
   const provider = await web3Modal.connect()
   const library = new ethers.providers.Web3Provider(provider)
   const signer = library.getSigner()
-  const contract = new ethers.Contract(
-    contractAddress,
-    fl419ABI,
-    signer,
+  const contract = new ethers.Contract(contractAddress, fl419ABI, signer)
+  const transaction = await contract.depositBidToken(
+    ethers.utils.parseEther(String(amount)),
   )
-  const transaction = await contract.depositBidToken(ethers.utils.parseEther(String(amount)))
   return await transaction.wait()
 }
 
@@ -509,7 +523,9 @@ export async function withdrawFunc(
     PoolContractABI,
     signer,
   )
-  const transaction = await contract.withdraw(ethers.utils.parseEther(String(amount)))
+  const transaction = await contract.withdraw(
+    ethers.utils.parseEther(String(amount)),
+  )
   return await transaction.wait()
 }
 
@@ -531,7 +547,6 @@ export async function getBidderInfoOfFunc(
     console.log(error)
   }
 }
-
 
 export async function getBalanceFunc(
   walletAddress: string,
@@ -688,7 +703,9 @@ export async function makeOfferFunc(
     PoolContractABI,
     signer,
   )
-  const transaction = await contract.makeOffer({ value: ethers.utils.parseEther(amount) })
+  const transaction = await contract.makeOffer({
+    value: ethers.utils.parseEther(amount),
+  })
   return await transaction.wait()
 }
 
@@ -730,23 +747,23 @@ type StateType = {
 
 type ActionType =
   | {
-    type: 'SET_WEB3_PROVIDER'
-    provider?: StateType['provider']
-    web3Provider?: StateType['web3Provider']
-    address?: StateType['address']
-    chainId?: StateType['chainId']
-  }
+      type: 'SET_WEB3_PROVIDER'
+      provider?: StateType['provider']
+      web3Provider?: StateType['web3Provider']
+      address?: StateType['address']
+      chainId?: StateType['chainId']
+    }
   | {
-    type: 'SET_ADDRESS'
-    address?: StateType['address']
-  }
+      type: 'SET_ADDRESS'
+      address?: StateType['address']
+    }
   | {
-    type: 'SET_CHAIN_ID'
-    chainId?: StateType['chainId']
-  }
+      type: 'SET_CHAIN_ID'
+      chainId?: StateType['chainId']
+    }
   | {
-    type: 'RESET_WEB3_PROVIDER'
-  }
+      type: 'RESET_WEB3_PROVIDER'
+    }
 
 export const initialState: StateType = {
   provider: null,
@@ -835,12 +852,16 @@ const getNftsForOwnerCustom = async ({
   const response = await axios.get(
     //TODO - in production !== should be === to fetch from mainnet
     pageKey
-      ? `https://eth-${process.env.NEXT_PUBLIC_ENV === 'development' ? 'goerli' : 'mainnet'
-      }.g.alchemy.com/nft/v2/${process.env.NEXT_PUBLIC_ALCHEMY_KEY
-      }/getNFTs?owner=${address}&pageKey=${pageKey}&pageSize=100&withMetadata=true`
-      : `https://eth-${process.env.NEXT_PUBLIC_ENV === 'development' ? 'goerli' : 'mainnet'
-      }.g.alchemy.com/nft/v2/${process.env.NEXT_PUBLIC_ALCHEMY_KEY
-      }/getNFTs?owner=${address}&pageSize=100&withMetadata=true`,
+      ? `https://eth-${
+          process.env.NEXT_PUBLIC_ENV === 'development' ? 'goerli' : 'mainnet'
+        }.g.alchemy.com/nft/v2/${
+          process.env.NEXT_PUBLIC_ALCHEMY_KEY
+        }/getNFTs?owner=${address}&pageKey=${pageKey}&pageSize=100&withMetadata=true`
+      : `https://eth-${
+          process.env.NEXT_PUBLIC_ENV === 'development' ? 'goerli' : 'mainnet'
+        }.g.alchemy.com/nft/v2/${
+          process.env.NEXT_PUBLIC_ALCHEMY_KEY
+        }/getNFTs?owner=${address}&pageSize=100&withMetadata=true`,
   )
 
   return response.data
@@ -1931,6 +1952,31 @@ export async function getOriginalNFTAddressAndTokenId(
     }
 
     return originNFT
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+export async function getExchangeRateFunc(
+  TokenConverterContractAddress: string = '0xADb0267c6AB295128D565ee8e5593D8749ec4ef7',
+) {
+  try {
+    const web3Modal = new Web3Modal({
+      cacheProvider: true,
+      providerOptions,
+    })
+    const provider = await web3Modal.connect()
+    const library = new ethers.providers.Web3Provider(provider)
+    const signer = library.getSigner()
+    const address = await signer.getAddress()
+    const contract = new ethers.Contract(
+      TokenConverterContractAddress,
+      TokenConverterABI,
+      signer,
+    )
+    const amount = await contract.exchangeRate()
+
+    return Number(amount)
   } catch (error) {
     console.error(error)
   }
