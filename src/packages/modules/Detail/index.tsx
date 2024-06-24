@@ -72,6 +72,10 @@ const Details = () => {
     tx: '',
   })
 
+  const handleBack = () => {
+    router.push('/')
+  }
+
   useEffect(() => {
     init()
     fetchGameDetailById()
@@ -554,6 +558,20 @@ const Details = () => {
     )
   }
 
+  useEffect(() => {
+    const handlePopState = () => {
+      if (window.history.state) {
+        handleBack()
+      }
+    }
+
+    window.addEventListener('popstate', handlePopState)
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState)
+    }
+  }, [])
+
   if (!detailInfos) return null
 
   return (
@@ -565,7 +583,7 @@ const Details = () => {
             cursor="pointer"
             alignItems="center"
             pl={{ base: '16px', md: '24px', xl: '68px' }}
-            onClick={() => router.push('/')}>
+            onClick={handleBack}>
             <ArrowBackIcon fontSize="20px" mr="4px" />
             <Text fontSize="20px" lineHeight="20px">
               Back
