@@ -79,7 +79,7 @@ const Details = () => {
   useEffect(() => {
     init()
     fetchGameDetailById()
-  }, [id, router.query, detailInfos])
+  }, [id, router.query])
 
   const init = () => {
     fetchGameState()
