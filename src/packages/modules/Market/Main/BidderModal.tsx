@@ -50,10 +50,11 @@ const BidModal = ({ status, isOpen, onClose }: SubmitOfferModalProps) => {
 
   const { address } = useStore()
 
-  const isLowPrice = useMemo(
-    () => list.some((k) => Number(value) <= Number(k.amount)),
-    [list, value],
-  )
+  const isLowPrice = useMemo(() => {
+    return list.some((k) => {
+      return Number(value) < Number(Number(k.amount) + 0.0001)
+    })
+  }, [list, value])
 
   const bidList = useMemo(
     () => list.slice().sort((a, b) => Number(b.amount) - Number(a.amount)),
