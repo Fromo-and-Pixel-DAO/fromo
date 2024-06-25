@@ -126,11 +126,15 @@ const Register = () => {
   const listStakeNFt = [
     {
       title: 'NFT Owner',
-      description: nft ? ellipseAddress(nft?.userAddress, 10) : '-',
+      description: nft?.userAddress
+        ? ellipseAddress(nft?.userAddress, 10)
+        : '-',
+      copyDescription: nft?.userAddress,
     },
     {
       title: 'Contract Address',
-      description: ellipseAddress(nft?.nftAddress, 10) || '-',
+      description: nft?.nftAddress ? ellipseAddress(nft?.nftAddress, 10) : '-',
+      copyDescription: nft?.nftAddress,
     },
     {
       title: 'Token ID',
@@ -176,21 +180,24 @@ const Register = () => {
   return (
     <>
       <Flex p={{ base: '16px', lg: '24px 42px' }} pb="200px">
-        <Flex
+        <Box
           ml="20px"
           _hover={{ cursor: 'pointer' }}
           onClick={() => router.back()}>
-          <Image
-            src="/static/market/left.svg"
-            alt="left"
-            w="20px"
-            h="20px"
-            mr="4px"
-          />
-          <Text fontSize="20px" lineHeight="24px">
-            Back
-          </Text>
-        </Flex>
+          <Flex alignItems="center">
+            <Image
+              src="/static/market/left.svg"
+              alt="left"
+              w="20px"
+              h="20px"
+              mr="4px"
+            />
+
+            <Text fontSize="20px" lineHeight="24px">
+              Back
+            </Text>
+          </Flex>
+        </Box>
         <Box>
           <Text textAlign="center" fontSize="36px" fontWeight="700" mb="56px">
             Stake NFT
@@ -241,15 +248,13 @@ const Register = () => {
                   <Flex alignItems="center" key={k} gap="12px">
                     <Text>{i.title}</Text>
                     <Flex alignItems="center" fontWeight="600">
-                      <Box
-                        onChange={() => {
-                          setValue(i.description)
-                        }}
-                        color={k === 0 || k === 1 ? '#1DFED6' : 'white'}></Box>
+                      <Box color={k === 0 || k === 1 ? '#1DFED6' : 'white'}>
+                        {i.description}
+                      </Box>
                       <Image
                         alt=""
                         onClick={() => {
-                          onCopy()
+                          navigator.clipboard.writeText(i.copyDescription)
                           toastSuccess('Copied', 2000)
                         }}
                         src="/static/common/copy.svg"
