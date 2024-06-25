@@ -245,9 +245,7 @@ const Register = () => {
                         onChange={() => {
                           setValue(i.description)
                         }}
-                        color={k === 0 || k === 1 ? '#1DFED6' : 'white'}>
-                        {value}
-                      </Box>
+                        color={k === 0 || k === 1 ? '#1DFED6' : 'white'}></Box>
                       <Image
                         alt=""
                         onClick={() => {
