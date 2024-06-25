@@ -752,7 +752,7 @@ export default function Main() {
                     }}
                     pos="relative">
                     <Image
-                      src="/static/common/3d-stake.svg"
+                      src="/static/common/3d.svg"
                       borderRadius="full"
                       alt="3d"
                       pos="relative"
