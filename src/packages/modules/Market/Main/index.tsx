@@ -207,27 +207,30 @@ export default function Main() {
             position: toast.POSITION.TOP_CENTER,
             transition: Flip,
             autoClose: false,
+            style: { color: 'black' },
           },
         )
+      } else {
+        getStakeNotices(address)
+          .then((res) => {
+            if (res > 0) {
+              toast.error(
+                `You lost the $OMO you bid because you failed to stake NFT.`,
+                {
+                  icon: React.createElement(ErrorIcon),
+                  toastId: 'stakeNotice',
+                  position: toast.POSITION.TOP_CENTER,
+                  transition: Flip,
+                  autoClose: false,
+                  style: { color: 'black' },
+                },
+              )
+            }
+          })
+          .catch((err) => {
+            console.log(err)
+          })
       }
-      getStakeNotices(address)
-        .then((res) => {
-          if (res > 0) {
-            toast.error(
-              `You lost the $OMO you bid because you failed to stake NFT.`,
-              {
-                icon: React.createElement(ErrorIcon),
-                toastId: 'stakeNotice',
-                position: toast.POSITION.TOP_CENTER,
-                transition: Flip,
-                autoClose: false,
-              },
-            )
-          }
-        })
-        .catch((err) => {
-          console.log(err)
-        })
     }
   }, [auctionInfo, address])
 
