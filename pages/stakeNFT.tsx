@@ -11,6 +11,7 @@ import { useRouter } from 'next/router'
 import ERC_ABI from 'packages/abis/demo/Erc721.json'
 import flABI from 'packages/abis/demo/fl417.json'
 import useAuctions from 'packages/store/auctions'
+import Footer from '@components/Footer'
 
 const FL_CONTRACT_ADR: string = process.env
   .NEXT_PUBLIC_FL_CONTRACT_ADR as string
@@ -169,121 +170,120 @@ const Register = () => {
   ]
 
   return (
-    <>
-      <Flex p={{ base: '16px', lg: '24px 42px' }} pb="200px">
-        <Box
-          ml="20px"
+    <Box>
+      <Flex position="relative" alignItems="center" mb="56px">
+        <Flex
+          pos="absolute"
+          left="68px"
           _hover={{ cursor: 'pointer' }}
           onClick={() => router.back()}>
-          <Flex alignItems="center">
-            <Image
-              src="/static/market/left.svg"
-              alt="left"
-              w="20px"
-              h="20px"
-              mr="4px"
-            />
-
-            <Text fontSize="20px" lineHeight="24px">
-              Back
-            </Text>
-          </Flex>
-        </Box>
-        <Box>
-          <Text textAlign="center" fontSize="36px" fontWeight="700" mb="56px">
-            Stake NFT
+          <Image
+            src="/static/market/left.svg"
+            alt="left"
+            w="20px"
+            h="20px"
+            mr="4px"
+          />
+          <Text fontSize="20px" lineHeight="24px">
+            Back
           </Text>
-          <Flex alignItems="center" gap="60px">
-            <Box w={{ base: '180px', md: '220px', xl: '430px' }}>
-              <Image
-                src={nft?.imageUrl}
-                fallbackSrc="/static/account/avatar.png"
-                alt="logo"
-                w={{ base: '180px', md: '220px', xl: '430px' }}
-                h="full"
-                borderRadius="15px"
-              />
-            </Box>
-
-            <Box>
-              <Select
-                w="460px"
-                mb="32px"
-                bg="#2F2B50"
-                border="none"
-                placeholder="Select NFT in Fromo"
-                sx={{
-                  '> option': {
-                    background: '#1DFED6',
-                  },
-                }}
-                onChange={(e) => setNFT(JSON.parse(e.target.value))}
-                h="56px">
-                {nftList.map((nft, index) => (
-                  <option
-                    disabled={nft.status === 1}
-                    key={index}
-                    value={JSON.stringify(nft)}>
-                    {nft.name ? nft.name : nft.tokenId}&nbsp;&nbsp; (
-                    {nft.status === 1
-                      ? 'In Use'
-                      : nft.status === 2
-                      ? `Auctioned ${nft.auctionsCount} times`
-                      : 'Available'}
-                    )
-                  </option>
-                ))}
-              </Select>
-              <Flex direction="column" gap="12px">
-                {listStakeNFt.map((i, k) => (
-                  <Flex alignItems="center" key={k} gap="12px">
-                    <Text>{i.title}</Text>
-                    <Flex alignItems="center" fontWeight="600">
-                      <Box color={k === 0 || k === 1 ? '#1DFED6' : 'white'}>
-                        {i.description}
-                      </Box>
-                      <Image
-                        alt=""
-                        onClick={() => {
-                          navigator.clipboard.writeText(i.copyDescription)
-                          toastSuccess('Copied', 2000)
-                        }}
-                        src="/static/common/copy.svg"
-                        w="20px"
-                        cursor="pointer"
-                        h="20px"
-                        ml="8px"
-                        display={k === 0 || k === 1 ? 'block' : 'none'}
-                      />
-                      <Box
-                        ml="12px"
-                        fontSize="14px"
-                        color="rgba(255,255,255,0.6)">
-                        {i.detail}
-                      </Box>
-                    </Flex>
-                  </Flex>
-                ))}
-              </Flex>
-              <Button
-                w="168px"
-                h="56px"
-                fontSize={{ base: '18px', lg: '20px' }}
-                lineHeight="30px"
-                color="#222222"
-                fontWeight="600"
-                borderRadius="8px"
-                bgColor="#1DFED6"
-                mt="32px"
-                isLoading={isLoading}
-                onClick={handleRegister}>
-                Stake
-              </Button>
-            </Box>
-          </Flex>
-        </Box>
+        </Flex>
+        <Text w="full" textAlign="center" fontSize="36px" fontWeight="700">
+          Stake NFT
+        </Text>
       </Flex>
-    </>
+      <Flex justifyContent="center" mb="110px">
+        <Flex alignItems="center" gap="60px">
+          <Box w={{ base: '180px', md: '220px', xl: '430px' }}>
+            <Image
+              src={nft?.imageUrl}
+              fallbackSrc="/static/account/avatar.png"
+              alt="logo"
+              w={{ base: '180px', md: '220px', xl: '430px' }}
+              h="full"
+              borderRadius="15px"
+            />
+          </Box>
+
+          <Box>
+            <Select
+              w="460px"
+              mb="32px"
+              bg="#2F2B50"
+              border="none"
+              placeholder="Select NFT in Fromo"
+              sx={{
+                '> option': {
+                  background: '#1DFED6',
+                },
+              }}
+              onChange={(e) => setNFT(JSON.parse(e.target.value))}
+              h="56px">
+              {nftList.map((nft, index) => (
+                <option
+                  disabled={nft.status === 1}
+                  key={index}
+                  value={JSON.stringify(nft)}>
+                  {nft.name ? nft.name : nft.tokenId}&nbsp;&nbsp; (
+                  {nft.status === 1
+                    ? 'In Use'
+                    : nft.status === 2
+                    ? `Auctioned ${nft.auctionsCount} times`
+                    : 'Available'}
+                  )
+                </option>
+              ))}
+            </Select>
+            <Flex direction="column" gap="12px">
+              {listStakeNFt.map((i, k) => (
+                <Flex alignItems="center" key={k} gap="12px">
+                  <Text>{i.title}</Text>
+                  <Flex alignItems="center" fontWeight="600">
+                    <Box color={k === 0 || k === 1 ? '#1DFED6' : 'white'}>
+                      {i.description}
+                    </Box>
+                    <Image
+                      alt=""
+                      onClick={() => {
+                        navigator.clipboard.writeText(i.copyDescription)
+                        toastSuccess('Copied', 2000)
+                      }}
+                      src="/static/common/copy.svg"
+                      w="20px"
+                      cursor="pointer"
+                      h="20px"
+                      ml="8px"
+                      display={k === 0 || k === 1 ? 'block' : 'none'}
+                    />
+                    <Box
+                      ml="12px"
+                      fontSize="14px"
+                      color="rgba(255,255,255,0.6)">
+                      {i.detail}
+                    </Box>
+                  </Flex>
+                </Flex>
+              ))}
+            </Flex>
+            <Button
+              w="168px"
+              h="56px"
+              fontSize={{ base: '18px', lg: '20px' }}
+              lineHeight="30px"
+              color="#222222"
+              fontWeight="600"
+              borderRadius="8px"
+              bgColor="#1DFED6"
+              mt="32px"
+              isLoading={isLoading}
+              onClick={handleRegister}>
+              Stake
+            </Button>
+          </Box>
+        </Flex>
+      </Flex>
+      <Footer />
+    </Box>
   )
 }
 
