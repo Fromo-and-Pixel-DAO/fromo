@@ -474,7 +474,7 @@ export default function Main() {
                         onClick={() => router.push('/stakeNFT')}
                         pos="relative">
                         <Image
-                          src="/static/common/3d.svg"
+                          src="/static/common/3d-stake.svg"
                           borderRadius="full"
                           w={{ base: '100px', md: '120px', xl: '158px' }}
                           h={{ base: '100px', md: '120px', xl: '158px' }}
@@ -752,7 +752,7 @@ export default function Main() {
                     }}
                     pos="relative">
                     <Image
-                      src="/static/common/3d.svg"
+                      src="/static/common/3d-stake.svg"
                       borderRadius="full"
                       alt="3d"
                       pos="relative"
@@ -782,7 +782,7 @@ export default function Main() {
                         onClick={() => router.push('/stakeNFT')}
                         pos="relative">
                         <Image
-                          src="/static/common/3d.svg"
+                          src="/static/common/3d-stake.svg"
                           borderRadius="full"
                           alt="3d"
                           pos="relative"
