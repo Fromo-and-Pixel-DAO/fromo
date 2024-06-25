@@ -1,12 +1,4 @@
-import {
-  Box,
-  Button,
-  Flex,
-  Image,
-  Select,
-  Text,
-  useClipboard,
-} from '@chakra-ui/react'
+import { Box, Button, Flex, Image, Select, Text } from '@chakra-ui/react'
 import { ellipseAddress } from '@utils'
 import { toastError, toastSuccess, toastWarning } from '@utils/toast'
 import { ethers } from 'ethers'
@@ -26,7 +18,6 @@ const Register = () => {
   const router = useRouter()
 
   const [nft, setNFT] = useState(null)
-  const { onCopy, setValue } = useClipboard('')
 
   const [isLoading, setIsLoading] = useState(false)
   const { address } = useStore()
