@@ -548,35 +548,37 @@ function ItemGrid({
                 </Box>
               </Flex>
             </Box>
-            <Box w="50%">
-              <Text
-                fontSize="12px"
-                fontWeight="600"
-                whiteSpace="nowrap"
-                color="rgba(255,255,255,0.6)"
-                mb="4px">
-                Final Winner Prize
-              </Text>
-              <Flex alignItems="center" gap="4px">
-                <Image
-                  src="/static/common/eth-index.svg"
-                  alt="ethereum"
-                  w="14px"
-                  h="24px"
-                />
-                <Box
+            <Flex w="50%" justifyContent="end">
+              <Box>
+                <Text
+                  fontSize="12px"
                   fontWeight="600"
-                  fontSize="20px"
-                  lineHeight="24px"
-                  color="#1DFED6">
-                  {item.status === 0
-                    ? '--'
-                    : parseFloat(
-                        ethers.utils.formatEther(item?.finalPrice),
-                      ).toFixed(4) || '--'}
-                </Box>
-              </Flex>
-            </Box>
+                  whiteSpace="nowrap"
+                  color="rgba(255,255,255,0.6)"
+                  mb="4px">
+                  Final Winner Prize
+                </Text>
+                <Flex alignItems="center" gap="4px">
+                  <Image
+                    src="/static/common/eth-index.svg"
+                    alt="ethereum"
+                    w="14px"
+                    h="24px"
+                  />
+                  <Box
+                    fontWeight="600"
+                    fontSize="20px"
+                    lineHeight="24px"
+                    color="#1DFED6">
+                    {item.status === 0
+                      ? '--'
+                      : parseFloat(
+                          ethers.utils.formatEther(item?.finalPrice),
+                        ).toFixed(4) || '--'}
+                  </Box>
+                </Flex>
+              </Box>
+            </Flex>
           </Flex>
         </Box>
       </Box>
@@ -874,32 +876,34 @@ function ItemGrid({
               </Box>
             </Flex>
           </Box>
-          <Box w="50%">
-            <Text
-              fontSize="12px"
-              fontWeight="600"
-              textAlign="start"
-              whiteSpace="nowrap"
-              color="rgba(255,255,255,0.6)"
-              mb="4px">
-              Final Winner Prize
-            </Text>
-            <Flex alignItems="center" gap="4px">
-              <Image
-                src="/static/common/eth-index.svg"
-                alt="ethereum"
-                w="14px"
-                h="24px"
-              />
-              <Box
+          <Flex w="50%" justifyContent="end">
+            <Box>
+              <Text
+                fontSize="12px"
                 fontWeight="600"
-                fontSize="20px"
-                lineHeight="24px"
-                color="#1DFED6">
-                {item.status === 0 ? '--' : item?.finalPrice || '--'}
-              </Box>
-            </Flex>
-          </Box>
+                textAlign="start"
+                whiteSpace="nowrap"
+                color="rgba(255,255,255,0.6)"
+                mb="4px">
+                Final Winner Prize
+              </Text>
+              <Flex alignItems="center" gap="4px">
+                <Image
+                  src="/static/common/eth-index.svg"
+                  alt="ethereum"
+                  w="14px"
+                  h="24px"
+                />
+                <Box
+                  fontWeight="600"
+                  fontSize="20px"
+                  lineHeight="24px"
+                  color="#1DFED6">
+                  {item.status === 0 ? '--' : item?.finalPrice || '--'}
+                </Box>
+              </Flex>
+            </Box>
+          </Flex>
         </Flex>
       </Box>
     </Box>

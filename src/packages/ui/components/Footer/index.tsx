@@ -32,6 +32,7 @@ export default function Footer() {
         fontSize={{ base: '18px', xl: '16px' }}
         lineHeight="20px"
         mb="20px"
+        textTransform="uppercase"
         textAlign="center">
         Auction Rules
       </Text>

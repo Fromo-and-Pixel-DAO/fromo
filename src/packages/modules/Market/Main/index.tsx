@@ -120,7 +120,13 @@ export default function Main() {
 
         {upcomingList.length > 0 && (
           <Box
-            px={{ base: '16px', md: '24px', lg: '32px', xl: '48px' }}
+            px={{
+              base: '16px',
+              sm: '80px',
+              md: '24px',
+              lg: '32px',
+              xl: '48px',
+            }}
             mt={{ base: '40px', xl: '80px' }}>
             <Box>
               <Flex
@@ -133,7 +139,7 @@ export default function Main() {
                 <Text>Upcoming NFT Auctions</Text>({upcomingList.length})
               </Flex>
             </Box>
-            <SimpleGrid columns={[1, 2, 2, 3, 5, 5]} spacing="20px">
+            <SimpleGrid columns={[1, 1, 2, 3, 5, 5]} spacing="20px">
               {upcomingList?.map((item, idx) => {
                 return (
                   <ItemGrid
@@ -150,7 +156,13 @@ export default function Main() {
 
         {finishedList.length > 0 && (
           <Box
-            px={{ base: '16px', md: '24px', lg: '32px', xl: '48px' }}
+            px={{
+              base: '16px',
+              sm: '80px',
+              md: '24px',
+              lg: '32px',
+              xl: '48px',
+            }}
             mt={{ base: '40px', xl: '80px' }}>
             <Box>
               <Flex
@@ -163,7 +175,7 @@ export default function Main() {
                 <Text>Finished NFT Auctions</Text>({finishedList.length})
               </Flex>
             </Box>
-            <SimpleGrid columns={[1, 2, 2, 3, 5, 5]} spacing="20px">
+            <SimpleGrid columns={[1, 1, 2, 3, 5, 5]} spacing="20px">
               {finishedList?.map((item, idx) => {
                 return (
                   <ItemGrid gridName="finishedList" item={item} key={idx} />

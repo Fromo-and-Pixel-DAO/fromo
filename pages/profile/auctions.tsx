@@ -52,7 +52,7 @@ export default function Main() {
       title: `All Auctions`,
       value: 'allList',
       render: (
-        <SimpleGrid mt="20px" columns={[1, 2, 3, 3, 4]} spacing="20px">
+        <SimpleGrid mt="20px" columns={[1, 1, 2, 3, 4]} spacing="20px">
           {gameNft.nftList.map((item, idx) => {
             return <ItemGrid gridName="allList" item={item} key={idx} />
           })}
@@ -64,7 +64,7 @@ export default function Main() {
       title: `Upcoming`,
       value: 'upcomingList',
       render: (
-        <SimpleGrid mt="20px" columns={[1, 2, 3, 3, 4]} spacing="20px">
+        <SimpleGrid mt="20px" columns={[1, 1, 2, 3, 4]} spacing="20px">
           {upcomingList.map((item, idx) => {
             return <ItemGrid gridName="upcomingList" item={item} key={idx} />
           })}
@@ -76,7 +76,7 @@ export default function Main() {
       title: `Ongoing`,
       value: 'finishedList',
       render: (
-        <SimpleGrid mt="20px" columns={[1, 2, 3, 3, 4]} spacing="20px">
+        <SimpleGrid mt="20px" columns={[1, 1, 2, 3, 4]} spacing="20px">
           {ongoingList.map((item, idx) => {
             return <ItemGrid gridName="finishedList" item={item} key={idx} />
           })}

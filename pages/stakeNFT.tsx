@@ -175,6 +175,7 @@ const Register = () => {
         <Flex
           pos="absolute"
           left="68px"
+          alignItems="center"
           _hover={{ cursor: 'pointer' }}
           onClick={() => router.back()}>
           <Image
