@@ -63,7 +63,7 @@ function ItemGrid({
         : item?.['endTimestamp']
     if (!date) return null
 
-    return moment.utc(date).format('YYYY-MM-DD HH:mm:ss')
+    return moment(date).format('YYYY-MM-DD HH:mm:ss')
   }, [item])
 
   const time = useCountDown(localTimeFormatted)
