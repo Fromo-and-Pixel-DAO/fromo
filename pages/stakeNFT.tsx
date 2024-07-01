@@ -73,6 +73,7 @@ const Register = () => {
               `You have successfully staked your NFT. Your NFT auction will start on ${moment(
                 gameInfos?.startTimestamp,
               ).format('MMMM DD ha [GMT]')}`,
+              2000,
             )
             router.push('/')
           } catch (error) {
@@ -100,6 +101,7 @@ const Register = () => {
             `You have successfully staked your NFT. Your NFT auction will start on ${moment(
               gameInfos?.startTimestamp,
             ).format('MMMM DD ha [GMT]')}`,
+            2000,
           )
           router.push('/')
         } catch (error) {
