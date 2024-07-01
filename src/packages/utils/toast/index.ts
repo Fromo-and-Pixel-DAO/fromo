@@ -39,7 +39,7 @@ export const toastWarning = (message: string, delay?: number): void => {
 
 type ErrorMsg = Error | string | string[]
 
-export const toastError = (error: ErrorMsg, delay?: number) => {
+export const toastError = (error: ErrorMsg, delay = 2000) => {
   let toastData: any = ''
 
   if (typeof error === 'string' || (error && error instanceof Array)) {
