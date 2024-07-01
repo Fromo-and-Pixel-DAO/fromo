@@ -70,9 +70,9 @@ const Register = () => {
               (Number(gameId) - 1).toString(),
             ])
             toastSuccess(
-              `You have successfully staked your NFT. Your NFT auction will start on ${moment(
-                gameInfos?.startTimestamp,
-              ).format('MMMM DD ha [GMT]')}`,
+              `You have successfully staked your NFT. Your NFT auction will start on ${moment
+                .utc(gameInfos?.startTimestamp)
+                .format('MMMM DD ha [UTC]')}`,
               2000,
             )
             router.push('/')
@@ -98,9 +98,9 @@ const Register = () => {
             (Number(gameId) - 1).toString(),
           ])
           toastSuccess(
-            `You have successfully staked your NFT. Your NFT auction will start on ${moment(
-              gameInfos?.startTimestamp,
-            ).format('MMMM DD ha [GMT]')}`,
+            `You have successfully staked your NFT. Your NFT auction will start on ${moment
+              .utc(gameInfos?.startTimestamp)
+              .format('MMMM DD ha [UTC]')}`,
             2000,
           )
           router.push('/')
@@ -154,7 +154,8 @@ const Register = () => {
     {
       title: 'Auction Opening',
       description:
-        moment(auctionInfo?.startTimestamp).format('MMMM DD ha [GMT]') || '--',
+        moment.utc(auctionInfo?.startTimestamp).format('MMMM DD ha [UTC]') ||
+        '--',
     },
     {
       title: 'NFT Provider Dividends',

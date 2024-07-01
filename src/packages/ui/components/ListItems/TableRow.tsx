@@ -139,7 +139,8 @@ function Table({ item, isCustom }: { item: any; isCustom: boolean }) {
     checkApproved()
   }, [checkApproved])
 
-  const formatDate = (date) => moment(date * 1000).format('YYYY-MM-DD HH:mm:ss')
+  const formatDate = (date) =>
+    moment.utc(date * 1000).format('YYYY-MM-DD HH:mm:ss')
   const states = ['Not Active', 'Active', 'Ended']
 
   if (pathname === PathnameType.MARKET) {

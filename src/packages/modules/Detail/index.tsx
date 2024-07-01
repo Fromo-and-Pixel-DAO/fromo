@@ -324,18 +324,9 @@ const Details = () => {
     contract.on('GameJoined', () => init())
   }
 
-  // game detailInfo count down
-  const localTimeFormatted = useMemo(() => {
-    if (!detailInfos) return null
-    const date =
-      detailInfos.state === State.Upcoming
-        ? detailInfos['startTimestamp']
-        : detailInfos['endTimestamp']
-    return moment(date * 1000).format('YYYY-MM-DD HH:mm:ss')
-  }, [detailInfos])
-
   const PurchaseNFTCountDownPrimary = () => {
-    const purchaseTimer = moment(detailInfos.endTimestamp * 1000)
+    const purchaseTimer = moment
+      .utc(detailInfos.endTimestamp * 1000)
       .add(24, 'hours')
       .format('YYYY-MM-DD HH:mm:ss')
     const { hours, minutes, seconds } = useCountDown(purchaseTimer, () =>
@@ -370,7 +361,8 @@ const Details = () => {
   }
 
   const PurchaseNFTCountDownSecondary = () => {
-    const purchaseTimer = moment(detailInfos.endTimestamp * 1000)
+    const purchaseTimer = moment
+      .utc(detailInfos.endTimestamp * 1000)
       .add(24, 'hours')
       .format('YYYY-MM-DD HH:mm:ss')
     const { days, hours, minutes, seconds } = useCountDown(purchaseTimer, () =>
@@ -455,10 +447,10 @@ const Details = () => {
       title: 'Auction Duration',
       data: (
         <>
-          {moment(detailInfos?.startTimestamp * 1000).format('hA')}{' '}
-          {moment(detailInfos?.startTimestamp * 1000).format('MMM DD')} -{' '}
-          {moment(detailInfos?.endTimestamp * 1000).format('hA')}{' '}
-          {moment(detailInfos?.endTimestamp * 1000).format('MMM DD')}
+          {moment.utc(detailInfos?.startTimestamp * 1000).format('hA')}{' '}
+          {moment.utc(detailInfos?.startTimestamp * 1000).format('MMM DD')} -{' '}
+          {moment.utc(detailInfos?.endTimestamp * 1000).format('hA')}{' '}
+          {moment.utc(detailInfos?.endTimestamp * 1000).format('MMM DD')}
         </>
       ),
     },
@@ -662,7 +654,9 @@ const Details = () => {
                 {detailInfos.state === State.Finished &&
                   detailInfos.nftAddress !== ethers.constants.AddressZero &&
                   moment().isAfter(
-                    moment(detailInfos.endTimestamp * 1000).add(24, 'hours'),
+                    moment
+                      .utc(detailInfos.endTimestamp * 1000)
+                      .add(24, 'hours'),
                   ) && (
                     <Box>
                       <Button
@@ -706,7 +700,9 @@ const Details = () => {
                 {detailInfos.state === State.Finished &&
                   detailInfos.nftAddress !== ethers.constants.AddressZero &&
                   moment().isBefore(
-                    moment(detailInfos.endTimestamp * 1000).add(24, 'hours'),
+                    moment
+                      .utc(detailInfos.endTimestamp * 1000)
+                      .add(24, 'hours'),
                   ) && (
                     <Tooltip
                       label={
@@ -801,9 +797,13 @@ const Details = () => {
                     fontWeight="800"
                     fontSize="20px"
                     lineHeight="24px">
-                    {moment(detailInfos?.endTimestamp * 1000).format('MMMM DD')}{' '}
+                    {moment
+                      .utc(detailInfos?.endTimestamp * 1000)
+                      .format('MMMM DD')}{' '}
                     at{' '}
-                    {moment(detailInfos?.endTimestamp * 1000).format('h:mm A')}
+                    {moment
+                      .utc(detailInfos?.endTimestamp * 1000)
+                      .format('h:mm A')}
                   </Text>
                 )}
 

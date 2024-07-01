@@ -547,19 +547,20 @@ export default function Main() {
                               {' '}
                               You won the FROMO plot and the chance to auction
                               NFT on{' '}
-                              {moment(auctionInfo.startTimestamp).format(
-                                'MMMM DD, ha',
-                              )}
-                              GMT{' '}
+                              {moment
+                                .utc(auctionInfo.startTimestamp)
+                                .format('MMMM DD, ha')}
+                              UTC{' '}
                             </>
                           ) : (
                             <>
                               {' '}
                               The NFT auction will start on{' '}
-                              {moment(auctionInfo.startTimestamp)
+                              {moment
+                                .utc(auctionInfo.startTimestamp)
                                 .add(8, 'hours')
                                 .format('MMMM DD, ha')}
-                              GMT{' '}
+                              UTC{' '}
                             </>
                           )}
                         </>
@@ -567,10 +568,10 @@ export default function Main() {
                         <>
                           {' '}
                           Get the chance to auction NFT on{' '}
-                          {moment(auctionInfo.startTimestamp).format(
-                            'MMMM DD, ha',
-                          )}{' '}
-                          GMT by bidding a plot of FroopyLand
+                          {moment
+                            .utc(auctionInfo.startTimestamp)
+                            .format('MMMM DD, ha')}{' '}
+                          UTC by bidding a plot of FroopyLand
                         </>
                       )
                     }>
@@ -611,11 +612,12 @@ export default function Main() {
                     ].includes(auctionInfo.status) && (
                       <>
                         {auctionInfo.status === ActivityStatus.NotStarted &&
-                          `Open on ${moment(auctionInfo.startTimestamp).format(
-                            'MMMM DD, Ha',
-                          )}`}
+                          `Open on ${moment
+                            .utc(auctionInfo.startTimestamp)
+                            .format('MMMM DD, Ha')}`}
                         {auctionInfo.status === ActivityStatus.Bidding &&
-                          `Close on ${moment(auctionInfo.startTimestamp)
+                          `Close on ${moment
+                            .utc(auctionInfo.startTimestamp)
                             .add(16, 'hours')
                             .format('MMMM DD, Ha')}`}
                       </>
@@ -623,7 +625,8 @@ export default function Main() {
 
                     {auctionInfo.status === ActivityStatus.Staking &&
                       ` Close on
-                    ${moment(auctionInfo.startTimestamp)
+                    ${moment
+                      .utc(auctionInfo.startTimestamp)
                       .add(8, 'hours')
                       .format('MMMM DD, ha')}`}
                   </Box>
@@ -653,19 +656,20 @@ export default function Main() {
                             {' '}
                             You won the FROMO plot and the chance to auction NFT
                             on{' '}
-                            {moment(auctionInfo.startTimestamp).format(
-                              'MMMM DD, ha',
-                            )}
-                            GMT{' '}
+                            {moment
+                              .utc(auctionInfo.startTimestamp)
+                              .format('MMMM DD, ha')}
+                            UTC{' '}
                           </>
                         ) : (
                           <>
                             {' '}
                             The NFT auction will start on{' '}
-                            {moment(auctionInfo.startTimestamp)
+                            {moment
+                              .utc(auctionInfo.startTimestamp)
                               .add(8, 'hours')
                               .format('MMMM DD, ha')}
-                            GMT{' '}
+                            UTC{' '}
                           </>
                         )}
                       </>
@@ -673,10 +677,10 @@ export default function Main() {
                       <>
                         {' '}
                         Get the chance to auction NFT on{' '}
-                        {moment(auctionInfo.startTimestamp).format(
-                          'MMMM DD, ha',
-                        )}{' '}
-                        GMT by bidding a plot of FroopyLand
+                        {moment
+                          .utc(auctionInfo.startTimestamp)
+                          .format('MMMM DD, ha')}{' '}
+                        UTC by bidding a plot of FroopyLand
                       </>
                     )
                   }>
@@ -718,11 +722,12 @@ export default function Main() {
                     ].includes(auctionInfo.status) && (
                       <>
                         {auctionInfo.status === ActivityStatus.NotStarted &&
-                          `Open on ${moment(auctionInfo.startTimestamp).format(
-                            'MMMM DD, Ha',
-                          )}`}
+                          `Open on ${moment
+                            .utc(auctionInfo.startTimestamp)
+                            .format('MMMM DD, Ha')}`}
                         {auctionInfo.status === ActivityStatus.Bidding &&
-                          `Close on ${moment(auctionInfo.startTimestamp)
+                          `Close on ${moment
+                            .utc(auctionInfo.startTimestamp)
                             .add(16, 'hours')
                             .format('MMMM DD, Ha')}`}
                       </>
@@ -730,7 +735,8 @@ export default function Main() {
 
                     {auctionInfo.status === ActivityStatus.Staking &&
                       ` Close on
-                    ${moment(auctionInfo.startTimestamp)
+                    ${moment
+                      .utc(auctionInfo.startTimestamp)
                       .add(8, 'hours')
                       .format('MMMM DD, ha')}`}
                   </Box>
