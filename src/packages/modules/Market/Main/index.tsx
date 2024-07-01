@@ -18,20 +18,17 @@ import ItemGrid from 'packages/ui/components/ListItems/ItemGrid'
 
 import NoData from '@components/NoData'
 import { faker } from '@faker-js/faker'
-import { useAccount } from 'wagmi'
+import { useConnectModal } from '@rainbow-me/rainbowkit'
 import { ethers } from 'ethers'
 import moment from 'moment'
-import { useConnectModal } from '@rainbow-me/rainbowkit'
 import { useRouter } from 'next/router'
-import { ErrorIcon } from 'packages/assets/ErrorIcon'
-import SuccessIcon from 'packages/assets/SuccessIcon'
 import { getStakeNotices, getSysBrief } from 'packages/service/api'
 import { IGameInfo } from 'packages/service/api/types'
 import useStore from 'packages/store'
 import useAuctions, { ActivityStatus } from 'packages/store/auctions'
 import useFomoStore from 'packages/store/fomo'
-import React from 'react'
 import { Flip, toast } from 'react-toastify'
+import { useAccount } from 'wagmi'
 // import BidderModal from '@modules/Market/Main/BidderModal'
 
 const BidderModal = lazy(() => import('@modules/Market/Main/BidderModal'))
@@ -67,6 +64,7 @@ export default function Main() {
     useFomoStore()
 
   const { auctionInfo, getAuctionInfo } = useAuctions()
+  const [loading, setLoading] = useState(true)
 
   const [sysInfo, setSysInfo] = useState<IGameInfo>({
     tokenPrice: '-',
@@ -88,21 +86,21 @@ export default function Main() {
 
     return (
       <>
-        {ongoingList.length > 0 && (
-          <Box
-            px={{ base: '16px', md: '24px', lg: '32px', xl: '48px' }}
-            mt={{ base: '40px', xl: '80px' }}>
-            <Box>
-              <Flex
-                fontSize={{ base: '20px', md: '24px', xl: '28px' }}
-                fontWeight="800"
-                alignItems="center"
-                height="32px"
-                marginBottom="20px"
-                gap="8px">
-                <Text>Ongoing NFT Auctions</Text>({ongoingList.length})
-              </Flex>
-            </Box>
+        <Box
+          px={{ base: '16px', md: '24px', lg: '32px', xl: '48px' }}
+          mt={{ base: '40px', xl: '80px' }}>
+          <Box>
+            <Flex
+              fontSize={{ base: '20px', md: '24px', xl: '28px' }}
+              fontWeight="800"
+              alignItems="center"
+              height="32px"
+              marginBottom="20px"
+              gap="8px">
+              <Text>Ongoing NFT Auctions</Text>({ongoingList.length})
+            </Flex>
+          </Box>
+          {ongoingList.length > 0 && (
             <Flex gap="20px" overflow="auto" pb="8px">
               {ongoingList?.map((item, idx) => {
                 return (
@@ -115,30 +113,30 @@ export default function Main() {
                 )
               })}
             </Flex>
-          </Box>
-        )}
+          )}
+        </Box>
 
-        {upcomingList.length > 0 && (
-          <Box
-            px={{
-              base: '16px',
-              sm: '80px',
-              md: '24px',
-              lg: '32px',
-              xl: '48px',
-            }}
-            mt={{ base: '40px', xl: '80px' }}>
-            <Box>
-              <Flex
-                fontSize={{ base: '20px', md: '24px', xl: '28px' }}
-                fontWeight="800"
-                alignItems="center"
-                height="32px"
-                marginBottom="20px"
-                gap="8px">
-                <Text>Upcoming NFT Auctions</Text>({upcomingList.length})
-              </Flex>
-            </Box>
+        <Box
+          px={{
+            base: '16px',
+            sm: '80px',
+            md: '24px',
+            lg: '32px',
+            xl: '48px',
+          }}
+          mt={{ base: '40px', xl: '80px' }}>
+          <Box>
+            <Flex
+              fontSize={{ base: '20px', md: '24px', xl: '28px' }}
+              fontWeight="800"
+              alignItems="center"
+              height="32px"
+              marginBottom="20px"
+              gap="8px">
+              <Text>Upcoming NFT Auctions</Text>({upcomingList.length})
+            </Flex>
+          </Box>
+          {upcomingList.length > 0 && (
             <SimpleGrid columns={[1, 1, 2, 3, 5, 5]} spacing="20px">
               {upcomingList?.map((item, idx) => {
                 return (
@@ -151,8 +149,8 @@ export default function Main() {
                 )
               })}
             </SimpleGrid>
-          </Box>
-        )}
+          )}
+        </Box>
 
         {finishedList.length > 0 && (
           <Box
@@ -194,9 +192,18 @@ export default function Main() {
   }
 
   useEffect(() => {
-    getAuctionInfo()
-    getNftAuctions()
-    fetchSysBrief()
+    const fetchData = async () => {
+      try {
+        await getAuctionInfo()
+        await getNftAuctions()
+        await fetchSysBrief()
+        setLoading(false)
+      } catch (error) {
+        console.error('Error fetching auction info:', error)
+      }
+    }
+
+    fetchData()
   }, [])
 
   const onClose = () => {
@@ -205,7 +212,7 @@ export default function Main() {
   }
 
   useEffect(() => {
-    if (auctionInfo && address) {
+    if (auctionInfo && address && !loading) {
       if (
         auctionInfo &&
         auctionInfo.status === ActivityStatus.Staking &&
@@ -214,12 +221,10 @@ export default function Main() {
         toast.warning(
           'You won the FROMO plot, stake your NFT now and start your own gamified NFT auction.',
           {
-            icon: React.createElement(SuccessIcon),
             toastId: 'bidWinner',
             position: toast.POSITION.TOP_CENTER,
             transition: Flip,
             autoClose: false,
-            style: { color: 'black' },
           },
         )
       } else {
@@ -229,12 +234,10 @@ export default function Main() {
               toast.error(
                 `You lost the $OMO you bid because you failed to stake NFT.`,
                 {
-                  icon: React.createElement(ErrorIcon),
                   toastId: 'stakeNotice',
                   position: toast.POSITION.TOP_CENTER,
                   transition: Flip,
                   autoClose: false,
-                  style: { color: 'black' },
                 },
               )
             }
@@ -244,7 +247,7 @@ export default function Main() {
           })
       }
     }
-  }, [auctionInfo, address])
+  }, [auctionInfo, address, loading])
 
   if (!auctionInfo) return null
 

@@ -7,11 +7,11 @@ import useStore from 'packages/store'
 import { web3Modal } from 'packages/web3'
 import { useEffect, useState } from 'react'
 
+import Footer from '@components/Footer'
 import { useRouter } from 'next/router'
 import ERC_ABI from 'packages/abis/demo/Erc721.json'
 import flABI from 'packages/abis/demo/fl417.json'
 import useAuctions from 'packages/store/auctions'
-import Footer from '@components/Footer'
 
 const FL_CONTRACT_ADR: string = process.env
   .NEXT_PUBLIC_FL_CONTRACT_ADR as string
@@ -74,7 +74,7 @@ const Register = () => {
                 gameInfos?.startTimestamp,
               ).format('MMMM DD ha [GMT]')}`,
             )
-            router.back()
+            router.push('/')
           } catch (error) {
             console.log(error, 'error')
             toastWarning('The auction has not yet begun, please be patient.')
@@ -101,7 +101,7 @@ const Register = () => {
               gameInfos?.startTimestamp,
             ).format('MMMM DD ha [GMT]')}`,
           )
-          router.back()
+          router.push('/')
         } catch (error) {
           console.log(error, 'error')
           toastError('You Failed to stake NFT due to some error.', 2000)
