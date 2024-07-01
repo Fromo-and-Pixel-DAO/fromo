@@ -172,7 +172,7 @@ const BidModal = ({ status, isOpen, onClose }: SubmitOfferModalProps) => {
   return (
     <BaseModal
       variant={customVariant}
-      size={{ base: 'xs', md: '2xl', xl: '2xl' }}
+      size={{ base: 'xs', md: 'xl' }}
       isOpen={isOpen}
       isCloseBtn={false}
       title={
@@ -181,7 +181,6 @@ const BidModal = ({ status, isOpen, onClose }: SubmitOfferModalProps) => {
           fontSize={{ base: '20px', xl: '28px' }}
           lineHeight="32px"
           textAlign="left"
-          pb={{ xl: '20px' }}
           fontWeight="800">
           Bid on this Plot of FROMO
         </Heading>
@@ -195,7 +194,7 @@ const BidModal = ({ status, isOpen, onClose }: SubmitOfferModalProps) => {
           }}
           p="16px"
           pos="absolute"
-          top={{ base: '-96px', md: '-116px', xl: '-128px' }}
+          top={{ base: '-96px', md: '-116px' }}
           cursor="pointer"
           right={{ base: '-16px', md: '-28px' }}>
           <Image alt="" w="14px" h="14px" src="/static/common/close.svg" />
@@ -204,7 +203,7 @@ const BidModal = ({ status, isOpen, onClose }: SubmitOfferModalProps) => {
           lineHeight="20px"
           fontSize={{ base: '14px', xl: '16px' }}
           color="rgba(255,255,255,0.8)"
-          mb="32px">
+          pb="24px">
           The highest bidder will have the opportunity to auction their NFT in
           the next round.
         </Text>
@@ -319,25 +318,22 @@ const BidModal = ({ status, isOpen, onClose }: SubmitOfferModalProps) => {
             Bid
           </Button>
         </Flex>
-        <Flex
-          mt={{ base: '16px', xl: '8px' }}
-          fontSize="12px"
-          mb="16px"
-          color="rgba(255,255,255,0.6)">
-          Available：
-          <Text mr="4px" fontWeight="600">
-            {' '}
-            {formatNumberWithCommas(availableNums)}{' '}
-          </Text>{' '}
-          $OMO Token
-        </Flex>
+        <Box pb="12px">
+          <Flex fontSize="12px" color="rgba(255,255,255,0.6)">
+            Available：
+            <Text mr="4px" fontWeight="600">
+              {' '}
+              {formatNumberWithCommas(availableNums)} $OMO
+            </Text>{' '}
+            Token
+          </Flex>
+        </Box>
         <Flex
           direction={{ base: 'column', md: 'row' }}
           bg="#4C467B"
           py="16px"
           px="20px"
-          borderRadius="12px"
-          mt="20px">
+          borderRadius="12px">
           <Image
             src="/static/common/info.svg"
             alt="info"
@@ -346,12 +342,7 @@ const BidModal = ({ status, isOpen, onClose }: SubmitOfferModalProps) => {
             mr="12px"
             mb="8px"
           />
-          <Text
-            textAlign="justify"
-            color="white"
-            fontSize={{ base: '12px', xl: '14px' }}
-            // lineHeight="21px"
-            mt="-5px">
+          <Text textAlign="justify" color="white" fontSize="12px">
             The $OMO you bid is used to purchase the FROMO plot. It will be
             locked until the bidding ends. If you lose the FROMO plot, it will
             be unlocked after the bidding ends. The FROMO plot winner who failed
