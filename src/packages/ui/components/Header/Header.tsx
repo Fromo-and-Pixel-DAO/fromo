@@ -41,12 +41,12 @@ interface NavItem {
 }
 
 const NAV_ITEMS_CONNECTED: Array<NavItem> = [
-  {
-    label: 'NFT Whitelist',
-    href: '/whitelist',
-    icon: '/static/header/gallery.svg',
-    iconDark: '/static/header/gallery_dark.svg',
-  },
+  // {
+  //   label: 'NFT Whitelist',
+  //   href: '/whitelist',
+  //   icon: '/static/header/gallery.svg',
+  //   iconDark: '/static/header/gallery_dark.svg',
+  // },
   {
     label: 'Auctions',
     href: '/',
@@ -216,7 +216,7 @@ const Header: FC = () => {
         mx="auto"
         color={useColorModeValue('gray.600', 'white')}
         py="18px"
-        px={{ base: '20px', lg: '48px' }}
+        px={{ base: '20px', xl: '48px' }}
         borderStyle="solid"
         borderColor={useColorModeValue('gray.200', 'gray.900')}
         align="center"
