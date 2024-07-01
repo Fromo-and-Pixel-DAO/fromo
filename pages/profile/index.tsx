@@ -35,6 +35,7 @@ import {
   withdrawSaleRevenueFunc,
 } from 'packages/web3'
 import Footer from '@components/Footer'
+import { useWindowSize } from '@hooks/useWindowSize'
 
 const ListItems = lazy(() => import('@modules/Profile/ListItems'))
 const Sidebar = lazy(() => import('@modules/Profile/Sidebar'))
@@ -48,6 +49,7 @@ export default function Main() {
   const [claimFinalWinnerLoading, setClaimFinalWinnerLoading] = useState(false)
   const [claimNftLoading, setClaimNftLoading] = useState(false)
   const [convertKeysLoading, setConvertKeysLoading] = useState(false)
+  const { width } = useWindowSize()
 
   const handleHistoricalPageChange = (page: number) => {
     setCurrentHistoricalPage(page)
@@ -384,7 +386,10 @@ export default function Main() {
           ? // ? BigNumber.from(profit.finalWinPrice)
             //     .add(BigNumber.from(profit.unclaimedFinalWinPrice))
             //     .toString()
-            Number(profit.unclaimedFinalWinPrice) + Number(profit.finalWinPrice)
+            (
+              Number(profit.unclaimedFinalWinPrice) +
+              Number(profit.finalWinPrice)
+            ).toFixed(4)
           : '-',
       unclaimed:
         profit.unclaimedFinalWinPrice !== '-'
@@ -434,7 +439,7 @@ export default function Main() {
       <Flex>
         <Sidebar />
         <Flex
-          w="calc(100% - 328px)"
+          w={width > 1280 ? 'calc(100% - 328px)' : '100%'}
           p={{ base: '32px 16px', md: '32px 20px', xl: '36px 68px 40px 0px' }}>
           <Box w="100%">
             {/* My Assets */}
@@ -585,59 +590,66 @@ export default function Main() {
                 mb="20px">
                 My Profit
               </Text>
-              <Flex flexWrap="wrap" gap={{ base: '40px', xl: '28px' }}>
+              <Flex
+                px={{ sm: '40px', md: '0px' }}
+                direction={{ base: 'column', md: 'row' }}
+                gap="28px">
                 {myProfileList.map((i, k) => (
-                  <Box
-                    flex={1}
+                  <Flex
+                    direction="column"
+                    justifyContent="space-between"
                     key={k}
                     bg="#2F2B50"
+                    w="100%"
                     borderRadius="16px"
                     p={{ base: '16px 24px', xl: '20px 32px' }}>
-                    <Text fontWeight="600">{i.title} </Text>
-                    <Flex my="20px" gap="12px" alignItems="center">
-                      <Image
-                        src="/static/common/eth-index.svg"
-                        alt="ethereum"
-                        w="12px"
-                        h="20px"
-                      />
-                      <Text
-                        color="#1DFED6"
-                        lineHeight="32px"
-                        fontSize="28px"
-                        fontWeight="800">
-                        {i.amount}
-                      </Text>
-                    </Flex>
-                    <Button
-                      onClick={i.onclick}
-                      disabled={i.disabled}
-                      isLoading={i.isLoading}
-                      bgColor="#1DFED6"
-                      height="40px"
-                      px="10px"
-                      position="relative"
-                      alignItems="center"
-                      color="#000"
-                      w="100%"
-                      fontSize="14px"
-                      lineHeight="16px">
-                      {i.unclaimed} CLaim
-                      {k === 2 && (
-                        <Tooltip
-                          label={`Locked in ongoing auction: ${profit.lockedNftDividends} ETH`}>
-                          <Image
-                            position="absolute"
-                            right="10px"
-                            src="/static/profile/help.svg"
-                            w="16px"
-                            h="16px"
-                            alt="help"
-                          />
-                        </Tooltip>
-                      )}
-                    </Button>
-                  </Box>
+                    <Text>{i.title}</Text>
+                    <Box>
+                      <Flex my="20px" gap="12px" alignItems="center">
+                        <Image
+                          src="/static/common/eth-index.svg"
+                          alt="ethereum"
+                          w="12px"
+                          h="20px"
+                        />
+                        <Text
+                          color="#1DFED6"
+                          lineHeight="32px"
+                          fontSize={{ base: '24px', md: '28px' }}
+                          fontWeight="800">
+                          {i.amount}
+                        </Text>
+                      </Flex>
+                      <Button
+                        onClick={i.onclick}
+                        disabled={i.disabled}
+                        isLoading={i.isLoading}
+                        bgColor="#1DFED6"
+                        height="40px"
+                        px="10px"
+                        position="relative"
+                        alignItems="center"
+                        color="#000"
+                        w="100%"
+                        fontSize="14px"
+                        lineHeight="16px">
+                        {i.unclaimed} CLaim
+                        {k === 2 && (
+                          <Tooltip
+                            label={`Locked in ongoing auction: ${profit.lockedNftDividends} ETH`}>
+                            <Image
+                              position="absolute"
+                              right="10px"
+                              src="/static/profile/help.svg"
+                              w="16px"
+                              h="16px"
+                              alt="help"
+                            />
+                          </Tooltip>
+                        )}
+                      </Button>
+                    </Box>
+                  </Flex>
                 ))}
               </Flex>
             </Box>
