@@ -101,7 +101,9 @@ const BidModal = ({ status, isOpen, onClose }: SubmitOfferModalProps) => {
       // }
     } catch (error) {
       setBidLoading(false)
-      console.log(error, '<===')
+      const errorMessage =
+        (error as Error)?.message || 'The transaction has failed'
+      toastError(errorMessage, 2000)
     }
   }
 
