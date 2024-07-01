@@ -1171,84 +1171,82 @@ const Details = () => {
                     </Button>
                   </Flex>
                   {/* My NFT Provider Dividends */}
-                  {detailInfos.principal.toLowerCase() === address && (
-                    <Flex
-                      w={{ base: '50%', md: '30%', xl: '50%' }}
-                      direction="column"
-                      justifyItems="center"
-                      alignItems="center"
-                      bg="#2F2B50"
-                      borderRadius="16px"
-                      px="16px"
-                      py="20px">
-                      <Flex alignItems="center" gap="8px">
-                        <Image
-                          src="/static/common/eth-index.svg"
-                          alt="ethereum"
-                          w="12px"
-                          h="20px"
-                        />
-                        <Box
-                          fontSize={{ base: '20px', xl: '24px' }}
-                          fontWeight="800"
-                          lineHeight="28px">
-                          {detailInfos.principal ===
-                          ethers.constants.AddressZero
-                            ? '--'
-                            : parseFloat(
-                                ethers.utils.formatEther(
-                                  detailInfos.salesRevenue.mul(5).div(10),
-                                ),
-                              ).toFixed(4)}
-                        </Box>
-                      </Flex>
-                      <Text
-                        fontWeight="600"
-                        fontSize="12px"
-                        lineHeight="16px"
-                        color="rgba(255,255,255,0.6)"
-                        mb="12px"
-                        mt="4px">
-                        NFT Provider Dividends
-                      </Text>
-                      <Button
-                        isLoading={withDrawNFTLoading}
-                        onClick={() => {
-                          if (!account.isConnected) {
-                            if (openConnectModal) {
-                              openConnectModal()
-                            } else {
-                              console.error('openConnectModal is not defined')
-                            }
-                          } else {
-                            withdrawSaleRevenue()
-                          }
-                        }}
-                        disabled={
-                          [State.Upcoming, State.Ongoing].includes(
-                            detailInfos.state,
-                          ) ||
-                          detailInfos.principal ===
-                            ethers.constants.AddressZero ||
-                          withDrawNFTLoading
-                        }
-                        w="156px"
-                        borderRadius="8px"
-                        colorScheme="primary"
-                        fontWeight="600"
-                        fontSize={{ base: '12px', xl: '14px' }}
-                        color="#222222">
+                  <Flex
+                    w={{ base: '50%', md: '30%', xl: '50%' }}
+                    direction="column"
+                    justifyItems="center"
+                    alignItems="center"
+                    bg="#2F2B50"
+                    borderRadius="16px"
+                    px="16px"
+                    py="20px">
+                    <Flex alignItems="center" gap="8px">
+                      <Image
+                        src="/static/common/eth-index.svg"
+                        alt="ethereum"
+                        w="12px"
+                        h="20px"
+                      />
+                      <Box
+                        fontSize={{ base: '20px', xl: '24px' }}
+                        fontWeight="800"
+                        lineHeight="28px">
                         {detailInfos.principal === ethers.constants.AddressZero
                           ? '--'
                           : parseFloat(
                               ethers.utils.formatEther(
                                 detailInfos.salesRevenue.mul(5).div(10),
                               ),
-                            ).toFixed(4)}{' '}
-                        Unclaimed
-                      </Button>
+                            ).toFixed(4)}
+                      </Box>
                     </Flex>
-                  )}
+                    <Text
+                      fontWeight="600"
+                      fontSize="12px"
+                      lineHeight="16px"
+                      color="rgba(255,255,255,0.6)"
+                      mb="12px"
+                      mt="4px">
+                      NFT Provider Dividends
+                    </Text>
+                    <Button
+                      isLoading={withDrawNFTLoading}
+                      onClick={() => {
+                        if (!account.isConnected) {
+                          if (openConnectModal) {
+                            openConnectModal()
+                          } else {
+                            console.error('openConnectModal is not defined')
+                          }
+                        } else {
+                          withdrawSaleRevenue()
+                        }
+                      }}
+                      disabled={
+                        [State.Upcoming, State.Ongoing].includes(
+                          detailInfos?.state,
+                        ) ||
+                        detailInfos?.principal ===
+                          ethers.constants.AddressZero ||
+                        detailInfos?.principal.toLowerCase() !== address ||
+                        withDrawNFTLoading
+                      }
+                      w="156px"
+                      borderRadius="8px"
+                      colorScheme="primary"
+                      fontWeight="600"
+                      fontSize={{ base: '12px', xl: '14px' }}
+                      color="#222222">
+                      {detailInfos.principal === ethers.constants.AddressZero
+                        ? '--'
+                        : parseFloat(
+                            ethers.utils.formatEther(
+                              detailInfos.salesRevenue.mul(5).div(10),
+                            ),
+                          ).toFixed(4)}{' '}
+                      Unclaimed
+                    </Button>
+                  </Flex>
                 </Flex>
               </Flex>
             </Box>
