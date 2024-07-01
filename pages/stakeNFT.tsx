@@ -31,8 +31,10 @@ const Register = () => {
   }
 
   useEffect(() => {
-    fetchNFT()
-  }, [])
+    if (address) {
+      fetchNFT()
+    }
+  }, [address])
 
   const handleRegister = async () => {
     if (!address) return toastWarning('Please connect wallet first')
