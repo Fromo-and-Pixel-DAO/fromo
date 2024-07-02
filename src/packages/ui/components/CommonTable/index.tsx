@@ -27,7 +27,7 @@ interface Props {
 export default function CommonTable(props: Props) {
   const router = useRouter()
   const isAccountPage = router.pathname.includes('account')
-  const bgScrollBar = useColorModeValue('#FFA8FE', '#ddd')
+  const bgScrollBar = useColorModeValue('#1DFED6', '#ddd')
   const {
     columns,
     paddingTopHeader,
