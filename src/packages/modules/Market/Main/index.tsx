@@ -19,6 +19,7 @@ import ItemGrid from 'packages/ui/components/ListItems/ItemGrid'
 import NoData from '@components/NoData'
 import { faker } from '@faker-js/faker'
 import { useConnectModal } from '@rainbow-me/rainbowkit'
+import { toastError, toastWarning } from '@utils/toast'
 import { ethers } from 'ethers'
 import moment from 'moment'
 import { useRouter } from 'next/router'
@@ -27,7 +28,6 @@ import { IGameInfo } from 'packages/service/api/types'
 import useStore from 'packages/store'
 import useAuctions, { ActivityStatus } from 'packages/store/auctions'
 import useFomoStore from 'packages/store/fomo'
-import { Flip, toast } from 'react-toastify'
 import { useAccount } from 'wagmi'
 // import BidderModal from '@modules/Market/Main/BidderModal'
 
@@ -204,7 +204,7 @@ export default function Main() {
     }
 
     fetchData()
-  }, [])
+  }, [getAuctionInfo, getNftAuctions])
 
   const onClose = () => {
     getAuctionInfo()
@@ -218,27 +218,15 @@ export default function Main() {
         auctionInfo.status === ActivityStatus.Staking &&
         auctionInfo.bidWinnerAddress === address.toLocaleLowerCase()
       ) {
-        toast.warning(
+        toastWarning(
           'You won the FROMO plot, stake your NFT now and start your own gamified NFT auction.',
-          {
-            toastId: 'bidWinner',
-            position: toast.POSITION.TOP_CENTER,
-            transition: Flip,
-            autoClose: false,
-          },
         )
       } else {
         getStakeNotices(address)
           .then((res) => {
             if (res > 0) {
-              toast.error(
-                `You lost the $OMO you bid because you failed to stake NFT.`,
-                {
-                  toastId: 'stakeNotice',
-                  position: toast.POSITION.TOP_CENTER,
-                  transition: Flip,
-                  autoClose: false,
-                },
+              toastError(
+                'You lost the $OMO you bid because you failed to stake NFT.',
               )
             }
           })
