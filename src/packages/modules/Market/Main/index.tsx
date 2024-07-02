@@ -87,7 +87,7 @@ export default function Main() {
     return (
       <>
         <Box
-          px={{ base: '16px', md: '24px', lg: '32px', xl: '48px' }}
+          px={{ base: '20px', md: '24px', lg: '32px', xl: '48px' }}
           mt={{ base: '40px', xl: '80px' }}>
           <Box>
             <Flex
@@ -118,7 +118,7 @@ export default function Main() {
 
         <Box
           px={{
-            base: '16px',
+            base: '20px',
             sm: '80px',
             md: '24px',
             lg: '32px',
@@ -155,7 +155,7 @@ export default function Main() {
         {finishedList.length > 0 && (
           <Box
             px={{
-              base: '16px',
+              base: '20px',
               sm: '80px',
               md: '24px',
               lg: '32px',
@@ -286,8 +286,8 @@ export default function Main() {
   return (
     <Box alignItems="center" mb="50px">
       <Box
-        pt={{ base: '20px', xl: '60px' }}
-        px={{ base: '16px', md: '24px', lg: '32px', xl: '48px' }}
+        pt={{ base: '204px', md: '60px' }}
+        px={{ base: '20px', lg: '32px', xl: '48px' }}
         position="relative">
         <Box>
           <Box pl={{ xl: '40px' }} mb="126px">
@@ -297,21 +297,27 @@ export default function Main() {
                 fontWeight="800"
                 ml="-6px"
                 p="10px">
-                <Text
+                <Flex
                   whiteSpace="nowrap"
-                  fontSize={{ base: '26px', md: '32px', xl: '60px' }}
+                  fontSize={{ base: '40px', md: '32px', xl: '60px' }}
                   style={{
                     WebkitTextStrokeWidth: textStroke,
                   }}>
-                  Start Your NFT Auction :
-                </Text>
+                  <Text display={{ base: 'none', md: 'block' }}>
+                    Start Your NFT Auction :
+                  </Text>
+                  <Box display={{ base: 'block', md: 'none' }}>
+                    <Text>Start Your NFT</Text>
+                    <Text mt="-12px">Auction :</Text>
+                  </Box>
+                </Flex>
               </Flex>
             </Text>
             <Text
-              fontSize={{ base: '24px', md: '28px', xl: '48px' }}
+              fontSize={{ base: '28px', xl: '48px' }}
               fontWeight="extrabold"
               mt="-6px"
-              mb="40px"
+              mb={{ base: '36px', md: '40px' }}
               lineHeight={{ xl: '56px' }}>
               <Text display={{ base: 'block', xl: 'none' }}>
                 {' '}
@@ -329,8 +335,12 @@ export default function Main() {
                   <Flex key={k} ml={{ xl: k === 0 ? '' : '28px' }}>
                     <Box>
                       <Text
-                        fontSize={{ base: '14px', xl: '16px' }}
+                        fontSize={{ base: '12px', xl: '16px' }}
                         lineHeight="20px"
+                        color={{
+                          base: 'rgba(255,255,255,0.6)',
+                          md: 'white',
+                        }}
                         fontWeight="semibold">
                         {i.title}
                       </Text>
@@ -338,7 +348,7 @@ export default function Main() {
                         {i.icon}
                         <Flex
                           fontWeight="extrabold"
-                          fontSize={{ base: '24px', xl: '32px' }}
+                          fontSize={{ base: '28px', xl: '32px' }}
                           lineHeight="36px"
                           color="#1DFED6">
                           {k === 0 && <span>$</span>} {i.data}
@@ -407,15 +417,248 @@ export default function Main() {
               </Flex>
             )}
 
-            {/* mobile & table */}
+            {/* mobile */}
+            <Box
+              display={{ md: 'none' }}
+              pos="fixed"
+              bottom="32px"
+              left="12px"
+              right="20px"
+              zIndex={100}>
+              <Flex
+                w={{ md: 'fit-content' }}
+                gap="16px"
+                pos="relative"
+                justifyContent="end"
+                display={{ base: 'flex', xl: 'none' }}>
+                <Box w="30%" pos="absolute" left="0px" bottom="-12px">
+                  <Box pos="relative">
+                    {/* NotStarted or Bidding */}
+                    {[
+                      ActivityStatus.NotStarted,
+                      ActivityStatus.Bidding,
+                    ].includes(auctionInfo.status) && (
+                      <Button
+                        px="0px"
+                        h="100%"
+                        borderRadius="full"
+                        bg="transparent"
+                        cursor={
+                          ActivityStatus.NotStarted === auctionInfo.status
+                            ? 'not-allowed'
+                            : 'pointer'
+                        }
+                        _hover={{}}
+                        _focus={{}}
+                        onClick={() => {
+                          if (!account.isConnected) {
+                            if (openConnectModal) {
+                              openConnectModal()
+                            } else {
+                              console.error('openConnectModal is not defined')
+                            }
+                          } else {
+                            if (
+                              ActivityStatus.NotStarted !== auctionInfo.status
+                            ) {
+                              setOpen(true)
+                            }
+                          }
+                        }}
+                        pos="relative">
+                        <Image
+                          w="112px"
+                          h="fit-content"
+                          src="/static/common/3d.svg"
+                          borderRadius="full"
+                          alt="3d"
+                          pos="relative"
+                        />
+                        <AbsoluteCenter _hover={{ opacity: 0.7 }}>
+                          <Text textAlign="center" fontWeight="black">
+                            BID <br /> plot
+                          </Text>
+                        </AbsoluteCenter>
+                      </Button>
+                    )}
+                    {/* Staking */}
+                    {ActivityStatus.Staking === auctionInfo.status && (
+                      <>
+                        {address && auctionInfo.bidWinnerAddress === address ? (
+                          <Button
+                            px="0px"
+                            h="100%"
+                            borderRadius="full"
+                            bg="transparent"
+                            cursor="pointer"
+                            _hover={{}}
+                            _focus={{}}
+                            onClick={() => router.push('/stake-nft')}
+                            pos="relative">
+                            <Image
+                              src="/static/common/3d-stake.svg"
+                              borderRadius="full"
+                              w="112px"
+                              h="fit-content"
+                              alt="3d"
+                              pos="relative"
+                            />
+                            <AbsoluteCenter _hover={{ opacity: 0.7 }}>
+                              <Text textAlign="center" fontWeight="black">
+                                Stake <br /> NFT
+                              </Text>
+                            </AbsoluteCenter>
+                          </Button>
+                        ) : (
+                          <Button
+                            px="0px"
+                            h="100%"
+                            borderRadius="full"
+                            bg="transparent"
+                            _hover={{}}
+                            cursor="unset"
+                            _focus={{}}
+                            pos="relative">
+                            <Image
+                              src="/static/common/3d-coming.svg"
+                              borderRadius="full"
+                              alt="3d"
+                              w="112px"
+                              h="fit-content"
+                              pos="relative"
+                            />
+                            <AbsoluteCenter>
+                              <Text textAlign="center" fontWeight="black">
+                                BID <br /> plot
+                              </Text>
+                            </AbsoluteCenter>
+                          </Button>
+                        )}
+                      </>
+                    )}
+                  </Box>
+                </Box>
+                <Flex
+                  w="77%"
+                  bg="#7E4AF1"
+                  borderRadius="12px"
+                  py="12px"
+                  pl="36px"
+                  pr="20px"
+                  fontSize="14px"
+                  fontWeight="800"
+                  direction="column"
+                  gap="8px"
+                  justifyContent="space-between">
+                  <Box lineHeight="16px">
+                    {Number(auctionInfo.biddersCount) === 0
+                      ? 0
+                      : auctionInfo.biddersCount || '--'}{' '}
+                    Bidders
+                  </Box>
+                  <Flex alignItems="center" lineHeight="16px" gap="6px">
+                    <Tooltip
+                      label={
+                        ActivityStatus.Staking === auctionInfo.status ? (
+                          <>
+                            {' '}
+                            {address &&
+                            auctionInfo.bidWinnerAddress === address ? (
+                              <>
+                                {' '}
+                                You won the FROMO plot and the chance to auction
+                                NFT on{' '}
+                                {moment
+                                  .utc(auctionInfo.startTimestamp)
+                                  .format('MMMM DD, ha')}
+                                UTC{' '}
+                              </>
+                            ) : (
+                              <>
+                                {' '}
+                                The NFT auction will start on{' '}
+                                {moment
+                                  .utc(auctionInfo.startTimestamp)
+                                  .add(8, 'hours')
+                                  .format('MMMM DD, ha')}
+                                UTC{' '}
+                              </>
+                            )}
+                          </>
+                        ) : (
+                          <>
+                            {' '}
+                            Get the chance to auction NFT on{' '}
+                            {moment
+                              .utc(auctionInfo.startTimestamp)
+                              .format('MMMM DD, ha')}{' '}
+                            UTC by bidding a plot of FroopyLand
+                          </>
+                        )
+                      }>
+                      <Image
+                        src="/static/common/help.svg"
+                        w="16px"
+                        h="16px"
+                        alt="help"
+                      />
+                    </Tooltip>
+                    <Flex>
+                      <Text>Highest Bid</Text>
+                      <Text>: </Text>
+                      <Box ml="4px">
+                        {parseFloat(`${auctionInfo?.highestBid}`).toFixed(2) ||
+                          '--'}
+                      </Box>
+                      <Text>$OMO</Text>
+                    </Flex>
+                  </Flex>
+
+                  <Flex alignItems="center" lineHeight="16px" gap="6px">
+                    <Image
+                      src="/static/common/timer.svg"
+                      w="16px"
+                      h="16px"
+                      alt="timer"
+                    />
+                    <Box textTransform="uppercase">
+                      {[
+                        ActivityStatus.NotStarted,
+                        ActivityStatus.Bidding,
+                      ].includes(auctionInfo.status) && (
+                        <>
+                          {auctionInfo.status === ActivityStatus.NotStarted &&
+                            `Open on ${moment
+                              .utc(auctionInfo.startTimestamp)
+                              .format('MMMM DD, Ha')}`}
+                          {auctionInfo.status === ActivityStatus.Bidding &&
+                            `Close on ${moment
+                              .utc(auctionInfo.startTimestamp)
+                              .add(16, 'hours')
+                              .format('MMMM DD, Ha')}`}
+                        </>
+                      )}
+
+                      {auctionInfo.status === ActivityStatus.Staking &&
+                        ` Close on
+                    ${moment
+                      .utc(auctionInfo.startTimestamp)
+                      .add(8, 'hours')
+                      .format('MMMM DD, ha')}`}
+                    </Box>
+                  </Flex>
+                </Flex>
+              </Flex>
+            </Box>
+            {/* table */}
             <Flex
               w={{ md: 'fit-content' }}
               bg="#7E4AF1"
               borderRadius="8px"
               py="16px"
-              px={{ base: '8px', md: '16px' }}
+              px="16px"
               gap="16px"
-              display={{ base: 'flex', xl: 'none' }}>
+              display={{ base: 'none', md: 'flex', xl: 'none' }}>
               <Box pos="relative">
                 {/* NotStarted or Bidding */}
                 {[ActivityStatus.NotStarted, ActivityStatus.Bidding].includes(
@@ -448,8 +691,8 @@ export default function Main() {
                     }}
                     pos="relative">
                     <Image
-                      w={{ base: '100px', md: '120px', xl: '158px' }}
-                      h={{ base: '100px', md: '120px', xl: '158px' }}
+                      w="120px"
+                      h="120px"
                       src="/static/common/3d.svg"
                       borderRadius="full"
                       alt="3d"
@@ -479,8 +722,8 @@ export default function Main() {
                         <Image
                           src="/static/common/3d-stake.svg"
                           borderRadius="full"
-                          w={{ base: '100px', md: '120px', xl: '158px' }}
-                          h={{ base: '100px', md: '120px', xl: '158px' }}
+                          w="120px"
+                          h="120px"
                           alt="3d"
                           pos="relative"
                         />
@@ -504,8 +747,8 @@ export default function Main() {
                           src="/static/common/3d-coming.svg"
                           borderRadius="full"
                           alt="3d"
-                          w={{ base: '100px', md: '120px', xl: '158px' }}
-                          h={{ base: '100px', md: '120px', xl: '158px' }}
+                          w="120px"
+                          h="120px"
                           pos="relative"
                         />
                         <AbsoluteCenter>
@@ -622,6 +865,7 @@ export default function Main() {
               </Flex>
             </Flex>
           </Box>
+          {/* laptop */}
           <Box>
             <Flex
               display={{ base: 'none', xl: 'flex' }}
@@ -848,6 +1092,17 @@ export default function Main() {
           h="511px"
           src="/static/common/cartoon-1.svg"
           alt="cartoon-1"
+        />
+        <Image
+          position="absolute"
+          top={{ base: '0px', md: '12px' }}
+          right={{ base: '0px', md: '12px' }}
+          objectFit="cover"
+          w="290px"
+          display={{ base: 'block', xl: 'none' }}
+          h="240px"
+          src="/static/common/cartoon-mobile.png"
+          alt="cartoon"
         />
         <Image
           display={{ base: 'none', xl: 'block' }}

@@ -225,6 +225,25 @@ body {
   -webkit-text-stroke-width: 10px;
 }
 
+@media screen and (max-width: 767px) {
+  .stroked-text-gradient {
+    background-clip: text;
+    background-image: linear-gradient( to right,
+      #A67EFF,
+      #A67EFF,
+      #FFFFFF,
+      #FFFFFF,
+      #F14AAE,
+      #F14AAE,
+      #F14AAE,
+    );
+    color: #000;
+    font-weight: 900;
+    -webkit-text-stroke-color: transparent;
+    -webkit-text-stroke-width: 10px;
+  }
+}
+
 
 #okx-inject {
   display: none;
