@@ -474,7 +474,7 @@ export default function Main() {
                         cursor="pointer"
                         _hover={{}}
                         _focus={{}}
-                        onClick={() => router.push('/stakeNFT')}
+                        onClick={() => router.push('/stake-nft')}
                         pos="relative">
                         <Image
                           src="/static/common/3d-stake.svg"
@@ -788,7 +788,7 @@ export default function Main() {
                         cursor="pointer"
                         _hover={{}}
                         _focus={{}}
-                        onClick={() => router.push('/stakeNFT')}
+                        onClick={() => router.push('/stake-nft')}
                         pos="relative">
                         <Image
                           src="/static/common/3d-stake.svg"
