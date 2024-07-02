@@ -842,11 +842,14 @@ const Details = () => {
                                   <a target="_blank">
                                     <Image
                                       src={i.logo}
-                                      w="16px"
-                                      h="16px"
+                                      w="20px"
+                                      h="20px"
                                       alt=""
                                       borderRadius="full"
                                       cursor="pointer"
+                                      border="1px solid white"
+                                      _hover={{ opacity: 0.8 }}
+                                      mb="4px"
                                     />
                                   </a>
                                 </Link>
