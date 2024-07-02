@@ -1,6 +1,6 @@
 import { Flip, toast } from 'react-toastify'
 
-export const toastSuccess = (message: string, delay?: number): void => {
+export const toastSuccess = (message: string, delay = 3000): void => {
   if (message) {
     if (delay) {
       toast.success(message, {
@@ -18,7 +18,7 @@ export const toastSuccess = (message: string, delay?: number): void => {
   }
 }
 
-export const toastWarning = (message: string, delay?: number): void => {
+export const toastWarning = (message: string, delay = 3000): void => {
   if (message) {
     if (delay) {
       toast.warning(message, {
@@ -39,7 +39,7 @@ export const toastWarning = (message: string, delay?: number): void => {
 
 type ErrorMsg = Error | string | string[]
 
-export const toastError = (error: ErrorMsg, delay = 2000) => {
+export const toastError = (error: ErrorMsg, delay = 3000) => {
   let toastData: any = ''
 
   if (typeof error === 'string' || (error && error instanceof Array)) {

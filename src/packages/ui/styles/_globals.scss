@@ -127,11 +127,11 @@ body {
 
 /* Style the active class (and buttons on mouse-over) */
 .pagination_light > li > a:hover {
-  color: white;
+  opacity: 0.8;
 }
 
 .pagination_dark > li > a:hover {
-  color: #000;
+  opacity: 0.8;
 }
 
 .container {
@@ -238,4 +238,9 @@ body {
 
 .chakra-select__icon {
   transform: scale(2); 
+}
+
+
+.Toastify__close-button > svg {
+  color: white;
 }

@@ -27,6 +27,7 @@ import { memo, useEffect, useMemo, useState } from 'react'
 import PurchaseNFTModal from './PurchaseNFTModal'
 import Footer from '@components/Footer'
 import { useAccount } from 'wagmi'
+import Link from 'next/link'
 
 export enum State {
   Upcoming = 0,
@@ -71,6 +72,21 @@ const Details = () => {
     imageUrl: '',
     tx: '',
   })
+
+  const blockchainItemsList = [
+    {
+      logo: '/static/icon/etherscan.jpg',
+      url: `https://sepolia.etherscan.io/address/${detailInfos?.nftAddress}`,
+    },
+    {
+      logo: '/static/icon/opensea.png',
+      url: `https://testnets.opensea.io/assets/sepolia/${detailInfos?.nftAddress}`,
+    },
+    {
+      logo: '/static/icon/blur.jpg',
+      url: `https://testnets.opensea.io/assets/sepolia/${detailInfos?.nftAddress}`,
+    },
+  ]
 
   const handleBack = () => {
     router.push('/')
@@ -361,8 +377,7 @@ const Details = () => {
   }
 
   const PurchaseNFTCountDownSecondary = () => {
-    const purchaseTimer = moment
-      .utc(detailInfos.endTimestamp * 1000)
+    const purchaseTimer = moment(detailInfos.endTimestamp * 1000)
       .add(24, 'hours')
       .format('YYYY-MM-DD HH:mm:ss')
     const { days, hours, minutes, seconds } = useCountDown(purchaseTimer, () =>
@@ -818,6 +833,26 @@ const Details = () => {
                           fontWeight="600">
                           {i.data}
                         </Box>
+                        {k === 0 &&
+                          detailInfos?.nftAddress !==
+                            ethers.constants.AddressZero && (
+                            <Flex gap="12px">
+                              {blockchainItemsList.map((i, k) => (
+                                <Link key={k} href={i.url}>
+                                  <a target="_blank">
+                                    <Image
+                                      src={i.logo}
+                                      w="16px"
+                                      h="16px"
+                                      alt=""
+                                      borderRadius="full"
+                                      cursor="pointer"
+                                    />
+                                  </a>
+                                </Link>
+                              ))}
+                            </Flex>
+                          )}
                       </Flex>
                     ))}
                   </Flex>
