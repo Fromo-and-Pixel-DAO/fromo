@@ -431,7 +431,7 @@ export default function Main() {
                 pos="relative"
                 justifyContent="end"
                 display={{ base: 'flex', xl: 'none' }}>
-                <Box w="30%" pos="absolute" left="0px" bottom="-12px">
+                <Box w="30%" pos="absolute" left="0px" bottom="-48px">
                   <Box pos="relative">
                     {/* NotStarted or Bidding */}
                     {[

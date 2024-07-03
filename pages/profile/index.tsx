@@ -9,9 +9,10 @@ import {
   Tooltip,
   useMediaQuery,
 } from '@chakra-ui/react'
-
 import TabsCommon from '@components/TabsCommon'
 
+import Footer from '@components/Footer'
+import { useWindowSize } from '@hooks/useWindowSize'
 import { MarketTabs, MyDividendsTabs } from '@ts'
 import { toastError, toastSuccess } from '@utils/toast'
 import { ethers } from 'ethers'
@@ -34,8 +35,6 @@ import {
   withdrawLastplayerPrizeFunc,
   withdrawSaleRevenueFunc,
 } from 'packages/web3'
-import Footer from '@components/Footer'
-import { useWindowSize } from '@hooks/useWindowSize'
 
 const ListItems = lazy(() => import('@modules/Profile/ListItems'))
 const Sidebar = lazy(() => import('@modules/Profile/Sidebar'))
@@ -436,15 +435,20 @@ export default function Main() {
   }, [profit.keys])
   return (
     <Box>
-      <Flex>
+      <Flex direction={{ base: 'column', xl: 'row' }}>
         <Sidebar />
         <Flex
           w={width > 1280 ? 'calc(100% - 328px)' : '100%'}
-          p={{ base: '32px 16px', md: '32px 20px', xl: '36px 68px 40px 0px' }}>
+          p={{
+            base: '30px 16px 32px 16px',
+            md: '32px 20px',
+            xl: '36px 68px 40px 0px',
+          }}>
           <Box w="100%">
             {/* My Assets */}
             <Box>
               <Text
+                display={{ base: 'none', xl: 'block' }}
                 fontSize={{ base: '24px', md: '28px', xl: '32px' }}
                 lineHeight="36px"
                 fontWeight="800"

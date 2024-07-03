@@ -89,7 +89,7 @@ export default function Main() {
   ]
   return (
     <Box minH="calc(100vh - 85px)">
-      <Flex minH="70vh">
+      <Flex minH="70vh" direction={{ base: 'column', lg: 'row' }}>
         <Sidebar />
         <Box
           w="calc(100% - 328px)"
@@ -128,7 +128,7 @@ export default function Main() {
                   }>
                   <Box
                     p={{
-                      base: '32px 16px',
+                      base: '20px 16px 32px 16px',
                       md: '32px 20px',
                       xl: '36px 68px 40px 0px',
                     }}>
@@ -136,6 +136,7 @@ export default function Main() {
                       textAlign="start"
                       fontSize={{ base: '24px', md: '28px', xl: '32px' }}
                       lineHeight="36px"
+                      display={{ base: 'none', xl: 'block' }}
                       fontWeight="800"
                       mb="32px">
                       My Participation
