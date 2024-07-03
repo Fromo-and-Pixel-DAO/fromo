@@ -1,19 +1,15 @@
 import { FC, useCallback, useEffect, useReducer } from 'react'
 
-import { providers } from 'ethers'
-import { useRouter } from 'next/router'
-import { getChainData } from 'packages/lib/utilities'
-import useStore from 'packages/store'
-import { initialState, reducer, web3Modal } from 'packages/web3'
-
-import { HamburgerIcon } from '@chakra-ui/icons'
 import {
   Box,
-  Collapse,
   Flex,
-  IconButton,
   Image,
   Link,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalOverlay,
   Popover,
   PopoverContent,
   PopoverTrigger,
@@ -23,6 +19,11 @@ import {
   useDisclosure,
   useToast,
 } from '@chakra-ui/react'
+import { providers } from 'ethers'
+import { useRouter } from 'next/router'
+import { getChainData } from 'packages/lib/utilities'
+import useStore from 'packages/store'
+import { initialState, reducer, web3Modal } from 'packages/web3'
 
 import { CustomConnectButton } from '@components/ConnectButton'
 import { useAccount } from 'wagmi'
@@ -78,7 +79,7 @@ const NAV_ITEMS_DISCONNECTED: Array<NavItem> = [
 
 const Header: FC = () => {
   const { setAddress } = useStore()
-  const { isOpen, onToggle } = useDisclosure()
+  const { isOpen, onOpen, onClose } = useDisclosure()
   const router = useRouter()
   const { pathname } = router
 
@@ -226,19 +227,32 @@ const Header: FC = () => {
         </Flex>
         <Flex alignItems="center" gap={{ base: '8px', md: '20px', xl: '40px' }}>
           <DesktopNav />
-          <CustomConnectButton />
-          <IconButton
+          <Box display={{ base: 'none', lg: 'block' }}>
+            <CustomConnectButton />
+          </Box>
+          <Image
             display={{ base: 'block', lg: 'none' }}
-            onClick={onToggle}
-            icon={<HamburgerIcon w={8} h={8} color="black" />}
-            aria-label="Toggle Navigation"
+            onClick={onOpen}
+            alt=""
+            src="/static/header/menu.svg"
           />
         </Flex>
       </Flex>
+      <Modal isOpen={isOpen} onClose={onClose} size="full">
+        <ModalOverlay />
+        <ModalContent m="0px" px="0px" pt={{ md: '52px' }} bg="black">
+          <ModalCloseButton
+            fontSize="20px"
+            mr="4px"
+            mt={{ md: '12px' }}
+            color="white"
+          />
 
-      <Collapse in={isOpen} animateOpacity>
-        <MobileNav onToggleModal={onToggle} />
-      </Collapse>
+          <ModalBody px="0px">
+            <MobileNav onClose={onClose} />
+          </ModalBody>
+        </ModalContent>
+      </Modal>
     </Box>
   )
 }
@@ -339,7 +353,7 @@ const DesktopSubNav = ({ label, href }: NavItem) => {
   )
 }
 
-const MobileNav = ({ onToggleModal }: { onToggleModal: any }) => {
+const MobileNav = ({ onClose }: { onClose: any }) => {
   const router = useRouter()
   const { isConnected } = useAccount()
 
@@ -350,15 +364,15 @@ const MobileNav = ({ onToggleModal }: { onToggleModal: any }) => {
       {NAV_ITEMS.map((i, k) => (
         <Flex
           key={k}
-          bg="#2F2B50"
-          borderRadius="8px"
-          py="12px"
-          px="16px"
+          bg={i.href === router.pathname ? '#2F2B50' : ''}
+          borderRadius="full"
+          py="16px"
+          px="20px"
           as={Link}
           onClick={() => {
             if (i.href) {
               router.push(i.href)
-              onToggleModal()
+              onClose()
             }
           }}
           justify={{ base: 'space-between', md: 'space-between' }}
@@ -366,11 +380,14 @@ const MobileNav = ({ onToggleModal }: { onToggleModal: any }) => {
           _hover={{
             textDecoration: 'none',
           }}>
-          <Text fontWeight={900} color="#00DAB3">
+          <Text fontWeight={600} color="#00DAB3">
             {i.label}
           </Text>
         </Flex>
       ))}
+      <Box display={{ base: 'block', lg: 'none' }}>
+        <CustomConnectButton />
+      </Box>
     </Stack>
   )
 }

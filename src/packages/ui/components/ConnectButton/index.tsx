@@ -40,6 +40,10 @@ export const CustomConnectButton = () => {
                     borderRadius="full"
                     bg="white"
                     color="black"
+                    pos={{ base: 'fixed', lg: 'unset' }}
+                    bottom="40px"
+                    left="50%"
+                    transform="translateX(-50%)"
                     onClick={openConnectModal}
                     type="button">
                     Connect Wallet
@@ -61,13 +65,19 @@ export const CustomConnectButton = () => {
                 )
               }
               return (
-                <Flex gap={{ base: '8px', xl: '20px' }}>
+                <Flex
+                  pos={{ base: 'fixed', lg: 'unset' }}
+                  direction={{ base: 'column', lg: 'row' }}
+                  bottom="40px"
+                  left="50%"
+                  transform={{ base: 'translateX(-50%)', lg: 'none' }}
+                  gap="20px">
                   <Button
                     onClick={openChainModal}
                     _hover={{ bg: 'transparent' }}
                     _focus={{ bg: 'transparent' }}
                     display="flex"
-                    px={{ base: '0px', md: '16px' }}
+                    px="16px"
                     bg="transparent"
                     border="1px solid white"
                     borderRadius="full"
@@ -87,15 +97,13 @@ export const CustomConnectButton = () => {
                         )}
                       </Box>
                     )}
-                    <Box display={{ base: 'none', md: 'block' }}>
-                      {chain.name}
-                    </Box>
+                    {chain.name}
                   </Button>
                   <Button
                     _hover={{ bg: 'transparent' }}
                     _focus={{ bg: 'transparent' }}
                     display="flex"
-                    px={{ base: '8px', xl: '16px' }}
+                    px="16px"
                     bg="transparent"
                     border="1px solid white"
                     borderRadius="full"
