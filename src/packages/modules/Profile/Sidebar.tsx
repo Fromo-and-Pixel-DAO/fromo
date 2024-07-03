@@ -192,8 +192,7 @@ export default function Sidebar() {
           <Box className="profile" mt="20px">
             <Select
               border="none"
-              _focus="none"
-              _hover="none"
+              _focusVisible={{ border: 'none' }}
               boxShadow="none"
               fontSize={{ base: '24px', md: '28px', xl: '32px' }}
               lineHeight="36px"
