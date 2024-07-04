@@ -141,14 +141,14 @@ const Details = () => {
           lastPlayer,
         ] = data
         const dataNew = {
-          state,
+          state: Number(state),
           nftAddress,
-          nftId,
+          nftId: Number(nftId),
           mostKeyHolder,
           startTimestamp,
           endTimestamp,
-          keyPrice,
-          totalKeyMinted,
+          keyPrice: String(keyPrice),
+          totalKeyMinted: Number(totalKeyMinted),
           salesRevenue,
           principal,
           lastPlayer,
