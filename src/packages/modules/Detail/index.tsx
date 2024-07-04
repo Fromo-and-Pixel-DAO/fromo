@@ -10,24 +10,25 @@ import {
   Text,
   Tooltip,
 } from '@chakra-ui/react'
+import Footer from '@components/Footer'
 import { faker } from '@faker-js/faker'
 import useCountDown from '@hooks/useCountDown'
+import { useConnectModal } from '@rainbow-me/rainbowkit'
 import { ellipseAddress } from '@utils'
 import { toastError, toastSuccess } from '@utils/toast'
 import { ethers } from 'ethers'
 import moment from 'moment'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import FroopyABI from 'packages/abis/demo/fl417.json'
-import { useConnectModal } from '@rainbow-me/rainbowkit'
 import { getGameDetailById } from 'packages/service/api'
 import { IGameAmountNft } from 'packages/service/api/types'
 import useStore from 'packages/store'
 import { web3Modal } from 'packages/web3'
 import { memo, useEffect, useMemo, useState } from 'react'
-import PurchaseNFTModal from './PurchaseNFTModal'
-import Footer from '@components/Footer'
 import { useAccount } from 'wagmi'
-import Link from 'next/link'
+import Web3 from 'web3'
+import PurchaseNFTModal from './PurchaseNFTModal'
 
 export enum State {
   Upcoming = 0,
@@ -59,7 +60,7 @@ const Details = () => {
   const [withDrawNFTLoading, setWithDrawNFTLoading] = useState(false)
   const [claimsFinalLoading, setClaimsFinalLoading] = useState(false)
   const [retrieveNftLoading, setRetrieveNftLoading] = useState(false)
-  const [detailInfos, setDetailInfos] = useState(null)
+  const [detailInfos, setDetailInfos] = useState<any>(null)
 
   const [mintKey, setMintKey] = useState('')
 
@@ -116,16 +117,49 @@ const Details = () => {
   }
 
   const getGameInfoOfGameIds = async () => {
-    const provider = await web3Modal.connect()
-    const library = new ethers.providers.Web3Provider(provider)
-    const signer = library.getSigner()
-    const contract = new ethers.Contract(FL_CONTRACT_ADR, FroopyABI, signer)
-    const [data] = await contract.getGameInfoOfGameIds([id])
-    setDetailInfos(data)
-    const gameId = await contract.totalGames()
-    const [gameInfos] = await contract.getGameInfoOfGameIds([
-      Number(gameId - 1).toString(),
-    ])
+    const library = new ethers.providers.JsonRpcProvider(
+      'https://1rpc.io/sepolia	',
+    )
+    const web3 = new Web3('https://1rpc.io/sepolia')
+
+    if (id) {
+      const contract = new web3.eth.Contract(FroopyABI, FL_CONTRACT_ADR)
+
+      const [data] = await contract.methods.getGameInfoOfGameIds([id]).call()
+      if (data) {
+        const [
+          state,
+          nftAddress,
+          nftId,
+          mostKeyHolder,
+          startTimestamp,
+          endTimestamp,
+          keyPrice,
+          totalKeyMinted,
+          salesRevenue,
+          principal,
+          lastPlayer,
+        ] = data
+        const dataNew = {
+          state,
+          nftAddress,
+          nftId,
+          mostKeyHolder,
+          startTimestamp,
+          endTimestamp,
+          keyPrice,
+          totalKeyMinted,
+          salesRevenue,
+          principal,
+          lastPlayer,
+        }
+        setDetailInfos(dataNew)
+      }
+      const gameId = await contract.methods.totalGames().call()
+      const [gameInfos] = await contract.methods
+        .getGameInfoOfGameIds([Number(gameId - 1).toString()])
+        .call()
+    }
   }
 
   const fetchGameState = async () => {
@@ -152,8 +186,7 @@ const Details = () => {
 
   const memoPercent = useMemo(() => {
     if (!detailInfos?.totalKeyMinted || Number(keys) === 0) return 0
-    const percentage =
-      (Number(keys) / detailInfos.totalKeyMinted.toNumber()) * 100
+    const percentage = (Number(keys) / detailInfos.totalKeyMinted) * 100
     const formattedPercent = Number(percentage.toFixed(2))
       .toString()
       .replace(/(\.\d*?[1-9])0+$|\.0*$/, '$1')
@@ -166,12 +199,10 @@ const Details = () => {
     if (!/^[0-9]+$/.test(mintKey))
       return toastError('Integer value is required.', 2000)
 
-    if (
-      Number(mintKey) > Math.ceil(detailInfos.totalKeyMinted.toNumber() / 10)
-    ) {
+    if (Number(mintKey) > Math.ceil(detailInfos.totalKeyMinted / 10)) {
       toastError(
         `Input numbers must be less than ${Math.ceil(
-          detailInfos.totalKeyMinted.toNumber() / 10,
+          detailInfos.totalKeyMinted / 10,
         )} keys`,
         2000,
       )
@@ -320,7 +351,7 @@ const Details = () => {
       init()
       toastSuccess(
         `You have successfully purchased ${nftName} NFT with ${(
-          detailInfos?.totalKeyMinted.toNumber() * 1.1
+          detailInfos?.totalKeyMinted * 1.1
         ).toFixed(4)} OMO.`,
         2000,
       )
@@ -452,7 +483,7 @@ const Details = () => {
     },
     {
       title: 'NFT ID',
-      data: detailInfos?.nftId?.toNumber() || '--',
+      data: detailInfos?.nftId || '--',
     },
     {
       title: 'Auction ID',
@@ -492,9 +523,8 @@ const Details = () => {
       amount:
         detailInfos?.state === 0
           ? '--'
-          : (detailInfos?.totalKeyMinted
-              ? detailInfos?.totalKeyMinted.toNumber()
-              : '-') || '-',
+          : (detailInfos?.totalKeyMinted ? detailInfos?.totalKeyMinted : '-') ||
+            '-',
     },
     {
       title: 'Total Mint Fee',
@@ -515,11 +545,21 @@ const Details = () => {
         detailInfos?.state === 0
           ? '--'
           : (detailInfos?.salesRevenue
-              ? parseFloat(
-                  ethers.utils.formatEther(
-                    detailInfos?.salesRevenue.mul(2).div(10),
-                  ),
-                ).toFixed(4)
+              ? (() => {
+                  if (
+                    typeof detailInfos?.salesRevenue === 'object' &&
+                    typeof detailInfos?.salesRevenue.mul === 'function'
+                  ) {
+                    const multipliedValue = detailInfos?.salesRevenue
+                      .mul(2)
+                      .div(10)
+                    const formattedValue =
+                      ethers.utils.formatEther(multipliedValue)
+                    return parseFloat(formattedValue).toFixed(4)
+                  } else {
+                    return '--'
+                  }
+                })()
               : '--') || '--',
     },
   ]
@@ -546,7 +586,7 @@ const Details = () => {
             /{' '}
             {detailInfos?.state === 0
               ? '--'
-              : detailInfos.totalKeyMinted.toNumber() || '--'}
+              : detailInfos?.totalKeyMinted || '--'}
           </Text>
         </Flex>
       </Flex>
@@ -579,8 +619,7 @@ const Details = () => {
     }
   }, [])
 
-  if (!detailInfos) return null
-
+  // if (!detailInfos) return null
   return (
     <Box minH="calc(100vh - 85px)">
       <Box minH="70vh">
@@ -597,8 +636,8 @@ const Details = () => {
             </Text>
           </Flex>
         </Box>
-        {detailInfos.state === State.Finished &&
-          detailInfos.lastPlayer.toLowerCase() === address && (
+        {detailInfos?.state === State.Finished &&
+          detailInfos?.lastPlayer.toLowerCase() === address && (
             <Flex justifyContent="center">
               <Flex
                 background="#FFBD13"
@@ -666,11 +705,11 @@ const Details = () => {
 
                 {/* > 24 Hours  */}
 
-                {detailInfos.state === State.Finished &&
-                  detailInfos.nftAddress !== ethers.constants.AddressZero &&
+                {detailInfos?.state === State.Finished &&
+                  detailInfos?.nftAddress !== ethers.constants.AddressZero &&
                   moment().isAfter(
                     moment
-                      .utc(detailInfos.endTimestamp * 1000)
+                      .utc(detailInfos?.endTimestamp * 1000)
                       .add(24, 'hours'),
                   ) && (
                     <Box>
@@ -701,10 +740,7 @@ const Details = () => {
                         }}>
                         <Text>Purchase NFT</Text>
                         <Box>
-                          {(
-                            detailInfos?.totalKeyMinted.toNumber() * 1.1
-                          ).toFixed(4)}{' '}
-                          $OMO
+                          {(detailInfos?.totalKeyMinted * 1.1).toFixed(4)} $OMO
                         </Box>
                       </Button>
                     </Box>
@@ -712,16 +748,16 @@ const Details = () => {
 
                 {/* top keys holder < 24 Hours */}
 
-                {detailInfos.state === State.Finished &&
-                  detailInfos.nftAddress !== ethers.constants.AddressZero &&
+                {detailInfos?.state === State.Finished &&
+                  detailInfos?.nftAddress !== ethers.constants.AddressZero &&
                   moment().isBefore(
                     moment
-                      .utc(detailInfos.endTimestamp * 1000)
+                      .utc(detailInfos?.endTimestamp * 1000)
                       .add(24, 'hours'),
                   ) && (
                     <Tooltip
                       label={
-                        detailInfos.mostKeyHolder.toLowerCase() === address
+                        detailInfos?.mostKeyHolder.toLowerCase() === address
                           ? ''
                           : 'The top key holder has priority to purchase the NFT'
                       }>
@@ -729,7 +765,7 @@ const Details = () => {
                         alignItems="center"
                         display="flex"
                         bg={
-                          detailInfos.mostKeyHolder.toLowerCase() === address
+                          detailInfos?.mostKeyHolder.toLowerCase() === address
                             ? '#00DAB3'
                             : '#737373'
                         }
@@ -742,19 +778,19 @@ const Details = () => {
                         fontSize={{ base: '16px', md: '20px' }}
                         fontWeight="600"
                         cursor={
-                          detailInfos.mostKeyHolder.toLowerCase() === address
+                          detailInfos?.mostKeyHolder.toLowerCase() === address
                             ? 'pointer'
                             : 'no-drop'
                         }
                         _focus={{
                           bg:
-                            detailInfos.mostKeyHolder.toLowerCase() === address
+                            detailInfos?.mostKeyHolder.toLowerCase() === address
                               ? '#00DAB3'
                               : '#737373',
                         }}
                         _hover={{
                           bg:
-                            detailInfos.mostKeyHolder.toLowerCase() === address
+                            detailInfos?.mostKeyHolder.toLowerCase() === address
                               ? '#00DAB3'
                               : '#737373',
                         }}
@@ -768,19 +804,16 @@ const Details = () => {
                               console.error('openConnectModal is not defined')
                             }
                           } else {
-                            detailInfos.mostKeyHolder.toLowerCase() === address
+                            detailInfos?.mostKeyHolder.toLowerCase() === address
                               ? retrieveNft()
                               : undefined
                           }
                         }}>
                         <Text>Purchase NFT</Text>
                         <Text>
-                          {(
-                            detailInfos.totalKeyMinted.toNumber() * 1.1
-                          ).toFixed(4)}{' '}
-                          $OMO
+                          {(detailInfos?.totalKeyMinted * 1.1).toFixed(4)} $OMO
                         </Text>
-                        {detailInfos.mostKeyHolder.toLowerCase() ===
+                        {detailInfos?.mostKeyHolder.toLowerCase() ===
                         address ? null : (
                           <PurchaseNFTCountDownPrimary />
                         )}
@@ -789,9 +822,9 @@ const Details = () => {
                   )}
 
                 <Text mb="12px" fontWeight="600" lineHeight="20px">
-                  {detailInfos.state === State.Ongoing
+                  {detailInfos?.state === State.Ongoing
                     ? 'Auction Count Down'
-                    : detailInfos.state === State.Upcoming
+                    : detailInfos?.state === State.Upcoming
                     ? 'Opening Count Down'
                     : 'Auction Ended'}
                 </Text>
@@ -806,7 +839,7 @@ const Details = () => {
                   )}
                 </Flex>
 
-                {State.Finished === detailInfos.state && (
+                {State.Finished === detailInfos?.state && (
                   <Text
                     color="rgba(255,255,255,0.6)"
                     fontWeight="800"
@@ -931,9 +964,9 @@ const Details = () => {
                 lineHeight="36px"
                 fontWeight="800"
                 color="#1DFED6">
-                {detailInfos.state === 0
+                {detailInfos?.state === 0
                   ? '--'
-                  : ellipseAddress(detailInfos.lastPlayer.toLowerCase())}
+                  : ellipseAddress(detailInfos?.lastPlayer.toLowerCase())}
               </Box>
 
               <Flex direction="column" gap="20px">
@@ -1033,7 +1066,7 @@ const Details = () => {
                     {progress()}
 
                     {/* Mint Key   */}
-                    {detailInfos.state !== State.Finished && (
+                    {detailInfos?.state !== State.Finished && (
                       <Box>
                         <Flex
                           alignItems="center"
@@ -1065,9 +1098,7 @@ const Details = () => {
                                 detailInfos?.state === State.Finished
                               }
                               placeholder={`Maximum: ${(
-                                Math.floor(
-                                  detailInfos?.totalKeyMinted.toNumber() / 10,
-                                ) + 1
+                                Math.floor(detailInfos?.totalKeyMinted / 10) + 1
                               ).toFixed(4)} keys`}
                               border="none"
                             />
@@ -1108,11 +1139,12 @@ const Details = () => {
                           <Flex alignItems="center" gap="4px">
                             Mint Fee:{' '}
                             <Box fontWeight="600">
-                              {detailInfos?.state === 0
+                              {detailInfos?.state === 0 ||
+                              !detailInfos?.keyPrice
                                 ? '--'
                                 : parseFloat(
                                     ethers.utils.formatEther(
-                                      detailInfos?.keyPrice?.toString(),
+                                      detailInfos?.keyPrice.toString(),
                                     ),
                                   ).toFixed(4)}
                             </Box>{' '}
@@ -1195,7 +1227,7 @@ const Details = () => {
                         }
                       }}
                       disabled={
-                        detailInfos.state === State.Upcoming ||
+                        detailInfos?.state === State.Upcoming ||
                         claimLoading ||
                         Number(claims) === 0
                       }
@@ -1229,13 +1261,24 @@ const Details = () => {
                         fontSize={{ base: '20px', xl: '24px' }}
                         fontWeight="800"
                         lineHeight="28px">
-                        {detailInfos.principal === ethers.constants.AddressZero
+                        {detailInfos?.principal === ethers.constants.AddressZero
                           ? '--'
-                          : parseFloat(
-                              ethers.utils.formatEther(
-                                detailInfos.salesRevenue.mul(5).div(10),
-                              ),
-                            ).toFixed(4)}
+                          : (() => {
+                              if (
+                                detailInfos?.salesRevenue &&
+                                typeof detailInfos?.salesRevenue === 'object' &&
+                                typeof detailInfos?.salesRevenue.mul ===
+                                  'function'
+                              ) {
+                                const multipliedValue =
+                                  detailInfos?.salesRevenue.mul(5).div(10)
+                                const formattedValue =
+                                  ethers.utils.formatEther(multipliedValue)
+                                return parseFloat(formattedValue).toFixed(4)
+                              } else {
+                                return '--'
+                              }
+                            })()}
                       </Box>
                     </Flex>
                     <Text
@@ -1275,14 +1318,28 @@ const Details = () => {
                       fontWeight="600"
                       fontSize={{ base: '12px', xl: '14px' }}
                       color="#222222">
-                      {detailInfos.principal === ethers.constants.AddressZero
+                      {detailInfos?.principal === ethers.constants.AddressZero
                         ? '--'
-                        : parseFloat(
-                            ethers.utils.formatEther(
-                              detailInfos.salesRevenue.mul(5).div(10),
-                            ),
-                          ).toFixed(4)}{' '}
-                      Unclaimed
+                        : (() => {
+                            if (
+                              detailInfos?.salesRevenue &&
+                              typeof detailInfos?.salesRevenue === 'object' &&
+                              typeof detailInfos?.salesRevenue.mul ===
+                                'function'
+                            ) {
+                              const multipliedValue = detailInfos?.salesRevenue
+                                .mul(5)
+                                .div(10)
+                              const formattedValue =
+                                ethers.utils.formatEther(multipliedValue)
+                              return (
+                                parseFloat(formattedValue).toFixed(4) +
+                                ' Unclaimed'
+                              )
+                            } else {
+                              return '--'
+                            }
+                          })()}
                     </Button>
                   </Flex>
                 </Flex>

@@ -43,7 +43,7 @@ export const CustomConnectButton = () => {
                     pos={{ base: 'fixed', lg: 'unset' }}
                     bottom="40px"
                     left="50%"
-                    transform="translateX(-50%)"
+                    transform={{ base: 'translateX(-50%)', lg: 'none' }}
                     onClick={openConnectModal}
                     type="button">
                     Connect Wallet
