@@ -203,7 +203,7 @@ const Register = () => {
           <Box w={{ base: '180px', md: '220px', xl: '430px' }}>
             <Image
               src={nft?.imageUrl}
-              fallbackSrc="/static/account/avatar.png"
+              fallbackSrc="/static/account/avatar.svg"
               alt="logo"
               w={{ base: '180px', md: '220px', xl: '430px' }}
               h="full"

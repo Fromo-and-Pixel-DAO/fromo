@@ -21,6 +21,7 @@ import useStore from 'packages/store'
 import { ActivityStatus } from 'packages/store/auctions'
 import { web3Modal } from 'packages/web3'
 import { useEffect, useMemo, useRef, useState } from 'react'
+import Web3 from 'web3'
 
 const FL_CONTRACT_ADR: string = process.env
   .NEXT_PUBLIC_FL_CONTRACT_ADR as string
@@ -75,18 +76,22 @@ const BidModal = ({ status, isOpen, onClose }: SubmitOfferModalProps) => {
     try {
       setBidLoading(true)
 
-      if (!contract) {
-        const provider = await web3Modal.connect()
-        const library = new ethers.providers.Web3Provider(provider)
-        const signer = library.getSigner()
+      const provider = await web3Modal.connect()
+      const web3 = new Web3(provider)
+      let nftContract = new web3.eth.Contract(FroopyABI, FL_CONTRACT_ADR)
+      const [address] = await web3.eth.getAccounts()
+      console.log(ethers.utils.parseEther(value))
+      await nftContract?.methods
+        .bidLand(ethers.utils.parseEther(value))
+        .send({
+          from: address,
+        })
+        .on('receipt', async (nftTxn: any) => {
+          await getBidList().finally(() => setBidLoading(false))
+          setBidLoading(false)
+        })
+        .on('error', function (error: string) {})
 
-        contract = new ethers.Contract(FL_CONTRACT_ADR, FroopyABI, signer)
-      }
-
-      await contract.bidLand(ethers.utils.parseEther(value), {
-        gasLimit: BigInt(500000),
-      })
-      await getBidList()
       // const existingItemIndex = bidList.findIndex(item => item.userAddress === address)
 
       // if (existingItemIndex !== -1) {
