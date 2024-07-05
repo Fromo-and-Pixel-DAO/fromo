@@ -1,14 +1,6 @@
 import { lazy, useEffect, useState } from 'react'
 
-import {
-  Box,
-  Button,
-  Flex,
-  Image,
-  Text,
-  Tooltip,
-  useMediaQuery,
-} from '@chakra-ui/react'
+import { Box, Button, Flex, Image, Text, Tooltip } from '@chakra-ui/react'
 import TabsCommon from '@components/TabsCommon'
 
 import Footer from '@components/Footer'
@@ -179,7 +171,6 @@ export default function Main() {
   }
 
   const { address } = useStore()
-  const [isLargerThan1920] = useMediaQuery('(min-width: 1920px)')
 
   const [open, setOpen] = useState(false)
   const [onOpenOmo, setOnOpenOmo] = useState(false)

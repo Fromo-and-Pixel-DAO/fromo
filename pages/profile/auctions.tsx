@@ -5,7 +5,6 @@ import ItemGrid from '@components/ListItems/ItemGrid'
 
 import TabsCommon from '@components/TabsCommon'
 
-import { useWindowSize } from '@hooks/useWindowSize'
 import useFomoStore from 'packages/store/fomo'
 import { getMyAuctions } from 'packages/service/api'
 import useStore from 'packages/store'
@@ -17,8 +16,6 @@ const Sidebar = lazy(() => import('@modules/Profile/Sidebar'))
 const Header = lazy(() => import('@modules/Profile/Header'))
 
 export default function Main() {
-  const { width } = useWindowSize()
-
   const { address } = useStore()
   const { userHeaderInfo } = useFomoStore()
   const [isLoading, setIsLoading] = useState(false)
