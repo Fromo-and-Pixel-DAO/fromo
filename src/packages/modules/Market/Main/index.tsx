@@ -570,7 +570,7 @@ export default function Main() {
                                 NFT on{' '}
                                 {moment
                                   .utc(auctionInfo.startTimestamp)
-                                  .format('MMMM DD, ha')}
+                                  .format('MMMM DD, ha')}{' '}
                                 UTC{' '}
                               </>
                             ) : (
@@ -580,7 +580,7 @@ export default function Main() {
                                 {moment
                                   .utc(auctionInfo.startTimestamp)
                                   .add(8, 'hours')
-                                  .format('MMMM DD, ha')}
+                                  .format('MMMM DD, ha')}{' '}
                                 UTC{' '}
                               </>
                             )}
@@ -780,7 +780,7 @@ export default function Main() {
                               NFT on{' '}
                               {moment
                                 .utc(auctionInfo.startTimestamp)
-                                .format('MMMM DD, ha')}
+                                .format('MMMM DD, ha')}{' '}
                               UTC{' '}
                             </>
                           ) : (
@@ -790,7 +790,7 @@ export default function Main() {
                               {moment
                                 .utc(auctionInfo.startTimestamp)
                                 .add(8, 'hours')
-                                .format('MMMM DD, ha')}
+                                .format('MMMM DD, ha')}{' '}
                               UTC{' '}
                             </>
                           )}
@@ -890,7 +890,7 @@ export default function Main() {
                             on{' '}
                             {moment
                               .utc(auctionInfo.startTimestamp)
-                              .format('MMMM DD, ha')}
+                              .format('MMMM DD, ha')}{' '}
                             UTC{' '}
                           </>
                         ) : (
@@ -900,7 +900,7 @@ export default function Main() {
                             {moment
                               .utc(auctionInfo.startTimestamp)
                               .add(8, 'hours')
-                              .format('MMMM DD, ha')}
+                              .format('MMMM DD, ha')}{' '}
                             UTC{' '}
                           </>
                         )}
@@ -964,13 +964,13 @@ export default function Main() {
                             .format('MMMM DD, Ha')}`}
                       </>
                     )}
-
                     {auctionInfo.status === ActivityStatus.Staking &&
                       ` Close on
                     ${moment
                       .utc(auctionInfo.startTimestamp)
                       .add(8, 'hours')
-                      .format('MMMM DD, ha')}`}
+                      .format('MMMM DD, ha')}`}{' '}
+                    UTC{' '}
                   </Box>
                 </Flex>
               </Box>
