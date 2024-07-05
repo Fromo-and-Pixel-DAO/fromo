@@ -287,7 +287,7 @@ const Details = () => {
             ? '--'
             : parseFloat(
                 ethers.utils.formatEther(
-                  detailInfos.salesRevenue.mul(5).div(10),
+                  (((detailInfos?.salesRevenue || 0) * 5) / 10).toString(),
                 ),
               ).toFixed(4)
         } ETH.`,
@@ -319,7 +319,7 @@ const Details = () => {
             ? '--'
             : parseFloat(
                 ethers.utils.formatEther(
-                  detailInfos?.salesRevenue.mul(2).div(10),
+                  (((detailInfos?.salesRevenue || 0) * 2) / 10).toString(),
                 ),
               ).toFixed(4)
         } ETH.`,
@@ -994,7 +994,10 @@ const Details = () => {
                               ? '--'
                               : parseFloat(
                                   ethers.utils.formatEther(
-                                    detailInfos?.salesRevenue.mul(2).div(10),
+                                    (
+                                      ((detailInfos?.salesRevenue || 0) * 2) /
+                                      10
+                                    ).toString(),
                                   ),
                                 ).toFixed(4)}
                           </Text>
