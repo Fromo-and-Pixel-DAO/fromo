@@ -84,7 +84,7 @@ const Register = () => {
           }
         } catch (error) {
           console.log('Current NFT Authorization: In Use')
-          toastError('You  Failed to approve NFT due to some error.', 2000)
+          toastError(error?.message, 2000)
         }
       } else {
         const contract = new ethers.Contract(FL_CONTRACT_ADR, flABI, signer)
@@ -108,12 +108,12 @@ const Register = () => {
           router.push('/')
         } catch (error) {
           console.log(error, 'error')
-          toastError('You Failed to stake NFT due to some error.', 2000)
+          toastError(error?.message, 2000)
         }
       }
     } catch (error) {
       console.log(error, 'error')
-      toastError('You Failed to stake NFT due to some error.', 2000)
+      toastError(error?.message, 2000)
     } finally {
       setIsLoading(false)
     }
