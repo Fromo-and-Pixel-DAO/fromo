@@ -542,25 +542,13 @@ const Details = () => {
     {
       title: 'Winner Prize',
       amount:
-        detailInfos?.state === 0
+        detailInfos?.lastPlayer === ethers.constants.AddressZero
           ? '--'
-          : (detailInfos?.salesRevenue
-              ? (() => {
-                  if (
-                    typeof detailInfos?.salesRevenue === 'object' &&
-                    typeof detailInfos?.salesRevenue.mul === 'function'
-                  ) {
-                    const multipliedValue = detailInfos?.salesRevenue
-                      .mul(2)
-                      .div(10)
-                    const formattedValue =
-                      ethers.utils.formatEther(multipliedValue)
-                    return parseFloat(formattedValue).toFixed(4)
-                  } else {
-                    return '--'
-                  }
-                })()
-              : '--') || '--',
+          : parseFloat(
+              ethers.utils.formatEther(
+                (((detailInfos?.salesRevenue || 0) * 2) / 10).toString(),
+              ),
+            ).toFixed(4),
     },
   ]
 
@@ -1263,22 +1251,14 @@ const Details = () => {
                         lineHeight="28px">
                         {detailInfos?.principal === ethers.constants.AddressZero
                           ? '--'
-                          : (() => {
-                              if (
-                                detailInfos?.salesRevenue &&
-                                typeof detailInfos?.salesRevenue === 'object' &&
-                                typeof detailInfos?.salesRevenue.mul ===
-                                  'function'
-                              ) {
-                                const multipliedValue =
-                                  detailInfos?.salesRevenue.mul(5).div(10)
-                                const formattedValue =
-                                  ethers.utils.formatEther(multipliedValue)
-                                return parseFloat(formattedValue).toFixed(4)
-                              } else {
-                                return '--'
-                              }
-                            })()}
+                          : parseFloat(
+                              ethers.utils.formatEther(
+                                (
+                                  ((detailInfos?.salesRevenue || 0) * 5) /
+                                  10
+                                ).toString(),
+                              ),
+                            ).toFixed(4)}
                       </Box>
                     </Flex>
                     <Text
@@ -1320,26 +1300,15 @@ const Details = () => {
                       color="#222222">
                       {detailInfos?.principal === ethers.constants.AddressZero
                         ? '--'
-                        : (() => {
-                            if (
-                              detailInfos?.salesRevenue &&
-                              typeof detailInfos?.salesRevenue === 'object' &&
-                              typeof detailInfos?.salesRevenue.mul ===
-                                'function'
-                            ) {
-                              const multipliedValue = detailInfos?.salesRevenue
-                                .mul(5)
-                                .div(10)
-                              const formattedValue =
-                                ethers.utils.formatEther(multipliedValue)
-                              return (
-                                parseFloat(formattedValue).toFixed(4) +
-                                ' Unclaimed'
-                              )
-                            } else {
-                              return '--'
-                            }
-                          })()}
+                        : parseFloat(
+                            ethers.utils.formatEther(
+                              (
+                                ((detailInfos?.salesRevenue || 0) * 5) /
+                                10
+                              ).toString(),
+                            ),
+                          ).toFixed(4)}{' '}
+                      Unclaimed
                     </Button>
                   </Flex>
                 </Flex>
