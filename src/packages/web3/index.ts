@@ -314,7 +314,7 @@ export async function convertKeyToToken(gameIds: number[]) {
     signer,
   )
   const transaction = await contract.convertKeyToToken(gameIds, address, {
-    gasLimit: BigInt(500000),
+    gasLimit: BigInt(1000000),
   })
   return await transaction.wait()
 }
