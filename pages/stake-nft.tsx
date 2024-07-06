@@ -205,7 +205,7 @@ const Register = () => {
               src={nft?.imageUrl}
               fallbackSrc="/static/account/avatar.svg"
               alt="logo"
-              w={{ base: '180px', md: '220px', xl: '430px' }}
+              w={{ base: '180px', md: '220px' }}
               h="full"
               borderRadius="15px"
             />
@@ -234,8 +234,8 @@ const Register = () => {
                   {nft.status === 1
                     ? 'In Use'
                     : nft.status === 2
-                    ? `Auctioned ${nft.auctionsCount} times`
-                    : 'Available'}
+                      ? `Auctioned ${nft.auctionsCount} times`
+                      : 'Available'}
                   )
                 </option>
               ))}
