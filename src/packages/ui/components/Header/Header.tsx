@@ -17,8 +17,8 @@ import {
   Text,
   useColorModeValue,
   useDisclosure,
-  useToast,
 } from '@chakra-ui/react'
+import { toastWarning } from '@utils/toast'
 import { providers } from 'ethers'
 import { useRouter } from 'next/router'
 import { getChainData } from 'packages/lib/utilities'
@@ -82,8 +82,6 @@ const Header: FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const router = useRouter()
   const { pathname } = router
-
-  const toast = useToast()
 
   const [state, dispatch] = useReducer(reducer, initialState)
   const { provider, web3Provider, address, chainId } = state
@@ -190,19 +188,13 @@ const Header: FC = () => {
         const chainData = getChainData(chainId)
         const validChain = address && chainData?.network === NETWORK
         if (!validChain) {
-          toast({
-            title: `Please switch to ${NETWORK} network.`,
-            status: 'warning',
-            duration: null,
-            isClosable: false,
-            position: 'top',
-          })
+          toastWarning(`Please switch to ${NETWORK} network.`)
         }
       }
     } catch (error) {
       console.error(error)
     }
-  }, [address, chainId, toast])
+  }, [address, chainId])
 
   return (
     <Box

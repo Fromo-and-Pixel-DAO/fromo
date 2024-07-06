@@ -90,7 +90,7 @@ const BidModal = ({ status, isOpen, onClose }: SubmitOfferModalProps) => {
           await getBidList().finally(() => setBidLoading(false))
           setBidLoading(false)
         })
-        .on('error', function (error: string) { })
+        .on('error', function (error: string) {})
 
       // const existingItemIndex = bidList.findIndex(item => item.userAddress === address)
 
@@ -108,7 +108,7 @@ const BidModal = ({ status, isOpen, onClose }: SubmitOfferModalProps) => {
       setBidLoading(false)
       const errorMessage =
         (error as Error)?.message || 'The transaction has failed'
-      toastError(errorMessage, 2000)
+      toastError(errorMessage)
     }
   }
 

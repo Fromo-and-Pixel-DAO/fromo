@@ -38,14 +38,14 @@ const RedeemModal = ({
     convertKeyToToken(unconvertedGameIds)
       .then((res) => {
         if (res) {
-          toastSuccess('You have successfully redeemed your Keys.', 2000)
+          toastSuccess('You have successfully redeemed your Keys.')
         } else {
-          toastError('You failed to redeem your Keys due to some error.', 2000)
+          toastError('You failed to redeem your Keys due to some error.')
         }
       })
       .catch((err) => {
         console.log(err)
-        toastError('You failed to redeem your Keys due to some error.', 2000)
+        toastError('You failed to redeem your Keys due to some error.')
       })
       .finally(() => {
         setLoading(false)

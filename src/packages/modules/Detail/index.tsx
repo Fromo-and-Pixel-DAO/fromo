@@ -197,14 +197,13 @@ const Details = () => {
 
   const buyKey = async () => {
     if (!/^[0-9]+$/.test(mintKey))
-      return toastError('Integer value is required.', 2000)
+      return toastError('Integer value is required.')
 
     if (Number(mintKey) > Math.ceil(detailInfos.totalKeyMinted / 10)) {
       toastError(
         `Input numbers must be less than ${Math.ceil(
           detailInfos.totalKeyMinted / 10,
         )} keys`,
-        2000,
       )
       return
     }
@@ -232,12 +231,12 @@ const Details = () => {
       init()
       // await setGameList(library)
       if (!successToastShown) {
-        toastSuccess('You have successfully minted keys.', 2000)
+        toastSuccess('You have successfully minted keys.')
         successToastShown = true
       }
     } catch (error) {
       console.log(error, 'buyKey')
-      toastError('You failed to mint keys due to some error.', 2000)
+      toastError('You failed to mint keys due to some error.')
     } finally {
       setBuyLoading(false)
     }
@@ -259,7 +258,6 @@ const Details = () => {
         `You have successfully claimed Key Holder Dividends of ${(
           Number(keyDividends) + Number(ethers.utils.formatEther(claims))
         ).toFixed(4)} ETH.`,
-        2000,
       )
       init()
     } catch (error) {
@@ -282,15 +280,15 @@ const Details = () => {
       await tx.wait()
       init()
       toastSuccess(
-        `You have successfully claimed NFT Provider Dividends of ${detailInfos.principal === ethers.constants.AddressZero
-          ? '--'
-          : parseFloat(
-            ethers.utils.formatEther(
-              (((detailInfos?.salesRevenue || 0) * 5) / 10).toString(),
-            ),
-          ).toFixed(4)
+        `You have successfully claimed NFT Provider Dividends of ${
+          detailInfos.principal === ethers.constants.AddressZero
+            ? '--'
+            : parseFloat(
+                ethers.utils.formatEther(
+                  (((detailInfos?.salesRevenue || 0) * 5) / 10).toString(),
+                ),
+              ).toFixed(4)
         } ETH.`,
-        2000,
       )
     } catch (error) {
       console.log(error, 'claim')
@@ -318,13 +316,9 @@ const Details = () => {
             (((detailInfos?.salesRevenue || 0) * 2) / 10).toString(),
           ),
         ).toFixed(4)} ETH.`,
-        2000,
       )
     } catch (error) {
-      toastError(
-        'You failed to claim dividends or prize due to some error.',
-        2000,
-      )
+      toastError('You failed to claim dividends or prize due to some error.')
       console.log(error, 'claim')
     } finally {
       setClaimsFinalLoading(false)
@@ -348,10 +342,9 @@ const Details = () => {
         `You have successfully purchased ${nftName} NFT with ${(
           detailInfos?.totalKeyMinted * 1.1
         ).toFixed(4)} OMO.`,
-        2000,
       )
     } catch (error) {
-      toastError('You failed purchasing the NFT due to some error.', 2000)
+      toastError('You failed purchasing the NFT due to some error.')
       console.log(error, 'retrieveNft')
     } finally {
       setRetrieveNftLoading(false)
@@ -489,8 +482,8 @@ const Details = () => {
       data: (
         <>
           {moment.utc(detailInfos?.startTimestamp * 1000).format('hA')}{' '}
-          {moment.utc(detailInfos?.startTimestamp * 1000).format('MMM DD')} UTC -{' '}
-          {moment.utc(detailInfos?.endTimestamp * 1000).format('hA')}{' '}
+          {moment.utc(detailInfos?.startTimestamp * 1000).format('MMM DD')} UTC
+          - {moment.utc(detailInfos?.endTimestamp * 1000).format('hA')}{' '}
           {moment.utc(detailInfos?.endTimestamp * 1000).format('MMM DD')} UTC
         </>
       ),
@@ -502,8 +495,8 @@ const Details = () => {
           {detailInfos?.state === State.Ongoing
             ? 'Ongoing'
             : detailInfos?.state === State.Upcoming
-              ? 'Upcoming'
-              : 'Ended'}
+            ? 'Upcoming'
+            : 'Ended'}
         </>
       ),
     },
@@ -519,7 +512,7 @@ const Details = () => {
         detailInfos?.state === 0
           ? '--'
           : (detailInfos?.totalKeyMinted ? detailInfos?.totalKeyMinted : '-') ||
-          '-',
+            '-',
     },
     {
       title: 'Total Mint Fee',
@@ -527,12 +520,12 @@ const Details = () => {
         detailInfos?.state === 0
           ? '--'
           : (detailInfos?.salesRevenue
-            ? parseFloat(
-              ethers.utils.formatEther(
-                detailInfos?.salesRevenue.toString(),
-              ),
-            ).toFixed(4)
-            : '--') || '--',
+              ? parseFloat(
+                  ethers.utils.formatEther(
+                    detailInfos?.salesRevenue.toString(),
+                  ),
+                ).toFixed(4)
+              : '--') || '--',
     },
     {
       title: 'Winner Prize',
@@ -540,10 +533,10 @@ const Details = () => {
         detailInfos?.lastPlayer === ethers.constants.AddressZero
           ? '--'
           : parseFloat(
-            ethers.utils.formatEther(
-              (((detailInfos?.salesRevenue || 0) * 2) / 10).toString(),
-            ),
-          ).toFixed(4),
+              ethers.utils.formatEther(
+                (((detailInfos?.salesRevenue || 0) * 2) / 10).toString(),
+              ),
+            ).toFixed(4),
     },
   ]
 
@@ -798,7 +791,7 @@ const Details = () => {
                           {(detailInfos?.totalKeyMinted * 1.1).toFixed(4)} $OMO
                         </Text>
                         {detailInfos?.mostKeyHolder.toLowerCase() ===
-                          address ? null : (
+                        address ? null : (
                           <PurchaseNFTCountDownPrimary />
                         )}
                       </Button>
@@ -809,18 +802,18 @@ const Details = () => {
                   {detailInfos?.state === State.Ongoing
                     ? 'Auction Count Down'
                     : detailInfos?.state === State.Upcoming
-                      ? 'Opening Count Down'
-                      : 'Auction Ended'}
+                    ? 'Opening Count Down'
+                    : 'Auction Ended'}
                 </Text>
 
                 <Flex>
                   {[State.Ongoing, State.Upcoming].includes(
                     detailInfos?.state,
                   ) && (
-                      <>
-                        <PurchaseNFTCountDownSecondary />
-                      </>
-                    )}
+                    <>
+                      <PurchaseNFTCountDownSecondary />
+                    </>
+                  )}
                 </Flex>
 
                 {State.Finished === detailInfos?.state && (
@@ -835,7 +828,8 @@ const Details = () => {
                     at{' '}
                     {moment
                       .utc(detailInfos?.endTimestamp * 1000)
-                      .format('h:mm A')}{' UTC'}
+                      .format('h:mm A')}
+                    {' UTC'}
                   </Text>
                 )}
 
@@ -852,7 +846,7 @@ const Details = () => {
                         </Box>
                         {k === 0 &&
                           detailInfos?.nftAddress !==
-                          ethers.constants.AddressZero && (
+                            ethers.constants.AddressZero && (
                             <Flex gap="12px">
                               {blockchainItemsList.map((i, k) => (
                                 <Link key={k} href={i.url}>
@@ -1023,8 +1017,7 @@ const Details = () => {
                       }}
                       isLoading={claimsFinalLoading}
                       disabled={
-                        detailInfos?.lastPlayer ===
-                        ethers.constants.AddressZero
+                        detailInfos?.lastPlayer === ethers.constants.AddressZero
                       }
                       borderRadius="8px">
                       <Text
@@ -1123,13 +1116,13 @@ const Details = () => {
                             Mint Fee:{' '}
                             <Box fontWeight="600">
                               {detailInfos?.state === 0 ||
-                                !detailInfos?.keyPrice
+                              !detailInfos?.keyPrice
                                 ? '--'
                                 : parseFloat(
-                                  ethers.utils.formatEther(
-                                    detailInfos?.keyPrice.toString(),
-                                  ),
-                                ).toFixed(4)}
+                                    ethers.utils.formatEther(
+                                      detailInfos?.keyPrice.toString(),
+                                    ),
+                                  ).toFixed(4)}
                             </Box>{' '}
                             ETH/KEY
                           </Flex>
@@ -1138,12 +1131,12 @@ const Details = () => {
                             <Box fontWeight="600">
                               {mintKey && detailInfos?.keyPrice
                                 ? (
-                                  parseFloat(
-                                    ethers.utils.formatEther(
-                                      detailInfos?.keyPrice,
-                                    ),
-                                  ) * parseInt(mintKey)
-                                ).toFixed(4)
+                                    parseFloat(
+                                      ethers.utils.formatEther(
+                                        detailInfos?.keyPrice,
+                                      ),
+                                    ) * parseInt(mintKey)
+                                  ).toFixed(4)
                                 : '--'}
                             </Box>{' '}
                             ETH
@@ -1218,8 +1211,8 @@ const Details = () => {
                       {Number(claims) === 0
                         ? '--'
                         : Number(ethers.utils.formatEther(claims)).toFixed(
-                          4,
-                        )}{' '}
+                            4,
+                          )}{' '}
                       Unclaimed
                     </Button>
                   </Flex>
@@ -1247,13 +1240,13 @@ const Details = () => {
                         {detailInfos?.principal === ethers.constants.AddressZero
                           ? '--'
                           : parseFloat(
-                            ethers.utils.formatEther(
-                              (
-                                ((detailInfos?.salesRevenue || 0) * 5) /
-                                10
-                              ).toString(),
-                            ),
-                          ).toFixed(4)}
+                              ethers.utils.formatEther(
+                                (
+                                  ((detailInfos?.salesRevenue || 0) * 5) /
+                                  10
+                                ).toString(),
+                              ),
+                            ).toFixed(4)}
                       </Box>
                     </Flex>
                     <Text
@@ -1283,7 +1276,7 @@ const Details = () => {
                           detailInfos?.state,
                         ) ||
                         detailInfos?.principal ===
-                        ethers.constants.AddressZero ||
+                          ethers.constants.AddressZero ||
                         detailInfos?.principal.toLowerCase() !== address ||
                         withDrawNFTLoading
                       }
@@ -1296,13 +1289,13 @@ const Details = () => {
                       {detailInfos?.principal === ethers.constants.AddressZero
                         ? '--'
                         : parseFloat(
-                          ethers.utils.formatEther(
-                            (
-                              ((detailInfos?.salesRevenue || 0) * 5) /
-                              10
-                            ).toString(),
-                          ),
-                        ).toFixed(4)}{' '}
+                            ethers.utils.formatEther(
+                              (
+                                ((detailInfos?.salesRevenue || 0) * 5) /
+                                10
+                              ).toString(),
+                            ),
+                          ).toFixed(4)}{' '}
                       Unclaimed
                     </Button>
                   </Flex>

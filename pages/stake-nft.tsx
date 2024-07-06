@@ -75,7 +75,6 @@ const Register = () => {
               `You have successfully staked your NFT. Your NFT auction will start on ${moment
                 .utc(gameInfos?.startTimestamp)
                 .format('MMMM DD ha [UTC]')}`,
-              2000,
             )
             // router.push('/')
           } catch (error) {
@@ -84,7 +83,7 @@ const Register = () => {
           }
         } catch (error) {
           console.log('Current NFT Authorization: In Use')
-          toastError(error?.message, 2000)
+          toastError(error?.message)
         }
       } else {
         const contract = new ethers.Contract(FL_CONTRACT_ADR, flABI, signer)
@@ -103,17 +102,16 @@ const Register = () => {
             `You have successfully staked your NFT. Your NFT auction will start on ${moment
               .utc(gameInfos?.startTimestamp)
               .format('MMMM DD ha [UTC]')}`,
-            2000,
           )
           // router.push('/')
         } catch (error) {
           console.log(error, 'error')
-          toastError(error?.message, 2000)
+          toastError(error?.message)
         }
       }
     } catch (error) {
       console.log(error, 'error')
-      toastError(error?.message, 2000)
+      toastError(error?.message)
     } finally {
       setIsLoading(false)
     }
@@ -234,8 +232,8 @@ const Register = () => {
                   {nft.status === 1
                     ? 'In Use'
                     : nft.status === 2
-                      ? `Auctioned ${nft.auctionsCount} times`
-                      : 'Available'}
+                    ? `Auctioned ${nft.auctionsCount} times`
+                    : 'Available'}
                   )
                 </option>
               ))}
@@ -252,7 +250,7 @@ const Register = () => {
                       alt=""
                       onClick={() => {
                         navigator.clipboard.writeText(i.copyDescription)
-                        toastSuccess('Copied', 2000)
+                        toastSuccess('Copied')
                       }}
                       src="/static/common/copy.svg"
                       w="20px"

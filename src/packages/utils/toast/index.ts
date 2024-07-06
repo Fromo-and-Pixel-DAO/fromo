@@ -8,11 +8,17 @@ export const toastSuccess = (message: string, delay = 3000): void => {
         pauseOnHover: true,
         transition: Flip,
         autoClose: delay,
+        style: {
+          color: 'black',
+        },
       })
     } else {
       toast.success(message, {
         position: toast.POSITION.TOP_CENTER,
         autoClose: false,
+        style: {
+          color: 'black',
+        },
       })
     }
   }
@@ -26,12 +32,18 @@ export const toastWarning = (message: string, delay = 3000): void => {
         pauseOnHover: true,
         transition: Flip,
         autoClose: delay,
+        style: {
+          color: 'black',
+        },
       })
     } else {
       toast.warning(message, {
         position: toast.POSITION.TOP_CENTER,
         transition: Flip,
         autoClose: false,
+        style: {
+          color: 'black',
+        },
       })
     }
   }
@@ -53,6 +65,9 @@ export const toastError = (error: ErrorMsg, delay = 3000) => {
         pauseOnHover: true,
         transition: Flip,
         autoClose: delay,
+        style: {
+          color: 'black',
+        },
       })
     } else {
       toast.error(toastData, {
@@ -60,6 +75,9 @@ export const toastError = (error: ErrorMsg, delay = 3000) => {
         pauseOnHover: true,
         transition: Flip,
         autoClose: false,
+        style: {
+          color: 'black',
+        },
       })
     }
   } else if (toastData && toastData instanceof Array) {

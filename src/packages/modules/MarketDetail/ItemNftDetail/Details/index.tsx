@@ -17,6 +17,7 @@ import {
 import { getPublicEtherscanUrl } from 'packages/lib/utilities'
 
 import { ellipseAddress } from '@utils'
+import { toastSuccess } from '@utils/toast'
 
 import { MetadataDetail } from './type'
 
@@ -136,13 +137,7 @@ export default function Details({ details }: { details?: MetadataDetail }) {
                     <Image
                       onClick={() => {
                         onCopy()
-                        toast({
-                          title: 'Copied',
-                          status: 'success',
-                          duration: 3000,
-                          isClosable: true,
-                          position: 'top-right',
-                        })
+                        toastSuccess('Copied')
                       }}
                       cursor="pointer"
                       alt=""

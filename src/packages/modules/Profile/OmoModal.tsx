@@ -58,15 +58,15 @@ const OmoModal = ({
       approveBidTokenFunc()
         .then((res) => {
           if (res) {
-            toastSuccess("You've successfully approved $OMO.", 2000)
+            toastSuccess("You've successfully approved $OMO.")
             setApprove(true)
           } else {
-            toastError('Failed to approve $OMO.', 2000)
+            toastError('Failed to approve $OMO.')
           }
         })
         .catch((err) => {
           console.log(err)
-          toastError('Failed to approve $OMO.', 2000)
+          toastError('Failed to approve $OMO.')
         })
         .finally(() => {
           setLoading(false)
@@ -75,16 +75,16 @@ const OmoModal = ({
       depositBidTokenFunc(amount)
         .then((res) => {
           if (res) {
-            toastSuccess(`You have successfully deposited $OMO.`, 2000)
+            toastSuccess(`You have successfully deposited $OMO.`)
             setUseAmount(amount)
             onClose()
           } else {
-            toastError(`You failed to deposited $OMO due to some error.`, 2000)
+            toastError(`You failed to deposited $OMO due to some error.`)
           }
         })
         .catch((err) => {
           console.log(err)
-          toastError(`You failed to deposited $OMO due to some error.`, 2000)
+          toastError(`You failed to deposited $OMO due to some error.`)
         })
         .finally(() => {
           setLoading(false)
@@ -93,16 +93,16 @@ const OmoModal = ({
       withdrawBidTokenFunc(amount)
         .then((res) => {
           if (res) {
-            toastSuccess(`You have successfully withdrew $OMO.`, 2000)
+            toastSuccess(`You have successfully withdrew $OMO.`)
             setUseAmount(amount)
             onClose()
           } else {
-            toastError(`You failed to withdrew $OMO due to some error.`, 2000)
+            toastError(`You failed to withdrew $OMO due to some error.`)
           }
         })
         .catch((err) => {
           console.log(err)
-          toastError(`You failed to withdrew $OMO due to some error.`, 2000)
+          toastError(`You failed to withdrew $OMO due to some error.`)
         })
         .finally(() => {
           setLoading(false)

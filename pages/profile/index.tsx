@@ -82,17 +82,13 @@ export default function Main() {
       claimBonusFunc(profit.unclaimedKeyGameIds)
         .then((res) => {
           if (res) {
-            toastSuccess(
-              'You have successfully claimed dividends or prize.',
-              2000,
-            )
+            toastSuccess('You have successfully claimed dividends or prize.')
           }
         })
         .catch((err) => {
           console.log(err)
           toastError(
             'You failed to claim dividends or prize due to some error.',
-            2000,
           )
         })
         .finally(() => {
@@ -106,17 +102,13 @@ export default function Main() {
       withdrawLastplayerPrizeFunc(profit.unclaimedFinalWinnerGameIds)
         .then((res) => {
           if (res) {
-            toastSuccess(
-              'You have successfully claimed dividends or prize.',
-              2000,
-            )
+            toastSuccess('You have successfully claimed dividends or prize.')
           }
         })
         .catch((err) => {
           console.log(err)
           toastError(
             'You failed to claim dividends or prize due to some error.',
-            2000,
           )
         })
         .finally(() => {
@@ -130,17 +122,13 @@ export default function Main() {
       withdrawSaleRevenueFunc(profit.unclaimedNftGameIds)
         .then((res) => {
           if (res) {
-            toastSuccess(
-              'You have successfully claimed dividends or prize.',
-              2000,
-            )
+            toastSuccess('You have successfully claimed dividends or prize.')
           }
         })
         .catch((err) => {
           console.log(err)
           toastError(
             'You failed to claim dividends or prize due to some error.',
-            2000,
           )
         })
         .finally(() => {
@@ -155,14 +143,14 @@ export default function Main() {
     convertKeyToToken(profit.unconvertedGameIds)
       .then((res) => {
         if (res) {
-          toastSuccess('You have successfully redeemed your Keys.', 2000)
+          toastSuccess('You have successfully redeemed your Keys.')
         } else {
-          toastError('You failed to redeem your Keys due to some error.', 2000)
+          toastError('You failed to redeem your Keys due to some error.')
         }
       })
       .catch((err) => {
         console.log(err)
-        toastError('You failed to redeem your Keys due to some error.', 2000)
+        toastError('You failed to redeem your Keys due to some error.')
       })
       .finally(() => {
         setConvertKeysLoading(false)
