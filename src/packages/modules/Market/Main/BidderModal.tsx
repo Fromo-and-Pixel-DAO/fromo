@@ -90,7 +90,7 @@ const BidModal = ({ status, isOpen, onClose }: SubmitOfferModalProps) => {
           await getBidList().finally(() => setBidLoading(false))
           setBidLoading(false)
         })
-        .on('error', function (error: string) {})
+        .on('error', function (error: string) { })
 
       // const existingItemIndex = bidList.findIndex(item => item.userAddress === address)
 
@@ -189,7 +189,7 @@ const BidModal = ({ status, isOpen, onClose }: SubmitOfferModalProps) => {
           lineHeight="32px"
           textAlign="left"
           fontWeight="800">
-          Bid on this Plot of FROMO
+          Bid on the Plot of FROMO
         </Heading>
       }
       bgColor="#2F2B50">
