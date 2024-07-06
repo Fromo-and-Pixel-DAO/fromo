@@ -489,9 +489,9 @@ const Details = () => {
       data: (
         <>
           {moment.utc(detailInfos?.startTimestamp * 1000).format('hA')}{' '}
-          {moment.utc(detailInfos?.startTimestamp * 1000).format('MMM DD')} -{' '}
+          {moment.utc(detailInfos?.startTimestamp * 1000).format('MMM DD')} UTC -{' '}
           {moment.utc(detailInfos?.endTimestamp * 1000).format('hA')}{' '}
-          {moment.utc(detailInfos?.endTimestamp * 1000).format('MMM DD')}
+          {moment.utc(detailInfos?.endTimestamp * 1000).format('MMM DD')} UTC
         </>
       ),
     },
@@ -588,20 +588,20 @@ const Details = () => {
     )
   }
 
-  useEffect(() => {
-    console.log({ detailInfos })
-    const handlePopState = () => {
-      if (window.history.state) {
-        handleBack()
-      }
-    }
+  // useEffect(() => {
+  //   console.log({ detailInfos })
+  // const handlePopState = () => {
+  //   if (window.history.state) {
+  //     handleBack()
+  //   }
+  // }
 
-    window.addEventListener('popstate', handlePopState)
+  // window.addEventListener('popstate', handlePopState)
 
-    return () => {
-      window.removeEventListener('popstate', handlePopState)
-    }
-  }, [])
+  // return () => {
+  //   window.removeEventListener('popstate', handlePopState)
+  // }
+  // }, [])
 
   // if (!detailInfos) return null
   return (
@@ -835,7 +835,7 @@ const Details = () => {
                     at{' '}
                     {moment
                       .utc(detailInfos?.endTimestamp * 1000)
-                      .format('h:mm A')}
+                      .format('h:mm A')}{' UTC'}
                   </Text>
                 )}
 
