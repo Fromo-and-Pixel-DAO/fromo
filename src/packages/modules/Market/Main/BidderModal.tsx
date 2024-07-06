@@ -12,7 +12,7 @@ import {
 
 import BaseModal from '@components/Modal'
 import { ellipseAddress, formatNumberWithCommas } from '@utils'
-import { toastError } from '@utils/toast'
+import { toastError, toastSuccess } from '@utils/toast'
 import { ethers } from 'ethers'
 import FroopyABI from 'packages/abis/demo/fl417.json'
 import { getBidderForm } from 'packages/service/api'
@@ -87,10 +87,13 @@ const BidModal = ({ status, isOpen, onClose }: SubmitOfferModalProps) => {
           from: address,
         })
         .on('receipt', async (nftTxn: any) => {
+          toastSuccess("Successfully bid!")
           await getBidList().finally(() => setBidLoading(false))
           setBidLoading(false)
         })
-        .on('error', function (error: string) {})
+        .on('error', function (error: string) {
+          console.log(error)
+        })
 
       // const existingItemIndex = bidList.findIndex(item => item.userAddress === address)
 

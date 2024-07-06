@@ -45,7 +45,23 @@ const useAuctions = create(
 
     async getAuctionInfo() {
       const data = await getAuctionInfo()
-      set({ auctionInfo: data })
+      const provider = await web3Modal.connect()
+      const library = new ethers.providers.Web3Provider(provider)
+      const signer = library.getSigner()
+      const contract = new ethers.Contract(
+        FL_CONTRACT_ADR,
+        FroopyABI323,
+        signer,
+      )
+      console.log({ data })
+      const bidInfo = await contract.bidRoundInfo()
+      console.log({ bidInfo })
+      set({
+        auctionInfo: {
+          ...data,
+          bidWinnerAddress: bidInfo?.bidWinner,
+        },
+      })
       return data
     },
     async getUserNftList(address: string) {
