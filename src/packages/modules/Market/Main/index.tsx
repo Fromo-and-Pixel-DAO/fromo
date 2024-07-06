@@ -244,7 +244,7 @@ export default function Main() {
       data: parseFloat(sysInfo?.tokenPrice).toFixed(4) || '-',
     },
     {
-      title: 'Total Minted Key',
+      title: 'Total Minted Keys',
       data: sysInfo?.totalKeyMinted !== '-' ? sysInfo?.totalKeyMinted : '-',
       // data2: sysInfo?.totalMintFee !== '-' ? sysInfo?.totalMintFee : '-',
     },
