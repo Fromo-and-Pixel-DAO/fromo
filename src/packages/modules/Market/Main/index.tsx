@@ -238,25 +238,15 @@ export default function Main() {
   }, [auctionInfo, address, loading])
 
   if (!auctionInfo) return null
-
   const OMO_Metrics = [
     {
       title: '$OMO Price',
       data: parseFloat(sysInfo?.tokenPrice).toFixed(4) || '-',
     },
     {
-      title: ' Total Mint Fee',
-      icon: (
-        <Image
-          src="/static/common/eth-index.svg"
-          alt="ethereum"
-          w="14px"
-          h="24px"
-          mr="8px"
-        />
-      ),
+      title: 'Total Minted Key',
       data: sysInfo?.totalKeyMinted !== '-' ? sysInfo?.totalKeyMinted : '-',
-      data2: sysInfo?.totalMintFee !== '-' ? sysInfo?.totalMintFee : '-',
+      // data2: sysInfo?.totalMintFee !== '-' ? sysInfo?.totalMintFee : '-',
     },
     {
       title: 'Total Prize & Dividends',
@@ -272,8 +262,8 @@ export default function Main() {
       data:
         sysInfo?.totalProfits !== '-'
           ? parseFloat(ethers.utils.formatEther(sysInfo?.totalProfits)).toFixed(
-              4,
-            )
+            4,
+          )
           : '-',
       data2: sysInfo?.totalPrize !== '-' ? sysInfo?.totalPrize : '-',
     },
@@ -356,7 +346,7 @@ export default function Main() {
                       </Flex>
                       {/* {i.data2 && (
                        <Flex
-                         
+
                          fontWeight="extrabold"
                          fontSize="20px"
                          lineHeight="36px"
@@ -394,7 +384,7 @@ export default function Main() {
                       </Flex>
                       {/* {i.data2 && (
                       <Flex
-                        
+
                         fontWeight="extrabold"
                         fontSize="20px"
                         lineHeight="36px"
@@ -438,49 +428,49 @@ export default function Main() {
                       ActivityStatus.NotStarted,
                       ActivityStatus.Bidding,
                     ].includes(auctionInfo.status) && (
-                      <Button
-                        px="0px"
-                        h="100%"
-                        borderRadius="full"
-                        bg="transparent"
-                        cursor={
-                          ActivityStatus.NotStarted === auctionInfo.status
-                            ? 'not-allowed'
-                            : 'pointer'
-                        }
-                        _hover={{}}
-                        _focus={{}}
-                        onClick={() => {
-                          if (!account.isConnected) {
-                            if (openConnectModal) {
-                              openConnectModal()
-                            } else {
-                              console.error('openConnectModal is not defined')
-                            }
-                          } else {
-                            if (
-                              ActivityStatus.NotStarted !== auctionInfo.status
-                            ) {
-                              setOpen(true)
-                            }
-                          }
-                        }}
-                        pos="relative">
-                        <Image
-                          w="112px"
-                          h="fit-content"
-                          src="/static/common/3d.svg"
+                        <Button
+                          px="0px"
+                          h="100%"
                           borderRadius="full"
-                          alt="3d"
-                          pos="relative"
-                        />
-                        <AbsoluteCenter _hover={{ opacity: 0.7 }}>
-                          <Text textAlign="center" fontWeight="black">
-                            BID <br /> plot
-                          </Text>
-                        </AbsoluteCenter>
-                      </Button>
-                    )}
+                          bg="transparent"
+                          cursor={
+                            ActivityStatus.NotStarted === auctionInfo.status
+                              ? 'not-allowed'
+                              : 'pointer'
+                          }
+                          _hover={{}}
+                          _focus={{}}
+                          onClick={() => {
+                            if (!account.isConnected) {
+                              if (openConnectModal) {
+                                openConnectModal()
+                              } else {
+                                console.error('openConnectModal is not defined')
+                              }
+                            } else {
+                              if (
+                                ActivityStatus.NotStarted !== auctionInfo.status
+                              ) {
+                                setOpen(true)
+                              }
+                            }
+                          }}
+                          pos="relative">
+                          <Image
+                            w="112px"
+                            h="fit-content"
+                            src="/static/common/3d.svg"
+                            borderRadius="full"
+                            alt="3d"
+                            pos="relative"
+                          />
+                          <AbsoluteCenter _hover={{ opacity: 0.7 }}>
+                            <Text textAlign="center" fontWeight="black">
+                              BID <br /> plot
+                            </Text>
+                          </AbsoluteCenter>
+                        </Button>
+                      )}
                     {/* Staking */}
                     {ActivityStatus.Staking === auctionInfo.status && (
                       <>
@@ -563,7 +553,7 @@ export default function Main() {
                           <>
                             {' '}
                             {address &&
-                            auctionInfo.bidWinnerAddress === address ? (
+                              auctionInfo.bidWinnerAddress === address ? (
                               <>
                                 {' '}
                                 You won the FROMO plot and the chance to auction
@@ -626,25 +616,25 @@ export default function Main() {
                         ActivityStatus.NotStarted,
                         ActivityStatus.Bidding,
                       ].includes(auctionInfo.status) && (
-                        <>
-                          {auctionInfo.status === ActivityStatus.NotStarted &&
-                            `Open on ${moment
-                              .utc(auctionInfo.startTimestamp)
-                              .format('MMMM DD, Ha')}`}
-                          {auctionInfo.status === ActivityStatus.Bidding &&
-                            `Close on ${moment
-                              .utc(auctionInfo.startTimestamp)
-                              .add(16, 'hours')
-                              .format('MMMM DD, Ha')}`}
-                        </>
-                      )}
+                          <>
+                            {auctionInfo.status === ActivityStatus.NotStarted &&
+                              `Open on ${moment
+                                .utc(auctionInfo.startTimestamp)
+                                .format('MMMM DD, Ha')}`}
+                            {auctionInfo.status === ActivityStatus.Bidding &&
+                              `Close on ${moment
+                                .utc(auctionInfo.startTimestamp)
+                                .add(16, 'hours')
+                                .format('MMMM DD, Ha')}`}
+                          </>
+                        )}
 
                       {auctionInfo.status === ActivityStatus.Staking &&
                         ` Close on
                     ${moment
-                      .utc(auctionInfo.startTimestamp)
-                      .add(8, 'hours')
-                      .format('MMMM DD, ha')}`}
+                          .utc(auctionInfo.startTimestamp)
+                          .add(8, 'hours')
+                          .format('MMMM DD, ha')}`}
                     </Box>
                   </Flex>
                 </Flex>
@@ -664,47 +654,47 @@ export default function Main() {
                 {[ActivityStatus.NotStarted, ActivityStatus.Bidding].includes(
                   auctionInfo.status,
                 ) && (
-                  <Button
-                    px="0px"
-                    h="100%"
-                    borderRadius="full"
-                    bg="transparent"
-                    cursor={
-                      ActivityStatus.NotStarted === auctionInfo.status
-                        ? 'not-allowed'
-                        : 'pointer'
-                    }
-                    _hover={{}}
-                    _focus={{}}
-                    onClick={() => {
-                      if (!account.isConnected) {
-                        if (openConnectModal) {
-                          openConnectModal()
-                        } else {
-                          console.error('openConnectModal is not defined')
-                        }
-                      } else {
-                        if (ActivityStatus.NotStarted !== auctionInfo.status) {
-                          setOpen(true)
-                        }
-                      }
-                    }}
-                    pos="relative">
-                    <Image
-                      w="120px"
-                      h="120px"
-                      src="/static/common/3d.svg"
+                    <Button
+                      px="0px"
+                      h="100%"
                       borderRadius="full"
-                      alt="3d"
-                      pos="relative"
-                    />
-                    <AbsoluteCenter _hover={{ opacity: 0.7 }}>
-                      <Text textAlign="center" fontWeight="black">
-                        BID <br /> plot
-                      </Text>
-                    </AbsoluteCenter>
-                  </Button>
-                )}
+                      bg="transparent"
+                      cursor={
+                        ActivityStatus.NotStarted === auctionInfo.status
+                          ? 'not-allowed'
+                          : 'pointer'
+                      }
+                      _hover={{}}
+                      _focus={{}}
+                      onClick={() => {
+                        if (!account.isConnected) {
+                          if (openConnectModal) {
+                            openConnectModal()
+                          } else {
+                            console.error('openConnectModal is not defined')
+                          }
+                        } else {
+                          if (ActivityStatus.NotStarted !== auctionInfo.status) {
+                            setOpen(true)
+                          }
+                        }
+                      }}
+                      pos="relative">
+                      <Image
+                        w="120px"
+                        h="120px"
+                        src="/static/common/3d.svg"
+                        borderRadius="full"
+                        alt="3d"
+                        pos="relative"
+                      />
+                      <AbsoluteCenter _hover={{ opacity: 0.7 }}>
+                        <Text textAlign="center" fontWeight="black">
+                          BID <br /> plot
+                        </Text>
+                      </AbsoluteCenter>
+                    </Button>
+                  )}
                 {/* Staking */}
                 {ActivityStatus.Staking === auctionInfo.status && (
                   <>
@@ -773,7 +763,7 @@ export default function Main() {
                         <>
                           {' '}
                           {address &&
-                          auctionInfo.bidWinnerAddress === address ? (
+                            auctionInfo.bidWinnerAddress === address ? (
                             <>
                               {' '}
                               You won the FROMO plot and the chance to auction
@@ -841,25 +831,25 @@ export default function Main() {
                       ActivityStatus.NotStarted,
                       ActivityStatus.Bidding,
                     ].includes(auctionInfo.status) && (
-                      <>
-                        {auctionInfo.status === ActivityStatus.NotStarted &&
-                          `Open on ${moment
-                            .utc(auctionInfo.startTimestamp)
-                            .format('MMMM DD, Ha')}`}
-                        {auctionInfo.status === ActivityStatus.Bidding &&
-                          `Close on ${moment
-                            .utc(auctionInfo.startTimestamp)
-                            .add(16, 'hours')
-                            .format('MMMM DD, Ha')}`}
-                      </>
-                    )}
+                        <>
+                          {auctionInfo.status === ActivityStatus.NotStarted &&
+                            `Open on ${moment
+                              .utc(auctionInfo.startTimestamp)
+                              .format('MMMM DD, Ha')}`}
+                          {auctionInfo.status === ActivityStatus.Bidding &&
+                            `Close on ${moment
+                              .utc(auctionInfo.startTimestamp)
+                              .add(16, 'hours')
+                              .format('MMMM DD, Ha')}`}
+                        </>
+                      )}
 
                     {auctionInfo.status === ActivityStatus.Staking &&
                       ` Close on
                     ${moment
-                      .utc(auctionInfo.startTimestamp)
-                      .add(8, 'hours')
-                      .format('MMMM DD, ha')}`}
+                        .utc(auctionInfo.startTimestamp)
+                        .add(8, 'hours')
+                        .format('MMMM DD, ha')}`}
                   </Box>
                 </Flex>
               </Flex>
@@ -952,24 +942,24 @@ export default function Main() {
                       ActivityStatus.NotStarted,
                       ActivityStatus.Bidding,
                     ].includes(auctionInfo.status) && (
-                      <>
-                        {auctionInfo.status === ActivityStatus.NotStarted &&
-                          `Open on ${moment
-                            .utc(auctionInfo.startTimestamp)
-                            .format('MMMM DD, Ha')}`}
-                        {auctionInfo.status === ActivityStatus.Bidding &&
-                          `Close on ${moment
-                            .utc(auctionInfo.startTimestamp)
-                            .add(16, 'hours')
-                            .format('MMMM DD, Ha')}`}
-                      </>
-                    )}
+                        <>
+                          {auctionInfo.status === ActivityStatus.NotStarted &&
+                            `Open on ${moment
+                              .utc(auctionInfo.startTimestamp)
+                              .format('MMMM DD, Ha')}`}
+                          {auctionInfo.status === ActivityStatus.Bidding &&
+                            `Close on ${moment
+                              .utc(auctionInfo.startTimestamp)
+                              .add(16, 'hours')
+                              .format('MMMM DD, Ha')}`}
+                        </>
+                      )}
                     {auctionInfo.status === ActivityStatus.Staking &&
                       ` Close on
                     ${moment
-                      .utc(auctionInfo.startTimestamp)
-                      .add(8, 'hours')
-                      .format('MMMM DD, ha')}`}{' '}
+                        .utc(auctionInfo.startTimestamp)
+                        .add(8, 'hours')
+                        .format('MMMM DD, ha')}`}{' '}
                     UTC{' '}
                   </Box>
                 </Flex>
@@ -979,48 +969,48 @@ export default function Main() {
                 {[ActivityStatus.NotStarted, ActivityStatus.Bidding].includes(
                   auctionInfo.status,
                 ) && (
-                  <Button
-                    h="100%"
-                    borderRadius="full"
-                    bg="transparent"
-                    cursor={
-                      ActivityStatus.NotStarted === auctionInfo.status
-                        ? 'not-allowed'
-                        : 'pointer'
-                    }
-                    _hover={{}}
-                    _focus={{}}
-                    onClick={() => {
-                      if (!account.isConnected) {
-                        if (openConnectModal) {
-                          openConnectModal()
-                        } else {
-                          console.error('openConnectModal is not defined')
-                        }
-                      } else {
-                        if (ActivityStatus.NotStarted !== auctionInfo.status) {
-                          setOpen(true)
-                        }
-                      }
-                    }}
-                    pos="relative">
-                    <Image
-                      src="/static/common/3d.svg"
+                    <Button
+                      h="100%"
                       borderRadius="full"
-                      alt="3d"
-                      pos="relative"
-                    />
-                    <AbsoluteCenter _hover={{ opacity: 0.7 }}>
-                      <Text
-                        textAlign="center"
-                        fontWeight="black"
-                        fontSize="40px"
-                        lineHeight="40px">
-                        BID <br /> plot
-                      </Text>
-                    </AbsoluteCenter>
-                  </Button>
-                )}
+                      bg="transparent"
+                      cursor={
+                        ActivityStatus.NotStarted === auctionInfo.status
+                          ? 'not-allowed'
+                          : 'pointer'
+                      }
+                      _hover={{}}
+                      _focus={{}}
+                      onClick={() => {
+                        if (!account.isConnected) {
+                          if (openConnectModal) {
+                            openConnectModal()
+                          } else {
+                            console.error('openConnectModal is not defined')
+                          }
+                        } else {
+                          if (ActivityStatus.NotStarted !== auctionInfo.status) {
+                            setOpen(true)
+                          }
+                        }
+                      }}
+                      pos="relative">
+                      <Image
+                        src="/static/common/3d.svg"
+                        borderRadius="full"
+                        alt="3d"
+                        pos="relative"
+                      />
+                      <AbsoluteCenter _hover={{ opacity: 0.7 }}>
+                        <Text
+                          textAlign="center"
+                          fontWeight="black"
+                          fontSize="40px"
+                          lineHeight="40px">
+                          BID <br /> plot
+                        </Text>
+                      </AbsoluteCenter>
+                    </Button>
+                  )}
                 {/* Staking */}
                 {ActivityStatus.Staking === auctionInfo.status && (
                   <>
