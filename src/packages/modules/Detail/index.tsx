@@ -280,14 +280,13 @@ const Details = () => {
       await tx.wait()
       init()
       toastSuccess(
-        `You have successfully claimed NFT Provider Dividends of ${
-          detailInfos.principal === ethers.constants.AddressZero
-            ? '--'
-            : parseFloat(
-                ethers.utils.formatEther(
-                  (((detailInfos?.salesRevenue || 0) * 5) / 10).toString(),
-                ),
-              ).toFixed(4)
+        `You have successfully claimed NFT Provider Dividends of ${detailInfos.principal === ethers.constants.AddressZero
+          ? '--'
+          : parseFloat(
+            ethers.utils.formatEther(
+              (((detailInfos?.salesRevenue || 0) * 5) / 10).toString(),
+            ),
+          ).toFixed(4)
         } ETH.`,
       )
     } catch (error) {
@@ -495,8 +494,8 @@ const Details = () => {
           {detailInfos?.state === State.Ongoing
             ? 'Ongoing'
             : detailInfos?.state === State.Upcoming
-            ? 'Upcoming'
-            : 'Ended'}
+              ? 'Upcoming'
+              : 'Ended'}
         </>
       ),
     },
@@ -512,7 +511,7 @@ const Details = () => {
         detailInfos?.state === 0
           ? '--'
           : (detailInfos?.totalKeyMinted ? detailInfos?.totalKeyMinted : '-') ||
-            '-',
+          '-',
     },
     {
       title: 'Total Mint Fee',
@@ -520,12 +519,12 @@ const Details = () => {
         detailInfos?.state === 0
           ? '--'
           : (detailInfos?.salesRevenue
-              ? parseFloat(
-                  ethers.utils.formatEther(
-                    detailInfos?.salesRevenue.toString(),
-                  ),
-                ).toFixed(4)
-              : '--') || '--',
+            ? parseFloat(
+              ethers.utils.formatEther(
+                detailInfos?.salesRevenue.toString(),
+              ),
+            ).toFixed(4)
+            : '--') || '--',
     },
     {
       title: 'Winner Prize',
@@ -533,10 +532,10 @@ const Details = () => {
         detailInfos?.lastPlayer === ethers.constants.AddressZero
           ? '--'
           : parseFloat(
-              ethers.utils.formatEther(
-                (((detailInfos?.salesRevenue || 0) * 2) / 10).toString(),
-              ),
-            ).toFixed(4),
+            ethers.utils.formatEther(
+              (((detailInfos?.salesRevenue || 0) * 2) / 10).toString(),
+            ),
+          ).toFixed(4),
     },
   ]
 
@@ -791,7 +790,7 @@ const Details = () => {
                           {(detailInfos?.totalKeyMinted * 1.1).toFixed(4)} $OMO
                         </Text>
                         {detailInfos?.mostKeyHolder.toLowerCase() ===
-                        address ? null : (
+                          address ? null : (
                           <PurchaseNFTCountDownPrimary />
                         )}
                       </Button>
@@ -802,18 +801,18 @@ const Details = () => {
                   {detailInfos?.state === State.Ongoing
                     ? 'Auction Count Down'
                     : detailInfos?.state === State.Upcoming
-                    ? 'Opening Count Down'
-                    : 'Auction Ended'}
+                      ? 'Opening Count Down'
+                      : 'Auction Ended'}
                 </Text>
 
                 <Flex>
                   {[State.Ongoing, State.Upcoming].includes(
                     detailInfos?.state,
                   ) && (
-                    <>
-                      <PurchaseNFTCountDownSecondary />
-                    </>
-                  )}
+                      <>
+                        <PurchaseNFTCountDownSecondary />
+                      </>
+                    )}
                 </Flex>
 
                 {State.Finished === detailInfos?.state && (
@@ -846,7 +845,7 @@ const Details = () => {
                         </Box>
                         {k === 0 &&
                           detailInfos?.nftAddress !==
-                            ethers.constants.AddressZero && (
+                          ethers.constants.AddressZero && (
                             <Flex gap="12px">
                               {blockchainItemsList.map((i, k) => (
                                 <Link key={k} href={i.url}>
@@ -997,37 +996,40 @@ const Details = () => {
                         Final Winner Prize
                       </Text>
                     </Box>
-                    <Button
-                      colorScheme="primary"
-                      w="120px"
-                      justifyContent="center"
-                      alignItems="center"
-                      cursor="pointer"
-                      p="12px 40px"
-                      onClick={() => {
-                        if (!account.isConnected) {
-                          if (openConnectModal) {
-                            openConnectModal()
+                    {
+                      detailInfos?.lastPlayer.toLowerCase() === address &&
+                      <Button
+                        colorScheme="primary"
+                        w="120px"
+                        justifyContent="center"
+                        alignItems="center"
+                        cursor="pointer"
+                        p="12px 40px"
+                        onClick={() => {
+                          if (!account.isConnected) {
+                            if (openConnectModal) {
+                              openConnectModal()
+                            } else {
+                              console.error('openConnectModal is not defined')
+                            }
                           } else {
-                            console.error('openConnectModal is not defined')
+                            claimsFinalPrize()
                           }
-                        } else {
-                          claimsFinalPrize()
+                        }}
+                        isLoading={claimsFinalLoading}
+                        disabled={
+                          detailInfos?.lastPlayer === ethers.constants.AddressZero
                         }
-                      }}
-                      isLoading={claimsFinalLoading}
-                      disabled={
-                        detailInfos?.lastPlayer === ethers.constants.AddressZero
-                      }
-                      borderRadius="8px">
-                      <Text
-                        color="#222222"
-                        fontWeight="600"
-                        lineHeight="16px"
-                        fontSize="14px">
-                        Claim
-                      </Text>
-                    </Button>
+                        borderRadius="8px">
+                        <Text
+                          color="#222222"
+                          fontWeight="600"
+                          lineHeight="16px"
+                          fontSize="14px">
+                          Claim
+                        </Text>
+                      </Button>
+                    }
                   </Flex>
                 )}
 
@@ -1116,13 +1118,13 @@ const Details = () => {
                             Mint Fee:{' '}
                             <Box fontWeight="600">
                               {detailInfos?.state === 0 ||
-                              !detailInfos?.keyPrice
+                                !detailInfos?.keyPrice
                                 ? '--'
                                 : parseFloat(
-                                    ethers.utils.formatEther(
-                                      detailInfos?.keyPrice.toString(),
-                                    ),
-                                  ).toFixed(4)}
+                                  ethers.utils.formatEther(
+                                    detailInfos?.keyPrice.toString(),
+                                  ),
+                                ).toFixed(4)}
                             </Box>{' '}
                             ETH/KEY
                           </Flex>
@@ -1131,12 +1133,12 @@ const Details = () => {
                             <Box fontWeight="600">
                               {mintKey && detailInfos?.keyPrice
                                 ? (
-                                    parseFloat(
-                                      ethers.utils.formatEther(
-                                        detailInfos?.keyPrice,
-                                      ),
-                                    ) * parseInt(mintKey)
-                                  ).toFixed(4)
+                                  parseFloat(
+                                    ethers.utils.formatEther(
+                                      detailInfos?.keyPrice,
+                                    ),
+                                  ) * parseInt(mintKey)
+                                ).toFixed(4)
                                 : '--'}
                             </Box>{' '}
                             ETH
@@ -1211,8 +1213,8 @@ const Details = () => {
                       {Number(claims) === 0
                         ? '--'
                         : Number(ethers.utils.formatEther(claims)).toFixed(
-                            4,
-                          )}{' '}
+                          4,
+                        )}{' '}
                       Unclaimed
                     </Button>
                   </Flex>
@@ -1240,13 +1242,13 @@ const Details = () => {
                         {detailInfos?.principal === ethers.constants.AddressZero
                           ? '--'
                           : parseFloat(
-                              ethers.utils.formatEther(
-                                (
-                                  ((detailInfos?.salesRevenue || 0) * 5) /
-                                  10
-                                ).toString(),
-                              ),
-                            ).toFixed(4)}
+                            ethers.utils.formatEther(
+                              (
+                                ((detailInfos?.salesRevenue || 0) * 5) /
+                                10
+                              ).toString(),
+                            ),
+                          ).toFixed(4)}
                       </Box>
                     </Flex>
                     <Text
@@ -1276,7 +1278,7 @@ const Details = () => {
                           detailInfos?.state,
                         ) ||
                         detailInfos?.principal ===
-                          ethers.constants.AddressZero ||
+                        ethers.constants.AddressZero ||
                         detailInfos?.principal.toLowerCase() !== address ||
                         withDrawNFTLoading
                       }
@@ -1289,13 +1291,13 @@ const Details = () => {
                       {detailInfos?.principal === ethers.constants.AddressZero
                         ? '--'
                         : parseFloat(
-                            ethers.utils.formatEther(
-                              (
-                                ((detailInfos?.salesRevenue || 0) * 5) /
-                                10
-                              ).toString(),
-                            ),
-                          ).toFixed(4)}{' '}
+                          ethers.utils.formatEther(
+                            (
+                              ((detailInfos?.salesRevenue || 0) * 5) /
+                              10
+                            ).toString(),
+                          ),
+                        ).toFixed(4)}{' '}
                       Unclaimed
                     </Button>
                   </Flex>
