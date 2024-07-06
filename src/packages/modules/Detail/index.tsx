@@ -90,7 +90,7 @@ const Details = () => {
   ]
 
   const handleBack = () => {
-    router.push('/')
+    router.back()
   }
 
   useEffect(() => {
@@ -589,6 +589,7 @@ const Details = () => {
   }
 
   useEffect(() => {
+    console.log({ detailInfos })
     const handlePopState = () => {
       if (window.history.state) {
         handleBack()
