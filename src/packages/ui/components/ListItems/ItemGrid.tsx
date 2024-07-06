@@ -205,7 +205,7 @@ function ItemGrid({
         bg="#6642B7"
         cursor="pointer"
         onClickCapture={() => {
-          router.replace({
+          router.push({
             pathname: `/${item.gameId}`,
             query: { nftName: item.name },
           })
@@ -365,7 +365,7 @@ function ItemGrid({
       <Box
         cursor="pointer"
         onClickCapture={() => {
-          router.replace({
+          router.push({
             pathname: `/${item.gameId}`,
             query: { nftName: item.name },
           })
@@ -438,7 +438,7 @@ function ItemGrid({
       <Box
         cursor="pointer"
         onClickCapture={() => {
-          router.replace({
+          router.push({
             pathname: `/${item.gameId}`,
             query: { nftName: item.name },
           })
@@ -771,7 +771,7 @@ function ItemGrid({
     <Box
       cursor="pointer"
       onClickCapture={() => {
-        router.replace({
+        router.push({
           pathname: `/${item.gameId}`,
           query: { nftName: item.name },
         })
