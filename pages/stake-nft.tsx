@@ -77,7 +77,7 @@ const Register = () => {
                 .format('MMMM DD ha [UTC]')}`,
               2000,
             )
-            router.push('/')
+            // router.push('/')
           } catch (error) {
             console.log(error, 'error')
             toastWarning('The auction has not yet begun, please be patient.')
@@ -105,7 +105,7 @@ const Register = () => {
               .format('MMMM DD ha [UTC]')}`,
             2000,
           )
-          router.push('/')
+          // router.push('/')
         } catch (error) {
           console.log(error, 'error')
           toastError(error?.message, 2000)
