@@ -37,6 +37,11 @@ const Register = () => {
   useEffect(() => {
     if (address) {
       fetchNFT()
+      if (typeof window !== 'undefined') {
+        if (!window.localStorage.getItem('staked')) {
+          setLocalStaked(false)
+        }
+      }
     }
   }, [address])
 
