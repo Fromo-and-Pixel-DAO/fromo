@@ -234,7 +234,7 @@ function ItemGrid({
               item?.lastAddress &&
               item?.lastAddress.toLocaleLowerCase() === address &&
               item.biddersCount &&
-              item.biddersCount > 1 && (
+              item.biddersCount > 0 && (
                 <Box
                   w="110px"
                   pos="absolute"
@@ -382,7 +382,7 @@ function ItemGrid({
           item?.lastAddress &&
           item?.lastAddress.toLocaleLowerCase() === address &&
           item.biddersCount &&
-          item.biddersCount > 1 && (
+          item.biddersCount > 0 && (
             <Box
               w="110px"
               pos="absolute"
@@ -457,7 +457,7 @@ function ItemGrid({
             item?.lastAddress &&
             item?.lastAddress.toLocaleLowerCase() === address &&
             item.biddersCount &&
-            item.biddersCount > 1 && (
+            item.biddersCount > 0 && (
               <Box
                 w="110px"
                 pos="absolute"
@@ -790,7 +790,7 @@ function ItemGrid({
         {item?.lastAddress &&
           item?.lastAddress.toLocaleLowerCase() === address &&
           item.biddersCount &&
-          item.biddersCount > 1 && (
+          item.biddersCount > 0 && (
             <Box
               w="110px"
               pos="absolute"

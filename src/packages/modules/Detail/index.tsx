@@ -645,28 +645,28 @@ const Details = () => {
           </Flex>
         </Box>
         {detailInfos?.state === State.Finished &&
-          detailInfos?.lastPlayer.toLowerCase() === address &&
-          gameAmountNft.biddersCount &&
-          gameAmountNft.biddersCount > 1 && (
-            <Flex justifyContent="center">
-              <Flex
-                background="#FFBD13"
-                fontSize={{ base: '20px', xl: '24px' }}
-                w="max-content"
-                px="33px"
-                borderRadius="full"
-                py={{ base: '8px', xl: '12px' }}
-                fontWeight="800"
-                h="52px"
-                alignItems="center"
-                textTransform="uppercase"
-                color="#222222"
-                textAlign="center"
-                lineHeight="28px">
-                You won final prize！
-              </Flex>
+        detailInfos?.lastPlayer.toLowerCase() === address &&
+        gameAmountNft.biddersCount &&
+        gameAmountNft.biddersCount > 0 ? (
+          <Flex justifyContent="center">
+            <Flex
+              background="#FFBD13"
+              fontSize={{ base: '20px', xl: '24px' }}
+              w="max-content"
+              px="33px"
+              borderRadius="full"
+              py={{ base: '8px', xl: '12px' }}
+              fontWeight="800"
+              h="52px"
+              alignItems="center"
+              textTransform="uppercase"
+              color="#222222"
+              textAlign="center"
+              lineHeight="28px">
+              You won final prize！
             </Flex>
-          )}
+          </Flex>
+        ) : null}
         <Box px={{ base: '16px', md: '24px', xl: '68px' }} py="36px" mb="60px">
           <Box display={{ base: 'block', xl: 'none' }} mb="32px">
             <Image
