@@ -87,7 +87,7 @@ const BidModal = ({ status, isOpen, onClose }: SubmitOfferModalProps) => {
           from: address,
         })
         .on('receipt', async (nftTxn: any) => {
-          toastSuccess("Successfully bid!")
+          toastSuccess('Successfully bid!')
           await getBidList().finally(() => setBidLoading(false))
           setBidLoading(false)
         })
@@ -116,50 +116,63 @@ const BidModal = ({ status, isOpen, onClose }: SubmitOfferModalProps) => {
   }
 
   const getAvailableFL = async () => {
-    const provider = await web3Modal.connect()
-    const library = new ethers.providers.Web3Provider(provider)
-    const signer = library.getSigner()
 
-    if (!contract) {
-      contract = new ethers.Contract(FL_CONTRACT_ADR, FroopyABI, signer)
-    }
-
-    contract = new ethers.Contract(FL_CONTRACT_ADR, FroopyABI, signer)
-
-    const address = await signer.getAddress()
-
-    if (!address) return toastError('Please connect wallet first.')
-
-    try {
-      const tx = await contract.getBidderInfoOf(address)
-      setAvailableNums(
-        ethers.utils.formatEther(tx.withdrawableAmount.toString()),
-      )
-    } catch (error) {
-      console.log(error, '<====getAvailableFL')
-    }
-  }
-
-  const registerUpdateSOL = async () => {
-    if (!contract) {
+    // TODO: Fix this
+    if (address) {
       const provider = await web3Modal.connect()
       const library = new ethers.providers.Web3Provider(provider)
       const signer = library.getSigner()
 
+      if (!contract) {
+        contract = new ethers.Contract(FL_CONTRACT_ADR, FroopyABI, signer)
+      }
+
       contract = new ethers.Contract(FL_CONTRACT_ADR, FroopyABI, signer)
+
+      const address = await signer.getAddress()
+
+      if (!address) return toastError('Please connect wallet first.')
+
+      try {
+        const tx = await contract.getBidderInfoOf(address)
+        setAvailableNums(
+          ethers.utils.formatEther(tx.withdrawableAmount.toString()),
+        )
+      } catch (error) {
+        console.log(error, '<====getAvailableFL')
+      }
     }
+  }
 
-    console.log('registerUpdateSOL')
+  const registerUpdateSOL = async () => {
+    if (address) {
+      if (!contract) {
+        const provider = await web3Modal.connect()
+        const library = new ethers.providers.Web3Provider(provider)
+        const signer = library.getSigner()
 
-    contract.on('NewBids', (Bidder, amount, bidId) => {
-      console.log(
-        Bidder,
-        amount.toString(),
-        bidId.toString(),
-        'Bidder, amount, bidId',
+        contract = new ethers.Contract(FL_CONTRACT_ADR, FroopyABI, signer)
+      }
+
+      console.log('registerUpdateSOL')
+
+      contract.on(
+        'NewBids',
+        (
+          Bidder: any,
+          amount: { toString: () => any },
+          bidId: { toString: () => any },
+        ) => {
+          console.log(
+            Bidder,
+            amount.toString(),
+            bidId.toString(),
+            'Bidder, amount, bidId',
+          )
+          getBidList().finally(() => setBidLoading(false))
+        },
       )
-      getBidList().finally(() => setBidLoading(false))
-    })
+    }
   }
 
   const removeListener = () => {

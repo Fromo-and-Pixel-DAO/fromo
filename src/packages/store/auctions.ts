@@ -45,21 +45,22 @@ const useAuctions = create(
 
     async getAuctionInfo() {
       const data = await getAuctionInfo()
-      const provider = await web3Modal.connect()
-      const library = new ethers.providers.Web3Provider(provider)
-      const signer = library.getSigner()
-      const contract = new ethers.Contract(
-        FL_CONTRACT_ADR,
-        FroopyABI323,
-        signer,
-      )
-      console.log({ data })
-      const bidInfo = await contract.bidRoundInfo()
-      console.log({ bidInfo })
+      // const provider = await web3Modal.connect()
+      // const library = new ethers.providers.Web3Provider(provider)
+      // const signer = library.getSigner()
+      // const contract = new ethers.Contract(
+      //   FL_CONTRACT_ADR,
+      //   FroopyABI323,
+      //   signer,
+      // )
+      // console.log({ data })
+      // const bidInfo = await contract.bidRoundInfo()
+      // console.log({ bidInfo })
       set({
         auctionInfo: {
           ...data,
-          bidWinnerAddress: bidInfo?.bidWinner,
+          // Why need to set the bidWinnerAddress when init?
+          // bidWinnerAddress: bidInfo?.bidWinner,
         },
       })
       return data

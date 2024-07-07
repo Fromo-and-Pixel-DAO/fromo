@@ -20,7 +20,8 @@ import { ethers } from 'ethers'
 import moment from 'moment'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import FroopyABI from 'packages/abis/demo/fl417.json'
+// import FroopyABI from 'packages/abis/demo/fl417.json'
+import FroopyABI from 'packages/abis/demo/fl419.json'
 import { getGameDetailById } from 'packages/service/api'
 import { IGameAmountNft } from 'packages/service/api/types'
 import useStore from 'packages/store'
@@ -45,8 +46,6 @@ const Details = () => {
   const router = useRouter()
 
   const { pool: id } = router.query
-  // const id = 1
-
   const { address } = useStore()
   const account = useAccount()
 
@@ -96,7 +95,7 @@ const Details = () => {
   useEffect(() => {
     init()
     fetchGameDetailById()
-  }, [id, router.query])
+  }, [])
 
   const init = () => {
     fetchGameState()
@@ -117,15 +116,23 @@ const Details = () => {
   }
 
   const getGameInfoOfGameIds = async () => {
-    const library = new ethers.providers.JsonRpcProvider(
-      'https://1rpc.io/sepolia	',
-    )
-    const web3 = new Web3('https://1rpc.io/sepolia')
+    // const library = new ethers.providers.JsonRpcProvider(
+    //   'https://1rpc.io/sepolia	',
+    // )
+    // const web3 = new Web3('https://1rpc.io/sepolia')
 
-    if (id) {
+    // direct to the game page
+    const directId = window.location.href.split('/').pop().split('?')[0]
+    if (id || directId) {
+      let queryId = id || directId
+
+      const provider = await web3Modal.connect()
+      const web3 = new Web3(provider)
       const contract = new web3.eth.Contract(FroopyABI, FL_CONTRACT_ADR)
 
-      const [data] = await contract.methods.getGameInfoOfGameIds([id]).call()
+      const [data] = await contract.methods
+        .getGameInfoOfGameIds([queryId])
+        .call()
       if (data) {
         const [
           state,
@@ -155,6 +162,8 @@ const Details = () => {
         }
         setDetailInfos(dataNew)
       }
+      console.log('salesRevenue', data[8])
+
       const gameId = await contract.methods.totalGames().call()
       const [gameInfos] = await contract.methods
         .getGameInfoOfGameIds([Number(gameId - 1).toString()])
@@ -163,24 +172,34 @@ const Details = () => {
   }
 
   const fetchGameState = async () => {
-    const provider = await web3Modal.connect()
-    const library = new ethers.providers.Web3Provider(provider)
-    const signer = library.getSigner()
-    const contract = new ethers.Contract(FL_CONTRACT_ADR, FroopyABI, signer)
-    const address = await signer.getAddress()
-    try {
-      const data = await contract.getPlayerStateOfGameIds(address, [id])
-      setClaims(data.unclaimBonusList.toString())
-      if (data.keyAmountList && data.keyAmountList.toString().length >= 18) {
-        data.keyAmountList = ethers.utils.formatUnits(
-          data.keyAmountList.toString(),
-          'ether',
-        )
+    // direct to the game page
+    const directId = window.location.href.split('/').pop().split('?')[0]
+    if (id || directId) {
+      let queryId = id || directId
+      const provider = await web3Modal.connect()
+      const library = new ethers.providers.Web3Provider(provider)
+      const signer = library.getSigner()
+      const contract = new ethers.Contract(FL_CONTRACT_ADR, FroopyABI, signer)
+      const address = await signer.getAddress()
+      try {
+        const data = await contract.getPlayerStateOfGameIds(address, [queryId])
+        const [unclaimBonusList, keyAmountList] = data
+        let keyAmountListNew = keyAmountList
+        let unclaimBonusListNew = unclaimBonusList
+        console.log('keyAmountList', keyAmountList.toString())
+        console.log('unclaimBonusList', unclaimBonusList.toString())
+
+        setClaims(unclaimBonusListNew.toString())
+        if (keyAmountListNew && keyAmountListNew.toString().length >= 18) {
+          keyAmountListNew = ethers.utils.formatUnits(
+            keyAmountListNew.toString(),
+            'ether',
+          )
+        }
+        setKeys(keyAmountListNew.toString())
+      } catch (error) {
+        console.log(error, '<=-===fetchGameState')
       }
-      console.log('fetchGameState', id, address, data.keyAmountList.toString())
-      setKeys(data.keyAmountList.toString())
-    } catch (error) {
-      console.log(error, '<=-===fetchGameState')
     }
   }
 
@@ -218,14 +237,22 @@ const Details = () => {
       const eth =
         parseFloat(ethers.utils.formatEther(detailInfos.keyPrice)) *
         parseInt(mintKey)
+      const gasAmount = await contract.estimateGas.purchaseKeyOfGameId(id, {
+        value: ethers.utils.parseUnits(`${eth}`, 'ether'),
+      })
       const tx = await contract.purchaseKeyOfGameId(id, {
         value: ethers.utils.parseUnits(`${eth}`, 'ether'),
-        gasLimit: BigInt(500000),
+        gasLimit: gasAmount,
       })
 
       const receipt = await tx.wait()
-      const events = receipt.logs.map((log) => contract.interface.parseLog(log))
-      const errorEvent = events.find((event) => event.name === 'ErrorEvent')
+      const events = receipt.logs.map(
+        (log: { topics: Array<string>; data: string }) =>
+          contract.interface.parseLog(log),
+      )
+      const errorEvent = events.find(
+        (event: { name: string }) => event.name === 'ErrorEvent',
+      )
 
       console.log('Error:', errorEvent)
       init()
@@ -249,9 +276,10 @@ const Details = () => {
     const contract = new ethers.Contract(FL_CONTRACT_ADR, FroopyABI, signer)
     const address = await signer.getAddress()
     setClaimLoading(true)
+    const gasAmount = await contract.estimateGas.claimBonus([id], address)
     try {
       const tx = await contract.claimBonus([id], address, {
-        gasLimit: BigInt(500000),
+        gasLimit: gasAmount,
       })
       await tx.wait()
       toastSuccess(
@@ -273,20 +301,22 @@ const Details = () => {
     const signer = library.getSigner()
     const contract = new ethers.Contract(FL_CONTRACT_ADR, FroopyABI, signer)
     setWithDrawNFTLoading(true)
+    const gasAmount = await contract.estimateGas.withdrawSaleRevenue([id])
     try {
       const tx = await contract.withdrawSaleRevenue([id], {
-        gasLimit: BigInt(500000),
+        gasLimit: gasAmount,
       })
       await tx.wait()
       init()
       toastSuccess(
-        `You have successfully claimed NFT Provider Dividends of ${detailInfos.principal === ethers.constants.AddressZero
-          ? '--'
-          : parseFloat(
-            ethers.utils.formatEther(
-              (((detailInfos?.salesRevenue || 0) * 5) / 10).toString(),
-            ),
-          ).toFixed(4)
+        `You have successfully claimed NFT Provider Dividends of ${
+          detailInfos.principal === ethers.constants.AddressZero
+            ? '--'
+            : parseFloat(
+                ethers.utils.formatEther(
+                  (((detailInfos?.salesRevenue || 0) * 5) / 10).toString(),
+                ),
+              ).toFixed(4)
         } ETH.`,
       )
     } catch (error) {
@@ -303,9 +333,10 @@ const Details = () => {
     const contract = new ethers.Contract(FL_CONTRACT_ADR, FroopyABI, signer)
     setClaimsFinalLoading(true)
 
+    const gasAmount = await contract.estimateGas.withdrawLastplayerPrize([id])
     try {
       const tx = await contract.withdrawLastplayerPrize([id], {
-        gasLimit: BigInt(500000),
+        gasLimit: gasAmount,
       })
       await tx.wait()
       init()
@@ -331,9 +362,10 @@ const Details = () => {
     const contract = new ethers.Contract(FL_CONTRACT_ADR, FroopyABI, signer)
     setRetrieveNftLoading(true)
 
+    const gasAmount = await contract.estimateGas.retrieveNft([id])
     try {
       const tx = await contract.retrieveNft(id, {
-        gasLimit: BigInt(500000),
+        gasLimit: gasAmount,
       })
       await tx.wait()
       init()
@@ -494,8 +526,8 @@ const Details = () => {
           {detailInfos?.state === State.Ongoing
             ? 'Ongoing'
             : detailInfos?.state === State.Upcoming
-              ? 'Upcoming'
-              : 'Ended'}
+            ? 'Upcoming'
+            : 'Ended'}
         </>
       ),
     },
@@ -511,7 +543,7 @@ const Details = () => {
         detailInfos?.state === 0
           ? '--'
           : (detailInfos?.totalKeyMinted ? detailInfos?.totalKeyMinted : '-') ||
-          '-',
+            '-',
     },
     {
       title: 'Total Mint Fee',
@@ -519,12 +551,12 @@ const Details = () => {
         detailInfos?.state === 0
           ? '--'
           : (detailInfos?.salesRevenue
-            ? parseFloat(
-              ethers.utils.formatEther(
-                detailInfos?.salesRevenue.toString(),
-              ),
-            ).toFixed(4)
-            : '--') || '--',
+              ? parseFloat(
+                  ethers.utils.formatEther(
+                    detailInfos?.salesRevenue.toString(),
+                  ),
+                ).toFixed(4)
+              : '--') || '--',
     },
     {
       title: 'Winner Prize',
@@ -532,10 +564,10 @@ const Details = () => {
         detailInfos?.lastPlayer === ethers.constants.AddressZero
           ? '--'
           : parseFloat(
-            ethers.utils.formatEther(
-              (((detailInfos?.salesRevenue || 0) * 2) / 10).toString(),
-            ),
-          ).toFixed(4),
+              ethers.utils.formatEther(
+                (((detailInfos?.salesRevenue || 0) * 2) / 10).toString(),
+              ),
+            ).toFixed(4),
     },
   ]
 
@@ -613,7 +645,9 @@ const Details = () => {
           </Flex>
         </Box>
         {detailInfos?.state === State.Finished &&
-          detailInfos?.lastPlayer.toLowerCase() === address && (
+          detailInfos?.lastPlayer.toLowerCase() === address &&
+          gameAmountNft.biddersCount &&
+          gameAmountNft.biddersCount > 1 && (
             <Flex justifyContent="center">
               <Flex
                 background="#FFBD13"
@@ -790,7 +824,7 @@ const Details = () => {
                           {(detailInfos?.totalKeyMinted * 1.1).toFixed(4)} $OMO
                         </Text>
                         {detailInfos?.mostKeyHolder.toLowerCase() ===
-                          address ? null : (
+                        address ? null : (
                           <PurchaseNFTCountDownPrimary />
                         )}
                       </Button>
@@ -801,18 +835,18 @@ const Details = () => {
                   {detailInfos?.state === State.Ongoing
                     ? 'Auction Count Down'
                     : detailInfos?.state === State.Upcoming
-                      ? 'Opening Count Down'
-                      : 'Auction Ended'}
+                    ? 'Opening Count Down'
+                    : 'Auction Ended'}
                 </Text>
 
                 <Flex>
                   {[State.Ongoing, State.Upcoming].includes(
                     detailInfos?.state,
                   ) && (
-                      <>
-                        <PurchaseNFTCountDownSecondary />
-                      </>
-                    )}
+                    <>
+                      <PurchaseNFTCountDownSecondary />
+                    </>
+                  )}
                 </Flex>
 
                 {State.Finished === detailInfos?.state && (
@@ -845,7 +879,7 @@ const Details = () => {
                         </Box>
                         {k === 0 &&
                           detailInfos?.nftAddress !==
-                          ethers.constants.AddressZero && (
+                            ethers.constants.AddressZero && (
                             <Flex gap="12px">
                               {blockchainItemsList.map((i, k) => (
                                 <Link key={k} href={i.url}>
@@ -996,8 +1030,7 @@ const Details = () => {
                         Final Winner Prize
                       </Text>
                     </Box>
-                    {
-                      detailInfos?.lastPlayer.toLowerCase() === address &&
+                    {detailInfos?.lastPlayer.toLowerCase() === address && (
                       <Button
                         colorScheme="primary"
                         w="120px"
@@ -1018,7 +1051,9 @@ const Details = () => {
                         }}
                         isLoading={claimsFinalLoading}
                         disabled={
-                          detailInfos?.lastPlayer === ethers.constants.AddressZero
+                          detailInfos?.lastPlayer ===
+                            ethers.constants.AddressZero ||
+                          detailInfos?.salesRevenue === '0'
                         }
                         borderRadius="8px">
                         <Text
@@ -1029,7 +1064,7 @@ const Details = () => {
                           Claim
                         </Text>
                       </Button>
-                    }
+                    )}
                   </Flex>
                 )}
 
@@ -1118,13 +1153,13 @@ const Details = () => {
                             Mint Fee:{' '}
                             <Box fontWeight="600">
                               {detailInfos?.state === 0 ||
-                                !detailInfos?.keyPrice
+                              !detailInfos?.keyPrice
                                 ? '--'
                                 : parseFloat(
-                                  ethers.utils.formatEther(
-                                    detailInfos?.keyPrice.toString(),
-                                  ),
-                                ).toFixed(4)}
+                                    ethers.utils.formatEther(
+                                      detailInfos?.keyPrice.toString(),
+                                    ),
+                                  ).toFixed(4)}
                             </Box>{' '}
                             ETH/KEY
                           </Flex>
@@ -1133,12 +1168,12 @@ const Details = () => {
                             <Box fontWeight="600">
                               {mintKey && detailInfos?.keyPrice
                                 ? (
-                                  parseFloat(
-                                    ethers.utils.formatEther(
-                                      detailInfos?.keyPrice,
-                                    ),
-                                  ) * parseInt(mintKey)
-                                ).toFixed(4)
+                                    parseFloat(
+                                      ethers.utils.formatEther(
+                                        detailInfos?.keyPrice,
+                                      ),
+                                    ) * parseInt(mintKey)
+                                  ).toFixed(4)
                                 : '--'}
                             </Box>{' '}
                             ETH
@@ -1194,6 +1229,8 @@ const Details = () => {
                       fontSize={{ base: '12px', xl: '14px' }}
                       color="#222222"
                       onClick={() => {
+                        console.log(Number(claims))
+
                         if (!account.isConnected) {
                           if (openConnectModal) {
                             openConnectModal()
@@ -1207,14 +1244,14 @@ const Details = () => {
                       disabled={
                         detailInfos?.state === State.Upcoming ||
                         claimLoading ||
-                        Number(claims) === 0
+                        Number(claims) <= 0
                       }
                       isLoading={claimLoading}>
-                      {Number(claims) === 0
+                      {claims === null || claims === undefined
                         ? '--'
                         : Number(ethers.utils.formatEther(claims)).toFixed(
-                          4,
-                        )}{' '}
+                            4,
+                          )}{' '}
                       Unclaimed
                     </Button>
                   </Flex>
@@ -1242,13 +1279,13 @@ const Details = () => {
                         {detailInfos?.principal === ethers.constants.AddressZero
                           ? '--'
                           : parseFloat(
-                            ethers.utils.formatEther(
-                              (
-                                ((detailInfos?.salesRevenue || 0) * 5) /
-                                10
-                              ).toString(),
-                            ),
-                          ).toFixed(4)}
+                              ethers.utils.formatEther(
+                                (
+                                  ((detailInfos?.salesRevenue || 0) * 5) /
+                                  10
+                                ).toString(),
+                              ),
+                            ).toFixed(4)}
                       </Box>
                     </Flex>
                     <Text
@@ -1278,9 +1315,10 @@ const Details = () => {
                           detailInfos?.state,
                         ) ||
                         detailInfos?.principal ===
-                        ethers.constants.AddressZero ||
+                          ethers.constants.AddressZero ||
                         detailInfos?.principal.toLowerCase() !== address ||
-                        withDrawNFTLoading
+                        withDrawNFTLoading ||
+                        detailInfos?.salesRevenue === '0'
                       }
                       w="156px"
                       borderRadius="8px"
@@ -1291,13 +1329,13 @@ const Details = () => {
                       {detailInfos?.principal === ethers.constants.AddressZero
                         ? '--'
                         : parseFloat(
-                          ethers.utils.formatEther(
-                            (
-                              ((detailInfos?.salesRevenue || 0) * 5) /
-                              10
-                            ).toString(),
-                          ),
-                        ).toFixed(4)}{' '}
+                            ethers.utils.formatEther(
+                              (
+                                ((detailInfos?.salesRevenue || 0) * 5) /
+                                10
+                              ).toString(),
+                            ),
+                          ).toFixed(4)}{' '}
                       Unclaimed
                     </Button>
                   </Flex>

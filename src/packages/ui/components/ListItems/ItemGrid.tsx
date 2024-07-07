@@ -232,7 +232,9 @@ function ItemGrid({
             />
             {gridName === 'finishedList' &&
               item?.lastAddress &&
-              item?.lastAddress.toLocaleLowerCase() === address && (
+              item?.lastAddress.toLocaleLowerCase() === address &&
+              item.biddersCount &&
+              item.biddersCount > 1 && (
                 <Box
                   w="110px"
                   pos="absolute"
@@ -378,7 +380,9 @@ function ItemGrid({
         position="relative">
         {gridName === 'finishedList' &&
           item?.lastAddress &&
-          item?.lastAddress.toLocaleLowerCase() === address && (
+          item?.lastAddress.toLocaleLowerCase() === address &&
+          item.biddersCount &&
+          item.biddersCount > 1 && (
             <Box
               w="110px"
               pos="absolute"
@@ -451,7 +455,9 @@ function ItemGrid({
         <>
           {gridName === 'finishedList' &&
             item?.lastAddress &&
-            item?.lastAddress.toLocaleLowerCase() === address && (
+            item?.lastAddress.toLocaleLowerCase() === address &&
+            item.biddersCount &&
+            item.biddersCount > 1 && (
               <Box
                 w="110px"
                 pos="absolute"
@@ -782,7 +788,9 @@ function ItemGrid({
       position="relative">
       <Box borderRadius="28px" className="image-effect" pos="relative">
         {item?.lastAddress &&
-          item?.lastAddress.toLocaleLowerCase() === address && (
+          item?.lastAddress.toLocaleLowerCase() === address &&
+          item.biddersCount &&
+          item.biddersCount > 1 && (
             <Box
               w="110px"
               pos="absolute"

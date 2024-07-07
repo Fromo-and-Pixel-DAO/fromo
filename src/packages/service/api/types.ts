@@ -62,6 +62,7 @@ export interface IGameAmountNft {
   gameId: number;
   name: string;
   keyDividends: string;
+  biddersCount: number;
   imageUrl: string;
   tx: string;
 }

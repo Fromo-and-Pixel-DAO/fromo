@@ -313,8 +313,9 @@ export async function convertKeyToToken(gameIds: number[]) {
     fl419ABI,
     signer,
   )
+  const gasAmount = await contract.estimateGas.convertKeyToToken(gameIds, address)
   const transaction = await contract.convertKeyToToken(gameIds, address, {
-    gasLimit: BigInt(1000000),
+    gasLimit: gasAmount,
   })
   return await transaction.wait()
 }
@@ -360,8 +361,9 @@ export async function withdrawLastplayerPrizeFunc(gameIds: number[]) {
     fl419ABI,
     signer,
   )
+  const gasAmount = await contract.estimateGas.withdrawLastplayerPrize(gameIds)
   const transaction = await contract.withdrawLastplayerPrize(gameIds, {
-    gasLimit: BigInt(500000),
+    gasLimit: gasAmount,
   })
   return await transaction.wait()
 }
@@ -385,8 +387,9 @@ export async function withdrawSaleRevenueFunc(gameIds: number[]) {
     fl419ABI,
     signer,
   )
+  const gasAmount = await contract.estimateGas.withdrawSaleRevenue(gameIds)
   const transaction = await contract.withdrawSaleRevenue(gameIds, {
-    gasLimit: BigInt(500000),
+    gasLimit: gasAmount,
   })
   return await transaction.wait()
 }
@@ -747,23 +750,23 @@ type StateType = {
 
 type ActionType =
   | {
-      type: 'SET_WEB3_PROVIDER'
-      provider?: StateType['provider']
-      web3Provider?: StateType['web3Provider']
-      address?: StateType['address']
-      chainId?: StateType['chainId']
-    }
+    type: 'SET_WEB3_PROVIDER'
+    provider?: StateType['provider']
+    web3Provider?: StateType['web3Provider']
+    address?: StateType['address']
+    chainId?: StateType['chainId']
+  }
   | {
-      type: 'SET_ADDRESS'
-      address?: StateType['address']
-    }
+    type: 'SET_ADDRESS'
+    address?: StateType['address']
+  }
   | {
-      type: 'SET_CHAIN_ID'
-      chainId?: StateType['chainId']
-    }
+    type: 'SET_CHAIN_ID'
+    chainId?: StateType['chainId']
+  }
   | {
-      type: 'RESET_WEB3_PROVIDER'
-    }
+    type: 'RESET_WEB3_PROVIDER'
+  }
 
 export const initialState: StateType = {
   provider: null,
@@ -852,16 +855,12 @@ const getNftsForOwnerCustom = async ({
   const response = await axios.get(
     //TODO - in production !== should be === to fetch from mainnet
     pageKey
-      ? `https://eth-${
-          process.env.NEXT_PUBLIC_ENV === 'development' ? 'goerli' : 'mainnet'
-        }.g.alchemy.com/nft/v2/${
-          process.env.NEXT_PUBLIC_ALCHEMY_KEY
-        }/getNFTs?owner=${address}&pageKey=${pageKey}&pageSize=100&withMetadata=true`
-      : `https://eth-${
-          process.env.NEXT_PUBLIC_ENV === 'development' ? 'goerli' : 'mainnet'
-        }.g.alchemy.com/nft/v2/${
-          process.env.NEXT_PUBLIC_ALCHEMY_KEY
-        }/getNFTs?owner=${address}&pageSize=100&withMetadata=true`,
+      ? `https://eth-${process.env.NEXT_PUBLIC_ENV === 'development' ? 'goerli' : 'mainnet'
+      }.g.alchemy.com/nft/v2/${process.env.NEXT_PUBLIC_ALCHEMY_KEY
+      }/getNFTs?owner=${address}&pageKey=${pageKey}&pageSize=100&withMetadata=true`
+      : `https://eth-${process.env.NEXT_PUBLIC_ENV === 'development' ? 'goerli' : 'mainnet'
+      }.g.alchemy.com/nft/v2/${process.env.NEXT_PUBLIC_ALCHEMY_KEY
+      }/getNFTs?owner=${address}&pageSize=100&withMetadata=true`,
   )
 
   return response.data
@@ -1344,6 +1343,15 @@ export async function addMintType(
   )
 
   price = Web3.utils.toWei(price.toString())
+  const gasAmount = await contract.estimateGas.addMintType(
+    totalLicenses,
+    price,
+    name,
+    description,
+    mediaUri,
+    licenseDuration,
+    enableSale,
+  )
   const transaction = await contract.addMintType(
     totalLicenses,
     price,
@@ -1353,7 +1361,7 @@ export async function addMintType(
     licenseDuration,
     enableSale,
     {
-      gasLimit: 1000000,
+      gasLimit: gasAmount,
     },
   )
   const receipt = await transaction.wait()

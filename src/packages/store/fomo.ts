@@ -157,33 +157,35 @@ const useFomoStore = create(
       })
     },
     async getUserHeaderInfo(address: string): Promise<any> {
-      const profit = await getMyProfit(address)
-      if (profit) {
-        set({
-          userHeaderInfo: [
-            {
-              name: '$OMO Price',
-              number: profit.flPrice,
-              unit: '$',
-            },
-            {
-              name: 'My Key Holder Dividends',
-              number: profit.keyDividends,
-              unit: 'ETH',
-            },
-            {
-              name: 'My NFT Provider Dividends',
-              number: profit.nftDividends,
-              unit: 'ETH',
-            },
-            {
-              name: 'My Final Winner Prize',
-              number: profit.finalWinPrice,
-              unit: 'ETH',
-            },
-          ],
-        })
-        return profit
+      if (address) {
+        const profit = await getMyProfit(address)
+        if (profit) {
+          set({
+            userHeaderInfo: [
+              {
+                name: '$OMO Price',
+                number: profit.flPrice,
+                unit: '$',
+              },
+              {
+                name: 'My Key Holder Dividends',
+                number: profit.keyDividends,
+                unit: 'ETH',
+              },
+              {
+                name: 'My NFT Provider Dividends',
+                number: profit.nftDividends,
+                unit: 'ETH',
+              },
+              {
+                name: 'My Final Winner Prize',
+                number: profit.finalWinPrice,
+                unit: 'ETH',
+              },
+            ],
+          })
+          return profit
+        }
       }
     },
   })),

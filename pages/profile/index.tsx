@@ -310,32 +310,36 @@ export default function Main() {
 
   // historical dividends
   useEffect(() => {
-    getHistoricalDividendsAndPrize(
-      address,
-      currentHistoricalPage,
-      historicalTab,
-    )
-      .then((res) => {
-        if (res) {
-          setHistoricalDividends(res)
-        }
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+    if (address) {
+      getHistoricalDividendsAndPrize(
+        address,
+        currentHistoricalPage,
+        historicalTab,
+      )
+        .then((res) => {
+          if (res) {
+            setHistoricalDividends(res)
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    }
   }, [address, currentHistoricalPage, historicalTab])
 
   // my nfts
   useEffect(() => {
-    getMyPurchasedNfts(address, currentNFTPage)
-      .then((res) => {
-        if (res) {
-          setPurchasedNfts(res)
-        }
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+    if (address) {
+      getMyPurchasedNfts(address, currentNFTPage)
+        .then((res) => {
+          if (res) {
+            setPurchasedNfts(res)
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    }
   }, [address, currentNFTPage])
 
   const myProfileList = [

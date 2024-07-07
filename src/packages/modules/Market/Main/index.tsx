@@ -29,6 +29,9 @@ import useStore from 'packages/store'
 import useAuctions, { ActivityStatus } from 'packages/store/auctions'
 import useFomoStore from 'packages/store/fomo'
 import { useAccount } from 'wagmi'
+import { web3Modal } from 'packages/web3'
+import FroopyABI from 'packages/abis/demo/fl419.json'
+import BigNumber from 'bignumber.js'
 // import BidderModal from '@modules/Market/Main/BidderModal'
 
 const BidderModal = lazy(() => import('@modules/Market/Main/BidderModal'))
@@ -51,6 +54,9 @@ export const generateTimestamp = () => {
 
   return futureDate.valueOf() / 1000
 }
+
+const FL_CONTRACT_ADR: string = process.env
+  .NEXT_PUBLIC_FL_CONTRACT_ADR as string
 
 export default function Main() {
   const router = useRouter()
@@ -191,12 +197,28 @@ export default function Main() {
     setSysInfo(data)
   }
 
+  const getLocalStakeStatus = async () => {
+    if (address && localStorage.getItem('staked')) {
+      const provider = await web3Modal.connect()
+      const library = new ethers.providers.Web3Provider(provider)
+      const signer = library.getSigner()
+      const contract = new ethers.Contract(FL_CONTRACT_ADR, FroopyABI, signer)
+      const bidInfo = await contract.bidRoundInfo()
+      const staked = JSON.parse(localStorage.getItem('staked'))
+      console.log(Number(staked[1]))
+      if (staked[0] === '1' && Number(staked[1]) < Number(bidInfo.lastBidId)) {
+        localStorage.removeItem('staked')
+      }
+    }
+  }
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         await getAuctionInfo()
         await getNftAuctions()
         await fetchSysBrief()
+        await getLocalStakeStatus()
         setLoading(false)
       } catch (error) {
         console.error('Error fetching auction info:', error)
@@ -262,8 +284,8 @@ export default function Main() {
       data:
         sysInfo?.totalProfits !== '-'
           ? parseFloat(ethers.utils.formatEther(sysInfo?.totalProfits)).toFixed(
-            4,
-          )
+              4,
+            )
           : '-',
       data2: sysInfo?.totalPrize !== '-' ? sysInfo?.totalPrize : '-',
     },
@@ -428,104 +450,110 @@ export default function Main() {
                       ActivityStatus.NotStarted,
                       ActivityStatus.Bidding,
                     ].includes(auctionInfo.status) && (
-                        <Button
-                          px="0px"
-                          h="100%"
-                          borderRadius="full"
-                          bg="transparent"
-                          cursor={
-                            ActivityStatus.NotStarted === auctionInfo.status
-                              ? 'not-allowed'
-                              : 'pointer'
-                          }
-                          _hover={{}}
-                          _focus={{}}
-                          onClick={() => {
-                            if (!account.isConnected) {
-                              if (openConnectModal) {
-                                openConnectModal()
-                              } else {
-                                console.error('openConnectModal is not defined')
-                              }
+                      <Button
+                        px="0px"
+                        h="100%"
+                        borderRadius="full"
+                        bg="transparent"
+                        cursor={
+                          ActivityStatus.NotStarted === auctionInfo.status
+                            ? 'not-allowed'
+                            : 'pointer'
+                        }
+                        _hover={{}}
+                        _focus={{}}
+                        onClick={() => {
+                          if (!account.isConnected) {
+                            if (openConnectModal) {
+                              openConnectModal()
                             } else {
-                              if (
-                                ActivityStatus.NotStarted !== auctionInfo.status
-                              ) {
-                                setOpen(true)
-                              }
+                              console.error('openConnectModal is not defined')
                             }
-                          }}
-                          pos="relative">
-                          <Image
-                            w="112px"
-                            h="fit-content"
-                            src="/static/common/3d.svg"
-                            borderRadius="full"
-                            alt="3d"
-                            pos="relative"
-                          />
-                          <AbsoluteCenter _hover={{ opacity: 0.7 }}>
-                            <Text textAlign="center" fontWeight="black">
-                              BID <br /> plot
-                            </Text>
-                          </AbsoluteCenter>
-                        </Button>
-                      )}
-                    {/* Staking */}
-                    {ActivityStatus.Staking === auctionInfo.status && (
-                      <>
-                        {address && auctionInfo.bidWinnerAddress === address ? (
-                          <Button
-                            px="0px"
-                            h="100%"
-                            borderRadius="full"
-                            bg="transparent"
-                            cursor="pointer"
-                            _hover={{}}
-                            _focus={{}}
-                            onClick={() => router.push('/stake-nft')}
-                            pos="relative">
-                            <Image
-                              src="/static/common/3d-stake.svg"
-                              borderRadius="full"
-                              w="112px"
-                              h="fit-content"
-                              alt="3d"
-                              pos="relative"
-                            />
-                            <AbsoluteCenter _hover={{ opacity: 0.7 }}>
-                              <Text textAlign="center" fontWeight="black">
-                                Stake <br /> NFT
-                              </Text>
-                            </AbsoluteCenter>
-                          </Button>
-                        ) : (
-                          <Button
-                            px="0px"
-                            h="100%"
-                            borderRadius="full"
-                            bg="transparent"
-                            _hover={{}}
-                            cursor="unset"
-                            _focus={{}}
-                            pos="relative">
-                            <Image
-                              src="/static/common/3d-coming.svg"
-                              borderRadius="full"
-                              alt="3d"
-                              w="112px"
-                              h="fit-content"
-                              pos="relative"
-                            />
-                            <AbsoluteCenter>
-                              <Text textAlign="center" fontWeight="black">
-                                BID <br /> plot
-                              </Text>
-                            </AbsoluteCenter>
-                          </Button>
-                        )}
-                      </>
+                          } else {
+                            if (
+                              ActivityStatus.NotStarted !== auctionInfo.status
+                            ) {
+                              setOpen(true)
+                            }
+                          }
+                        }}
+                        pos="relative">
+                        <Image
+                          w="112px"
+                          h="fit-content"
+                          src="/static/common/3d.svg"
+                          borderRadius="full"
+                          alt="3d"
+                          pos="relative"
+                        />
+                        <AbsoluteCenter _hover={{ opacity: 0.7 }}>
+                          <Text textAlign="center" fontWeight="black">
+                            BID <br /> plot
+                          </Text>
+                        </AbsoluteCenter>
+                      </Button>
                     )}
+                    {/* Staking */}
+                    {ActivityStatus.Staking === auctionInfo.status &&
+                      ((localStorage.getItem('staked') &&
+                        JSON.parse(localStorage.getItem('staked'))[0] !==
+                          '1') ||
+                        !localStorage.getItem('staked')) && (
+                        <>
+                          {address &&
+                          auctionInfo.bidWinnerAddress.toLowerCase() ===
+                            address ? (
+                            <Button
+                              px="0px"
+                              h="100%"
+                              borderRadius="full"
+                              bg="transparent"
+                              cursor="pointer"
+                              _hover={{}}
+                              _focus={{}}
+                              onClick={() => router.push('/stake-nft')}
+                              pos="relative">
+                              <Image
+                                src="/static/common/3d-stake.svg"
+                                borderRadius="full"
+                                w="112px"
+                                h="fit-content"
+                                alt="3d"
+                                pos="relative"
+                              />
+                              <AbsoluteCenter _hover={{ opacity: 0.7 }}>
+                                <Text textAlign="center" fontWeight="black">
+                                  Stake <br /> NFT
+                                </Text>
+                              </AbsoluteCenter>
+                            </Button>
+                          ) : (
+                            <Button
+                              px="0px"
+                              h="100%"
+                              borderRadius="full"
+                              bg="transparent"
+                              _hover={{}}
+                              cursor="unset"
+                              _focus={{}}
+                              pos="relative">
+                              <Image
+                                src="/static/common/3d-coming.svg"
+                                borderRadius="full"
+                                alt="3d"
+                                w="112px"
+                                h="fit-content"
+                                pos="relative"
+                              />
+                              <AbsoluteCenter>
+                                <Text textAlign="center" fontWeight="black">
+                                  BID <br /> plot
+                                </Text>
+                              </AbsoluteCenter>
+                            </Button>
+                          )}
+                        </>
+                      )}
                   </Box>
                 </Box>
                 <Flex
@@ -553,7 +581,7 @@ export default function Main() {
                           <>
                             {' '}
                             {address &&
-                              auctionInfo.bidWinnerAddress === address ? (
+                            auctionInfo.bidWinnerAddress === address ? (
                               <>
                                 {' '}
                                 You won the FROMO plot and the chance to auction
@@ -616,25 +644,25 @@ export default function Main() {
                         ActivityStatus.NotStarted,
                         ActivityStatus.Bidding,
                       ].includes(auctionInfo.status) && (
-                          <>
-                            {auctionInfo.status === ActivityStatus.NotStarted &&
-                              `Open on ${moment
-                                .utc(auctionInfo.startTimestamp)
-                                .format('MMMM DD, Ha')}`}
-                            {auctionInfo.status === ActivityStatus.Bidding &&
-                              `Close on ${moment
-                                .utc(auctionInfo.startTimestamp)
-                                .add(16, 'hours')
-                                .format('MMMM DD, Ha')}`}
-                          </>
-                        )}
+                        <>
+                          {auctionInfo.status === ActivityStatus.NotStarted &&
+                            `Open on ${moment
+                              .utc(auctionInfo.startTimestamp)
+                              .format('MMMM DD, Ha')}`}
+                          {auctionInfo.status === ActivityStatus.Bidding &&
+                            `Close on ${moment
+                              .utc(auctionInfo.startTimestamp)
+                              .add(16, 'hours')
+                              .format('MMMM DD, Ha')}`}
+                        </>
+                      )}
 
                       {auctionInfo.status === ActivityStatus.Staking &&
                         ` Close on
                     ${moment
-                          .utc(auctionInfo.startTimestamp)
-                          .add(8, 'hours')
-                          .format('MMMM DD, ha')}`}
+                      .utc(auctionInfo.startTimestamp)
+                      .add(8, 'hours')
+                      .format('MMMM DD, ha')}`}
                     </Box>
                   </Flex>
                 </Flex>
@@ -654,102 +682,105 @@ export default function Main() {
                 {[ActivityStatus.NotStarted, ActivityStatus.Bidding].includes(
                   auctionInfo.status,
                 ) && (
-                    <Button
-                      px="0px"
-                      h="100%"
-                      borderRadius="full"
-                      bg="transparent"
-                      cursor={
-                        ActivityStatus.NotStarted === auctionInfo.status
-                          ? 'not-allowed'
-                          : 'pointer'
-                      }
-                      _hover={{}}
-                      _focus={{}}
-                      onClick={() => {
-                        if (!account.isConnected) {
-                          if (openConnectModal) {
-                            openConnectModal()
-                          } else {
-                            console.error('openConnectModal is not defined')
-                          }
+                  <Button
+                    px="0px"
+                    h="100%"
+                    borderRadius="full"
+                    bg="transparent"
+                    cursor={
+                      ActivityStatus.NotStarted === auctionInfo.status
+                        ? 'not-allowed'
+                        : 'pointer'
+                    }
+                    _hover={{}}
+                    _focus={{}}
+                    onClick={() => {
+                      if (!account.isConnected) {
+                        if (openConnectModal) {
+                          openConnectModal()
                         } else {
-                          if (ActivityStatus.NotStarted !== auctionInfo.status) {
-                            setOpen(true)
-                          }
+                          console.error('openConnectModal is not defined')
                         }
-                      }}
-                      pos="relative">
-                      <Image
-                        w="120px"
-                        h="120px"
-                        src="/static/common/3d.svg"
-                        borderRadius="full"
-                        alt="3d"
-                        pos="relative"
-                      />
-                      <AbsoluteCenter _hover={{ opacity: 0.7 }}>
-                        <Text textAlign="center" fontWeight="black">
-                          BID <br /> plot
-                        </Text>
-                      </AbsoluteCenter>
-                    </Button>
-                  )}
-                {/* Staking */}
-                {ActivityStatus.Staking === auctionInfo.status && (
-                  <>
-                    {address && auctionInfo.bidWinnerAddress === address ? (
-                      <Button
-                        px="0px"
-                        h="100%"
-                        borderRadius="full"
-                        bg="transparent"
-                        cursor="pointer"
-                        _hover={{}}
-                        _focus={{}}
-                        onClick={() => router.push('/stake-nft')}
-                        pos="relative">
-                        <Image
-                          src="/static/common/3d-stake.svg"
-                          borderRadius="full"
-                          w="120px"
-                          h="120px"
-                          alt="3d"
-                          pos="relative"
-                        />
-                        <AbsoluteCenter _hover={{ opacity: 0.7 }}>
-                          <Text textAlign="center" fontWeight="black">
-                            Stake <br /> NFT
-                          </Text>
-                        </AbsoluteCenter>
-                      </Button>
-                    ) : (
-                      <Button
-                        px="0px"
-                        h="100%"
-                        borderRadius="full"
-                        bg="transparent"
-                        _hover={{}}
-                        cursor="unset"
-                        _focus={{}}
-                        pos="relative">
-                        <Image
-                          src="/static/common/3d-coming.svg"
-                          borderRadius="full"
-                          alt="3d"
-                          w="120px"
-                          h="120px"
-                          pos="relative"
-                        />
-                        <AbsoluteCenter>
-                          <Text textAlign="center" fontWeight="black">
-                            BID <br /> plot
-                          </Text>
-                        </AbsoluteCenter>
-                      </Button>
-                    )}
-                  </>
+                      } else {
+                        if (ActivityStatus.NotStarted !== auctionInfo.status) {
+                          setOpen(true)
+                        }
+                      }
+                    }}
+                    pos="relative">
+                    <Image
+                      w="120px"
+                      h="120px"
+                      src="/static/common/3d.svg"
+                      borderRadius="full"
+                      alt="3d"
+                      pos="relative"
+                    />
+                    <AbsoluteCenter _hover={{ opacity: 0.7 }}>
+                      <Text textAlign="center" fontWeight="black">
+                        BID <br /> plot
+                      </Text>
+                    </AbsoluteCenter>
+                  </Button>
                 )}
+                {/* Staking */}
+                {ActivityStatus.Staking === auctionInfo.status &&
+                  ((localStorage.getItem('staked') &&
+                    JSON.parse(localStorage.getItem('staked'))[0] !== '1') ||
+                    !localStorage.getItem('staked')) && (
+                    <>
+                      {address && auctionInfo.bidWinnerAddress === address ? (
+                        <Button
+                          px="0px"
+                          h="100%"
+                          borderRadius="full"
+                          bg="transparent"
+                          cursor="pointer"
+                          _hover={{}}
+                          _focus={{}}
+                          onClick={() => router.push('/stake-nft')}
+                          pos="relative">
+                          <Image
+                            src="/static/common/3d-stake.svg"
+                            borderRadius="full"
+                            w="120px"
+                            h="120px"
+                            alt="3d"
+                            pos="relative"
+                          />
+                          <AbsoluteCenter _hover={{ opacity: 0.7 }}>
+                            <Text textAlign="center" fontWeight="black">
+                              Stake <br /> NFT
+                            </Text>
+                          </AbsoluteCenter>
+                        </Button>
+                      ) : (
+                        <Button
+                          px="0px"
+                          h="100%"
+                          borderRadius="full"
+                          bg="transparent"
+                          _hover={{}}
+                          cursor="unset"
+                          _focus={{}}
+                          pos="relative">
+                          <Image
+                            src="/static/common/3d-coming.svg"
+                            borderRadius="full"
+                            alt="3d"
+                            w="120px"
+                            h="120px"
+                            pos="relative"
+                          />
+                          <AbsoluteCenter>
+                            <Text textAlign="center" fontWeight="black">
+                              BID <br /> plot
+                            </Text>
+                          </AbsoluteCenter>
+                        </Button>
+                      )}
+                    </>
+                  )}
               </Box>
               <Flex
                 fontSize="14px"
@@ -763,7 +794,7 @@ export default function Main() {
                         <>
                           {' '}
                           {address &&
-                            auctionInfo.bidWinnerAddress === address ? (
+                          auctionInfo.bidWinnerAddress === address ? (
                             <>
                               {' '}
                               You won the FROMO plot and the chance to auction
@@ -831,25 +862,25 @@ export default function Main() {
                       ActivityStatus.NotStarted,
                       ActivityStatus.Bidding,
                     ].includes(auctionInfo.status) && (
-                        <>
-                          {auctionInfo.status === ActivityStatus.NotStarted &&
-                            `Open on ${moment
-                              .utc(auctionInfo.startTimestamp)
-                              .format('MMMM DD, Ha')}`}
-                          {auctionInfo.status === ActivityStatus.Bidding &&
-                            `Close on ${moment
-                              .utc(auctionInfo.startTimestamp)
-                              .add(16, 'hours')
-                              .format('MMMM DD, Ha')}`}
-                        </>
-                      )}
+                      <>
+                        {auctionInfo.status === ActivityStatus.NotStarted &&
+                          `Open on ${moment
+                            .utc(auctionInfo.startTimestamp)
+                            .format('MMMM DD, Ha')}`}
+                        {auctionInfo.status === ActivityStatus.Bidding &&
+                          `Close on ${moment
+                            .utc(auctionInfo.startTimestamp)
+                            .add(16, 'hours')
+                            .format('MMMM DD, Ha')}`}
+                      </>
+                    )}
 
                     {auctionInfo.status === ActivityStatus.Staking &&
                       ` Close on
                     ${moment
-                        .utc(auctionInfo.startTimestamp)
-                        .add(8, 'hours')
-                        .format('MMMM DD, ha')}`}
+                      .utc(auctionInfo.startTimestamp)
+                      .add(8, 'hours')
+                      .format('MMMM DD, ha')}`}
                   </Box>
                 </Flex>
               </Flex>
@@ -942,24 +973,24 @@ export default function Main() {
                       ActivityStatus.NotStarted,
                       ActivityStatus.Bidding,
                     ].includes(auctionInfo.status) && (
-                        <>
-                          {auctionInfo.status === ActivityStatus.NotStarted &&
-                            `Open on ${moment
-                              .utc(auctionInfo.startTimestamp)
-                              .format('MMMM DD, Ha')}`}
-                          {auctionInfo.status === ActivityStatus.Bidding &&
-                            `Close on ${moment
-                              .utc(auctionInfo.startTimestamp)
-                              .add(16, 'hours')
-                              .format('MMMM DD, Ha')}`}
-                        </>
-                      )}
+                      <>
+                        {auctionInfo.status === ActivityStatus.NotStarted &&
+                          `Open on ${moment
+                            .utc(auctionInfo.startTimestamp)
+                            .format('MMMM DD, Ha')}`}
+                        {auctionInfo.status === ActivityStatus.Bidding &&
+                          `Close on ${moment
+                            .utc(auctionInfo.startTimestamp)
+                            .add(16, 'hours')
+                            .format('MMMM DD, Ha')}`}
+                      </>
+                    )}
                     {auctionInfo.status === ActivityStatus.Staking &&
                       ` Close on
                     ${moment
-                        .utc(auctionInfo.startTimestamp)
-                        .add(8, 'hours')
-                        .format('MMMM DD, ha')}`}{' '}
+                      .utc(auctionInfo.startTimestamp)
+                      .add(8, 'hours')
+                      .format('MMMM DD, ha')}`}{' '}
                     UTC{' '}
                   </Box>
                 </Flex>
@@ -969,105 +1000,109 @@ export default function Main() {
                 {[ActivityStatus.NotStarted, ActivityStatus.Bidding].includes(
                   auctionInfo.status,
                 ) && (
-                    <Button
-                      h="100%"
-                      borderRadius="full"
-                      bg="transparent"
-                      cursor={
-                        ActivityStatus.NotStarted === auctionInfo.status
-                          ? 'not-allowed'
-                          : 'pointer'
-                      }
-                      _hover={{}}
-                      _focus={{}}
-                      onClick={() => {
-                        if (!account.isConnected) {
-                          if (openConnectModal) {
-                            openConnectModal()
-                          } else {
-                            console.error('openConnectModal is not defined')
-                          }
+                  <Button
+                    h="100%"
+                    borderRadius="full"
+                    bg="transparent"
+                    cursor={
+                      ActivityStatus.NotStarted === auctionInfo.status
+                        ? 'not-allowed'
+                        : 'pointer'
+                    }
+                    _hover={{}}
+                    _focus={{}}
+                    onClick={() => {
+                      if (!account.isConnected) {
+                        if (openConnectModal) {
+                          openConnectModal()
                         } else {
-                          if (ActivityStatus.NotStarted !== auctionInfo.status) {
-                            setOpen(true)
-                          }
+                          console.error('openConnectModal is not defined')
                         }
-                      }}
-                      pos="relative">
-                      <Image
-                        src="/static/common/3d.svg"
-                        borderRadius="full"
-                        alt="3d"
-                        pos="relative"
-                      />
-                      <AbsoluteCenter _hover={{ opacity: 0.7 }}>
-                        <Text
-                          textAlign="center"
-                          fontWeight="black"
-                          fontSize="40px"
-                          lineHeight="40px">
-                          BID <br /> plot
-                        </Text>
-                      </AbsoluteCenter>
-                    </Button>
-                  )}
-                {/* Staking */}
-                {ActivityStatus.Staking === auctionInfo.status && (
-                  <>
-                    {address && auctionInfo.bidWinnerAddress === address ? (
-                      <Button
-                        h="100%"
-                        borderRadius="full"
-                        bg="transparent"
-                        cursor="pointer"
-                        _hover={{}}
-                        _focus={{}}
-                        onClick={() => router.push('/stake-nft')}
-                        pos="relative">
-                        <Image
-                          src="/static/common/3d-stake.svg"
-                          borderRadius="full"
-                          alt="3d"
-                          pos="relative"
-                        />
-                        <AbsoluteCenter _hover={{ opacity: 0.7 }}>
-                          <Text
-                            textAlign="center"
-                            fontWeight="black"
-                            fontSize="32px"
-                            lineHeight="40px">
-                            Stake <br /> NFT
-                          </Text>
-                        </AbsoluteCenter>
-                      </Button>
-                    ) : (
-                      <Button
-                        h="100%"
-                        borderRadius="full"
-                        bg="transparent"
-                        _hover={{}}
-                        cursor="unset"
-                        _focus={{}}
-                        pos="relative">
-                        <Image
-                          src="/static/common/3d-coming.svg"
-                          borderRadius="full"
-                          alt="3d"
-                          pos="relative"
-                        />
-                        <AbsoluteCenter>
-                          <Text
-                            textAlign="center"
-                            fontWeight="black"
-                            fontSize="40px"
-                            lineHeight="40px">
-                            BID <br /> plot
-                          </Text>
-                        </AbsoluteCenter>
-                      </Button>
-                    )}
-                  </>
+                      } else {
+                        if (ActivityStatus.NotStarted !== auctionInfo.status) {
+                          setOpen(true)
+                        }
+                      }
+                    }}
+                    pos="relative">
+                    <Image
+                      src="/static/common/3d.svg"
+                      borderRadius="full"
+                      alt="3d"
+                      pos="relative"
+                    />
+                    <AbsoluteCenter _hover={{ opacity: 0.7 }}>
+                      <Text
+                        textAlign="center"
+                        fontWeight="black"
+                        fontSize="40px"
+                        lineHeight="40px">
+                        BID <br /> plot
+                      </Text>
+                    </AbsoluteCenter>
+                  </Button>
                 )}
+                {/* Staking */}
+                {ActivityStatus.Staking === auctionInfo.status &&
+                  ((localStorage.getItem('staked') &&
+                    JSON.parse(localStorage.getItem('staked'))[0] !== '1') ||
+                    !localStorage.getItem('staked')) && (
+                    <>
+                      {address &&
+                      auctionInfo.bidWinnerAddress.toLowerCase() === address ? (
+                        <Button
+                          h="100%"
+                          borderRadius="full"
+                          bg="transparent"
+                          cursor="pointer"
+                          _hover={{}}
+                          _focus={{}}
+                          onClick={() => router.push('/stake-nft')}
+                          pos="relative">
+                          <Image
+                            src="/static/common/3d-stake.svg"
+                            borderRadius="full"
+                            alt="3d"
+                            pos="relative"
+                          />
+                          <AbsoluteCenter _hover={{ opacity: 0.7 }}>
+                            <Text
+                              textAlign="center"
+                              fontWeight="black"
+                              fontSize="32px"
+                              lineHeight="40px">
+                              Stake <br /> NFT
+                            </Text>
+                          </AbsoluteCenter>
+                        </Button>
+                      ) : (
+                        <Button
+                          h="100%"
+                          borderRadius="full"
+                          bg="transparent"
+                          _hover={{}}
+                          cursor="unset"
+                          _focus={{}}
+                          pos="relative">
+                          <Image
+                            src="/static/common/3d-coming.svg"
+                            borderRadius="full"
+                            alt="3d"
+                            pos="relative"
+                          />
+                          <AbsoluteCenter>
+                            <Text
+                              textAlign="center"
+                              fontWeight="black"
+                              fontSize="40px"
+                              lineHeight="40px">
+                              BID <br /> plot
+                            </Text>
+                          </AbsoluteCenter>
+                        </Button>
+                      )}
+                    </>
+                  )}
               </AbsoluteCenter>
             </Flex>
           </Box>

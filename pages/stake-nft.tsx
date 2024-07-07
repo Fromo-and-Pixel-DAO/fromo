@@ -48,22 +48,31 @@ const Register = () => {
 
       const erc_contract = new ethers.Contract(nft.nftAddress, ERC_ABI, signer)
 
+      let gasAmount = await erc_contract.estimateGas.approve(
+        FL_CONTRACT_ADR,
+        nft.tokenId,
+      )
       const approvedAddr = await erc_contract.getApproved(nft.tokenId, {
-        gasLimit: BigInt(500000),
+        gasLimit: gasAmount,
       })
 
       const isApproved = approvedAddr === FL_CONTRACT_ADR
       if (!isApproved) {
         try {
           const tt = await erc_contract.approve(FL_CONTRACT_ADR, nft.tokenId, {
-            gasLimit: BigInt(500000),
+            gasLimit: gasAmount,
           })
           await tt.wait()
           const contract = new ethers.Contract(FL_CONTRACT_ADR, flABI, signer)
 
+          gasAmount = await contract.estimateGas.newGame(
+            nft.nftAddress,
+            nft.tokenId,
+          )
+
           try {
             const tx = await contract.newGame(nft.nftAddress, nft.tokenId, {
-              gasLimit: BigInt(500000),
+              gasLimit: gasAmount,
             })
             await tx.wait()
 
@@ -76,6 +85,10 @@ const Register = () => {
                 .utc(gameInfos?.startTimestamp)
                 .format('MMMM DD ha [UTC]')}`,
             )
+
+            const bidRoundInfo = await contract.bidRoundInfo()
+            const bidInfo = ['1', Number(bidRoundInfo.lastBidId)]
+            localStorage.setItem('staked', JSON.stringify(bidInfo))
             // router.push('/')
           } catch (error) {
             console.log(error, 'error')
@@ -88,9 +101,13 @@ const Register = () => {
       } else {
         const contract = new ethers.Contract(FL_CONTRACT_ADR, flABI, signer)
 
+        gasAmount = await contract.estimateGas.newGame(
+          nft.nftAddress,
+          nft.tokenId,
+        )
         try {
           const tx = await contract.newGame(nft.nftAddress, nft.tokenId, {
-            gasLimit: BigInt(500000),
+            gasLimit: gasAmount,
           })
           await tx.wait()
 
@@ -103,6 +120,10 @@ const Register = () => {
               .utc(gameInfos?.startTimestamp)
               .format('MMMM DD ha [UTC]')}`,
           )
+
+          const bidRoundInfo = await contract.bidRoundInfo()
+          const bidInfo = ['1', Number(bidRoundInfo.lastBidId)]
+          localStorage.setItem('staked', JSON.stringify(bidInfo))
           // router.push('/')
         } catch (error) {
           console.log(error, 'error')
@@ -280,7 +301,19 @@ const Register = () => {
               bgColor="#1DFED6"
               mt="32px"
               isLoading={isLoading}
-              onClick={handleRegister}>
+              disabled={
+                localStorage.getItem('staked') &&
+                JSON.parse(localStorage.getItem('staked'))[0] === '1'
+              }
+              onClick={() => {
+                if (
+                  (localStorage.getItem('staked') &&
+                    JSON.parse(localStorage.getItem('staked'))[0] !== '1') ||
+                  !localStorage.getItem('staked')
+                ) {
+                  handleRegister()
+                }
+              }}>
               Stake
             </Button>
           </Box>
