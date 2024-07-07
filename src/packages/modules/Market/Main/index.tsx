@@ -1,3 +1,5 @@
+'use client'
+
 import { Suspense, lazy, useEffect, useState } from 'react'
 
 import {
@@ -23,19 +25,17 @@ import { toastError, toastWarning } from '@utils/toast'
 import { ethers } from 'ethers'
 import moment from 'moment'
 import { useRouter } from 'next/router'
+import FroopyABI from 'packages/abis/demo/fl419.json'
 import { getStakeNotices, getSysBrief } from 'packages/service/api'
 import { IGameInfo } from 'packages/service/api/types'
 import useStore from 'packages/store'
 import useAuctions, { ActivityStatus } from 'packages/store/auctions'
 import useFomoStore from 'packages/store/fomo'
-import { useAccount } from 'wagmi'
 import { web3Modal } from 'packages/web3'
-import FroopyABI from 'packages/abis/demo/fl419.json'
-import BigNumber from 'bignumber.js'
+import { useAccount } from 'wagmi'
 // import BidderModal from '@modules/Market/Main/BidderModal'
 
 const BidderModal = lazy(() => import('@modules/Market/Main/BidderModal'))
-
 // TODO
 
 // const ListItems = lazy(() => import('@components/ListItems'))
@@ -198,16 +198,16 @@ export default function Main() {
   }
 
   const getLocalStakeStatus = async () => {
-    if (address && localStorage.getItem('staked')) {
+    if (address && window.localStorage.getItem('staked')) {
       const provider = await web3Modal.connect()
       const library = new ethers.providers.Web3Provider(provider)
       const signer = library.getSigner()
       const contract = new ethers.Contract(FL_CONTRACT_ADR, FroopyABI, signer)
       const bidInfo = await contract.bidRoundInfo()
-      const staked = JSON.parse(localStorage.getItem('staked'))
+      const staked = JSON.parse(window.localStorage.getItem('staked'))
       console.log(Number(staked[1]))
       if (staked[0] === '1' && Number(staked[1]) < Number(bidInfo.lastBidId)) {
-        localStorage.removeItem('staked')
+        window.localStorage.removeItem('staked')
       }
     }
   }
@@ -495,10 +495,10 @@ export default function Main() {
                     )}
                     {/* Staking */}
                     {ActivityStatus.Staking === auctionInfo.status &&
-                      ((localStorage.getItem('staked') &&
-                        JSON.parse(localStorage.getItem('staked'))[0] !==
+                      ((window.localStorage.getItem('staked') &&
+                        JSON.parse(window.localStorage.getItem('staked'))[0] !==
                           '1') ||
-                        !localStorage.getItem('staked')) && (
+                        !window.localStorage.getItem('staked')) && (
                         <>
                           {address &&
                           auctionInfo.bidWinnerAddress.toLowerCase() ===
@@ -725,9 +725,10 @@ export default function Main() {
                 )}
                 {/* Staking */}
                 {ActivityStatus.Staking === auctionInfo.status &&
-                  ((localStorage.getItem('staked') &&
-                    JSON.parse(localStorage.getItem('staked'))[0] !== '1') ||
-                    !localStorage.getItem('staked')) && (
+                  ((window.localStorage.getItem('staked') &&
+                    JSON.parse(window.localStorage.getItem('staked'))[0] !==
+                      '1') ||
+                    !window.localStorage.getItem('staked')) && (
                     <>
                       {address && auctionInfo.bidWinnerAddress === address ? (
                         <Button
@@ -1044,9 +1045,10 @@ export default function Main() {
                 )}
                 {/* Staking */}
                 {ActivityStatus.Staking === auctionInfo.status &&
-                  ((localStorage.getItem('staked') &&
-                    JSON.parse(localStorage.getItem('staked'))[0] !== '1') ||
-                    !localStorage.getItem('staked')) && (
+                  ((window.localStorage.getItem('staked') &&
+                    JSON.parse(window.localStorage.getItem('staked'))[0] !==
+                      '1') ||
+                    !window.localStorage.getItem('staked')) && (
                     <>
                       {address &&
                       auctionInfo.bidWinnerAddress.toLowerCase() === address ? (

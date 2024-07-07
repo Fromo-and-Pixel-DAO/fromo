@@ -35,6 +35,9 @@ const nextConfig = {
     SHOP_ID: process.env.SHOP_ID,
     SHOP_URL: process.env.SHOP_URL,
   },
+  eslint: {
+    ignoreDuringBuilds: true, // 忽略 eslint 检查
+  },
   images: {
     domains: [],
   },

@@ -1,3 +1,5 @@
+'use client'
+
 import { Box, Button, Flex, Image, Select, Text } from '@chakra-ui/react'
 import { ellipseAddress } from '@utils'
 import { toastError, toastSuccess, toastWarning } from '@utils/toast'
@@ -24,6 +26,8 @@ const Register = () => {
   const { address } = useStore()
 
   const { nftList, auctionInfo, getUserNftList } = useAuctions()
+
+  const [localStaked, setLocalStaked] = useState(false)
 
   const fetchNFT = async () => {
     if (!address) return
@@ -88,7 +92,10 @@ const Register = () => {
 
             const bidRoundInfo = await contract.bidRoundInfo()
             const bidInfo = ['1', Number(bidRoundInfo.lastBidId)]
-            localStorage.setItem('staked', JSON.stringify(bidInfo))
+            if (typeof window !== 'undefined') {
+              window.localStorage.setItem('staked', JSON.stringify(bidInfo))
+            }
+            setLocalStaked(true)
             // router.push('/')
           } catch (error) {
             console.log(error, 'error')
@@ -123,7 +130,10 @@ const Register = () => {
 
           const bidRoundInfo = await contract.bidRoundInfo()
           const bidInfo = ['1', Number(bidRoundInfo.lastBidId)]
-          localStorage.setItem('staked', JSON.stringify(bidInfo))
+          if (typeof window !== 'undefined') {
+            window.localStorage.setItem('staked', JSON.stringify(bidInfo))
+          }
+          setLocalStaked(true)
           // router.push('/')
         } catch (error) {
           console.log(error, 'error')
@@ -301,16 +311,9 @@ const Register = () => {
               bgColor="#1DFED6"
               mt="32px"
               isLoading={isLoading}
-              disabled={
-                localStorage.getItem('staked') &&
-                JSON.parse(localStorage.getItem('staked'))[0] === '1'
-              }
+              disabled={!nft || localStaked}
               onClick={() => {
-                if (
-                  (localStorage.getItem('staked') &&
-                    JSON.parse(localStorage.getItem('staked'))[0] !== '1') ||
-                  !localStorage.getItem('staked')
-                ) {
+                if (nft && !localStaked) {
                   handleRegister()
                 }
               }}>
