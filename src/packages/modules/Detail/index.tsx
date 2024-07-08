@@ -833,9 +833,9 @@ const Details = () => {
 
                 <Text mb="12px" fontWeight="600" lineHeight="20px">
                   {detailInfos?.state === State.Ongoing
-                    ? 'Auction Count Down'
+                    ? 'Auction Countdown'
                     : detailInfos?.state === State.Upcoming
-                    ? 'Opening Count Down'
+                    ? 'Opening Countdown'
                     : 'Auction Ended'}
                 </Text>
 

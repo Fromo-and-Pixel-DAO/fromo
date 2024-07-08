@@ -350,7 +350,7 @@ const BidModal = ({ status, isOpen, onClose }: SubmitOfferModalProps) => {
               {' '}
               {formatNumberWithCommas(availableNums)} $OMO
             </Text>{' '}
-            Token22
+            Token
           </Flex>
         </Box>
         <Flex
