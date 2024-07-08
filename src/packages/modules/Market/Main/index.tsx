@@ -70,6 +70,7 @@ export default function Main() {
     useFomoStore()
 
   const { auctionInfo, getAuctionInfo } = useAuctions()
+
   const [loading, setLoading] = useState(true)
 
   const [sysInfo, setSysInfo] = useState<IGameInfo>({
@@ -443,7 +444,12 @@ export default function Main() {
                 pos="relative"
                 justifyContent="end"
                 display={{ base: 'flex', xl: 'none' }}>
-                <Box w="30%" pos="absolute" left="0px" bottom="-48px">
+                <Box
+                  w="30%"
+                  pos="absolute"
+                  left="0px"
+                  top="50%"
+                  transform="translateY(-50%)">
                   <Box pos="relative">
                     {/* NotStarted or Bidding */}
                     {[
@@ -455,11 +461,6 @@ export default function Main() {
                         h="100%"
                         borderRadius="full"
                         bg="transparent"
-                        cursor={
-                          ActivityStatus.NotStarted === auctionInfo.status
-                            ? 'not-allowed'
-                            : 'pointer'
-                        }
                         _hover={{}}
                         _focus={{}}
                         onClick={() => {
@@ -480,8 +481,12 @@ export default function Main() {
                         pos="relative">
                         <Image
                           w="112px"
-                          h="fit-content"
-                          src="/static/common/3d.svg"
+                          bg="black"
+                          src={
+                            auctionInfo.status === ActivityStatus.Bidding
+                              ? '/static/common/3d.svg'
+                              : '/static/common/3d-coming.svg'
+                          }
                           borderRadius="full"
                           alt="3d"
                           pos="relative"
@@ -517,7 +522,7 @@ export default function Main() {
                                 src="/static/common/3d-stake.svg"
                                 borderRadius="full"
                                 w="112px"
-                                h="fit-content"
+                                bg="black"
                                 alt="3d"
                                 pos="relative"
                               />
@@ -542,7 +547,7 @@ export default function Main() {
                                 borderRadius="full"
                                 alt="3d"
                                 w="112px"
-                                h="fit-content"
+                                bg="black"
                                 pos="relative"
                               />
                               <AbsoluteCenter>
@@ -648,21 +653,21 @@ export default function Main() {
                           {auctionInfo.status === ActivityStatus.NotStarted &&
                             `Open on ${moment
                               .utc(auctionInfo.startTimestamp)
-                              .format('MMMM DD, Ha')}`}
+                              .format('MMMM DD, Ha')} UTC `}
                           {auctionInfo.status === ActivityStatus.Bidding &&
                             `Close on ${moment
                               .utc(auctionInfo.startTimestamp)
                               .add(16, 'hours')
-                              .format('MMMM DD, Ha')}`}
+                              .format('MMMM DD, Ha')} UTC `}
                         </>
                       )}
 
                       {auctionInfo.status === ActivityStatus.Staking &&
-                        ` Close on
+                        `Close on
                     ${moment
                       .utc(auctionInfo.startTimestamp)
                       .add(8, 'hours')
-                      .format('MMMM DD, ha')}`}
+                      .format('MMMM DD, ha')} UTC `}
                     </Box>
                   </Flex>
                 </Flex>
@@ -687,11 +692,6 @@ export default function Main() {
                     h="100%"
                     borderRadius="full"
                     bg="transparent"
-                    cursor={
-                      ActivityStatus.NotStarted === auctionInfo.status
-                        ? 'not-allowed'
-                        : 'pointer'
-                    }
                     _hover={{}}
                     _focus={{}}
                     onClick={() => {
@@ -711,7 +711,11 @@ export default function Main() {
                     <Image
                       w="120px"
                       h="120px"
-                      src="/static/common/3d.svg"
+                      src={
+                        auctionInfo.status === ActivityStatus.Bidding
+                          ? '/static/common/3d.svg'
+                          : '/static/common/3d-coming.svg'
+                      }
                       borderRadius="full"
                       alt="3d"
                       pos="relative"
@@ -867,12 +871,12 @@ export default function Main() {
                         {auctionInfo.status === ActivityStatus.NotStarted &&
                           `Open on ${moment
                             .utc(auctionInfo.startTimestamp)
-                            .format('MMMM DD, Ha')}`}
+                            .format('MMMM DD, Ha')}  UTC `}
                         {auctionInfo.status === ActivityStatus.Bidding &&
                           `Close on ${moment
                             .utc(auctionInfo.startTimestamp)
                             .add(16, 'hours')
-                            .format('MMMM DD, Ha')}`}
+                            .format('MMMM DD, Ha')}  UTC `}
                       </>
                     )}
 
@@ -881,7 +885,7 @@ export default function Main() {
                     ${moment
                       .utc(auctionInfo.startTimestamp)
                       .add(8, 'hours')
-                      .format('MMMM DD, ha')}`}
+                      .format('MMMM DD, ha')}  UTC `}
                   </Box>
                 </Flex>
               </Flex>
@@ -1005,11 +1009,6 @@ export default function Main() {
                     h="100%"
                     borderRadius="full"
                     bg="transparent"
-                    cursor={
-                      ActivityStatus.NotStarted === auctionInfo.status
-                        ? 'not-allowed'
-                        : 'pointer'
-                    }
                     _hover={{}}
                     _focus={{}}
                     onClick={() => {
@@ -1027,7 +1026,11 @@ export default function Main() {
                     }}
                     pos="relative">
                     <Image
-                      src="/static/common/3d.svg"
+                      src={
+                        auctionInfo.status === ActivityStatus.Bidding
+                          ? '/static/common/3d.svg'
+                          : '/static/common/3d-coming.svg'
+                      }
                       borderRadius="full"
                       alt="3d"
                       pos="relative"
