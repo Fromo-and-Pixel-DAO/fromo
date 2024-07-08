@@ -70,7 +70,6 @@ export default function Main() {
     useFomoStore()
 
   const { auctionInfo, getAuctionInfo } = useAuctions()
-
   const [loading, setLoading] = useState(true)
 
   const [sysInfo, setSysInfo] = useState<IGameInfo>({
@@ -629,7 +628,7 @@ export default function Main() {
                     <Flex>
                       <Text>Highest Bid</Text>
                       <Text>: </Text>
-                      <Box ml="4px">
+                      <Box mx="4px">
                         {parseFloat(`${auctionInfo?.highestBid}`).toFixed(2) ||
                           '--'}
                       </Box>
@@ -842,7 +841,7 @@ export default function Main() {
                   <Flex>
                     <Text>Highest Bid</Text>
                     <Text>: </Text>
-                    <Box ml="4px">
+                    <Box mx="4px">
                       {parseFloat(`${auctionInfo?.highestBid}`).toFixed(2) ||
                         '--'}
                     </Box>
@@ -952,7 +951,7 @@ export default function Main() {
                 <Flex gap="4px">
                   <Text>Highest Bid</Text>
                   <Text>: </Text>
-                  <Box>
+                  <Box mx="4px">
                     {parseFloat(`${auctionInfo?.highestBid}`).toFixed(2) ||
                       '--'}
                   </Box>

@@ -917,12 +917,14 @@ const Details = () => {
                             fontSize={{ base: '24px', md: '28px', xl: '32px' }}
                             lineHeight="36px"
                             gap="8px">
-                            <Image
-                              src="/static/common/eth-index.svg"
-                              alt="ethereum"
-                              w="12px"
-                              h="20px"
-                            />
+                            {k !== 0 && (
+                              <Image
+                                src="/static/common/eth-index.svg"
+                                alt="ethereum"
+                                w="12px"
+                                h="20px"
+                              />
+                            )}
                             {i.amount}
                           </Flex>
                           <Text
@@ -1189,7 +1191,7 @@ const Details = () => {
                   <Flex
                     w={{ base: '50%', md: '30%', xl: '50%' }}
                     direction="column"
-                    justifyItems="center"
+                    justifyContent="space-between"
                     alignItems="center"
                     bg="#2F2B50"
                     borderRadius="16px"
@@ -1212,54 +1214,56 @@ const Details = () => {
                         ).toFixed(4)}
                       </Box>
                     </Flex>
-                    <Text
-                      fontWeight="600"
-                      fontSize="12px"
-                      lineHeight="16px"
-                      color="rgba(255,255,255,0.6)"
-                      mb="12px"
-                      mt="4px">
-                      Key Holder Dividends
-                    </Text>
-                    <Button
-                      w="156px"
-                      borderRadius="8px"
-                      colorScheme="primary"
-                      fontWeight="600"
-                      fontSize={{ base: '12px', xl: '14px' }}
-                      color="#222222"
-                      onClick={() => {
-                        console.log(Number(claims))
+                    <Box>
+                      <Text
+                        fontWeight="600"
+                        fontSize="12px"
+                        lineHeight="16px"
+                        color="rgba(255,255,255,0.6)"
+                        mb="12px"
+                        mt="4px">
+                        Key Holder Dividends
+                      </Text>
+                      <Button
+                        w="156px"
+                        borderRadius="8px"
+                        colorScheme="primary"
+                        fontWeight="600"
+                        fontSize={{ base: '12px', xl: '14px' }}
+                        color="#222222"
+                        onClick={() => {
+                          console.log(Number(claims))
 
-                        if (!account.isConnected) {
-                          if (openConnectModal) {
-                            openConnectModal()
+                          if (!account.isConnected) {
+                            if (openConnectModal) {
+                              openConnectModal()
+                            } else {
+                              console.error('openConnectModal is not defined')
+                            }
                           } else {
-                            console.error('openConnectModal is not defined')
+                            claim()
                           }
-                        } else {
-                          claim()
+                        }}
+                        disabled={
+                          detailInfos?.state === State.Upcoming ||
+                          claimLoading ||
+                          Number(claims) <= 0
                         }
-                      }}
-                      disabled={
-                        detailInfos?.state === State.Upcoming ||
-                        claimLoading ||
-                        Number(claims) <= 0
-                      }
-                      isLoading={claimLoading}>
-                      {claims === null || claims === undefined
-                        ? '--'
-                        : Number(ethers.utils.formatEther(claims)).toFixed(
-                            4,
-                          )}{' '}
-                      Unclaimed
-                    </Button>
+                        isLoading={claimLoading}>
+                        {claims === null || claims === undefined
+                          ? '--'
+                          : Number(ethers.utils.formatEther(claims)).toFixed(
+                              4,
+                            )}{' '}
+                        Unclaimed
+                      </Button>
+                    </Box>
                   </Flex>
                   {/* My NFT Provider Dividends */}
                   <Flex
                     w={{ base: '50%', md: '30%', xl: '50%' }}
                     direction="column"
-                    justifyItems="center"
+                    justifyContent="space-between"
                     alignItems="center"
                     bg="#2F2B50"
                     borderRadius="16px"
@@ -1288,56 +1292,58 @@ const Details = () => {
                             ).toFixed(4)}
                       </Box>
                     </Flex>
-                    <Text
-                      fontWeight="600"
-                      fontSize="12px"
-                      lineHeight="16px"
-                      color="rgba(255,255,255,0.6)"
-                      mb="12px"
-                      mt="4px">
-                      NFT Provider Dividends
-                    </Text>
-                    <Button
-                      isLoading={withDrawNFTLoading}
-                      onClick={() => {
-                        if (!account.isConnected) {
-                          if (openConnectModal) {
-                            openConnectModal()
+                    <Box>
+                      <Text
+                        fontWeight="600"
+                        fontSize="12px"
+                        lineHeight="16px"
+                        color="rgba(255,255,255,0.6)"
+                        mb="12px"
+                        mt="4px">
+                        NFT Provider Dividends
+                      </Text>
+                      <Button
+                        isLoading={withDrawNFTLoading}
+                        onClick={() => {
+                          if (!account.isConnected) {
+                            if (openConnectModal) {
+                              openConnectModal()
+                            } else {
+                              console.error('openConnectModal is not defined')
+                            }
                           } else {
-                            console.error('openConnectModal is not defined')
+                            withdrawSaleRevenue()
                           }
-                        } else {
-                          withdrawSaleRevenue()
+                        }}
+                        disabled={
+                          [State.Upcoming, State.Ongoing].includes(
+                            detailInfos?.state,
+                          ) ||
+                          detailInfos?.principal ===
+                            ethers.constants.AddressZero ||
+                          detailInfos?.principal.toLowerCase() !== address ||
+                          withDrawNFTLoading ||
+                          detailInfos?.salesRevenue === '0'
                         }
-                      }}
-                      disabled={
-                        [State.Upcoming, State.Ongoing].includes(
-                          detailInfos?.state,
-                        ) ||
-                        detailInfos?.principal ===
-                          ethers.constants.AddressZero ||
-                        detailInfos?.principal.toLowerCase() !== address ||
-                        withDrawNFTLoading ||
-                        detailInfos?.salesRevenue === '0'
-                      }
-                      w="156px"
-                      borderRadius="8px"
-                      colorScheme="primary"
-                      fontWeight="600"
-                      fontSize={{ base: '12px', xl: '14px' }}
-                      color="#222222">
-                      {detailInfos?.principal === ethers.constants.AddressZero
-                        ? '--'
-                        : parseFloat(
-                            ethers.utils.formatEther(
-                              (
-                                ((detailInfos?.salesRevenue || 0) * 5) /
-                                10
-                              ).toString(),
-                            ),
-                          ).toFixed(4)}{' '}
-                      Unclaimed
-                    </Button>
+                        w="156px"
+                        borderRadius="8px"
+                        colorScheme="primary"
+                        fontWeight="600"
+                        fontSize={{ base: '12px', xl: '14px' }}
+                        color="#222222">
+                        {detailInfos?.principal === ethers.constants.AddressZero
+                          ? '--'
+                          : parseFloat(
+                              ethers.utils.formatEther(
+                                (
+                                  ((detailInfos?.salesRevenue || 0) * 5) /
+                                  10
+                                ).toString(),
+                              ),
+                            ).toFixed(4)}{' '}
+                        Unclaimed
+                      </Button>
+                    </Box>
                   </Flex>
                 </Flex>
               </Flex>

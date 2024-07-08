@@ -116,30 +116,32 @@ const BidModal = ({ status, isOpen, onClose }: SubmitOfferModalProps) => {
   }
 
   const getAvailableFL = async () => {
-
     // TODO: Fix this
     if (address) {
-      const provider = await web3Modal.connect()
-      const library = new ethers.providers.Web3Provider(provider)
-      const signer = library.getSigner()
-
-      if (!contract) {
-        contract = new ethers.Contract(FL_CONTRACT_ADR, FroopyABI, signer)
-      }
-
-      contract = new ethers.Contract(FL_CONTRACT_ADR, FroopyABI, signer)
-
-      const address = await signer.getAddress()
-
-      if (!address) return toastError('Please connect wallet first.')
-
       try {
-        const tx = await contract.getBidderInfoOf(address)
-        setAvailableNums(
-          ethers.utils.formatEther(tx.withdrawableAmount.toString()),
-        )
+        const provider = await web3Modal.connect()
+        const library = new ethers.providers.Web3Provider(provider)
+        const signer = library.getSigner()
+        if (!contract) {
+          contract = new ethers.Contract(FL_CONTRACT_ADR, FroopyABI, signer)
+        }
+
+        contract = new ethers.Contract(FL_CONTRACT_ADR, FroopyABI, signer)
+
+        const address = await signer.getAddress()
+
+        if (!address) return toastError('Please connect wallet first.')
+
+        try {
+          const tx = await contract.getBidderInfoOf(address)
+          setAvailableNums(
+            ethers.utils.formatEther(tx.withdrawableAmount.toString()),
+          )
+        } catch (error) {
+          console.log(error, '<====getAvailableFL')
+        }
       } catch (error) {
-        console.log(error, '<====getAvailableFL')
+        console.log(error)
       }
     }
   }
@@ -348,7 +350,7 @@ const BidModal = ({ status, isOpen, onClose }: SubmitOfferModalProps) => {
               {' '}
               {formatNumberWithCommas(availableNums)} $OMO
             </Text>{' '}
-            Token
+            Token22
           </Flex>
         </Box>
         <Flex
