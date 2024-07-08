@@ -70,6 +70,8 @@ export default function Main() {
     useFomoStore()
 
   const { auctionInfo, getAuctionInfo } = useAuctions()
+  console.log(auctionInfo?.status, 'auctionInfo')
+
   const [loading, setLoading] = useState(true)
 
   const [sysInfo, setSysInfo] = useState<IGameInfo>({
@@ -498,66 +500,67 @@ export default function Main() {
                       </Button>
                     )}
                     {/* Staking */}
-                    {ActivityStatus.Staking === auctionInfo.status &&
-                      ((window.localStorage.getItem('staked') &&
-                        JSON.parse(window.localStorage.getItem('staked'))[0] !==
-                          '1') ||
-                        !window.localStorage.getItem('staked')) && (
-                        <>
-                          {address &&
-                          auctionInfo.bidWinnerAddress.toLowerCase() ===
-                            address ? (
-                            <Button
-                              px="0px"
-                              h="100%"
+                    {ActivityStatus.Staking === auctionInfo.status && (
+                      <>
+                        {address &&
+                        auctionInfo.bidWinnerAddress.toLowerCase() ===
+                          address &&
+                        ((window.localStorage.getItem('staked') &&
+                          JSON.parse(
+                            window.localStorage.getItem('staked'),
+                          )[0] !== '1') ||
+                          !window.localStorage.getItem('staked')) ? (
+                          <Button
+                            px="0px"
+                            h="100%"
+                            borderRadius="full"
+                            bg="transparent"
+                            cursor="pointer"
+                            _hover={{}}
+                            _focus={{}}
+                            onClick={() => router.push('/stake-nft')}
+                            pos="relative">
+                            <Image
+                              src="/static/common/3d-stake.svg"
                               borderRadius="full"
-                              bg="transparent"
-                              cursor="pointer"
-                              _hover={{}}
-                              _focus={{}}
-                              onClick={() => router.push('/stake-nft')}
-                              pos="relative">
-                              <Image
-                                src="/static/common/3d-stake.svg"
-                                borderRadius="full"
-                                w="112px"
-                                bg="black"
-                                alt="3d"
-                                pos="relative"
-                              />
-                              <AbsoluteCenter _hover={{ opacity: 0.7 }}>
-                                <Text textAlign="center" fontWeight="black">
-                                  Stake <br /> NFT
-                                </Text>
-                              </AbsoluteCenter>
-                            </Button>
-                          ) : (
-                            <Button
-                              px="0px"
-                              h="100%"
+                              w="112px"
+                              bg="black"
+                              alt="3d"
+                              pos="relative"
+                            />
+                            <AbsoluteCenter _hover={{ opacity: 0.7 }}>
+                              <Text textAlign="center" fontWeight="black">
+                                Stake <br /> NFT
+                              </Text>
+                            </AbsoluteCenter>
+                          </Button>
+                        ) : (
+                          <Button
+                            px="0px"
+                            h="100%"
+                            borderRadius="full"
+                            bg="transparent"
+                            _hover={{}}
+                            cursor="unset"
+                            _focus={{}}
+                            pos="relative">
+                            <Image
+                              src="/static/common/3d-coming.svg"
                               borderRadius="full"
-                              bg="transparent"
-                              _hover={{}}
-                              cursor="unset"
-                              _focus={{}}
-                              pos="relative">
-                              <Image
-                                src="/static/common/3d-coming.svg"
-                                borderRadius="full"
-                                alt="3d"
-                                w="112px"
-                                bg="black"
-                                pos="relative"
-                              />
-                              <AbsoluteCenter>
-                                <Text textAlign="center" fontWeight="black">
-                                  BID <br /> plot
-                                </Text>
-                              </AbsoluteCenter>
-                            </Button>
-                          )}
-                        </>
-                      )}
+                              alt="3d"
+                              w="112px"
+                              bg="black"
+                              pos="relative"
+                            />
+                            <AbsoluteCenter>
+                              <Text textAlign="center" fontWeight="black">
+                                BID <br /> plot
+                              </Text>
+                            </AbsoluteCenter>
+                          </Button>
+                        )}
+                      </>
+                    )}
                   </Box>
                 </Box>
                 <Flex
@@ -727,64 +730,65 @@ export default function Main() {
                   </Button>
                 )}
                 {/* Staking */}
-                {ActivityStatus.Staking === auctionInfo.status &&
-                  ((window.localStorage.getItem('staked') &&
-                    JSON.parse(window.localStorage.getItem('staked'))[0] !==
-                      '1') ||
-                    !window.localStorage.getItem('staked')) && (
-                    <>
-                      {address && auctionInfo.bidWinnerAddress === address ? (
-                        <Button
-                          px="0px"
-                          h="100%"
+                {ActivityStatus.Staking === auctionInfo.status && (
+                  <>
+                    {address &&
+                    auctionInfo.bidWinnerAddress === address &&
+                    ((window.localStorage.getItem('staked') &&
+                      JSON.parse(window.localStorage.getItem('staked'))[0] !==
+                        '1') ||
+                      !window.localStorage.getItem('staked')) ? (
+                      <Button
+                        px="0px"
+                        h="100%"
+                        borderRadius="full"
+                        bg="transparent"
+                        cursor="pointer"
+                        _hover={{}}
+                        _focus={{}}
+                        onClick={() => router.push('/stake-nft')}
+                        pos="relative">
+                        <Image
+                          src="/static/common/3d-stake.svg"
                           borderRadius="full"
-                          bg="transparent"
-                          cursor="pointer"
-                          _hover={{}}
-                          _focus={{}}
-                          onClick={() => router.push('/stake-nft')}
-                          pos="relative">
-                          <Image
-                            src="/static/common/3d-stake.svg"
-                            borderRadius="full"
-                            w="120px"
-                            h="120px"
-                            alt="3d"
-                            pos="relative"
-                          />
-                          <AbsoluteCenter _hover={{ opacity: 0.7 }}>
-                            <Text textAlign="center" fontWeight="black">
-                              Stake <br /> NFT
-                            </Text>
-                          </AbsoluteCenter>
-                        </Button>
-                      ) : (
-                        <Button
-                          px="0px"
-                          h="100%"
+                          w="120px"
+                          h="120px"
+                          alt="3d"
+                          pos="relative"
+                        />
+                        <AbsoluteCenter _hover={{ opacity: 0.7 }}>
+                          <Text textAlign="center" fontWeight="black">
+                            Stake <br /> NFT
+                          </Text>
+                        </AbsoluteCenter>
+                      </Button>
+                    ) : (
+                      <Button
+                        px="0px"
+                        h="100%"
+                        borderRadius="full"
+                        bg="transparent"
+                        _hover={{}}
+                        cursor="unset"
+                        _focus={{}}
+                        pos="relative">
+                        <Image
+                          src="/static/common/3d-coming.svg"
                           borderRadius="full"
-                          bg="transparent"
-                          _hover={{}}
-                          cursor="unset"
-                          _focus={{}}
-                          pos="relative">
-                          <Image
-                            src="/static/common/3d-coming.svg"
-                            borderRadius="full"
-                            alt="3d"
-                            w="120px"
-                            h="120px"
-                            pos="relative"
-                          />
-                          <AbsoluteCenter>
-                            <Text textAlign="center" fontWeight="black">
-                              BID <br /> plot
-                            </Text>
-                          </AbsoluteCenter>
-                        </Button>
-                      )}
-                    </>
-                  )}
+                          alt="3d"
+                          w="120px"
+                          h="120px"
+                          pos="relative"
+                        />
+                        <AbsoluteCenter>
+                          <Text textAlign="center" fontWeight="black">
+                            BID <br /> plot
+                          </Text>
+                        </AbsoluteCenter>
+                      </Button>
+                    )}
+                  </>
+                )}
               </Box>
               <Flex
                 fontSize="14px"
@@ -1046,67 +1050,67 @@ export default function Main() {
                   </Button>
                 )}
                 {/* Staking */}
-                {ActivityStatus.Staking === auctionInfo.status &&
-                  ((window.localStorage.getItem('staked') &&
-                    JSON.parse(window.localStorage.getItem('staked'))[0] !==
-                      '1') ||
-                    !window.localStorage.getItem('staked')) && (
-                    <>
-                      {address &&
-                      auctionInfo.bidWinnerAddress.toLowerCase() === address ? (
-                        <Button
-                          h="100%"
+                {ActivityStatus.Staking === auctionInfo.status && (
+                  <>
+                    {address &&
+                    auctionInfo.bidWinnerAddress.toLowerCase() === address &&
+                    ((window.localStorage.getItem('staked') &&
+                      JSON.parse(window.localStorage.getItem('staked'))[0] !==
+                        '1') ||
+                      !window.localStorage.getItem('staked')) ? (
+                      <Button
+                        h="100%"
+                        borderRadius="full"
+                        bg="transparent"
+                        cursor="pointer"
+                        _hover={{}}
+                        _focus={{}}
+                        onClick={() => router.push('/stake-nft')}
+                        pos="relative">
+                        <Image
+                          src="/static/common/3d-stake.svg"
                           borderRadius="full"
-                          bg="transparent"
-                          cursor="pointer"
-                          _hover={{}}
-                          _focus={{}}
-                          onClick={() => router.push('/stake-nft')}
-                          pos="relative">
-                          <Image
-                            src="/static/common/3d-stake.svg"
-                            borderRadius="full"
-                            alt="3d"
-                            pos="relative"
-                          />
-                          <AbsoluteCenter _hover={{ opacity: 0.7 }}>
-                            <Text
-                              textAlign="center"
-                              fontWeight="black"
-                              fontSize="32px"
-                              lineHeight="40px">
-                              Stake <br /> NFT
-                            </Text>
-                          </AbsoluteCenter>
-                        </Button>
-                      ) : (
-                        <Button
-                          h="100%"
+                          alt="3d"
+                          pos="relative"
+                        />
+                        <AbsoluteCenter _hover={{ opacity: 0.7 }}>
+                          <Text
+                            textAlign="center"
+                            fontWeight="black"
+                            fontSize="32px"
+                            lineHeight="40px">
+                            Stake <br /> NFT
+                          </Text>
+                        </AbsoluteCenter>
+                      </Button>
+                    ) : (
+                      <Button
+                        h="100%"
+                        borderRadius="full"
+                        bg="transparent"
+                        _hover={{}}
+                        cursor="unset"
+                        _focus={{}}
+                        pos="relative">
+                        <Image
+                          src="/static/common/3d-coming.svg"
                           borderRadius="full"
-                          bg="transparent"
-                          _hover={{}}
-                          cursor="unset"
-                          _focus={{}}
-                          pos="relative">
-                          <Image
-                            src="/static/common/3d-coming.svg"
-                            borderRadius="full"
-                            alt="3d"
-                            pos="relative"
-                          />
-                          <AbsoluteCenter>
-                            <Text
-                              textAlign="center"
-                              fontWeight="black"
-                              fontSize="40px"
-                              lineHeight="40px">
-                              BID <br /> plot
-                            </Text>
-                          </AbsoluteCenter>
-                        </Button>
-                      )}
-                    </>
-                  )}
+                          alt="3d"
+                          pos="relative"
+                        />
+                        <AbsoluteCenter>
+                          <Text
+                            textAlign="center"
+                            fontWeight="black"
+                            fontSize="40px"
+                            lineHeight="40px">
+                            BID <br /> plot
+                          </Text>
+                        </AbsoluteCenter>
+                      </Button>
+                    )}
+                  </>
+                )}
               </AbsoluteCenter>
             </Flex>
           </Box>
