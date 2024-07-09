@@ -391,9 +391,9 @@ const Details = () => {
   }
 
   const PurchaseNFTCountDownPrimary = () => {
+    const now = Date.now() // Unix timestamp in milliseconds
     const purchaseTimer = moment
       .utc(detailInfos.endTimestamp * 1000)
-      .add(24, 'hours')
       .format('YYYY-MM-DD HH:mm:ss')
     const { hours, minutes, seconds } = useCountDown(purchaseTimer, () =>
       init(),
@@ -416,21 +416,27 @@ const Details = () => {
       },
     ]
     return (
-      <Flex gap="2px" alignItems="center">
-        {countDownValuesPrimary.map((i, k) => (
-          <Flex key={k} color="#FFFFFF">
-            {i.title} {k !== 2 && <Box ml="2px">:</Box>}
+      <>
+        {now < detailInfos?.endTimestamp * 1000 && (
+          <Flex gap="2px" alignItems="center">
+            {countDownValuesPrimary.map((i, k) => (
+              <Flex key={k} color="#FFFFFF">
+                {i.title} {k !== 2 && <Box ml="2px">:</Box>}
+              </Flex>
+            ))}
           </Flex>
-        ))}
-      </Flex>
+        )}
+      </>
     )
   }
 
   const PurchaseNFTCountDownSecondary = () => {
-    const purchaseTimer = moment(detailInfos.endTimestamp * 1000)
-      .add(24, 'hours')
-      .format('YYYY-MM-DD HH:mm:ss')
-    const { days, hours, minutes, seconds } = useCountDown(purchaseTimer, () =>
+    const now = Date.now() // Unix timestamp in milliseconds
+    const purchaseTimer = moment(detailInfos?.endTimestamp * 1000).format(
+      'YYYY-MM-DD HH:mm:ss',
+    )
+
+    const { hours, minutes, seconds } = useCountDown(purchaseTimer, () =>
       init(),
     )
 
@@ -456,39 +462,52 @@ const Details = () => {
     ]
 
     return (
-      <Flex fontSize="16px" color="#00DAB3" w="180px">
-        {countDownValuesSecondary.map((i, k) => (
-          <Flex key={k}>
-            <Flex w="62px" direction="column" alignItems="center">
-              <Box>
-                <Flex
+      <Box>
+        <Text mb="12px" fontWeight="600" lineHeight="20px">
+          {now < detailInfos?.endTimestamp * 1000 &&
+            detailInfos?.state === State.Ongoing &&
+            'Auction Countdown'}
+          {now < detailInfos?.endTimestamp * 1000 &&
+            detailInfos?.state === State.Upcoming &&
+            'Opening Countdown'}
+          {detailInfos?.state === State.Finished && 'Auction Ended'}
+        </Text>
+        <Flex fontSize="16px" color="#00DAB3" w="180px">
+          {[State.Ongoing, State.Upcoming].includes(detailInfos?.state) &&
+            now < detailInfos?.endTimestamp * 1000 &&
+            countDownValuesSecondary.map((i, k) => (
+              <Flex key={k}>
+                <Flex w="62px" direction="column" alignItems="center">
+                  <Box>
+                    <Flex
+                      fontSize="48px"
+                      color="#1DFED6"
+                      lineHeight="56px"
+                      fontWeight="800">
+                      {i.title}
+                    </Flex>
+                  </Box>
+                  <Text
+                    fontSize="12px"
+                    fontWeight="800"
+                    color="rgba(255,255,255,0.6)"
+                    lineHeight="16px">
+                    {i.details}
+                  </Text>
+                </Flex>
+                <Text
                   fontSize="48px"
                   color="#1DFED6"
                   lineHeight="56px"
-                  fontWeight="800">
-                  {i.title}
-                </Flex>
-              </Box>
-              <Text
-                fontSize="12px"
-                fontWeight="800"
-                color="rgba(255,255,255,0.6)"
-                lineHeight="16px">
-                {i.details}
-              </Text>
-            </Flex>
-            <Text
-              fontSize="48px"
-              color="#1DFED6"
-              lineHeight="56px"
-              fontWeight="800"
-              display={k === 2 ? 'none' : ''}
-              mx="10px">
-              :
-            </Text>
-          </Flex>
-        ))}
-      </Flex>
+                  fontWeight="800"
+                  display={k === 2 ? 'none' : ''}
+                  mx="10px">
+                  :
+                </Text>
+              </Flex>
+            ))}
+        </Flex>
+      </Box>
     )
   }
 
@@ -831,22 +850,8 @@ const Details = () => {
                     </Tooltip>
                   )}
 
-                <Text mb="12px" fontWeight="600" lineHeight="20px">
-                  {detailInfos?.state === State.Ongoing
-                    ? 'Auction Countdown'
-                    : detailInfos?.state === State.Upcoming
-                    ? 'Opening Countdown'
-                    : 'Auction Ended'}
-                </Text>
-
                 <Flex>
-                  {[State.Ongoing, State.Upcoming].includes(
-                    detailInfos?.state,
-                  ) && (
-                    <>
-                      <PurchaseNFTCountDownSecondary />
-                    </>
-                  )}
+                  <PurchaseNFTCountDownSecondary />
                 </Flex>
 
                 {State.Finished === detailInfos?.state && (
