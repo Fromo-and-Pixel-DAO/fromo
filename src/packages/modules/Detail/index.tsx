@@ -26,7 +26,7 @@ import { getGameDetailById } from 'packages/service/api'
 import { IGameAmountNft } from 'packages/service/api/types'
 import useStore from 'packages/store'
 import { web3Modal } from 'packages/web3'
-import { memo, useEffect, useMemo, useState } from 'react'
+import { memo, useEffect, useMemo, useRef, useState } from 'react'
 import { useAccount } from 'wagmi'
 import Web3 from 'web3'
 import PurchaseNFTModal from './PurchaseNFTModal'
@@ -48,6 +48,7 @@ const Details = () => {
   const { pool: id } = router.query
   const { address } = useStore()
   const account = useAccount()
+  const listenerSetUpRef = useRef(false)
 
   const { nftName } = router.query
   const { openConnectModal } = useConnectModal()
@@ -94,13 +95,16 @@ const Details = () => {
 
   useEffect(() => {
     init()
-    fetchGameDetailById()
   }, [])
 
   const init = () => {
     fetchGameState()
     getGameInfoOfGameIds()
-    listenerGame()
+    fetchGameDetailById()
+    if (!listenerSetUpRef.current) {
+      listenerGame()
+      listenerSetUpRef.current = true
+    }
   }
 
   const fetchGameDetailById = async () => {
@@ -1117,9 +1121,9 @@ const Details = () => {
                                 detailInfos?.state === State.Upcoming ||
                                 detailInfos?.state === State.Finished
                               }
-                              placeholder={`Maximum: ${(
+                              placeholder={`Maximum: ${
                                 Math.floor(detailInfos?.totalKeyMinted / 10) + 1
-                              ).toFixed(4)} keys`}
+                              } keys`}
                               border="none"
                             />
                           </Box>

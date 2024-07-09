@@ -70,7 +70,6 @@ export default function Main() {
     useFomoStore()
 
   const { auctionInfo, getAuctionInfo } = useAuctions()
-  console.log(auctionInfo?.status, 'auctionInfo')
 
   const [loading, setLoading] = useState(true)
 
