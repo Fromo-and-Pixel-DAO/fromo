@@ -24,6 +24,7 @@ type ModalProps = {
   isCloseBtn?: boolean
   bgColor?: string
   color?: string
+  topMobile?: string
   bgImage?: string
   variant?: string
 }
@@ -39,6 +40,7 @@ export default function BaseModal({
   buttons,
   bgColor,
   color,
+  topMobile,
   isCloseBtn = true,
 }: ModalProps) {
   const [isLargerThan768] = useMediaQuery('(min-width: 769px)')
@@ -189,7 +191,11 @@ export default function BaseModal({
           boxShadow="0px 4px 4px rgba(0, 0, 0, 0.25)"
           backdropFilter="blur(5px)"
         />
-        <ModalContent bgColor={bgColor} color={color} borderRadius="16px">
+        <ModalContent
+          top={{ base: topMobile, md: '0px' }}
+          bgColor={bgColor}
+          color={color}
+          borderRadius="16px">
           <Box>
             <ModalHeader
               textAlign="center"

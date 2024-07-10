@@ -200,6 +200,7 @@ const BidModal = ({ status, isOpen, onClose }: SubmitOfferModalProps) => {
       size={{ base: 'xs', md: 'xl' }}
       isOpen={isOpen}
       isCloseBtn={false}
+      topMobile={bidList.length > 0 ? '20vh' : '0px'}
       title={
         <Heading
           color="white"

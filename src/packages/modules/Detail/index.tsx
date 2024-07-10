@@ -853,10 +853,9 @@ const Details = () => {
                       </Button>
                     </Tooltip>
                   )}
-
-                <Flex>
-                  <PurchaseNFTCountDownSecondary />
-                </Flex>
+                {[State.Ongoing, State.Upcoming].includes(
+                  detailInfos?.state,
+                ) && <PurchaseNFTCountDownSecondary />}
 
                 {State.Finished === detailInfos?.state && (
                   <Text
