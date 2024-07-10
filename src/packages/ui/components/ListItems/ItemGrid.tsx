@@ -207,7 +207,10 @@ function ItemGrid({
         onClickCapture={() => {
           router.push({
             pathname: `/${item.gameId}`,
-            query: { nftName: item.name },
+            query: {
+              nftName: item.name,
+              nftLastAddress: item?.lastAddress?.toLocaleLowerCase(),
+            },
           })
         }}
         w={{ base: '100%', md: 'unset' }}
@@ -369,7 +372,10 @@ function ItemGrid({
         onClickCapture={() => {
           router.push({
             pathname: `/${item.gameId}`,
-            query: { nftName: item.name },
+            query: {
+              nftName: item.name,
+              nftLastAddress: item?.lastAddress?.toLocaleLowerCase(),
+            },
           })
         }}
         borderRadius="40px"
@@ -782,7 +788,10 @@ function ItemGrid({
       onClickCapture={() => {
         router.push({
           pathname: `/${item.gameId}`,
-          query: { nftName: item.name },
+          query: {
+            nftName: item.name,
+            nftLastAddress: item?.lastAddress?.toLocaleLowerCase(),
+          },
         })
       }}
       borderRadius="40px"
