@@ -85,7 +85,7 @@ export default function Main() {
       title: `Finished`,
       value: 'ongoingList',
       render: (
-        <SimpleGrid mt="20px" columns={[1, 2, 3, 3, 5]} spacing="20px">
+        <SimpleGrid mt="20px" columns={[1, 1, 2, 3, 4]} spacing="20px">
           {finishedList.map((item, idx) => {
             return <ItemGrid gridName="ongoingList" item={item} key={idx} />
           })}
