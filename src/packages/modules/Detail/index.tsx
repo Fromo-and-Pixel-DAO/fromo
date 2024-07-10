@@ -365,11 +365,9 @@ const Details = () => {
     const contract = new ethers.Contract(FL_CONTRACT_ADR, FroopyABI, signer)
     setRetrieveNftLoading(true)
 
-    const gasAmount = await contract.estimateGas.retrieveNft([id])
     try {
-      const tx = await contract.retrieveNft(id, {
-        gasLimit: gasAmount,
-      })
+      const gasAmount = await contract.estimateGas.retrieveNft(id)
+      const tx = await contract.retrieveNft(id, { gasLimit: gasAmount })
       await tx.wait()
       init()
       toastSuccess(
