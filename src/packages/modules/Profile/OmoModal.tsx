@@ -93,16 +93,16 @@ const OmoModal = ({
       withdrawBidTokenFunc(amount)
         .then((res) => {
           if (res) {
-            toastSuccess(`You have successfully withdrew $OMO.`)
+            toastSuccess(`You have successfully withdraw $OMO.`)
             setUseAmount(amount)
             onClose()
           } else {
-            toastError(`You failed to withdrew $OMO due to some error.`)
+            toastError(`You failed to withdraw $OMO due to some error.`)
           }
         })
         .catch((err) => {
           console.log(err)
-          toastError(`You failed to withdrew $OMO due to some error.`)
+          toastError(`You failed to withdraw $OMO due to some error.`)
         })
         .finally(() => {
           setLoading(false)
