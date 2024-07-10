@@ -10,15 +10,13 @@ import {
   Flex,
   Image,
   SimpleGrid,
-  Spinner,
   Text,
   Tooltip,
   useBreakpointValue,
 } from '@chakra-ui/react'
-import ItemGrid from 'packages/ui/components/ListItems/ItemGrid'
 // import { sleep } from '@utils'
 
-import NoData from '@components/NoData'
+import NFTAuctions from '@components/NFTAuctions'
 import { faker } from '@faker-js/faker'
 import { useConnectModal } from '@rainbow-me/rainbowkit'
 import { toastError, toastWarning } from '@utils/toast'
@@ -87,111 +85,6 @@ export default function Main() {
       base: '6px',
       xl: '10px',
     }) ?? '10px'
-
-  const List = () => {
-    if (gameList.length === 0) return <NoData />
-
-    return (
-      <>
-        <Box
-          px={{ base: '20px', md: '24px', lg: '32px', xl: '48px' }}
-          mt={{ base: '40px', xl: '80px' }}>
-          <Box>
-            <Flex
-              fontSize={{ base: '20px', md: '24px', xl: '28px' }}
-              fontWeight="800"
-              alignItems="center"
-              height="32px"
-              marginBottom="20px"
-              gap="8px">
-              <Text>Ongoing NFT Auctions</Text>({ongoingList.length})
-            </Flex>
-          </Box>
-          {ongoingList.length > 0 && (
-            <Flex gap="20px" overflow="auto" pb="8px">
-              {ongoingList?.map((item, idx) => {
-                return (
-                  <ItemGrid
-                    isOngoingList
-                    gridName="ongoingList"
-                    item={item}
-                    key={idx}
-                  />
-                )
-              })}
-            </Flex>
-          )}
-        </Box>
-
-        <Box
-          px={{
-            base: '20px',
-            sm: '80px',
-            md: '24px',
-            lg: '32px',
-            xl: '48px',
-          }}
-          mt={{ base: '40px', xl: '80px' }}>
-          <Box>
-            <Flex
-              fontSize={{ base: '20px', md: '24px', xl: '28px' }}
-              fontWeight="800"
-              alignItems="center"
-              height="32px"
-              marginBottom="20px"
-              gap="8px">
-              <Text>Upcoming NFT Auctions</Text>({upcomingList.length})
-            </Flex>
-          </Box>
-          {upcomingList.length > 0 && (
-            <SimpleGrid columns={[1, 1, 2, 3, 5, 5]} spacing="20px">
-              {upcomingList?.map((item, idx) => {
-                return (
-                  <ItemGrid
-                    isUpcoming
-                    gridName="upcomingList"
-                    item={item}
-                    key={idx}
-                  />
-                )
-              })}
-            </SimpleGrid>
-          )}
-        </Box>
-
-        {finishedList.length > 0 && (
-          <Box
-            px={{
-              base: '20px',
-              sm: '80px',
-              md: '24px',
-              lg: '32px',
-              xl: '48px',
-            }}
-            mt={{ base: '40px', xl: '80px' }}>
-            <Box>
-              <Flex
-                fontSize={{ base: '20px', md: '24px', xl: '28px' }}
-                fontWeight="800"
-                alignItems="center"
-                height="32px"
-                marginBottom="20px"
-                gap="8px">
-                <Text>Finished NFT Auctions</Text>({finishedList.length})
-              </Flex>
-            </Box>
-            <SimpleGrid columns={[1, 1, 2, 3, 5, 5]} spacing="20px">
-              {finishedList?.map((item, idx) => {
-                return (
-                  <ItemGrid gridName="finishedList" item={item} key={idx} />
-                )
-              })}
-            </SimpleGrid>
-          </Box>
-        )}
-      </>
-    )
-  }
 
   const fetchSysBrief = async () => {
     const data = await getSysBrief()
@@ -1149,20 +1042,7 @@ export default function Main() {
         />
       </Box>
 
-      <Suspense
-        fallback={
-          <Box mt="300px">
-            <Spinner
-              thickness="4px"
-              speed="0.65s"
-              emptyColor="gray.200"
-              color="blue.500"
-              size="xl"
-            />
-          </Box>
-        }>
-        <List />
-      </Suspense>
+      <NFTAuctions />
       <Suspense>
         <BidderModal
           isOpen={open}
