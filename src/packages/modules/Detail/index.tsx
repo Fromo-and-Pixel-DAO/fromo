@@ -45,12 +45,11 @@ const FL_CONTRACT_ADR: string = process.env
 const Details = () => {
   const router = useRouter()
 
-  const { pool: id } = router.query
+  const { pool: id, nftName, nftLastAddress } = router.query
   const { address } = useStore()
   const account = useAccount()
   const listenerSetUpRef = useRef(false)
 
-  const { nftName } = router.query
   const { openConnectModal } = useConnectModal()
 
   const [claims, setClaims] = useState('0')
@@ -668,7 +667,8 @@ const Details = () => {
           </Flex>
         </Box>
         {detailInfos?.state === State.Finished &&
-        detailInfos?.lastPlayer.toLowerCase() === address &&
+        (detailInfos?.lastPlayer.toLowerCase() === address ||
+          nftLastAddress === address) &&
         gameAmountNft.biddersCount &&
         gameAmountNft.biddersCount > 0 ? (
           <Flex justifyContent="center">
@@ -987,6 +987,9 @@ const Details = () => {
                 color="#1DFED6">
                 {detailInfos?.state === 0
                   ? '--'
+                  : detailInfos?.lastPlayer.toLowerCase() ===
+                    '0x0000000000000000000000000000000000000000'
+                  ? ellipseAddress(String(nftLastAddress))
                   : ellipseAddress(detailInfos?.lastPlayer.toLowerCase())}
               </Box>
 

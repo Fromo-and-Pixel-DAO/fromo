@@ -444,7 +444,10 @@ function ItemGrid({
         onClickCapture={() => {
           router.push({
             pathname: `/${item.gameId}`,
-            query: { nftName: item.name },
+            query: {
+              nftName: item.name,
+              nftLastAddress: item?.lastAddress?.toLocaleLowerCase(),
+            },
           })
         }}
         borderRadius="40px"
