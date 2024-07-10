@@ -29,7 +29,6 @@ import { web3Modal } from 'packages/web3'
 import { memo, useEffect, useMemo, useRef, useState } from 'react'
 import { useAccount } from 'wagmi'
 import Web3 from 'web3'
-import PurchaseNFTModal from './PurchaseNFTModal'
 
 export enum State {
   Upcoming = 0,
@@ -1359,7 +1358,6 @@ const Details = () => {
             </Box>
           </Flex>
         </Box>
-        <PurchaseNFTModal isOpen={false} onClose={null} />
       </Box>
       <Footer />
     </Box>
