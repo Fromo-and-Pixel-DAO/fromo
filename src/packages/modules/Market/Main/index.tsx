@@ -456,7 +456,8 @@ export default function Main() {
                   </Box>
                 </Box>
                 <Flex
-                  w="77%"
+                  ml="80px"
+                  w="100%"
                   bg="#7E4AF1"
                   borderRadius="12px"
                   py="12px"
@@ -569,7 +570,7 @@ export default function Main() {
             </Box>
             {/* table */}
             <Flex
-              w={{ md: 'fit-content' }}
+              w="100%"
               bg="#7E4AF1"
               borderRadius="8px"
               py="16px"
