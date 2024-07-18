@@ -225,6 +225,7 @@ const Header: FC = () => {
           <Image
             display={{ base: 'block', lg: 'none' }}
             onClick={onOpen}
+            zIndex={110}
             alt=""
             src="/static/header/menu.svg"
           />
