@@ -431,8 +431,7 @@ function ItemGrid({
             fontWeight="600"
             lineHeight="20px"
             whiteSpace="nowrap"
-            w="150px"
-            overflow="auto"
+            overflow="hidden"
             textOverflow="ellipsis">
             {item.name || '--'}
           </Text>
@@ -508,8 +507,7 @@ function ItemGrid({
               fontWeight="600"
               lineHeight="20px"
               whiteSpace="nowrap"
-              w="150px"
-              overflow="auto"
+              overflow="hidden"
               textOverflow="ellipsis">
               {item.name || '--'}
             </Text>

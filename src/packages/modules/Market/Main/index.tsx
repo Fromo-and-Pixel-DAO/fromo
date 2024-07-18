@@ -31,6 +31,7 @@ import useAuctions, { ActivityStatus } from 'packages/store/auctions'
 import useFomoStore from 'packages/store/fomo'
 import { web3Modal } from 'packages/web3'
 import { useAccount } from 'wagmi'
+import { useWindowSize } from '@hooks/useWindowSize'
 // import BidderModal from '@modules/Market/Main/BidderModal'
 
 const BidderModal = lazy(() => import('@modules/Market/Main/BidderModal'))
@@ -61,6 +62,7 @@ export default function Main() {
   const account = useAccount()
   const { address } = useStore()
   const { openConnectModal } = useConnectModal()
+  const { width } = useWindowSize()
 
   const [open, setOpen] = useState(false)
 
@@ -461,7 +463,7 @@ export default function Main() {
                   bg="#7E4AF1"
                   borderRadius="12px"
                   py="12px"
-                  pl="36px"
+                  pl="40px"
                   pr="20px"
                   fontSize="14px"
                   fontWeight="800"
@@ -521,9 +523,8 @@ export default function Main() {
                         alt="help"
                       />
                     </Tooltip>
-                    <Flex>
-                      <Text>Highest Bid</Text>
-                      <Text>: </Text>
+                    <Flex whiteSpace="nowrap" fontSize="14px">
+                      Highest Bid :
                       <Box mx="4px">
                         {parseFloat(`${auctionInfo?.highestBid}`).toFixed(2) ||
                           '--'}
@@ -539,7 +540,10 @@ export default function Main() {
                       h="16px"
                       alt="timer"
                     />
-                    <Box textTransform="uppercase">
+                    <Box
+                      textTransform="uppercase"
+                      whiteSpace="nowrap"
+                      fontSize="14px">
                       {[
                         ActivityStatus.NotStarted,
                         ActivityStatus.Bidding,
@@ -1021,10 +1025,14 @@ export default function Main() {
         />
         <Image
           position="absolute"
-          top={{ base: '0px', md: '12px' }}
-          right={{ base: '0px', md: '12px' }}
+          top={{ base: width > 424 ? '-10px' : '0px', md: '12px' }}
+          right={{
+            base: width > 424 ? '40px' : '0px',
+            sm: width > 560 ? '100px' : '60px',
+            md: '12px',
+          }}
           objectFit="cover"
-          w="290px"
+          w={{ base: width > 424 ? '290px' : '290px' }}
           display={{ base: 'block', xl: 'none' }}
           h="240px"
           src="/static/common/cartoon-mobile.png"
