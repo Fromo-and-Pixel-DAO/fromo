@@ -191,6 +191,53 @@ export default function Main() {
     },
   ]
 
+  const toolTip = () => {
+    return (
+      <Tooltip
+        label={
+          ActivityStatus.Staking === auctionInfo.status ? (
+            <>
+              {' '}
+              {address && auctionInfo.bidWinnerAddress === address ? (
+                <>
+                  {' '}
+                  You won the FROMO plot and the chance to auction NFT on{' '}
+                  {moment
+                    .utc(auctionInfo.startTimestamp)
+                    .format('MMMM DD, ha')}{' '}
+                  UTC{' '}
+                </>
+              ) : (
+                <>
+                  {' '}
+                  The NFT auction will start on{' '}
+                  {moment
+                    .utc(auctionInfo.startTimestamp)
+                    .add(8, 'hours')
+                    .format('MMMM DD, ha')}{' '}
+                  UTC{' '}
+                </>
+              )}
+            </>
+          ) : (
+            <>
+              {' '}
+              Get the chance to auction NFT on{' '}
+              {moment.utc(auctionInfo.startTimestamp).format('MMMM DD, ha')} UTC
+              by bidding a plot of FroopyLand
+            </>
+          )
+        }>
+        <Image
+          src="/static/common/help.svg"
+          w={{ md: '20px', xl: '28px' }}
+          h={{ md: '20px', xl: '28px' }}
+          alt="help"
+        />
+      </Tooltip>
+    )
+  }
+
   return (
     <Box alignItems="center" mb="50px">
       <Box
@@ -574,308 +621,80 @@ export default function Main() {
                 </Flex>
               </Flex>
             </Box>
-            {/* table */}
-            <Flex
-              w="100%"
-              bg="#7E4AF1"
-              borderRadius="8px"
-              py="16px"
-              px="16px"
-              gap="16px"
-              display={{ base: 'none', md: 'flex', xl: 'none' }}>
-              <Box pos="relative">
-                {/* NotStarted or Bidding */}
-                {[ActivityStatus.NotStarted, ActivityStatus.Bidding].includes(
-                  auctionInfo.status,
-                ) && (
-                  <Button
-                    px="0px"
-                    h="100%"
-                    borderRadius="full"
-                    bg="transparent"
-                    _hover={{}}
-                    _focus={{}}
-                    onClick={() => {
-                      if (!account.isConnected) {
-                        if (openConnectModal) {
-                          openConnectModal()
-                        } else {
-                          console.error('openConnectModal is not defined')
-                        }
-                      } else {
-                        if (ActivityStatus.NotStarted !== auctionInfo.status) {
-                          setOpen(true)
-                        }
-                      }
-                    }}
-                    pos="relative">
-                    <Image
-                      w="120px"
-                      h="120px"
-                      src={
-                        auctionInfo.status === ActivityStatus.Bidding
-                          ? '/static/common/3d.svg'
-                          : '/static/common/3d-coming.svg'
-                      }
-                      borderRadius="full"
-                      alt="3d"
-                      pos="relative"
-                    />
-                    <AbsoluteCenter _hover={{ opacity: 0.7 }}>
-                      <Text textAlign="center" fontWeight="black">
-                        BID <br /> plot
-                      </Text>
-                    </AbsoluteCenter>
-                  </Button>
-                )}
-                {/* Staking */}
-                {ActivityStatus.Staking === auctionInfo.status && (
-                  <>
-                    {address &&
-                    auctionInfo.bidWinnerAddress === address &&
-                    ((window.localStorage.getItem('staked') &&
-                      JSON.parse(window.localStorage.getItem('staked'))[0] !==
-                        '1') ||
-                      !window.localStorage.getItem('staked')) ? (
-                      <Button
-                        px="0px"
-                        h="100%"
-                        borderRadius="full"
-                        bg="transparent"
-                        cursor="pointer"
-                        _hover={{}}
-                        _focus={{}}
-                        onClick={() => router.push('/stake-nft')}
-                        pos="relative">
-                        <Image
-                          src="/static/common/3d-stake.svg"
-                          borderRadius="full"
-                          w="120px"
-                          h="120px"
-                          alt="3d"
-                          pos="relative"
-                        />
-                        <AbsoluteCenter _hover={{ opacity: 0.7 }}>
-                          <Text textAlign="center" fontWeight="black">
-                            Stake <br /> NFT
-                          </Text>
-                        </AbsoluteCenter>
-                      </Button>
-                    ) : (
-                      <Button
-                        px="0px"
-                        h="100%"
-                        borderRadius="full"
-                        bg="transparent"
-                        _hover={{}}
-                        cursor="unset"
-                        _focus={{}}
-                        pos="relative">
-                        <Image
-                          src="/static/common/3d-coming.svg"
-                          borderRadius="full"
-                          alt="3d"
-                          w="120px"
-                          h="120px"
-                          pos="relative"
-                        />
-                        <AbsoluteCenter>
-                          <Text textAlign="center" fontWeight="black">
-                            BID <br /> plot
-                          </Text>
-                        </AbsoluteCenter>
-                      </Button>
-                    )}
-                  </>
-                )}
-              </Box>
-              <Flex
-                fontSize="14px"
-                fontWeight="800"
-                direction="column"
-                justifyContent="space-between">
-                <Flex alignItems="center" gap="6px">
-                  <Tooltip
-                    label={
-                      ActivityStatus.Staking === auctionInfo.status ? (
-                        <>
-                          {' '}
-                          {address &&
-                          auctionInfo.bidWinnerAddress === address ? (
-                            <>
-                              {' '}
-                              You won the FROMO plot and the chance to auction
-                              NFT on{' '}
-                              {moment
-                                .utc(auctionInfo.startTimestamp)
-                                .format('MMMM DD, ha')}{' '}
-                              UTC{' '}
-                            </>
-                          ) : (
-                            <>
-                              {' '}
-                              The NFT auction will start on{' '}
-                              {moment
-                                .utc(auctionInfo.startTimestamp)
-                                .add(8, 'hours')
-                                .format('MMMM DD, ha')}{' '}
-                              UTC{' '}
-                            </>
-                          )}
-                        </>
-                      ) : (
-                        <>
-                          {' '}
-                          Get the chance to auction NFT on{' '}
-                          {moment
-                            .utc(auctionInfo.startTimestamp)
-                            .format('MMMM DD, ha')}{' '}
-                          UTC by bidding a plot of FroopyLand
-                        </>
-                      )
-                    }>
-                    <Image
-                      src="/static/common/help.svg"
-                      w={{ base: '20px', xl: '28px' }}
-                      h={{ base: '20px', xl: '28px' }}
-                      alt="help"
-                    />
-                  </Tooltip>
-                  <Flex>
-                    <Text>Highest Bid</Text>
-                    <Text>: </Text>
-                    <Box mx="4px">
-                      {parseFloat(`${auctionInfo?.highestBid}`).toFixed(2) ||
-                        '--'}
-                    </Box>
-                    <Text>$OMO</Text>
-                  </Flex>
-                </Flex>
-                <Box>
-                  {Number(auctionInfo.biddersCount) === 0
-                    ? 0
-                    : auctionInfo.biddersCount || '--'}{' '}
-                  Bidders
-                </Box>
-                <Flex alignItems="center" gap="6px">
-                  <Image
-                    src="/static/common/timer.svg"
-                    w={{ base: '20px', xl: '28px' }}
-                    h={{ base: '20px', xl: '28px' }}
-                    alt="timer"
-                  />
-                  <Box textTransform="uppercase">
-                    {[
-                      ActivityStatus.NotStarted,
-                      ActivityStatus.Bidding,
-                    ].includes(auctionInfo.status) && (
-                      <>
-                        {auctionInfo.status === ActivityStatus.NotStarted &&
-                          `Open on ${moment
-                            .utc(auctionInfo.startTimestamp)
-                            .format('MMMM DD, Ha')}  UTC `}
-                        {auctionInfo.status === ActivityStatus.Bidding &&
-                          `Close on ${moment
-                            .utc(auctionInfo.startTimestamp)
-                            .add(16, 'hours')
-                            .format('MMMM DD, Ha')}  UTC `}
-                      </>
-                    )}
-
-                    {auctionInfo.status === ActivityStatus.Staking &&
-                      ` Close on
-                    ${moment
-                      .utc(auctionInfo.startTimestamp)
-                      .add(8, 'hours')
-                      .format('MMMM DD, ha')}  UTC `}
-                  </Box>
-                </Flex>
-              </Flex>
-            </Flex>
           </Box>
           {/* laptop */}
           <Box>
             <Flex
-              display={{ base: 'none', xl: 'flex' }}
+              display={{ base: 'none', md: 'flex' }}
               pos="relative"
               bg="#7E4AF1"
               py="28px"
               px="25px"
+              h={{ md: '88px', xl: 'unset' }}
               fontSize="24px"
               lineHeight="28px"
               fontWeight="800"
+              alignItems="center"
               borderRadius="full">
-              <Flex gap="28px" w="50%">
-                <Tooltip
-                  label={
-                    ActivityStatus.Staking === auctionInfo.status ? (
-                      <>
-                        {' '}
-                        {address && auctionInfo.bidWinnerAddress === address ? (
-                          <>
-                            {' '}
-                            You won the FROMO plot and the chance to auction NFT
-                            on{' '}
-                            {moment
-                              .utc(auctionInfo.startTimestamp)
-                              .format('MMMM DD, ha')}{' '}
-                            UTC{' '}
-                          </>
-                        ) : (
-                          <>
-                            {' '}
-                            The NFT auction will start on{' '}
-                            {moment
-                              .utc(auctionInfo.startTimestamp)
-                              .add(8, 'hours')
-                              .format('MMMM DD, ha')}{' '}
-                            UTC{' '}
-                          </>
-                        )}
-                      </>
-                    ) : (
-                      <>
-                        {' '}
-                        Get the chance to auction NFT on{' '}
-                        {moment
-                          .utc(auctionInfo.startTimestamp)
-                          .format('MMMM DD, ha')}{' '}
-                        UTC by bidding a plot of FroopyLand
-                      </>
-                    )
-                  }>
-                  <Image
-                    src="/static/common/help.svg"
-                    w="28px"
-                    h="28px"
-                    alt="help"
-                  />
-                </Tooltip>
-                <Flex gap="4px">
+              <Flex
+                gap={{
+                  md: '8px',
+                  lg: '12px',
+                  xl: width > 1440 ? '28px' : '10px',
+                }}
+                direction={{ md: 'column', xl: 'row' }}
+                w="50%">
+                <Box display={{ md: 'none', xl: 'block' }}>{toolTip()}</Box>
+                <Flex
+                  gap="4px"
+                  fontSize={{
+                    md: '16px',
+                    lg: '20px',
+                    xl: width > 1440 ? '24px' : '20px',
+                  }}
+                  whiteSpace="nowrap"
+                  alignItems="center">
+                  <Box display={{ md: 'block', xl: 'none' }}>{toolTip()}</Box>
                   <Text>Highest Bid</Text>
                   <Text>: </Text>
-                  <Box mx="4px">
+                  <Box mx={{ xl: '4px' }}>
                     {parseFloat(`${auctionInfo?.highestBid}`).toFixed(2) ||
                       '--'}
                   </Box>
                   <Text>$OMO</Text>
                 </Flex>
-                <Box>
+                <Box
+                  fontSize={{
+                    md: '16px',
+                    lg: '20px',
+                    xl: width > 1440 ? '24px' : '20px',
+                  }}>
                   {Number(auctionInfo.biddersCount) === 0
                     ? 0
                     : auctionInfo.biddersCount || '--'}{' '}
                   Bidders
                 </Box>
               </Flex>
-              <Box w="50%" alignItems="center">
-                <Flex gap="12px" ml="200px">
+
+              <Box ml={{ md: '168px', xl: '0px' }} w="50%" alignItems="center">
+                <Flex
+                  gap={{ md: '8px', xl: '12px' }}
+                  ml={{ xl: '110px' }}
+                  alignItems="center">
                   <Image
                     src="/static/common/timer.svg"
-                    w="28px"
-                    h="28px"
+                    w={{ md: '20px', xl: '28px' }}
+                    h={{ md: '20px', xl: '28px' }}
                     alt="timer"
                   />
-                  <Box textTransform="uppercase">
+                  <Box
+                    textTransform="uppercase"
+                    whiteSpace="nowrap"
+                    fontSize={{
+                      md: '16px',
+                      lg: '20px',
+                      xl: width > 1440 ? '24px' : '20px',
+                    }}>
                     {[
                       ActivityStatus.NotStarted,
                       ActivityStatus.Bidding,
@@ -902,7 +721,7 @@ export default function Main() {
                   </Box>
                 </Flex>
               </Box>
-              <AbsoluteCenter>
+              <AbsoluteCenter w={{ md: '180px', xl: '220px' }}>
                 {/* NotStarted or Bidding */}
                 {[ActivityStatus.NotStarted, ActivityStatus.Bidding].includes(
                   auctionInfo.status,

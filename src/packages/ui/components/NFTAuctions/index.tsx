@@ -65,7 +65,6 @@ export default function NFTAuctions() {
             <Box
               px={{
                 base: '20px',
-                sm: '80px',
                 md: '24px',
                 lg: '32px',
                 xl: '48px',
@@ -102,7 +101,6 @@ export default function NFTAuctions() {
               <Box
                 px={{
                   base: '20px',
-                  sm: '80px',
                   md: '24px',
                   lg: '32px',
                   xl: '48px',
