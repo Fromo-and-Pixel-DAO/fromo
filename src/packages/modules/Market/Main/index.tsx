@@ -194,7 +194,7 @@ export default function Main() {
   return (
     <Box alignItems="center" mb="50px">
       <Box
-        pt={{ base: '204px', md: '60px' }}
+        pt={{ base: '170px', md: '60px' }}
         px={{ base: '20px', lg: '32px', xl: '48px' }}
         position="relative">
         <Box>
@@ -340,7 +340,7 @@ export default function Main() {
                 justifyContent="end"
                 display={{ base: 'flex', xl: 'none' }}>
                 <Box
-                  w="30%"
+                  w={{ base: width > 424 ? '112px' : '98px' }}
                   pos="absolute"
                   left="0px"
                   top="50%"
@@ -375,7 +375,9 @@ export default function Main() {
                         }}
                         pos="relative">
                         <Image
-                          w="112px"
+                          w={{
+                            base: width > 424 ? '112px' : '98px',
+                          }}
                           bg="black"
                           src={
                             auctionInfo.status === ActivityStatus.Bidding
@@ -463,7 +465,7 @@ export default function Main() {
                   bg="#7E4AF1"
                   borderRadius="12px"
                   py="12px"
-                  pl="40px"
+                  pl={{ base: '40px', sm: '52px' }}
                   pr="20px"
                   fontSize="14px"
                   fontWeight="800"
@@ -1025,18 +1027,19 @@ export default function Main() {
         />
         <Image
           position="absolute"
-          top={{ base: width > 424 ? '-10px' : '0px', md: '12px' }}
+          top={{ base: '-36px', sm: '-48px', md: '12px' }}
           right={{
-            base: width > 424 ? '40px' : '0px',
-            sm: width > 560 ? '100px' : '60px',
+            base: width > 424 ? '0px' : '0px',
+            sm: '20px',
             md: '12px',
           }}
           objectFit="cover"
-          w={{ base: width > 424 ? '290px' : '290px' }}
+          w={{ base: width > 424 ? '300px' : '290px', sm: '332px' }}
           display={{ base: 'block', xl: 'none' }}
           h="240px"
           src="/static/common/cartoon-mobile.png"
           alt="cartoon"
+          zIndex={100}
         />
         <Image
           display={{ base: 'none', xl: 'block' }}
