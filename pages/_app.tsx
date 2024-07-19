@@ -5,19 +5,14 @@ export const metadata = {
 
 import '@rainbow-me/rainbowkit/styles.css'
 import { useRouter } from 'next/router'
-
-import { WagmiProvider } from 'wagmi'
 import { RainbowKitProvider, type Locale } from '@rainbow-me/rainbowkit'
+import { WagmiProvider } from 'wagmi'
 import { config } from '../src/configChanis'
-
 import { ToastContainer } from 'react-toastify'
 import useVH from 'react-vh'
-
 import { ChakraProvider } from '@chakra-ui/react'
-
 import customTheme from '@styles/customTheme'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-
 import { isProd } from 'packages/constants'
 
 import '@styles/_globals.scss'
