@@ -263,7 +263,7 @@ function ItemGrid({
                 fontSize="24px"
                 lineHeight="28px"
                 fontWeight="800"
-                overflow="auto"
+                overflow="hidden"
                 whiteSpace="nowrap"
                 w="220px"
                 textOverflow="ellipsis"
@@ -523,7 +523,7 @@ function ItemGrid({
                   color="rgba(255,255,255,0.5)"
                   fontWeight="600"
                   whiteSpace="nowrap"
-                  overflow="auto"
+                  overflow="hidden"
                   textOverflow="ellipsis"
                   lineHeight="20px">
                   {item.biddersCount !== null && item.biddersCount !== undefined
@@ -841,7 +841,7 @@ function ItemGrid({
             fontWeight="600"
             lineHeight="20px"
             whiteSpace="nowrap"
-            overflow="auto"
+            overflow="hidden"
             textOverflow="ellipsis">
             {item.name || '--'}
           </Text>
@@ -857,7 +857,7 @@ function ItemGrid({
                 color="rgba(255,255,255,0.5)"
                 fontWeight="600"
                 whiteSpace="nowrap"
-                overflow="auto"
+                overflow="hidden"
                 textOverflow="ellipsis"
                 lineHeight="20px">
                 {item.biddersCount !== null && item.biddersCount !== undefined

@@ -33,7 +33,7 @@ export default function NFTAuctions() {
         ) : (
           <>
             <Box
-              px={{ base: '20px', md: '24px', lg: '32px', xl: '48px' }}
+              px={{ base: '20px', md: '24px', lg: '80px', xl: '48px' }}
               mt={{ base: '40px', xl: '80px' }}>
               <Box>
                 <Flex
@@ -66,7 +66,7 @@ export default function NFTAuctions() {
               px={{
                 base: '20px',
                 md: '24px',
-                lg: '32px',
+                lg: '80px',
                 xl: '48px',
               }}
               mt={{ base: '40px', xl: '80px' }}>
@@ -102,7 +102,7 @@ export default function NFTAuctions() {
                 px={{
                   base: '20px',
                   md: '24px',
-                  lg: '32px',
+                  lg: '80px',
                   xl: '48px',
                 }}
                 mt={{ base: '40px', xl: '80px' }}>

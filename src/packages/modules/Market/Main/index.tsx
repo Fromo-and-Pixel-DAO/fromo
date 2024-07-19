@@ -230,8 +230,8 @@ export default function Main() {
         }>
         <Image
           src="/static/common/help.svg"
-          w={{ md: '20px', xl: '28px' }}
-          h={{ md: '20px', xl: '28px' }}
+          w={{ md: '16px', xl: '28px' }}
+          h={{ md: '16px', xl: '28px' }}
           alt="help"
         />
       </Tooltip>
@@ -245,7 +245,9 @@ export default function Main() {
         px={{ base: '20px', lg: '80px', xl: '48px' }}
         position="relative">
         <Box>
-          <Box pl={{ xl: '40px' }} mb="126px">
+          <Box
+            pl={{ xl: '40px' }}
+            mb={{ base: '80px', md: '40px', xl: '126px' }}>
             <Text className="stroked-text">
               <Flex
                 className="stroked-text-gradient"
@@ -284,7 +286,7 @@ export default function Main() {
               </Text>
             </Text>
 
-            <Box display={{ base: 'block', xl: 'none' }} mb="40px">
+            <Box display={{ base: 'block', md: 'none' }} mb="40px">
               <SimpleGrid columns={2} spacing={5}>
                 {OMO_Metrics.map((i, k) => (
                   <Flex key={k} ml={{ xl: k === 0 ? '' : '28px' }}>
@@ -326,9 +328,9 @@ export default function Main() {
             </Box>
 
             {sysInfo && (
-              <Flex display={{ base: 'none', xl: 'flex' }}>
+              <Flex display={{ base: 'none', md: 'flex' }}>
                 {OMO_Metrics.map((i, k) => (
-                  <Flex key={k} ml={{ xl: k === 0 ? '' : '28px' }}>
+                  <Flex key={k} ml={{ base: k === 0 ? '' : '28px' }}>
                     <Box>
                       <Text
                         fontSize={{ base: '14px', xl: '16px' }}
@@ -642,14 +644,16 @@ export default function Main() {
                   lg: '12px',
                   xl: width > 1440 ? '28px' : '10px',
                 }}
-                direction={{ md: 'column', xl: 'row' }}
+                direction={{
+                  md: 'column',
+                  lg: width > 1100 ? 'row' : 'column',
+                }}
                 w="50%">
                 <Box display={{ md: 'none', xl: 'block' }}>{toolTip()}</Box>
                 <Flex
                   gap="4px"
                   fontSize={{
                     md: '16px',
-                    lg: '20px',
                     xl: width > 1440 ? '24px' : '20px',
                   }}
                   whiteSpace="nowrap"
@@ -666,7 +670,6 @@ export default function Main() {
                 <Box
                   fontSize={{
                     md: '16px',
-                    lg: '20px',
                     xl: width > 1440 ? '24px' : '20px',
                   }}>
                   {Number(auctionInfo.biddersCount) === 0
@@ -692,7 +695,6 @@ export default function Main() {
                     whiteSpace="nowrap"
                     fontSize={{
                       md: '16px',
-                      lg: '20px',
                       xl: width > 1440 ? '24px' : '20px',
                     }}>
                     {[
@@ -721,7 +723,7 @@ export default function Main() {
                   </Box>
                 </Flex>
               </Box>
-              <AbsoluteCenter w={{ md: '180px', xl: '220px' }}>
+              <AbsoluteCenter w={{ md: '170px', xl: '220px' }}>
                 {/* NotStarted or Bidding */}
                 {[ActivityStatus.NotStarted, ActivityStatus.Bidding].includes(
                   auctionInfo.status,
@@ -760,8 +762,7 @@ export default function Main() {
                       <Text
                         textAlign="center"
                         fontWeight="black"
-                        fontSize="40px"
-                        lineHeight="40px">
+                        fontSize={{ md: '24px', lg: '28px', xl: '40px' }}>
                         BID <br /> plot
                       </Text>
                     </AbsoluteCenter>
@@ -795,8 +796,7 @@ export default function Main() {
                           <Text
                             textAlign="center"
                             fontWeight="black"
-                            fontSize="32px"
-                            lineHeight="40px">
+                            fontSize={{ md: '24px', lg: '28px', xl: '40px' }}>
                             Stake <br /> NFT
                           </Text>
                         </AbsoluteCenter>
@@ -820,8 +820,7 @@ export default function Main() {
                           <Text
                             textAlign="center"
                             fontWeight="black"
-                            fontSize="40px"
-                            lineHeight="40px">
+                            fontSize={{ md: '24px', lg: '28px', xl: '40px' }}>
                             BID <br /> plot
                           </Text>
                         </AbsoluteCenter>
@@ -873,8 +872,8 @@ export default function Main() {
           right={{ xl: width > 1440 ? '244px' : '140px' }}
           objectFit="contain"
           src="/static/common/cartoon-2.svg"
-          w={{ xl: width > 1440 ? '300px' : '280px' }}
-          h={{ xl: width > 1440 ? '300px' : '280px' }}
+          w={{ xl: width > 1440 ? 'unset' : '280px' }}
+          h={{ xl: width > 1440 ? 'unset' : '280px' }}
           alt="cartoon-2"
         />
       </Box>

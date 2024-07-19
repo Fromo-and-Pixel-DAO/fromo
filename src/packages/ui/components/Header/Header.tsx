@@ -209,7 +209,7 @@ const Header: FC = () => {
         mx="auto"
         color={useColorModeValue('gray.600', 'white')}
         py="18px"
-        px={{ base: '20px', xl: '48px' }}
+        px={{ base: '20px', lg: '80px', xl: '48px' }}
         borderStyle="solid"
         borderColor={useColorModeValue('gray.200', 'gray.900')}
         align="center"
