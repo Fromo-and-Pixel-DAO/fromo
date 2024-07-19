@@ -10,7 +10,7 @@ import axios from 'axios'
 import { ethers } from 'ethers'
 import moment from 'moment'
 import OriginNFT from 'packages/abis/contracts/OriginNFT.sol/OriginNFT.json'
-import fl419ABI from 'packages/abis/demo/fl419.json'
+import BidFromoABI from 'packages/abis/demo/BidFromo.json'
 import ERC20ABI from 'packages/abis/ERC20.json'
 import FactoryContractABI from 'packages/abis/FactoryContractABI.json'
 import GeneralNFTContractABI from 'packages/abis/GeneralNFTContractABI.json'
@@ -261,7 +261,7 @@ export async function withdrawBidTokenFunc(
   const provider = await web3Modal.connect()
   const library = new ethers.providers.Web3Provider(provider)
   const signer = library.getSigner()
-  const flContract = new ethers.Contract(contractAddress, fl419ABI, signer)
+  const flContract = new ethers.Contract(contractAddress, BidFromoABI, signer)
   const transaction = await flContract.withdrawBidToken(
     ethers.utils.parseEther(String(amount)),
   )
@@ -285,7 +285,7 @@ export async function depositBidTokenFunc(
   const provider = await web3Modal.connect()
   const library = new ethers.providers.Web3Provider(provider)
   const signer = library.getSigner()
-  const contract = new ethers.Contract(contractAddress, fl419ABI, signer)
+  const contract = new ethers.Contract(contractAddress, BidFromoABI, signer)
   const transaction = await contract.depositBidToken(
     ethers.utils.parseEther(String(amount)),
   )
@@ -308,9 +308,10 @@ export async function convertKeyToToken(gameIds: number[]) {
   const signer = library.getSigner()
   const contract = new ethers.Contract(
     process.env.NEXT_PUBLIC_FL_CONTRACT_ADR,
-    fl419ABI,
+    BidFromoABI,
     signer,
   )
+  console.log("ssssss", gameIds)
   const gasAmount = await contract.estimateGas.convertKeyToToken(gameIds)
   const transaction = await contract.convertKeyToToken(gameIds, {
     gasLimit: gasAmount,
@@ -334,7 +335,7 @@ export async function claimBonusFunc(gameIds: number[]) {
   const address = await signer.getAddress()
   const contract = new ethers.Contract(
     process.env.NEXT_PUBLIC_FL_CONTRACT_ADR,
-    fl419ABI,
+    BidFromoABI,
     signer,
   )
   const transaction = await contract.claimBonus(gameIds, address)
@@ -356,7 +357,7 @@ export async function withdrawLastplayerPrizeFunc(gameIds: number[]) {
   const signer = library.getSigner()
   const contract = new ethers.Contract(
     process.env.NEXT_PUBLIC_FL_CONTRACT_ADR,
-    fl419ABI,
+    BidFromoABI,
     signer,
   )
   const gasAmount = await contract.estimateGas.withdrawLastplayerPrize(gameIds)
@@ -382,7 +383,7 @@ export async function withdrawSaleRevenueFunc(gameIds: number[]) {
   const address = await signer.getAddress()
   const contract = new ethers.Contract(
     process.env.NEXT_PUBLIC_FL_CONTRACT_ADR,
-    fl419ABI,
+    BidFromoABI,
     signer,
   )
   const gasAmount = await contract.estimateGas.withdrawSaleRevenue(gameIds)

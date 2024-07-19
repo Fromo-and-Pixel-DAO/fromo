@@ -12,7 +12,7 @@ import { useEffect, useState } from 'react'
 import Footer from '@components/Footer'
 import { useRouter } from 'next/router'
 import ERC_ABI from 'packages/abis/demo/Erc721.json'
-import flABI from 'packages/abis/demo/fl419.json'
+import flABI from 'packages/abis/demo/BidFromo.json'
 import useAuctions from 'packages/store/auctions'
 
 const FL_CONTRACT_ADR: string = process.env
