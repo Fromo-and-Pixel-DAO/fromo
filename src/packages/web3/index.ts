@@ -30,7 +30,6 @@ import { NftDeployInfoType } from '@ts'
 
 import { NFT } from './type'
 
-const INFURA_KEY = process.env.NEXT_PUBLIC_INFURA_KEY
 
 const network = isProd ? Network.ETH_MAINNET : Network.ETH_GOERLI
 
@@ -307,14 +306,13 @@ export async function convertKeyToToken(gameIds: number[]) {
   const provider = await web3Modal.connect()
   const library = new ethers.providers.Web3Provider(provider)
   const signer = library.getSigner()
-  const address = await signer.getAddress()
   const contract = new ethers.Contract(
     process.env.NEXT_PUBLIC_FL_CONTRACT_ADR,
     fl419ABI,
     signer,
   )
-  const gasAmount = await contract.estimateGas.convertKeyToToken(gameIds, address)
-  const transaction = await contract.convertKeyToToken(gameIds, address, {
+  const gasAmount = await contract.estimateGas.convertKeyToToken(gameIds)
+  const transaction = await contract.convertKeyToToken(gameIds, {
     gasLimit: gasAmount,
   })
   return await transaction.wait()
