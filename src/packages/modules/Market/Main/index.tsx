@@ -242,7 +242,7 @@ export default function Main() {
     <Box alignItems="center" mb="50px">
       <Box
         pt={{ base: '170px', md: '60px' }}
-        px={{ base: '20px', lg: '32px', xl: '48px' }}
+        px={{ base: '20px', lg: '80px', xl: '48px' }}
         position="relative">
         <Box>
           <Box pl={{ xl: '40px' }} mb="126px">
@@ -836,11 +836,11 @@ export default function Main() {
         <Image
           position="absolute"
           top={0}
-          right="42px"
+          right={{ xl: width > 1440 ? '42px' : '-12px' }}
           objectFit="cover"
-          w="504px"
+          w={{ xl: width > 1440 ? '504px' : '420px' }}
           display={{ base: 'none', xl: 'block' }}
-          h="511px"
+          h={{ xl: width > 1440 ? '504px' : '420px' }}
           src="/static/common/cartoon-1.svg"
           alt="cartoon-1"
         />
@@ -851,9 +851,15 @@ export default function Main() {
             base: width > 424 ? '0px' : '0px',
             sm: '20px',
             md: '12px',
+            lg: '80px',
           }}
           objectFit="cover"
-          w={{ base: width > 424 ? '300px' : '290px', sm: '332px' }}
+          w={{
+            base: width > 424 ? '300px' : '290px',
+            sm: '332px',
+            md: '300px',
+            lg: '340px',
+          }}
           display={{ base: 'block', xl: 'none' }}
           h="240px"
           src="/static/common/cartoon-mobile.png"
@@ -863,12 +869,12 @@ export default function Main() {
         <Image
           display={{ base: 'none', xl: 'block' }}
           position="absolute"
-          top="142px"
-          right="244px"
-          objectFit="cover"
+          top={{ xl: width > 1440 ? '142px' : '120px' }}
+          right={{ xl: width > 1440 ? '244px' : '140px' }}
+          objectFit="contain"
           src="/static/common/cartoon-2.svg"
-          w="300px"
-          h="379px"
+          w={{ xl: width > 1440 ? '300px' : '280px' }}
+          h={{ xl: width > 1440 ? '300px' : '280px' }}
           alt="cartoon-2"
         />
       </Box>
