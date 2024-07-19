@@ -13,6 +13,7 @@ import {
 import Footer from '@components/Footer'
 import { faker } from '@faker-js/faker'
 import useCountDown from '@hooks/useCountDown'
+import { useWindowSize } from '@hooks/useWindowSize'
 import { useConnectModal } from '@rainbow-me/rainbowkit'
 import { ellipseAddress } from '@utils'
 import { toastError, toastSuccess } from '@utils/toast'
@@ -48,6 +49,7 @@ const Details = () => {
   const { address } = useStore()
   const account = useAccount()
   const listenerSetUpRef = useRef(false)
+  const { width } = useWindowSize()
 
   const { openConnectModal } = useConnectModal()
 
@@ -655,7 +657,7 @@ const Details = () => {
             w="max-content"
             cursor="pointer"
             alignItems="center"
-            pl={{ base: '16px', md: '24px', xl: '68px' }}
+            pl={{ base: '16px', md: '80px', xl: '68px' }}
             onClick={handleBack}>
             <ArrowBackIcon fontSize="20px" mr="4px" />
             <Text fontSize="20px" lineHeight="20px">
@@ -668,7 +670,9 @@ const Details = () => {
           nftLastAddress === address) &&
         gameAmountNft.biddersCount &&
         gameAmountNft.biddersCount > 0 ? (
-          <Flex justifyContent="center">
+          <Flex
+            px={{ base: '16px', md: '80px', xl: '68px' }}
+            justifyContent={{ base: 'center', sm: 'start' }}>
             <Flex
               background="#FFBD13"
               fontSize={{ base: '20px', xl: '24px' }}
@@ -687,10 +691,10 @@ const Details = () => {
             </Flex>
           </Flex>
         ) : null}
-        <Box px={{ base: '16px', md: '24px', xl: '68px' }} py="36px" mb="60px">
+        <Box px={{ base: '16px', md: '80px', xl: '68px' }} py="36px" mb="60px">
           <Box display={{ base: 'block', xl: 'none' }} mb="32px">
             <Image
-              m={{ base: 'auto', md: 'unset' }}
+              m={{ base: 'auto', sm: 'unset' }}
               w="180px"
               h="180px"
               objectFit="cover"
@@ -1079,7 +1083,13 @@ const Details = () => {
                 )}
 
                 <Box
-                  w={{ base: '100%', md: '50%', xl: '100%' }}
+                  w={{
+                    base: '100%',
+                    sm: '80%',
+                    md: '70%',
+                    lg: '60%',
+                    xl: '100%',
+                  }}
                   px="24px"
                   py="20px"
                   bg="#5E36B8"
@@ -1197,7 +1207,12 @@ const Details = () => {
                 <Flex alignItems="center" gap={{ base: '8px', xl: '20px' }}>
                   {/* My Key Holder Dividends */}
                   <Flex
-                    w={{ base: '50%', md: '30%', xl: '50%' }}
+                    w={{
+                      base: '50%',
+                      sm: width > 480 ? '35%' : '40%',
+                      md: '30%',
+                      xl: '50%',
+                    }}
                     direction="column"
                     justifyContent="space-between"
                     alignItems="center"
@@ -1269,7 +1284,12 @@ const Details = () => {
                   </Flex>
                   {/* My NFT Provider Dividends */}
                   <Flex
-                    w={{ base: '50%', md: '30%', xl: '50%' }}
+                    w={{
+                      base: '50%',
+                      sm: width > 480 ? '35%' : '40%',
+                      md: '30%',
+                      xl: '50%',
+                    }}
                     direction="column"
                     justifyContent="space-between"
                     alignItems="center"
@@ -1359,7 +1379,9 @@ const Details = () => {
           </Flex>
         </Box>
       </Box>
-      <Footer />
+      <Box px={{ base: '16px', md: '80px', xl: '68px' }}>
+        <Footer />
+      </Box>
     </Box>
   )
 }
