@@ -2,7 +2,7 @@ export const metadata = {
   title: 'FROMO',
   description: 'FROMO',
 }
-
+import Script from 'next/script';
 import '@rainbow-me/rainbowkit/styles.css'
 import { useRouter } from 'next/router'
 import { RainbowKitProvider, type Locale } from '@rainbow-me/rainbowkit'
@@ -54,7 +54,17 @@ const App = ({ Component, pageProps }: any) => {
                   name="keywords"
                   content="fromo, froppyLand, crypto, nft, eth, "
                 />
+              
               </Head>
+              <Script
+        src="https://cdn.jsdelivr.net/npm/eruda@3.2.0/eruda.min.js"
+        strategy="lazyOnload" // Loads script after the page is interactive
+        onLoad={() => {
+          if (typeof window !== 'undefined') {
+            eruda.init();
+          }
+        }}
+      />
               <Component {...pageProps} />
             </DefaultLayout>
             <ToastContainer autoClose={3000} theme="colored" />
