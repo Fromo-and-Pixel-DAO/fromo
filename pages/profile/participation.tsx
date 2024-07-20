@@ -17,8 +17,8 @@ const Header = lazy(() => import('@modules/Profile/Header'))
 export default function Main() {
   const { address } = useStore()
   const { userHeaderInfo } = useFomoStore()
+  
   const [isLoading, setIsLoading] = useState(false)
-
   const [gameNft, setGameNft] = useState<INftList>({
     total: 0,
     nftList: [],

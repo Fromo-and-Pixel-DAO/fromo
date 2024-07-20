@@ -2,22 +2,17 @@ export const metadata = {
   title: 'FROMO',
   description: 'FROMO',
 }
-
+import Script from 'next/script';
 import '@rainbow-me/rainbowkit/styles.css'
 import { useRouter } from 'next/router'
-
-import { WagmiProvider } from 'wagmi'
 import { RainbowKitProvider, type Locale } from '@rainbow-me/rainbowkit'
+import { WagmiProvider } from 'wagmi'
 import { config } from '../src/configChanis'
-
 import { ToastContainer } from 'react-toastify'
 import useVH from 'react-vh'
-
 import { ChakraProvider } from '@chakra-ui/react'
-
 import customTheme from '@styles/customTheme'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-
 import { isProd } from 'packages/constants'
 
 import '@styles/_globals.scss'
@@ -59,7 +54,17 @@ const App = ({ Component, pageProps }: any) => {
                   name="keywords"
                   content="fromo, froppyLand, crypto, nft, eth, "
                 />
+              
               </Head>
+              <Script
+        src="https://cdn.jsdelivr.net/npm/eruda@3.2.0/eruda.min.js"
+        strategy="lazyOnload" // Loads script after the page is interactive
+        onLoad={() => {
+          if (typeof window !== 'undefined') {
+            eruda.init();
+          }
+        }}
+      />
               <Component {...pageProps} />
             </DefaultLayout>
             <ToastContainer autoClose={3000} theme="colored" />

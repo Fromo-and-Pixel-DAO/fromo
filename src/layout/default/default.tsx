@@ -9,7 +9,6 @@ import Container from '@components/Container'
 
 const DefaultLayout: NextPage<PropsWithChildren> = ({ children }) => {
   const router = useRouter()
-  const { pathname } = router
   return (
     <>
       <Head>

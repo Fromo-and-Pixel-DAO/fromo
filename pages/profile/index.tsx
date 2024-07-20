@@ -36,11 +36,12 @@ const OmoModal = lazy(() => import('@modules/Profile/OmoModal'))
 
 export default function Main() {
   const { userHeaderInfo, getUserHeaderInfo } = useFomoStore()
+  const { width } = useWindowSize()
+
   const [claimKeysLoading, setClaimKeysLoading] = useState(false)
   const [claimFinalWinnerLoading, setClaimFinalWinnerLoading] = useState(false)
   const [claimNftLoading, setClaimNftLoading] = useState(false)
   const [convertKeysLoading, setConvertKeysLoading] = useState(false)
-  const { width } = useWindowSize()
 
   const handleHistoricalPageChange = (page: number) => {
     setCurrentHistoricalPage(page)

@@ -12,21 +12,18 @@ import { useEffect, useState } from 'react'
 import Footer from '@components/Footer'
 import { useRouter } from 'next/router'
 import ERC_ABI from 'packages/abis/demo/Erc721.json'
-import flABI from 'packages/abis/demo/fl417.json'
+import flABI from 'packages/abis/demo/BidFromo.json'
 import useAuctions from 'packages/store/auctions'
 
 const FL_CONTRACT_ADR: string = process.env
   .NEXT_PUBLIC_FL_CONTRACT_ADR as string
 const Register = () => {
   const router = useRouter()
-
-  const [nft, setNFT] = useState(null)
-
-  const [isLoading, setIsLoading] = useState(false)
-  const { address } = useStore()
-
   const { nftList, auctionInfo, getUserNftList } = useAuctions()
 
+  const [nft, setNFT] = useState(null)
+  const [isLoading, setIsLoading] = useState(false)
+  const { address } = useStore()
   const [localStaked, setLocalStaked] = useState(false)
 
   const fetchNFT = async () => {
