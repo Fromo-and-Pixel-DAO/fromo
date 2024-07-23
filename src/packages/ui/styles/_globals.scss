@@ -23,7 +23,7 @@
   --toastify-text-color-success: #000000;
   --toastify-text-color-warning: #000000;
   --toastify-text-color-error: #000000;
-
+  
   --toastify-font-family: 'Montserrat';
 
   --toastify-icon-color-info: var(--toastify-color-info);
@@ -265,7 +265,19 @@ body {
   transform: scale(2); 
 }
 
+.Toastify__toast-body {
+  margin-top: 0px !important;
+  padding: 0px !important;
+}
 
 .Toastify__close-button > svg {
   color: white;
+}
+
+.Toastify__progress-bar {
+  background: transparent !important;
+}
+
+.Toastify__toast-icon .Toastify--animate-icon .Toastify__zoom-enter {
+  margin-right: 12px;
 }
