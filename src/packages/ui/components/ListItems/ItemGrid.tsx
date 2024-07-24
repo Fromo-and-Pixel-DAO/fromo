@@ -264,7 +264,7 @@ function ItemGrid({
                 lineHeight="28px"
                 fontWeight="800"
                 overflow="hidden"
-                whiteSpace="nowrap"
+                noOfLines={2}
                 w="220px"
                 textOverflow="ellipsis"
                 mb="20px">

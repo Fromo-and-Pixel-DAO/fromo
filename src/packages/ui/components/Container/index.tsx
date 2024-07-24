@@ -13,40 +13,15 @@ export default function Container({
 }) {
   const router = useRouter()
   const { pathname } = router
-  if (pathname.includes('/account')) {
-    return (
-      <Box
-        overflow="hidden"
-        backgroundImage="/static/common/bg-main.jpg"
-        backgroundColor="#0B063B"
-        backgroundSize="cover"
-        backgroundRepeat="no-repeat"
-        border="2px solid violet"
-        backgroundAttachment="fixed"
-        minH="100vh"
-        pos="relative"
-        color="white">
-        <Header />
-
-        <Box
-          mx="auto"
-          pt={{ base: '75px', md: '85px' }}
-          pb={{ base: '75px', lg: 'unset' }}>
-          {children}
-        </Box>
-      </Box>
-    )
-  }
-
   if (pathname === '/[id]') {
     return (
       <Box
         overflow="hidden"
-        backgroundImage="/static/common/bg-main.jpg"
-        backgroundColor="#0B063B"
+        // backgroundImage="/static/common/bg-main.jpg"
+        // backgroundColor="#0B063B"
+        bg="red"
         backgroundSize="cover"
         backgroundRepeat="no-repeat"
-        border="2px solid violet"
         backgroundAttachment="fixed"
         minH="100vh"
         pos="relative"

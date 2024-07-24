@@ -249,6 +249,11 @@ body {
   display: none;
 }
 
+
+.chakra-select__wrapper > select {
+  padding-inline: 20px;
+}
+
 .chakra-select__icon-wrapper {
   margin-right: 12px;
   color: #00dab3 !important;

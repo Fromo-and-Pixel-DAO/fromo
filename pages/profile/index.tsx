@@ -30,7 +30,6 @@ import {
 
 const ListItems = lazy(() => import('@modules/Profile/ListItems'))
 const Sidebar = lazy(() => import('@modules/Profile/Sidebar'))
-const Header = lazy(() => import('@modules/Profile/Header'))
 const RedeemModal = lazy(() => import('@modules/Profile/RedeemModal'))
 const OmoModal = lazy(() => import('@modules/Profile/OmoModal'))
 
@@ -419,12 +418,12 @@ export default function Main() {
   }, [profit.keys])
   return (
     <Box>
-      <Flex direction={{ base: 'column', xl: 'row' }}>
+      <Flex direction={{ base: 'column', lg: 'row' }}>
         <Sidebar />
         <Flex
-          w={width > 1280 ? 'calc(100% - 328px)' : '100%'}
+          w={{ lg: 'calc(100% - 328px)' }}
           p={{
-            base: '30px 16px 32px 16px',
+            base: '30px 20px 32px 20px',
             md: '32px 20px',
             xl: '36px 68px 40px 0px',
           }}>
@@ -439,9 +438,16 @@ export default function Main() {
                 mb="32px">
                 My Assets
               </Text>
-              <Flex direction={{ base: 'column', md: 'row' }} gap="28px">
+              <Flex
+                direction={{
+                  base: 'column',
+                  md: 'row',
+                  lg: 'column',
+                  xl: 'row',
+                }}
+                gap="28px">
                 <Box
-                  w={{ base: '100%', xl: '50%' }}
+                  w={{ base: '100%', lg: '70%', xl: '50%' }}
                   p={{ base: '16px 24px', xl: '24px 32px' }}
                   bgColor="#5E36B8"
                   borderRadius="16px">
@@ -498,7 +504,7 @@ export default function Main() {
                   </Button>
                 </Box>
                 <Box
-                  w={{ base: '100%', xl: '50%' }}
+                  w={{ base: '100%', lg: '70%', xl: '50%' }}
                   p={{ base: '16px 24px', xl: '24px 32px' }}
                   bgColor="#5E36B8"
                   borderRadius="16px">

@@ -12,12 +12,11 @@ import useFomoStore from 'packages/store/fomo'
 import Footer from '@components/Footer'
 
 const Sidebar = lazy(() => import('@modules/Profile/Sidebar'))
-const Header = lazy(() => import('@modules/Profile/Header'))
 
 export default function Main() {
   const { address } = useStore()
   const { userHeaderInfo } = useFomoStore()
-  
+
   const [isLoading, setIsLoading] = useState(false)
   const [gameNft, setGameNft] = useState<INftList>({
     total: 0,
@@ -55,7 +54,7 @@ export default function Main() {
       title: `All Auctions`,
       value: 'allList',
       render: (
-        <SimpleGrid mt="20px" columns={[1, 1, 2, 3, 4]} spacing="20px">
+        <SimpleGrid mt="20px" columns={[1, 1, 2, 2, 4]} spacing="20px">
           {gameNft.nftList.map((item, idx) => {
             return <ItemGrid gridName="allList" item={item} key={idx} />
           })}
@@ -67,7 +66,7 @@ export default function Main() {
       title: `Ongoing`,
       value: 'ongoingList',
       render: (
-        <SimpleGrid mt="20px" columns={[1, 1, 2, 3, 4]} spacing="20px">
+        <SimpleGrid mt="20px" columns={[1, 1, 2, 2, 4]} spacing="20px">
           {ongoingList.map((item, idx) => {
             return <ItemGrid gridName="ongoingList" item={item} key={idx} />
           })}
@@ -79,7 +78,7 @@ export default function Main() {
       title: `Finished`,
       value: 'finishedList',
       render: (
-        <SimpleGrid mt="20px" columns={[1, 1, 2, 3, 4]} spacing="20px">
+        <SimpleGrid mt="20px" columns={[1, 1, 2, 2, 4]} spacing="20px">
           {finishedList.map((item, idx) => {
             return <ItemGrid gridName="finishedList" item={item} key={idx} />
           })}
@@ -91,10 +90,7 @@ export default function Main() {
     <Box minH="calc(100vh - 85px)">
       <Flex minH="70vh" direction={{ base: 'column', lg: 'row' }}>
         <Sidebar />
-        <Box
-          w="calc(100% - 328px)"
-          flex="1"
-          minW={{ base: 'full', md: '500px' }}>
+        <Box w={{ lg: 'calc(100% - 328px)' }} flex="1">
           {isLoading ? (
             <Flex
               minH="70vh"
@@ -136,7 +132,7 @@ export default function Main() {
                       textAlign="start"
                       fontSize={{ base: '24px', md: '28px', xl: '32px' }}
                       lineHeight="36px"
-                      display={{ base: 'none', xl: 'block' }}
+                      display={{ base: 'none', lg: 'block' }}
                       fontWeight="800"
                       mb="32px">
                       My Participation
@@ -145,11 +141,11 @@ export default function Main() {
                   </Box>
                 </Suspense>
               </Box>
-              <Footer />
             </>
           )}
         </Box>
       </Flex>
+      <Footer />
     </Box>
   )
 }

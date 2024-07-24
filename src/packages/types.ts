@@ -301,16 +301,10 @@ export enum FilterMarket {
 
 export enum PathnameType {
   MARKET = '/',
-  MY_NFT = '/account/my-nfts',
-  BUY = '/account/buy',
-  SELL = '/account/sell',
-  MY_COLLECTION = '/account/my-collection',
 }
-
 
 export enum PathProfileType {
   PROFILE = '/profile',
   AUCTIONS = '/profile/auctions',
   PARTICIPATION = '/profile/participation',
-
 }

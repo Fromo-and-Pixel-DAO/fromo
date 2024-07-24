@@ -233,7 +233,16 @@ const BidModal = ({ status, isOpen, onClose }: SubmitOfferModalProps) => {
           The highest bidder will have the opportunity to auction their NFT in
           the next round.
         </Text>
-        <Box overflow="auto" ref={scrollRef}>
+        <Box
+          overflow="auto"
+          sx={{
+            '::-webkit-scrollbar': {
+              display: 'none',
+            }, // Chrome, Safari and Opera
+            'scrollbar-width': 'none', // Firefox
+            '-ms-overflow-style': 'none', // IE and Edge
+          }}
+          ref={scrollRef}>
           {bidList.length > 0 && (
             <Flex>
               <Text

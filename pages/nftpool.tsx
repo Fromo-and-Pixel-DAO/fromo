@@ -23,7 +23,7 @@ const NFTpool = () => {
   return (
     <Box minH="calc(100vh - 85px)">
       <Text
-        pl="40px"
+        pl={{ base: '20px', lg: '32px', xl: '48px' }}
         mt="16px"
         fontSize={{ base: '24px', md: '28px', xl: '32px' }}
         fontWeight="800"
@@ -35,7 +35,7 @@ const NFTpool = () => {
           <Box
             mt={{ base: '28px', md: '36px', xl: '52px' }}
             px={{ base: '16px', md: '24px', lg: '32px', xl: '48px' }}
-            minH="60vh">
+            minH={{ xl: '50vh', '2xl': '60vh' }}>
             <SimpleGrid columns={[1, 2, 2, 3, 5, 5]} spacing="20px">
               {gameNft.nftList.map((item, idx) => {
                 return (
@@ -47,7 +47,10 @@ const NFTpool = () => {
           <Footer />
         </>
       ) : (
-        <Flex minH="60vh" justifyContent="center" alignItems="center">
+        <Flex
+          minH={{ xl: '50vh', '2xl': '60vh' }}
+          justifyContent="center"
+          alignItems="center">
           <NoData />
         </Flex>
       )}

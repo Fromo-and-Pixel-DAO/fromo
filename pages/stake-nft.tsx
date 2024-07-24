@@ -207,10 +207,14 @@ const Register = () => {
 
   return (
     <Box>
-      <Flex position="relative" alignItems="center" mb="56px">
+      <Flex
+        position="relative"
+        alignItems="center"
+        px={{ base: '20px', lg: '0px' }}
+        mb={{ base: '32px', lg: '56px' }}>
         <Flex
-          pos="absolute"
-          left="68px"
+          pos={{ lg: 'absolute' }}
+          left={{ lg: '48px', xl: '68px' }}
           alignItems="center"
           _hover={{ cursor: 'pointer' }}
           onClick={() => router.back()}>
@@ -221,32 +225,60 @@ const Register = () => {
             h="20px"
             mr="4px"
           />
-          <Text fontSize="20px" lineHeight="24px">
+          <Text fontSize={{ base: '18px', xl: '20px' }} lineHeight="24px">
             Back
           </Text>
         </Flex>
-        <Text w="full" textAlign="center" fontSize="36px" fontWeight="700">
+        <Text
+          w="full"
+          display={{ base: 'none', md: 'block' }}
+          textAlign="center"
+          fontSize={{ base: '28px', xl: '36px' }}
+          fontWeight="700">
           Stake NFT
         </Text>
       </Flex>
+      <Text
+        w="full"
+        display={{ base: 'block', md: 'none' }}
+        textAlign="center"
+        fontSize="28px"
+        mt="20px"
+        mb="48px"
+        fontWeight="700">
+        Stake NFT
+      </Text>
       <Flex justifyContent="center" mb="110px">
-        <Flex alignItems="center" gap="60px">
-          <Box w={{ base: '180px', md: '220px', xl: '430px' }}>
-            <Image
-              src={nft?.imageUrl}
-              fallbackSrc="/static/account/avatar.svg"
-              alt="logo"
-              w={{ base: '180px', md: '220px' }}
-              h="full"
-              borderRadius="15px"
-            />
-          </Box>
+        <Flex
+          direction={{ base: 'column', md: 'row' }}
+          alignItems="center"
+          justifyContent="space-between"
+          gap={{ base: '60px', md: '32px', lg: '40px', xl: '60px' }}
+          w="full">
+          <Flex
+            w={{ base: '100%', md: '50%' }}
+            justifyContent="center"
+            alignItems="center">
+            <Box w={{ base: '180px', xl: '430px' }}>
+              <Image
+                src={nft?.imageUrl}
+                fallbackSrc="/static/account/avatar.svg"
+                alt="logo"
+                w={{ base: '180px', md: '220px' }}
+                h="full"
+                borderRadius="15px"
+                m="auto"
+              />
+            </Box>
+          </Flex>
 
-          <Box>
+          <Box px={{ base: '20px', md: '0px' }} w={{ base: '100%', md: '50%' }}>
             <Select
-              w="460px"
+              w={{ base: '300px', lg: '460px' }}
               mb="32px"
               bg="#2F2B50"
+              h={{ base: '48px', md: '56px' }}
+              fontSize={{ base: '14px', md: '16px' }}
               border="none"
               placeholder="Select NFT in Fromo"
               sx={{
@@ -254,8 +286,7 @@ const Register = () => {
                   background: '#1DFED6',
                 },
               }}
-              onChange={(e) => setNFT(JSON.parse(e.target.value))}
-              h="56px">
+              onChange={(e) => setNFT(JSON.parse(e.target.value))}>
               {nftList.map((nft, index) => (
                 <option
                   disabled={nft.status === 1}
@@ -271,10 +302,13 @@ const Register = () => {
                 </option>
               ))}
             </Select>
-            <Flex direction="column" gap="12px">
+            <Flex
+              direction="column"
+              gap="12px"
+              fontSize={{ base: '14px', md: '16px' }}>
               {listStakeNFt.map((i, k) => (
                 <Flex alignItems="center" key={k} gap="12px">
-                  <Text>{i.title}</Text>
+                  <Text whiteSpace="nowrap">{i.title}</Text>
                   <Flex alignItems="center" fontWeight="600">
                     <Box color={k === 0 || k === 1 ? '#1DFED6' : 'white'}>
                       {i.description}
@@ -302,25 +336,26 @@ const Register = () => {
                 </Flex>
               ))}
             </Flex>
-            <Button
-              w="168px"
-              h="56px"
-              fontSize={{ base: '18px', lg: '20px' }}
-              lineHeight="30px"
-              color="#222222"
-              fontWeight="600"
-              borderRadius="8px"
-              bgColor="#1DFED6"
-              mt="32px"
-              isLoading={isLoading}
-              disabled={!nft || localStaked}
-              onClick={() => {
-                if (nft && !localStaked) {
-                  handleRegister()
-                }
-              }}>
-              Stake
-            </Button>
+            <Flex justifyContent={{ base: 'center', md: 'start' }}>
+              <Button
+                w={{ base: '132px', md: '168px' }}
+                h={{ base: '48px', md: '56px' }}
+                fontSize={{ base: '16px', md: '20px' }}
+                color="#222222"
+                fontWeight="600"
+                borderRadius="8px"
+                bgColor="#1DFED6"
+                mt={{ base: '60px', md: '32px' }}
+                isLoading={isLoading}
+                disabled={!nft || localStaked}
+                onClick={() => {
+                  if (nft && !localStaked) {
+                    handleRegister()
+                  }
+                }}>
+                Stake
+              </Button>
+            </Flex>
           </Box>
         </Flex>
       </Flex>

@@ -33,7 +33,7 @@ export default function NFTAuctions() {
         ) : (
           <>
             <Box
-              px={{ base: '20px', md: '24px', lg: '80px', xl: '48px' }}
+              px={{ base: '20px', md: '24px', lg: '32px', xl: '48px' }}
               mt={{ base: '40px', xl: '80px' }}>
               <Box>
                 <Flex
@@ -46,29 +46,36 @@ export default function NFTAuctions() {
                   <Text>Ongoing NFT Auctions</Text>({ongoingList.length})
                 </Flex>
               </Box>
-              {ongoingList.length > 0 && (
-                <Flex gap="20px" overflow="auto" pb="8px">
-                  {ongoingList?.map((item, idx) => {
-                    return (
-                      <ItemGrid
-                        isOngoingList
-                        gridName="ongoingList"
-                        item={item}
-                        key={idx}
-                      />
-                    )
-                  })}
-                </Flex>
-              )}
+              <Box pos="relative">
+                {ongoingList.length > 0 && (
+                  <Flex
+                    gap="20px"
+                    overflow="auto"
+                    pb="8px"
+                    sx={{
+                      '::-webkit-scrollbar': {
+                        display: 'none',
+                      }, // Chrome, Safari and Opera
+                      'scrollbar-width': 'none', // Firefox
+                      '-ms-overflow-style': 'none', // IE and Edge
+                    }}>
+                    {ongoingList?.map((item, idx) => {
+                      return (
+                        <ItemGrid
+                          isOngoingList
+                          gridName="ongoingList"
+                          item={item}
+                          key={idx}
+                        />
+                      )
+                    })}
+                  </Flex>
+                )}
+              </Box>
             </Box>
 
             <Box
-              px={{
-                base: '20px',
-                md: '24px',
-                lg: '80px',
-                xl: '48px',
-              }}
+              px={{ base: '20px', md: '24px', lg: '32px', xl: '48px' }}
               mt={{ base: '40px', xl: '80px' }}>
               <Box>
                 <Flex
@@ -99,12 +106,7 @@ export default function NFTAuctions() {
 
             {finishedList.length > 0 && (
               <Box
-                px={{
-                  base: '20px',
-                  md: '24px',
-                  lg: '80px',
-                  xl: '48px',
-                }}
+                px={{ base: '20px', md: '24px', lg: '32px', xl: '48px' }}
                 mt={{ base: '40px', xl: '80px' }}>
                 <Box>
                   <Flex

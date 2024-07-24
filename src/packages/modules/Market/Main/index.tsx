@@ -242,7 +242,7 @@ export default function Main() {
     <Box alignItems="center" mb="50px">
       <Box
         pt={{ base: '170px', md: '60px' }}
-        px={{ base: '20px', lg: '80px', xl: '48px' }}
+        px={{ base: '20px', lg: '32px', xl: '48px' }}
         position="relative">
         <Box>
           <Box
@@ -861,7 +861,7 @@ export default function Main() {
           }}
           display={{ base: 'block', xl: 'none' }}
           h="240px"
-          src="/static/common/cartoon-mobile.png"
+          src="/static/common/cartoon-mobile.svg"
           alt="cartoon"
           zIndex={100}
         />

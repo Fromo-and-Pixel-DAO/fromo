@@ -40,7 +40,6 @@ interface NavItem {
   href?: string
   onToggleModal?: any
 }
-
 const NAV_ITEMS_CONNECTED: Array<NavItem> = [
   // {
   //   label: 'NFT Whitelist',
@@ -211,8 +210,8 @@ const Header: FC = () => {
         py="18px"
         px={{
           base: '20px',
-          md: pathname === '/[pool]' ? '80px' : '20px',
-          lg: '80px',
+          md: '20px',
+          lg: '32px',
           xl: '48px',
         }}
         borderStyle="solid"

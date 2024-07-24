@@ -656,7 +656,7 @@ const Details = () => {
             w="max-content"
             cursor="pointer"
             alignItems="center"
-            pl={{ base: '16px', md: '80px', xl: '68px' }}
+            pl={{ base: '16px', md: '32px', xl: '68px' }}
             onClick={handleBack}>
             <ArrowBackIcon fontSize="20px" mr="4px" />
             <Text fontSize="20px" lineHeight="20px">
@@ -670,8 +670,8 @@ const Details = () => {
         gameAmountNft.biddersCount &&
         gameAmountNft.biddersCount > 0 ? (
           <Flex
-            px={{ base: '16px', md: '80px', xl: '68px' }}
-            justifyContent={{ base: 'center', sm: 'start' }}>
+            px={{ base: '16px', md: '32px', xl: '68px' }}
+            justifyContent={{ base: 'center', sm: 'start', xl: 'center' }}>
             <Flex
               background="#FFBD13"
               fontSize={{ base: '20px', xl: '24px' }}
@@ -690,7 +690,7 @@ const Details = () => {
             </Flex>
           </Flex>
         ) : null}
-        <Box px={{ base: '16px', md: '80px', xl: '68px' }} py="36px" mb="60px">
+        <Box px={{ base: '16px', md: '32px', xl: '68px' }} py="36px" mb="60px">
           <Box display={{ base: 'block', xl: 'none' }} mb="32px">
             <Image
               m={{ base: 'auto', sm: 'unset' }}
@@ -711,7 +711,7 @@ const Details = () => {
               <Text
                 fontWeight="800"
                 lineHeight="44px"
-                fontSize={{ base: '32px', md: '36px', xl: '40px' }}
+                fontSize={{ base: '32px', md: '36px', '2xl': '40px' }}
                 mb={{ base: '20px', xl: '40px' }}>
                 {nftName}
               </Text>
@@ -922,7 +922,11 @@ const Details = () => {
                           <Flex
                             alignItems="center"
                             fontWeight="800"
-                            fontSize={{ base: '24px', md: '28px', xl: '32px' }}
+                            fontSize={{
+                              base: '24px',
+                              md: '28px',
+                              '2xl': '32px',
+                            }}
                             lineHeight="36px"
                             gap="8px">
                             {k !== 0 && (
@@ -1007,6 +1011,7 @@ const Details = () => {
                   <Flex
                     justifyContent="space-between"
                     px="24px"
+                    w={{ md: '70%', lg: '50%', xl: 'unset' }}
                     py="20px"
                     bg="#5E36B8"
                     borderRadius="16px">
@@ -1086,7 +1091,7 @@ const Details = () => {
                     base: '100%',
                     sm: '80%',
                     md: '70%',
-                    lg: '60%',
+                    lg: '50%',
                     xl: '100%',
                   }}
                   px="24px"
@@ -1378,7 +1383,7 @@ const Details = () => {
           </Flex>
         </Box>
       </Box>
-      <Box px={{ base: '16px', md: '80px', xl: '68px' }}>
+      <Box px={{ base: '16px', md: '32px', xl: '68px' }}>
         <Footer />
       </Box>
     </Box>
