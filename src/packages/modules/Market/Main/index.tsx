@@ -640,7 +640,7 @@ export default function Main() {
               borderRadius="full">
               <Flex
                 gap={{
-                  md: '8px',
+                  md: '0px',
                   lg: '12px',
                   xl: width > 1440 ? '28px' : '10px',
                 }}
