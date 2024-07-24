@@ -12,7 +12,7 @@ const nextConfig = {
       },
       {
         source: `/fl/:path*`,
-        destination: `https://pom.wtf/fl/:path*`,
+        destination: `https://fromo.xyz/fl/:path*`,
       },
     ]
   },
