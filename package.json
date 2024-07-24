@@ -7,7 +7,6 @@
     "build": "next build",
     "export": "next export",
     "start": "next start -p 3001",
-    "prod": "next build && next start",
     "lint": "next lint",
     "lint:scss": "stylelint 'src/**/*.scss' --syntax scss",
     "lint:scss:fix": "stylelint 'src/**/*.scss' --syntax scss --fix",
