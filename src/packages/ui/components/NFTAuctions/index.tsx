@@ -5,7 +5,7 @@ import NoData from '@components/NoData'
 import useFomoStore from 'packages/store/fomo'
 import ItemGrid from 'packages/ui/components/ListItems/ItemGrid'
 
-import { Suspense, useState } from 'react'
+import { Suspense, useRef, useState } from 'react'
 
 import { Spinner } from '@chakra-ui/react'
 import IconNext from '@components/Icon/icon-next'
@@ -16,6 +16,18 @@ export default function NFTAuctions() {
   const { gameList, upcomingList, ongoingList, finishedList, getNftAuctions } =
     useFomoStore()
   const [currentIndex, setCurrentIndex] = useState(0)
+  const boxInnerRef = useRef()
+
+  const handleScroll = (direction: string) => {
+    const box = boxInnerRef.current
+    const scrollAmount = box.offsetWidth / 2
+
+    if (direction === 'right') {
+      box.scrollLeft += scrollAmount
+    } else {
+      box.scrollLeft -= scrollAmount
+    }
+  }
 
   return (
     <>
@@ -49,13 +61,45 @@ export default function NFTAuctions() {
                   <Text>Ongoing NFT Auctions</Text>({ongoingList.length})
                 </Flex>
               </Box>
-              <Box h={{ base: '430px', md: '226px' }} overflow="hidden">
-                <Box pos="relative" overflowX="auto">
-                  {ongoingList.length > 0 && (
-                    <Flex
-                      w="fit-content"
+              {ongoingList.length > 0 && (
+                <Box>
+                  <Box
+                    position="relative"
+                    width="100%"
+                    h={{ base: '402px', md: '212px' }}
+                    overflow="hidden">
+                    <Box
+                      width="40px"
+                      height="40px"
+                      left={{ base: '5%', md: '5%', xl: '3%' }}
+                      zIndex={10}
+                      bottom={{ base: '45%', md: '40%' }}
+                      cursor="pointer"
+                      _hover={{ opacity: '0.8' }}
+                      transform="rotate(180deg)"
+                      pos="absolute"
+                      onClick={() => handleScroll('left')}>
+                      <IconNext />
+                    </Box>
+                    <Box
+                      width="40px"
+                      height="40px"
+                      left={{ base: '83%', md: '90%', xl: '94%' }}
+                      zIndex={10}
+                      bottom={{ base: '40.5%', md: '32%' }}
+                      cursor="pointer"
+                      _hover={{ opacity: '0.8' }}
+                      transform="translateY(-50%)"
+                      pos="absolute"
+                      onClick={() => handleScroll('right')}>
+                      <IconNext />
+                    </Box>
+
+                    <Box
+                      ref={boxInnerRef}
+                      width="100%"
                       gap="20px"
-                      pb="8px"
+                      display="flex"
                       sx={{
                         '::-webkit-scrollbar': {
                           display: 'none',
@@ -63,14 +107,12 @@ export default function NFTAuctions() {
                         'scrollbar-width': 'none',
                         '-ms-overflow-style': 'none',
                       }}
-                      style={{
-                        transform: `translateX(-${
-                          width > 768 ? currentIndex * 50 : currentIndex * 100
-                        }%)`,
-                        transition: 'transform 0.5s ease-in-out',
-                      }}>
+                      position="absolute"
+                      whiteSpace="nowrap"
+                      overflowY="hidden"
+                      overflowX="scroll">
                       {ongoingList.map((item, idx) => (
-                        <Box key={idx} minW="fit-content">
+                        <Box key={idx}>
                           <ItemGrid
                             isOngoingList
                             gridName="ongoingList"
@@ -78,61 +120,11 @@ export default function NFTAuctions() {
                           />
                         </Box>
                       ))}
-                    </Flex>
-                  )}
-
-                  {currentIndex > 0 && (
-                    <Box
-                      width="40px"
-                      height="40px"
-                      left={{ base: '5%', md: '5%', xl: '3%' }}
-                      zIndex={10}
-                      bottom={{
-                        base: currentIndex > 0 ? '53.8%' : '50%',
-                        md: currentIndex > 0 ? '56.5%' : '50%',
-                      }}
-                      cursor="pointer"
-                      _hover={{ opacity: '0.8' }}
-                      transform="translateY(-50%) rotate(180deg)"
-                      pos="sticky"
-                      onClick={() => setCurrentIndex(currentIndex - 1)}>
-                      <IconNext />
                     </Box>
-                  )}
-
-                  {ongoingList.length > 0 && (
-                    <Box
-                      width="40px"
-                      display={{
-                        base: ongoingList.length >= 2 ? 'block' : 'none',
-                        md: ongoingList.length >= 2 ? 'block' : 'none',
-                        lg:
-                          ongoingList.length >= 2 && width >= 1024
-                            ? ongoingList.length >= 3
-                              ? 'block'
-                              : 'none'
-                            : 'block',
-                        xl: ongoingList.length >= 3 ? 'block' : 'none',
-                      }}
-                      height="40px"
-                      left={{ base: '83%', md: '90%', xl: '94%' }}
-                      zIndex={10}
-                      bottom={{
-                        base: currentIndex > 0 ? '53.8%' : '50%',
-                        md: currentIndex > 0 ? '56.5%' : '50%',
-                      }}
-                      cursor="pointer"
-                      _hover={{ opacity: '0.8' }}
-                      transform="translateY(-50%)"
-                      pos="sticky"
-                      onClick={() => setCurrentIndex(currentIndex + 1)}>
-                      <IconNext />
-                    </Box>
-                  )}
+                  </Box>
                 </Box>
-              </Box>
+              )}
             </Box>
-
             <Box
               px={{ base: '20px', md: '24px', lg: '32px', xl: '48px' }}
               mt={{ base: '40px', xl: '80px' }}>
