@@ -15,7 +15,6 @@ export default function NFTAuctions() {
   const { width } = useWindowSize()
   const { gameList, upcomingList, ongoingList, finishedList, getNftAuctions } =
     useFomoStore()
-  const [currentIndex, setCurrentIndex] = useState(0)
   const boxInnerRef = useRef()
 
   const handleScroll = (direction: string) => {
@@ -23,9 +22,15 @@ export default function NFTAuctions() {
     const scrollAmount = box.offsetWidth / 2
 
     if (direction === 'right') {
-      box.scrollLeft += scrollAmount
+      box.scrollTo({
+        left: box.scrollLeft + scrollAmount,
+        behavior: 'smooth',
+      })
     } else {
-      box.scrollLeft -= scrollAmount
+      box.scrollTo({
+        left: box.scrollLeft - scrollAmount,
+        behavior: 'smooth',
+      })
     }
   }
 
@@ -106,6 +111,7 @@ export default function NFTAuctions() {
                         },
                         'scrollbar-width': 'none',
                         '-ms-overflow-style': 'none',
+                        'scroll-behavior': 'smooth',
                       }}
                       position="absolute"
                       whiteSpace="nowrap"
