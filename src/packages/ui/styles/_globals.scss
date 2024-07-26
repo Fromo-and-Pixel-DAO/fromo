@@ -270,10 +270,26 @@ body {
   transform: scale(2); 
 }
 
+
 .Toastify__toast-body {
   margin-top: 0px !important;
   padding: 0px !important;
+ 
 }
+
+@media screen and (max-width: 767px) { 
+  .Toastify__toast-container {
+    width: fit-content !important;
+  max-width: 100% !important;
+  }
+}
+
+.Toastify__toast-container {
+  width: fit-content !important;
+  max-width: 500px !important;
+}
+
+
 
 .Toastify__close-button > svg {
   color: white;
